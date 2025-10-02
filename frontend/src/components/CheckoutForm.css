@@ -1,0 +1,43 @@
+/* Checkout Form Input Styles */
+.p-inputtext {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+.p-inputtext:focus {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+.p-inputtext::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Ensure all input text is black */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+textarea {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="password"]::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+/* Override any white text styles */
+.p-component {
+  color: #000000 !important;
+}
+
+.p-inputtext.p-component {
+  color: #000000 !important;
+}
+
+

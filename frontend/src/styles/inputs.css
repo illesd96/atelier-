@@ -1,0 +1,67 @@
+/* Global Input Text Color Fix */
+/* Ensure all input text is black, never white */
+
+.p-inputtext,
+.p-inputtext:focus,
+.p-inputtext:hover,
+.p-inputtext:active {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+.p-inputtext::placeholder {
+  color: #6b7280 !important;
+}
+
+/* All input types */
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="url"],
+textarea,
+select {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+}
+
+input[type="text"]::placeholder,
+input[type="email"]::placeholder,
+input[type="tel"]::placeholder,
+input[type="password"]::placeholder,
+input[type="number"]::placeholder,
+input[type="search"]::placeholder,
+input[type="url"]::placeholder,
+textarea::placeholder {
+  color: #6b7280 !important;
+}
+
+/* PrimeReact specific overrides */
+.p-component.p-inputtext {
+  color: #000000 !important;
+}
+
+.p-inputtext.p-component {
+  color: #000000 !important;
+}
+
+/* Override any theme that might set white text */
+.p-inputtext,
+.p-inputtext:focus,
+.p-inputtext:hover {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  border-color: #d1d5db !important;
+}
+
+/* Ensure focus states also have black text */
+.p-inputtext:focus {
+  color: #000000 !important;
+  background-color: #ffffff !important;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 0.2rem rgba(59, 130, 246, 0.25) !important;
+}
+
+

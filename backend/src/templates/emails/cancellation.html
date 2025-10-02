@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="{{language}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if isHungarian}}Foglalás Lemondva{{else}}Booking Cancelled{{/if}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        .title {
+            color: #ef4444;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .booking-code {
+            background: #fef2f2;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 20px 0;
+            border-left: 4px solid #ef4444;
+        }
+        .booking-code strong {
+            font-size: 18px;
+            color: #1f2937;
+        }
+        .booking-details {
+            margin: 30px 0;
+        }
+        .booking-item {
+            background: #f9fafb;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        .room-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .booking-time {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .refund-info {
+            background: #f0f9ff;
+            color: #1e40af;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 30px 0;
+            border: 1px solid #3b82f6;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .contact-info {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📸 Photo Studio</div>
+            <h1 class="title">
+                {{#if isHungarian}}
+                    ❌ Foglalás Lemondva
+                {{else}}
+                    ❌ Booking Cancelled
+                {{/if}}
+            </h1>
+        </div>
+
+        <p>
+            {{#if isHungarian}}
+                Kedves {{customerName}},
+            {{else}}
+                Dear {{customerName}},
+            {{/if}}
+        </p>
+
+        <p>
+            {{#if isHungarian}}
+                A foglalása sikeresen lemondásra került. Az alábbi részleteket lemondottuk.
+            {{else}}
+                Your booking has been successfully cancelled. The following details have been cancelled.
+            {{/if}}
+        </p>
+
+        <div class="booking-code">
+            <strong>
+                {{#if isHungarian}}
+                    Lemondott foglalási kód: {{bookingCode}}
+                {{else}}
+                    Cancelled Booking Code: {{bookingCode}}
+                {{/if}}
+            </strong>
+        </div>
+
+        <div class="booking-details">
+            <h3>
+                {{#if isHungarian}}
+                    Lemondott foglalás részletei:
+                {{else}}
+                    Cancelled Booking Details:
+                {{/if}}
+            </h3>
+
+            {{#each items}}
+            <div class="booking-item">
+                <div class="room-name">{{room_name}}</div>
+                <div class="booking-time">
+                    📅 {{formatted_date}}
+                </div>
+                <div class="booking-time">
+                    🕒 {{formatted_time}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="refund-info">
+            <h4>
+                {{#if isHungarian}}
+                    💰 Visszatérítés információ
+                {{else}}
+                    💰 Refund Information
+                {{/if}}
+            </h4>
+            <p>
+                {{#if isHungarian}}
+                    A visszatérítés {{total}} {{currency}} összegben 3-5 munkanapon belül megtörténik az eredeti fizetési módra.
+                {{else}}
+                    A refund of {{total}} {{currency}} will be processed within 3-5 business days to your original payment method.
+                {{/if}}
+            </p>
+        </div>
+
+        <div class="contact-info">
+            <h4>
+                {{#if isHungarian}}
+                    Kapcsolat:
+                {{else}}
+                    Contact Information:
+                {{/if}}
+            </h4>
+            <p>
+                {{#if isHungarian}}
+                    Ha kérdése van a lemondással vagy a visszatérítéssel kapcsolatban, kérjük, vegye fel velünk a kapcsolatot:
+                {{else}}
+                    If you have any questions about the cancellation or refund, please contact us:
+                {{/if}}
+            </p>
+            <p>
+                📧 info@photostudio.com<br>
+                📞 +36 1 234 5678<br>
+                📍 Budapest, Hungary
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>
+                {{#if isHungarian}}
+                    Reméljük, hogy a jövőben újra szolgálhatjuk Önt!
+                {{else}}
+                    We hope to serve you again in the future!
+                {{/if}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+

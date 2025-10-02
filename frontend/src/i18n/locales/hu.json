@@ -1,0 +1,186 @@
+{
+  "common": {
+    "loading": "Betöltés...",
+    "error": "Hiba",
+    "success": "Sikeres",
+    "cancel": "Mégse",
+    "confirm": "Megerősítés",
+    "save": "Mentés",
+    "delete": "Törlés",
+    "edit": "Szerkesztés",
+    "back": "Vissza",
+    "next": "Következő",
+    "previous": "Előző",
+    "close": "Bezárás",
+    "search": "Keresés",
+    "filter": "Szűrés",
+    "clear": "Törlés",
+    "apply": "Alkalmazás",
+    "select": "Kiválasztás",
+    "currency": "Ft",
+    "date": "Dátum",
+    "time": "Idő",
+    "price": "Ár",
+    "tryAgain": "Újra Próbálkozás"
+  },
+  "navigation": {
+    "home": "Főoldal",
+    "booking": "Foglalás",
+    "about": "Rólunk",
+    "contact": "Kapcsolat",
+    "terms": "ÁSZF",
+    "privacy": "Adatvédelem",
+    "language": "Nyelv"
+  },
+  "home": {
+    "title": "Atelier Archilles",
+    "subtitle": "Ahol a Fény Művészetté Válik",
+    "description": "Vezető fotóstúdió világszínvonalú felszereltséggel fotósok, művészek és kreatívok számára.",
+    "cta": "Foglaljon Most",
+    "features": {
+      "professional": "Professzionális Felszerelés",
+      "flexible": "Rugalmas Foglalás",
+      "support": "24/7 Támogatás"
+    },
+    "about": {
+      "heading": "Azért vagyunk itt, hogy olyan pillanatokat örökítsünk meg, amelyek túlmutatnak az időn, és tereket teremtsünk, ahol a kreativitás virágzik.",
+      "description1": "egy prémium fotóstúdió, amely világszínvonalú felszereltséget kínál fotósok, művészek és kreatívok számára. Intim portréülésektől a merész divatfotózásokig - mi nyújtjuk a vásznat az Ön víziójához.",
+      "description2": "A mesterség iránti szenvedéllyel alapítva, az Atelier Archilles ahol a technikai kiválóság találkozik a művészi szabadsággal. Stúdióink inspirálni, felszereltségünk teljesíteni, munkánk pedig felemelni készült."
+    },
+    "closing": {
+      "text1": "Hiszünk olyan terekben, amelyek inspirálnak - környezetekben, ahol a technikai mesterség és a kreatív szabadság összeolvad, hogy rendkívüli munkát hozzon létre.",
+      "text2": "Ez a fényképezés magasabb szinten. Ez az Atelier Archilles."
+    }
+  },
+  "studios": {
+    "bookStudio": "Stúdió Foglalása",
+    "studioA": {
+      "title": "A Stúdió — A Portré Szentélye",
+      "description1": "Zászlóshajó stúdiónk, intim portrémunkához és kreatív kísérletezéshez tervezve. Természetes fény árad be a túlméretezett ablakokból, míg a professzionális világítótechnika végtelen kontrollt kínál.",
+      "description2": "Tökéletes fejfotókhoz, divat-editorialokhoz és művészi portréképekhez, amelyek egyaránt igénylik a precizitást és a lelket."
+    },
+    "studioB": {
+      "title": "B Stúdió — Termék Tökéletesség",
+      "description1": "Tiszta, minimalista és végtelenül sokoldalú. A B Stúdió termékfotózásra és olyan kereskedelmi munkára készült, amely pixel-tökéletes eredményeket követel.",
+      "description2": "Professzionális háttérek, precíziós világítás és bőséges hely az összetett beállításokhoz. Termékei megérdemlik, hogy ragyogjanak."
+    },
+    "studioC": {
+      "title": "C Stúdió — Divat Előretör",
+      "description1": "Legnagyobb terünk, mozgásra, drámára és nagyszabású víziókra építve. Magas mennyezetek, tágas padlóterület és profi szintű felszerelés teszik ezt a tökéletes színpaddá divatfotózásokhoz és nagy produkciókhoz.",
+      "description2": "Kifutó-inspirált editorialoktól az avantgárd koncepciókig - itt kelnek életre a merész ötletek."
+    },
+    "makeup": {
+      "title": "Smink Stúdió — Szépség Finomítva",
+      "description1": "Dedikált tér a haj- és sminkművészethez. Professzionális tükrök, tökéletes világítás és minden kényelem, ami a fotózásra való felkészüléshez szükséges.",
+      "description2": "Stylist állomásokkal és kényelmes ülőhelyekkel felszerelve - az ideális előkészítő tér modellek, ügyfelek és kreatív csapatok számára."
+    }
+  },
+  "booking": {
+    "title": "Foglalás",
+    "selectDate": "Válasszon Dátumot",
+    "selectTime": "Válasszon Időpontot",
+    "selectRoom": "Válasszon Stúdiót",
+    "today": "Ma",
+    "tomorrow": "Holnap",
+    "prevDay": "Előző Nap",
+    "nextDay": "Következő Nap",
+    "available": "Elérhető",
+    "booked": "Foglalt",
+    "unavailable": "Nem Elérhető",
+    "selected": "Kiválasztva",
+    "addToCart": "Kosárba",
+    "removeFromCart": "Eltávolítás",
+    "cart": "Kosár",
+    "cartEmpty": "A kosár üres",
+    "cartTotal": "Összesen",
+    "checkout": "Fizetés",
+    "hours": "{{count}} óra",
+    "hours_plural": "{{count}} óra",
+    "price": "{{amount}} {{currency}}/óra",
+    "confirmSlot": "Időpont Megerősítése",
+    "studios": {
+      "studio-a": "A Stúdió",
+      "studio-b": "B Stúdió",
+      "studio-c": "C Stúdió", 
+      "makeup": "Smink Stúdió"
+    }
+  },
+  "checkout": {
+    "title": "Fizetés",
+    "customerInfo": "Vásárló Adatok",
+    "name": "Teljes Név",
+    "email": "Email Cím",
+    "phone": "Telefonszám",
+    "phoneOptional": "Telefonszám (opcionális)",
+    "invoice": "Számlázási Adatok",
+    "invoiceRequired": "Számlát kérek",
+    "company": "Cégnév",
+    "taxNumber": "Adószám",
+    "address": "Számlázási Cím",
+    "terms": "Általános Szerződési Feltételek",
+    "privacy": "Adatvédelmi Tájékoztató",
+    "acceptTerms": "Elfogadom az általános szerződési feltételeket",
+    "acceptPrivacy": "Elfogadom az adatvédelmi tájékoztatót",
+    "orderSummary": "Rendelés Összefoglalója",
+    "total": "Összesen",
+    "proceedToPayment": "Tovább a Fizetéshez",
+    "processing": "Feldolgozás...",
+    "errors": {
+      "nameRequired": "A név megadása kötelező",
+      "emailRequired": "Az email cím megadása kötelező",
+      "emailInvalid": "Kérjük adjon meg egy érvényes email címet",
+      "phoneInvalid": "Kérjük adjon meg egy érvényes telefonszámot",
+      "companyRequired": "A cégnév megadása kötelező számlához",
+      "taxNumberRequired": "Az adószám megadása kötelező számlához",
+      "addressRequired": "A számlázási cím megadása kötelező",
+      "termsRequired": "El kell fogadnia az általános szerződési feltételeket",
+      "privacyRequired": "El kell fogadnia az adatvédelmi tájékoztatót"
+    }
+  },
+  "payment": {
+    "title": "Fizetés",
+    "success": "Sikeres Fizetés!",
+    "failed": "Sikertelen Fizetés",
+    "cancelled": "Fizetés Megszakítva",
+    "processing": "Fizetés Feldolgozása...",
+    "successMessage": "A foglalás megerősítve. Hamarosan kap egy megerősítő emailt.",
+    "failedMessage": "A fizetés nem sikerült. Kérjük próbálja újra.",
+    "cancelledMessage": "A fizetés megszakítva. A kosár tartalma megőrizve.",
+    "orderId": "Rendelés Azonosító",
+    "bookingCode": "Foglalási Kód",
+    "returnToHome": "Vissza a Főoldalra",
+    "tryAgain": "Újra Próbálkozás"
+  },
+  "booking-management": {
+    "title": "Foglalásaim",
+    "enterCode": "Adja meg a foglalási kódot",
+    "bookingCode": "Foglalási Kód",
+    "find": "Foglalás Keresése",
+    "details": "Foglalás Részletei",
+    "cancel": "Foglalás Lemondása",
+    "reschedule": "Átfoglalás",
+    "cancellationPolicy": "Lemondási Feltételek",
+    "freeCancel": "Ingyenes lemondás a foglalás előtt 24 órával",
+    "confirmCancel": "Biztosan le szeretné mondani ezt a foglalást?",
+    "cancelSuccess": "A foglalás sikeresen lemondva",
+    "rescheduleInfo": "Az átfoglaláshoz kérjük mondja le ezt a foglalást és hozzon létre egy újat"
+  },
+  "errors": {
+    "general": "Hiba történt. Kérjük próbálja újra.",
+    "network": "Hálózati hiba. Kérjük ellenőrizze a kapcsolatot.",
+    "validation": "Kérjük ellenőrizze a bevitt adatokat.",
+    "booking": "A foglalás sikertelen. Kérjük próbálja újra.",
+    "payment": "A fizetés sikertelen. Kérjük próbálja újra.",
+    "unavailable": "A kiválasztott időpontok már nem elérhetők",
+    "serverError": "Szerver hiba. Kérjük próbálja később."
+  },
+  "validation": {
+    "required": "Ez a mező kötelező",
+    "email": "Kérjük adjon meg egy érvényes email címet",
+    "phone": "Kérjük adjon meg egy érvényes telefonszámot",
+    "minLength": "Legalább {{min}} karakter szükséges",
+    "maxLength": "Maximum {{max}} karakter lehet"
+  }
+}
+
+

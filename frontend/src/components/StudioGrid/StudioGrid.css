@@ -1,0 +1,193 @@
+/* Studio Grid Styles */
+.studio-booking-grid {
+  overflow-x: auto;
+  min-width: 100%;
+}
+
+.grid-header {
+  display: grid;
+  grid-template-columns: 100px repeat(4, 1fr);
+  gap: 1px;
+  background-color: #f8f9fa;
+  border-radius: 8px 8px 0 0;
+  padding: 1px;
+}
+
+.time-column-header {
+  background: white;
+  padding: 0.75rem;
+  font-weight: 600;
+  text-align: center;
+  border-radius: 8px 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.studio-header {
+  background: white;
+  padding: 0.75rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.studio-header:last-child {
+  border-radius: 0 8px 0 0;
+}
+
+.studio-header h4 {
+  margin: 0 0 0.2rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.studio-header small {
+  color: #6b7280;
+  font-size: 0.7rem;
+}
+
+.grid-body {
+  background-color: #f8f9fa;
+  padding: 1px;
+  border-radius: 0 0 8px 8px;
+}
+
+.grid-row {
+  display: grid;
+  grid-template-columns: 100px repeat(4, 1fr);
+  gap: 1px;
+  margin-bottom: 1px;
+}
+
+.time-cell {
+  background: white;
+  padding: 0.6rem;
+  font-weight: 500;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  min-height: 48px;
+}
+
+.slot-cell {
+  background: white;
+  padding: 0.6rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  position: relative;
+  font-size: 0.9rem;
+}
+
+.slot-available {
+  background: #f0f9ff;
+  border: 2px solid #22c55e;
+}
+
+.slot-available:hover {
+  background: #dcfce7;
+  transform: scale(1.02);
+}
+
+.slot-selected {
+  background: #22c55e;
+  color: white;
+}
+
+.slot-selected .slot-status i {
+  color: white;
+}
+
+.slot-booked {
+  background: #fef2f2;
+  border: 2px solid #ef4444;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.slot-unavailable {
+  background: #f9fafb;
+  border: 2px solid #d1d5db;
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.slot-legend {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  border: 2px solid;
+}
+
+.slot-legend.slot-available {
+  background: #f0f9ff;
+  border-color: #22c55e;
+}
+
+.slot-legend.slot-selected {
+  background: #22c55e;
+  border-color: #22c55e;
+}
+
+.slot-legend.slot-booked {
+  background: #fef2f2;
+  border-color: #ef4444;
+}
+
+.slot-legend.slot-unavailable {
+  background: #f9fafb;
+  border-color: #d1d5db;
+}
+
+.slot-status {
+  font-size: 1.2rem;
+}
+
+.slot-cell:focus {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .studio-booking-grid {
+    font-size: 0.875rem;
+  }
+  
+  .grid-header {
+    grid-template-columns: 80px repeat(4, minmax(100px, 1fr));
+  }
+  
+  .grid-row {
+    grid-template-columns: 80px repeat(4, minmax(100px, 1fr));
+  }
+  
+  .slot-cell {
+    padding: 0.75rem 0.5rem;
+    min-height: 50px;
+  }
+  
+  .time-cell, .time-column-header, .studio-header {
+    padding: 0.75rem 0.5rem;
+  }
+  
+  .studio-header h4 {
+    font-size: 0.875rem;
+  }
+  
+  .studio-header small {
+    font-size: 0.625rem;
+  }
+}
+
+

@@ -1,0 +1,75 @@
+/* Cart Button Styles */
+.cart-button {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border: none;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: visible;
+  margin-right: 0.5rem;
+}
+
+.cart-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+}
+
+.cart-button:active {
+  transform: translateY(0);
+}
+
+.cart-button .p-button-icon {
+  font-size: 1.1rem;
+  margin-right: 0.5rem;
+}
+
+.cart-badge {
+  background: #ff4757 !important;
+  color: white !important;
+  font-weight: 700;
+  font-size: 0.75rem;
+  min-width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+  animation: pulse 2s infinite;
+  padding: 0 0.25rem;
+  white-space: nowrap;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cart-button:not(:hover) .cart-badge {
+  animation: none;
+}
+
+/* Booking Page Layout */
+.booking-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem calc(100% / 12);
+}
+
+@media (max-width: 768px) {
+  .booking-page {
+    padding: 1rem;
+  }
+}

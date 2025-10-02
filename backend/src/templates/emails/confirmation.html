@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="{{language}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if isHungarian}}Foglalás Megerősítve{{else}}Booking Confirmed{{/if}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        .title {
+            color: #22c55e;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .booking-code {
+            background: #f3f4f6;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 20px 0;
+            border-left: 4px solid #3b82f6;
+        }
+        .booking-code strong {
+            font-size: 18px;
+            color: #1f2937;
+        }
+        .booking-details {
+            margin: 30px 0;
+        }
+        .booking-item {
+            background: #f9fafb;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        .room-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .booking-time {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .total {
+            background: #3b82f6;
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+            margin: 30px 0;
+        }
+        .total-amount {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .actions {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 0 10px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .button.secondary {
+            background: #6b7280;
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .contact-info {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📸 Photo Studio</div>
+            <h1 class="title">
+                {{#if isHungarian}}
+                    ✅ Foglalás Megerősítve
+                {{else}}
+                    ✅ Booking Confirmed
+                {{/if}}
+            </h1>
+        </div>
+
+        <p>
+            {{#if isHungarian}}
+                Kedves {{customerName}},
+            {{else}}
+                Dear {{customerName}},
+            {{/if}}
+        </p>
+
+        <p>
+            {{#if isHungarian}}
+                Köszönjük a foglalását! A fizetés sikeresen megtörtént, és a foglalás megerősítésre került.
+            {{else}}
+                Thank you for your booking! Your payment has been processed successfully and your booking is confirmed.
+            {{/if}}
+        </p>
+
+        <div class="booking-code">
+            <strong>
+                {{#if isHungarian}}
+                    Foglalási kód: {{bookingCode}}
+                {{else}}
+                    Booking Code: {{bookingCode}}
+                {{/if}}
+            </strong>
+            <br>
+            <small>
+                {{#if isHungarian}}
+                    Kérjük, jegyezze fel ezt a kódot a későbbi hivatkozáshoz
+                {{else}}
+                    Please keep this code for future reference
+                {{/if}}
+            </small>
+        </div>
+
+        <div class="booking-details">
+            <h3>
+                {{#if isHungarian}}
+                    Foglalás részletei:
+                {{else}}
+                    Booking Details:
+                {{/if}}
+            </h3>
+
+            {{#each items}}
+            <div class="booking-item">
+                <div class="room-name">{{room_name}}</div>
+                <div class="booking-time">
+                    📅 {{formatted_date}}
+                </div>
+                <div class="booking-time">
+                    🕒 {{formatted_time}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="total">
+            <div>
+                {{#if isHungarian}}
+                    Összesen fizetett:
+                {{else}}
+                    Total Paid:
+                {{/if}}
+            </div>
+            <div class="total-amount">{{total}} {{currency}}</div>
+        </div>
+
+        <div class="actions">
+            <a href="{{cancelUrl}}" class="button secondary">
+                {{#if isHungarian}}
+                    Foglalás lemondása
+                {{else}}
+                    Cancel Booking
+                {{/if}}
+            </a>
+            <a href="{{rescheduleUrl}}" class="button">
+                {{#if isHungarian}}
+                    Átfoglalás
+                {{else}}
+                    Reschedule
+                {{/if}}
+            </a>
+        </div>
+
+        <div class="contact-info">
+            <h4>
+                {{#if isHungarian}}
+                    Kapcsolat:
+                {{else}}
+                    Contact Information:
+                {{/if}}
+            </h4>
+            <p>
+                📧 info@photostudio.com<br>
+                📞 +36 1 234 5678<br>
+                📍 Budapest, Hungary
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>
+                {{#if isHungarian}}
+                    Ingyenes lemondás a foglalás előtt 24 órával.<br>
+                    Ha bármilyen kérdése van, kérjük, vegye fel velünk a kapcsolatot.
+                {{else}}
+                    Free cancellation up to 24 hours before your booking.<br>
+                    If you have any questions, please don't hesitate to contact us.
+                {{/if}}
+            </p>
+            <p>
+                {{#if isHungarian}}
+                    Köszönjük, hogy minket választott!
+                {{else}}
+                    Thank you for choosing us!
+                {{/if}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+
+

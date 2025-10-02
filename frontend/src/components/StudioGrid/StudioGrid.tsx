@@ -33,7 +33,7 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [renderKey, setRenderKey] = useState(0);
+  const [, setRenderKey] = useState(0);
 
   useEffect(() => {
     loadAvailabilityForDate();

@@ -8,7 +8,7 @@ import { InputText } from 'primereact/inputtext';
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
 import { Divider } from 'primereact/divider';
-import { Message } from 'primereact/message';
+// import { Message } from 'primereact/message';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../contexts/CartContext';
 import api from '../services/api';

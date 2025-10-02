@@ -4,7 +4,7 @@ import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { Skeleton } from 'primereact/skeleton';
-import { Toast } from 'primereact/toast';
+// import { Toast } from 'primereact/toast';
 import { format, addDays, subDays, isToday, isTomorrow } from 'date-fns';
 import { hu, enUS } from 'date-fns/locale';
 import api from '../services/api';
@@ -270,7 +270,7 @@ export const BookingGrid: React.FC<BookingGridProps> = ({ onCartUpdate }) => {
         </div>
       )}
 
-      <style jsx>{`
+      <style>{`
         .booking-grid {
           overflow-x: auto;
           min-width: 100%;

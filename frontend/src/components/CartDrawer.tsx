@@ -73,7 +73,7 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ visible, onHide, onCheck
                 {formatDate(date)}
               </h4>
               
-              {dateItems.map((item, index) => (
+              {dateItems.map((item) => (
                 <Card key={`${item.room_id}-${item.date}-${item.start_time}`} className="mb-2 p-3 cart-item">
                   <div className="flex justify-content-between align-items-start">
                     <div className="flex-1">

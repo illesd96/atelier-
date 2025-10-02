@@ -4,7 +4,7 @@ import { reservationService } from '../services/reservation';
 
 // Generate a session ID if not provided
 const generateSessionId = (req: Request): string => {
-  return req.session?.id || req.headers['x-session-id'] as string || `session_${Date.now()}_${Math.random()}`;
+  return (req.headers['x-session-id'] as string) || `session_${Date.now()}_${Math.random()}`;
 };
 
 const CreateReservationSchema = z.object({

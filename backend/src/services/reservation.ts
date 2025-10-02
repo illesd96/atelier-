@@ -46,7 +46,7 @@ export class ReservationService {
 
       // Create the reservation
       const expiresAt = new Date();
-      expiresAt.setMinutes(expiresAt.getMinutes() + this.RESERVATION_DURATION_MINUTES);
+      expiresAt.setMinutes(expiresAt.getMinutes() + ReservationService.RESERVATION_DURATION_MINUTES);
 
       const insertQuery = `
         INSERT INTO temp_reservations (room_id, date, start_time, session_id, expires_at)
@@ -80,7 +80,7 @@ export class ReservationService {
       `;
 
       const result = await client.query(query, [roomId, date, startTime, sessionId]);
-      return result.rowCount > 0;
+      return (result.rowCount || 0) > 0;
 
     } finally {
       client.release();
@@ -132,7 +132,7 @@ export class ReservationService {
 
     try {
       const expiresAt = new Date();
-      expiresAt.setMinutes(expiresAt.getMinutes() + this.RESERVATION_DURATION_MINUTES);
+      expiresAt.setMinutes(expiresAt.getMinutes() + ReservationService.RESERVATION_DURATION_MINUTES);
 
       const query = `
         UPDATE temp_reservations 
@@ -141,7 +141,7 @@ export class ReservationService {
       `;
 
       const result = await client.query(query, [roomId, date, startTime, sessionId, expiresAt]);
-      return result.rowCount > 0;
+      return (result.rowCount || 0) > 0;
 
     } finally {
       client.release();

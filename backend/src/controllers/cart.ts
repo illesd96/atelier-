@@ -25,7 +25,7 @@ export const validateCart = async (req: Request, res: Response) => {
     
   for (const item of items) {
     // Find the studio configuration
-    const studio = config.studios.find(s => s.id === item.room_id);
+    const studio = config.studios.find((s: { id: string; name: string }) => s.id === item.room_id);
     if (!studio) {
       validationResults.push({
         item,

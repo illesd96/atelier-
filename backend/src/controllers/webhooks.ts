@@ -49,6 +49,16 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
     
     const order = orderResult.rows[0];
     
+    // Get order items (needed for both success and failure cases)
+    const itemsResult = await client.query(`
+      SELECT oi.*, r.name as room_name
+      FROM order_items oi
+      LEFT JOIN rooms r ON r.id = oi.room_id
+      WHERE oi.order_id = $1
+    `, [order.id]);
+    
+    const orderItems = itemsResult.rows;
+    
     if (PaymentState === 'Succeeded') {
       try {
         // Create internal bookings using booking service
@@ -57,16 +67,6 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
         if (!bookingResult.success) {
           throw new Error('Failed to create internal bookings');
         }
-        
-        // Get order items for email
-        const itemsResult = await client.query(`
-          SELECT oi.*, r.name as room_name
-          FROM order_items oi
-          LEFT JOIN rooms r ON r.id = oi.room_id
-          WHERE oi.order_id = $1
-        `, [order.id]);
-        
-        const orderItems = itemsResult.rows;
         
         // Update order status to paid
         await client.query(`

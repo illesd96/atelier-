@@ -46,7 +46,7 @@ router.get('/health', async (req, res) => {
       timestamp: new Date().toISOString(),
       version: '1.0.0',
       database: 'disconnected',
-      error: error.message
+      error: error instanceof Error ? error.message : 'Unknown error'
     });
   }
 });

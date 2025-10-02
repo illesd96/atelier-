@@ -17,10 +17,18 @@ class BarionService {
 
   async createPayment(paymentData: BarionPaymentRequest): Promise<any> {
     try {
+      console.log('🔵 Barion Payment Request:', JSON.stringify(paymentData, null, 2));
       const response = await this.apiClient.post('/v2/Payment/Start', paymentData);
+      console.log('✅ Barion Response:', JSON.stringify(response.data, null, 2));
       return response.data;
-    } catch (error) {
-      console.error('Error creating Barion payment:', error);
+    } catch (error: any) {
+      console.error('❌ Error creating Barion payment:', error.message);
+      console.error('🔴 Barion Error Response:', JSON.stringify(error.response?.data, null, 2));
+      console.error('🔴 Request config:', JSON.stringify({
+        url: error.config?.url,
+        method: error.config?.method,
+        baseURL: error.config?.baseURL
+      }, null, 2));
       throw new Error('Failed to create payment in Barion');
     }
   }

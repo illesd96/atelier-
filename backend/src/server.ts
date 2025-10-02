@@ -12,8 +12,45 @@ const app = express();
 
 // Security middleware
 app.use(helmet());
+
+// CORS configuration - allow multiple origins for Vercel deployments
+const allowedOrigins = [
+  config.frontendUrl,
+  'https://atelier-frontend-mu.vercel.app',
+  /https:\/\/atelier-frontend-.*\.vercel\.app$/, // Allow all Vercel preview deployments
+];
+
+// Remove trailing slashes from configured origins
+const normalizedOrigins = allowedOrigins.map(origin => 
+  typeof origin === 'string' ? origin.replace(/\/$/, '') : origin
+);
+
 app.use(cors({
-  origin: config.frontendUrl,
+  origin: (origin, callback) => {
+    // Allow requests with no origin (like mobile apps or Postman)
+    if (!origin) return callback(null, true);
+    
+    // Normalize the origin by removing trailing slash
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    
+    // Check if origin is allowed
+    const isAllowed = normalizedOrigins.some(allowed => {
+      if (typeof allowed === 'string') {
+        return allowed === normalizedOrigin;
+      }
+      if (allowed instanceof RegExp) {
+        return allowed.test(normalizedOrigin);
+      }
+      return false;
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.warn('⚠️  CORS blocked origin:', origin);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true,
 }));
 

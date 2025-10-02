@@ -16,3 +16,4 @@ CREATE INDEX IF NOT EXISTS idx_temp_reservations_session ON temp_reservations(se
 CREATE INDEX IF NOT EXISTS idx_temp_reservations_slot ON temp_reservations(room_id, date, start_time);
 
 
+

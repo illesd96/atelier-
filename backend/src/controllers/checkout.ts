@@ -131,6 +131,7 @@ export const createCheckout = async (req: Request, res: Response) => {
     await client.query('ROLLBACK');
     
     if (error instanceof z.ZodError) {
+      console.error('Validation error:', error.errors);
       return res.status(400).json({
         error: 'Invalid request',
         details: error.errors,
@@ -138,8 +139,10 @@ export const createCheckout = async (req: Request, res: Response) => {
     }
     
     console.error('Error in createCheckout:', error);
+    console.error('Error stack:', error instanceof Error ? error.stack : 'No stack trace');
     res.status(500).json({
       error: 'Internal server error',
+      message: error instanceof Error ? error.message : 'Unknown error',
     });
   } finally {
     client.release();

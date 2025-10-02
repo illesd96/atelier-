@@ -58,15 +58,15 @@ export const CartDrawer: React.FC<CartDrawerProps> = ({ visible, onHide, onCheck
 
   return (
     <Sidebar visible={visible} onHide={onHide} position="right" className="w-full md:w-20rem lg:w-25rem cart-sidebar">
-      <div className="flex flex-column h-full">
-        <div className="mb-4 cart-header">
+      <div className="flex flex-column h-full" style={{ padding: 0 }}>
+        <div className="cart-header">
           <h3 className="m-0 cart-title">
             <i className="pi pi-shopping-cart mr-2"></i>
             {t('booking.cart')} ({items.length})
           </h3>
         </div>
         
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1" style={{ overflowY: 'auto', overflowX: 'hidden' }}>
           {Object.entries(itemsByDate).map(([date, dateItems]) => (
             <div key={date} className="mb-4">
               <h4 className="text-sm font-semibold text-gray-600 mb-2 uppercase tracking-wide">

@@ -117,6 +117,10 @@
     "company": "Cégnév",
     "taxNumber": "Adószám",
     "address": "Számlázási Cím",
+    "street": "Utca, Házszám",
+    "city": "Város",
+    "postalCode": "Irányítószám",
+    "country": "Ország",
     "terms": "Általános Szerződési Feltételek",
     "privacy": "Adatvédelmi Tájékoztató",
     "acceptTerms": "Elfogadom az általános szerződési feltételeket",
@@ -180,6 +184,84 @@
     "phone": "Kérjük adjon meg egy érvényes telefonszámot",
     "minLength": "Legalább {{min}} karakter szükséges",
     "maxLength": "Maximum {{max}} karakter lehet"
+  },
+  "cookies": {
+    "title": "Cookie Értesítés",
+    "message": "Sütiket használunk a weboldalon való élmény javítása érdekében. Az alapvető sütik szükségesek a webhely működéséhez, míg az elemzési sütik segítenek szolgáltatásaink javításában.",
+    "acceptAll": "Összes Elfogadása",
+    "acceptRequired": "Csak Kötelező"
+  },
+  "legal": {
+    "lastUpdated": "Utoljára frissítve",
+    "terms": {
+      "title": "Általános Szerződési Feltételek",
+      "acceptance": {
+        "title": "Feltételek Elfogadása",
+        "content": "Az Atelier Archilles foglalási rendszerének használatával Ön elfogadja ezeket az általános szerződési feltételeket. Ha nem ért egyet a feltételek bármely részével, kérjük ne használja szolgáltatásainkat."
+      },
+      "bookings": {
+        "title": "Foglalások és Rezervációk",
+        "content1": "Minden stúdió foglalást az online foglalási rendszerünkön keresztül kell leadni. A foglalás csak a sikeres fizetést követően lesz megerősítve a biztonságos fizetési rendszerünkön (Barion) keresztül.",
+        "content2": "Megerősítő emailt kap a foglalási részletekkel és egy egyedi foglalási kóddal. Kérjük őrizze meg ezt a kódot."
+      },
+      "payment": {
+        "title": "Fizetési Feltételek",
+        "content1": "A fizetés a foglaláskor esedékes. A Barion fizetési rendszeren keresztül fogadunk el fizetéseket. Minden ár Magyar Forintban (HUF) van megadva.",
+        "content2": "Számlát kérésre biztosítunk a fizetési folyamat során."
+      },
+      "cancellation": {
+        "title": "Lemondási Feltételek",
+        "content1": "Ingyenes lemondás elérhető a foglalt időpont előtt 24 órával. A 24 órán belüli lemondások nem téríthetők vissza.",
+        "content2": "Foglalás lemondásához használja a megerősítő emailben található lemondási linket, vagy adja meg foglalási kódját weboldalunkon."
+      },
+      "studio": {
+        "title": "Stúdió Használat",
+        "content": "Ön felelős a stúdió berendezések és létesítmények megfelelő használatáért. Az Ön által okozott károk további költségeket eredményezhetnek. A stúdiót ugyanabban az állapotban kell hagyni, ahogyan találta."
+      },
+      "liability": {
+        "title": "Felelősség Korlátozása",
+        "content": "Az Atelier Archilles nem vállal felelősséget az épületben történt veszteségért, kárért vagy sérülésért a magyar jogszabályok által megkövetelt mértéken túl. Az ügyfelek felelősek saját felszerelésükért és értékeikért."
+      },
+      "contact": {
+        "title": "Kapcsolat",
+        "content": "A feltételekkel kapcsolatos kérdésekben vegye fel velünk a kapcsolatot: info@atelierarchilles.com"
+      }
+    },
+    "privacy": {
+      "title": "Adatvédelmi Tájékoztató",
+      "intro": {
+        "title": "Bevezetés",
+        "content": "Az Atelier Archilles tiszteletben tartja az Ön magánéletét és elkötelezett személyes adatainak védelme mellett. Ez az adatvédelmi tájékoztató elmagyarázza, hogyan gyűjtjük, használjuk és védjük az Ön információit."
+      },
+      "collect": {
+        "title": "Gyűjtött Információk",
+        "content": "A következő információkat gyűjtjük, amikor foglalást készít:",
+        "item1": "Név és elérhetőségi információk (email, telefon)",
+        "item2": "Fizetési információk (biztonságosan feldolgozva a Barion által)",
+        "item3": "Foglalási részletek (dátum, időpont, stúdió választás)",
+        "item4": "Számlázási információk (ha kéri)"
+      },
+      "use": {
+        "title": "Hogyan Használjuk az Információkat",
+        "content": "Az Ön információit kizárólag foglalások feldolgozására, megerősítések küldésére és ügyfélszolgálat biztosítására használjuk. Nem adjuk el vagy osztjuk meg személyes adatait harmadik felekkel, kivéve a fizetések feldolgozásához szükséges mértékben (Barion) és emailek küldésére."
+      },
+      "cookies": {
+        "title": "Sütik",
+        "content": "Alapvető sütiket használunk a munkamenet és preferenciák fenntartására. Az elemzési sütik segítenek weboldalunk javításában. A süti beállításokat a süti elfogadó bannerünkön keresztül kezelheti."
+      },
+      "rights": {
+        "title": "Az Ön Jogai (GDPR)",
+        "content": "A GDPR alapján Önnek joga van személyes adataihoz hozzáférni, azokat javítani, törölni vagy exportálni. Kifogást emelhet az adatkezelés ellen vagy kérheti annak korlátozását. Vegye fel velünk a kapcsolatot ezen jogok gyakorlásához."
+      },
+      "security": {
+        "title": "Adatbiztonság",
+        "content": "Megfelelő technikai és szervezeti intézkedéseket alkalmazunk személyes adatai védelmére. Minden fizetési információt biztonságosan kezel a Barion PCI-DSS megfelelő platformja."
+      },
+      "contact": {
+        "title": "Kapcsolat",
+        "content": "Adatvédelemmel kapcsolatos kérdésekben vegye fel velünk a kapcsolatot: privacy@atelierarchilles.com"
+      }
+    }
   }
 }
 

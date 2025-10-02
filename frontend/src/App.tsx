@@ -12,6 +12,9 @@ import { HomePage } from './pages/HomePage';
 import { BookingPage } from './pages/BookingPage';
 import { CheckoutPage } from './pages/CheckoutPage';
 import { PaymentResultPage } from './pages/PaymentResultPage';
+import { TermsPage } from './pages/TermsPage';
+import { PrivacyPage } from './pages/PrivacyPage';
+import { CookieConsent } from './components/CookieConsent';
 
 function App() {
   return (
@@ -25,10 +28,13 @@ function App() {
                 <Route path="booking" element={<BookingPage />} />
                 <Route path="checkout" element={<CheckoutPage />} />
                 <Route path="payment/result" element={<PaymentResultPage />} />
+                <Route path="terms" element={<TermsPage />} />
+                <Route path="privacy" element={<PrivacyPage />} />
                 <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} />
                 <Route path="contact" element={<div className="p-4"><h1>Contact</h1><p>Coming soon...</p></div>} />
               </Route>
             </Routes>
+            <CookieConsent />
           </div>
         </Router>
       </CartProvider>

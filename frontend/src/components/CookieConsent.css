@@ -1,0 +1,129 @@
+/* Cookie Consent - Atelier Aesthetic */
+.cookie-consent-overlay {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 1.5rem;
+  background: rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(2px);
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cookie-consent-popup {
+  max-width: 600px;
+  margin: 0 auto;
+  background: white;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.cookie-consent-content {
+  padding: 2rem;
+}
+
+.cookie-consent-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: 0.025em;
+  text-transform: uppercase;
+  color: #000000;
+  margin: 0 0 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cookie-consent-title i {
+  font-size: 1.25rem;
+}
+
+.cookie-consent-text {
+  color: #333333;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  font-size: 0.9375rem;
+}
+
+.cookie-consent-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.cookie-btn-accept,
+.cookie-btn-required {
+  flex: 1;
+  min-width: 150px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.875rem;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0;
+  transition: all 0.2s ease;
+}
+
+.cookie-btn-accept {
+  background: #000000;
+  border: 1px solid #000000;
+  color: white;
+}
+
+.cookie-btn-accept:hover {
+  background: #333333;
+  border-color: #333333;
+}
+
+.cookie-btn-required {
+  background: transparent;
+  border: 1px solid #d1d1d1;
+  color: #000000;
+}
+
+.cookie-btn-required:hover {
+  background: #f5f5f5;
+  border-color: #000000;
+}
+
+@media (max-width: 768px) {
+  .cookie-consent-overlay {
+    padding: 1rem;
+  }
+
+  .cookie-consent-content {
+    padding: 1.5rem;
+  }
+
+  .cookie-consent-title {
+    font-size: 1rem;
+  }
+
+  .cookie-consent-text {
+    font-size: 0.875rem;
+  }
+
+  .cookie-consent-actions {
+    flex-direction: column;
+  }
+
+  .cookie-btn-accept,
+  .cookie-btn-required {
+    width: 100%;
+    min-width: auto;
+  }
+}
+

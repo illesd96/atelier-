@@ -27,16 +27,19 @@ const checkoutSchema = z.object({
   invoiceRequired: z.boolean(),
   company: z.string().optional(),
   taxNumber: z.string().optional(),
-  address: z.string().optional(),
+  street: z.string().optional(),
+  city: z.string().optional(),
+  postalCode: z.string().optional(),
+  country: z.string().optional(),
   termsAccepted: z.boolean().refine(val => val === true, 'You must accept the terms'),
   privacyAccepted: z.boolean().refine(val => val === true, 'You must accept the privacy policy'),
 }).refine((data) => {
   if (data.invoiceRequired) {
-    return data.company && data.taxNumber && data.address;
+    return data.company && data.taxNumber && data.street && data.city && data.postalCode && data.country;
   }
   return true;
 }, {
-  message: 'Invoice details are required when requesting an invoice',
+  message: 'All address fields are required when requesting an invoice',
   path: ['company'],
 });
 
@@ -61,7 +64,10 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       invoiceRequired: false,
       company: '',
       taxNumber: '',
-      address: '',
+      street: '',
+      city: '',
+      postalCode: '',
+      country: 'Hungary',
       termsAccepted: false,
       privacyAccepted: false,
     },
@@ -91,6 +97,10 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         return;
       }
 
+      const address = data.invoiceRequired 
+        ? `${data.street}, ${data.postalCode} ${data.city}, ${data.country}`
+        : undefined;
+
       const checkoutRequest: CheckoutRequest = {
         items,
         customer: {
@@ -102,7 +112,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
           required: true,
           company: data.company,
           tax_number: data.taxNumber,
-          address: data.address,
+          address: address,
         } : { required: false },
         language: i18n.language as 'hu' | 'en',
         terms_accepted: data.termsAccepted,
@@ -123,43 +133,44 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
 
   if (items.length === 0) {
     return (
-      <Card className="text-center p-4">
-        <i className="pi pi-shopping-cart text-6xl text-gray-300 mb-3"></i>
-        <h3 className="text-gray-500">{t('booking.cartEmpty')}</h3>
-        <p className="text-gray-400">{t('booking.addItemsFirst')}</p>
+      <Card className="empty-cart">
+        <i className="pi pi-shopping-cart"></i>
+        <h3>{t('booking.cartEmpty')}</h3>
+        <p>{t('booking.addItemsFirst')}</p>
       </Card>
     );
   }
 
   return (
-    <div className="grid">
-      <div className="col-12 lg:col-8">
-        <Card title={t('checkout.customerInfo')}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="grid">
-              <div className="col-12">
-                <label htmlFor="name" className="block text-900 font-medium mb-2">
-                  {t('checkout.name')} *
-                </label>
-                <Controller
-                  name="name"
-                  control={control}
-                  render={({ field }) => (
-                    <InputText
-                      id="name"
-                      {...field}
-                      className={`w-full ${errors.name ? 'p-invalid' : ''}`}
-                      placeholder={t('checkout.name')}
-                    />
-                  )}
+    <div className="checkout-form-container">
+      <Card title={t('checkout.customerInfo')}>
+        <form onSubmit={handleSubmit(onSubmit)} className="checkout-form">
+          {/* Customer Information */}
+          <div className="field-group">
+            <label htmlFor="name" className="block">
+              {t('checkout.name')} *
+            </label>
+            <Controller
+              name="name"
+              control={control}
+              render={({ field }) => (
+                <InputText
+                  id="name"
+                  {...field}
+                  className={`w-full ${errors.name ? 'p-invalid' : ''}`}
+                  placeholder={t('checkout.name')}
                 />
-                {errors.name && (
-                  <small className="p-error">{errors.name.message}</small>
-                )}
-              </div>
+              )}
+            />
+            {errors.name && (
+              <small className="p-error">{errors.name.message}</small>
+            )}
+          </div>
 
-              <div className="col-12 md:col-6">
-                <label htmlFor="email" className="block text-900 font-medium mb-2">
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ flex: '1', minWidth: '250px' }}>
+              <div className="field-group">
+                <label htmlFor="email" className="block">
                   {t('checkout.email')} *
                 </label>
                 <Controller
@@ -179,9 +190,11 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                   <small className="p-error">{errors.email.message}</small>
                 )}
               </div>
+            </div>
 
-              <div className="col-12 md:col-6">
-                <label htmlFor="phone" className="block text-900 font-medium mb-2">
+            <div style={{ flex: '1', minWidth: '250px' }}>
+              <div className="field-group">
+                <label htmlFor="phone" className="block">
                   {t('checkout.phoneOptional')}
                 </label>
                 <Controller
@@ -198,32 +211,49 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                   )}
                 />
               </div>
+            </div>
+          </div>
 
-              <div className="col-12">
-                <Divider />
-                <Controller
-                  name="invoiceRequired"
-                  control={control}
-                  render={({ field }) => (
-                    <div className="flex align-items-center">
-                      <Checkbox
-                        inputId="invoiceRequired"
-                        checked={field.value}
-                        onChange={(e) => field.onChange(e.checked)}
-                        className="mr-2"
-                      />
-                      <label htmlFor="invoiceRequired" className="cursor-pointer">
-                        {t('checkout.invoiceRequired')}
-                      </label>
-                    </div>
-                  )}
-                />
-              </div>
+          {/* Invoice Section */}
+          <Divider />
+          
+          <div className="field-group">
+            <Controller
+              name="invoiceRequired"
+              control={control}
+              render={({ field }) => (
+                <div className="flex align-items-center">
+                  <Checkbox
+                    inputId="invoiceRequired"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.checked)}
+                    className="mr-2"
+                  />
+                  <label htmlFor="invoiceRequired" className="cursor-pointer">
+                    {t('checkout.invoiceRequired')}
+                  </label>
+                </div>
+              )}
+            />
+          </div>
 
-              {invoiceRequired && (
-                <>
-                  <div className="col-12 md:col-6">
-                    <label htmlFor="company" className="block text-900 font-medium mb-2">
+          {invoiceRequired && (
+            <>
+              <h3 style={{ 
+                fontWeight: '600', 
+                fontSize: '1rem', 
+                letterSpacing: '0.025em', 
+                textTransform: 'uppercase', 
+                color: '#000000',
+                margin: '1.5rem 0 1rem 0'
+              }}>
+                {t('checkout.invoice')}
+              </h3>
+
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="company" className="block">
                       {t('checkout.company')} *
                     </label>
                     <Controller
@@ -242,9 +272,11 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                       <small className="p-error">{errors.company.message}</small>
                     )}
                   </div>
+                </div>
 
-                  <div className="col-12 md:col-6">
-                    <label htmlFor="taxNumber" className="block text-900 font-medium mb-2">
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="taxNumber" className="block">
                       {t('checkout.taxNumber')} *
                     </label>
                     <Controller
@@ -263,123 +295,214 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                       <small className="p-error">{errors.taxNumber.message}</small>
                     )}
                   </div>
+                </div>
+              </div>
 
-                  <div className="col-12">
-                    <label htmlFor="address" className="block text-900 font-medium mb-2">
-                      {t('checkout.address')} *
+              <h3 style={{ 
+                fontWeight: '600', 
+                fontSize: '1rem', 
+                letterSpacing: '0.025em', 
+                textTransform: 'uppercase', 
+                color: '#000000',
+                margin: '1.5rem 0 1rem 0'
+              }}>
+                {t('checkout.address')}
+              </h3>
+
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="postalCode" className="block">
+                      {t('checkout.postalCode')} *
                     </label>
                     <Controller
-                      name="address"
+                      name="postalCode"
                       control={control}
                       render={({ field }) => (
                         <InputText
-                          id="address"
+                          id="postalCode"
                           {...field}
-                          className={`w-full ${errors.address ? 'p-invalid' : ''}`}
-                          placeholder={t('checkout.address')}
+                          className={`w-full ${errors.postalCode ? 'p-invalid' : ''}`}
+                          placeholder={t('checkout.postalCode')}
                         />
                       )}
                     />
-                    {errors.address && (
-                      <small className="p-error">{errors.address.message}</small>
+                    {errors.postalCode && (
+                      <small className="p-error">{errors.postalCode.message}</small>
                     )}
                   </div>
-                </>
-              )}
+                </div>
 
-              <div className="col-12">
-                <Divider />
-                <div className="flex flex-column gap-3">
-                  <Controller
-                    name="termsAccepted"
-                    control={control}
-                    render={({ field }) => (
-                      <div className="flex align-items-start">
-                        <Checkbox
-                          inputId="termsAccepted"
-                          checked={field.value}
-                          onChange={(e) => field.onChange(e.checked)}
-                          className={`mr-2 ${errors.termsAccepted ? 'p-invalid' : ''}`}
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="street" className="block">
+                      {t('checkout.street')} *
+                    </label>
+                    <Controller
+                      name="street"
+                      control={control}
+                      render={({ field }) => (
+                        <InputText
+                          id="street"
+                          {...field}
+                          className={`w-full ${errors.street ? 'p-invalid' : ''}`}
+                          placeholder={t('checkout.street')}
                         />
-                        <label htmlFor="termsAccepted" className="cursor-pointer text-sm">
-                          {t('checkout.acceptTerms')} *
-                        </label>
-                      </div>
+                      )}
+                    />
+                    {errors.street && (
+                      <small className="p-error">{errors.street.message}</small>
                     )}
-                  />
-                  {errors.termsAccepted && (
-                    <small className="p-error ml-4">{errors.termsAccepted.message}</small>
-                  )}
-
-                  <Controller
-                    name="privacyAccepted"
-                    control={control}
-                    render={({ field }) => (
-                      <div className="flex align-items-start">
-                        <Checkbox
-                          inputId="privacyAccepted"
-                          checked={field.value}
-                          onChange={(e) => field.onChange(e.checked)}
-                          className={`mr-2 ${errors.privacyAccepted ? 'p-invalid' : ''}`}
-                        />
-                        <label htmlFor="privacyAccepted" className="cursor-pointer text-sm">
-                          {t('checkout.acceptPrivacy')} *
-                        </label>
-                      </div>
-                    )}
-                  />
-                  {errors.privacyAccepted && (
-                    <small className="p-error ml-4">{errors.privacyAccepted.message}</small>
-                  )}
+                  </div>
                 </div>
               </div>
-            </div>
-          </form>
-        </Card>
-      </div>
 
-      <div className="col-12 lg:col-4">
-        <Card title={t('checkout.orderSummary')}>
-          <div className="flex flex-column gap-3">
-            {items.map((item, index) => (
-              <div key={index} className="flex justify-content-between align-items-start">
-                <div className="flex-1">
-                  <p className="m-0 font-medium text-sm">
-                    {t(`booking.studios.${item.room_id}`, item.room_name)}
-                  </p>
-                  <p className="m-0 text-xs text-gray-600">
-                    {item.date} • {item.start_time} - {item.end_time}
-                  </p>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="city" className="block">
+                      {t('checkout.city')} *
+                    </label>
+                    <Controller
+                      name="city"
+                      control={control}
+                      render={({ field }) => (
+                        <InputText
+                          id="city"
+                          {...field}
+                          className={`w-full ${errors.city ? 'p-invalid' : ''}`}
+                          placeholder={t('checkout.city')}
+                        />
+                      )}
+                    />
+                    {errors.city && (
+                      <small className="p-error">{errors.city.message}</small>
+                    )}
+                  </div>
                 </div>
-                <span className="font-semibold">
-                  {item.price.toLocaleString()} {t('common.currency')}
-                </span>
+
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="country" className="block">
+                      {t('checkout.country')} *
+                    </label>
+                    <Controller
+                      name="country"
+                      control={control}
+                      render={({ field }) => (
+                        <InputText
+                          id="country"
+                          {...field}
+                          className={`w-full ${errors.country ? 'p-invalid' : ''}`}
+                          placeholder={t('checkout.country')}
+                        />
+                      )}
+                    />
+                    {errors.country && (
+                      <small className="p-error">{errors.country.message}</small>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </>
+          )}
+
+          {/* Terms and Conditions */}
+          <Divider />
+          
+          <div className="flex flex-column gap-3">
+            <div className="field-group">
+              <Controller
+                name="termsAccepted"
+                control={control}
+                render={({ field }) => (
+                  <div className="flex align-items-start">
+                    <Checkbox
+                      inputId="termsAccepted"
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.checked)}
+                      className={`mr-2 ${errors.termsAccepted ? 'p-invalid' : ''}`}
+                    />
+                    <label htmlFor="termsAccepted" className="cursor-pointer">
+                      {t('checkout.acceptTerms')} * <a href="/terms" target="_blank" style={{ textDecoration: 'underline' }}>{t('navigation.terms')}</a>
+                    </label>
+                  </div>
+                )}
+              />
+              {errors.termsAccepted && (
+                <small className="p-error ml-4">{errors.termsAccepted.message}</small>
+              )}
+            </div>
+
+            <div className="field-group">
+              <Controller
+                name="privacyAccepted"
+                control={control}
+                render={({ field }) => (
+                  <div className="flex align-items-start">
+                    <Checkbox
+                      inputId="privacyAccepted"
+                      checked={field.value}
+                      onChange={(e) => field.onChange(e.checked)}
+                      className={`mr-2 ${errors.privacyAccepted ? 'p-invalid' : ''}`}
+                    />
+                    <label htmlFor="privacyAccepted" className="cursor-pointer">
+                      {t('checkout.acceptPrivacy')} * <a href="/privacy" target="_blank" style={{ textDecoration: 'underline' }}>{t('navigation.privacy')}</a>
+                    </label>
+                  </div>
+                )}
+              />
+              {errors.privacyAccepted && (
+                <small className="p-error ml-4">{errors.privacyAccepted.message}</small>
+              )}
+            </div>
+          </div>
+
+          {/* Order Summary */}
+          <Divider />
+          
+          <div className="order-summary-section">
+            <h3 className="summary-title">{t('checkout.orderSummary')}</h3>
+            
+            {items.map((item, index) => (
+              <div key={index} className="order-summary-item">
+                <div className="flex justify-content-between align-items-start">
+                  <div className="flex-1">
+                    <p className="m-0 studio-name">
+                      {t(`booking.studios.${item.room_id}`, item.room_name)}
+                    </p>
+                    <p className="m-0 booking-details">
+                      {item.date} • {item.start_time} - {item.end_time}
+                    </p>
+                  </div>
+                  <span className="font-semibold">
+                    {item.price.toLocaleString()} {t('common.currency')}
+                  </span>
+                </div>
               </div>
             ))}
 
-            <Divider />
-
-            <div className="flex justify-content-between align-items-center">
-              <span className="text-lg font-semibold">{t('checkout.total')}:</span>
-              <span className="text-xl font-bold text-primary">
-                {total.toLocaleString()} {t('common.currency')}
-              </span>
+            <div className="order-total">
+              <div className="flex justify-content-between align-items-center">
+                <span className="text-lg font-semibold">{t('checkout.total')}:</span>
+                <span className="text-xl font-bold">
+                  {total.toLocaleString()} {t('common.currency')}
+                </span>
+              </div>
             </div>
-
-            <Button
-              type="submit"
-              label={loading ? t('checkout.processing') : t('checkout.proceedToPayment')}
-              onClick={handleSubmit(onSubmit)}
-              className="w-full"
-              size="large"
-              disabled={loading}
-              icon={loading ? undefined : 'pi pi-credit-card'}
-            >
-              {loading && <ProgressSpinner style={{ width: '20px', height: '20px' }} />}
-            </Button>
           </div>
-        </Card>
-      </div>
+
+          <Button
+            type="submit"
+            label={loading ? t('checkout.processing') : t('checkout.proceedToPayment')}
+            className="submit-button"
+            disabled={loading}
+            icon={loading ? undefined : 'pi pi-credit-card'}
+          >
+            {loading && <ProgressSpinner style={{ width: '20px', height: '20px' }} />}
+          </Button>
+        </form>
+      </Card>
     </div>
   );
 };

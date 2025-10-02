@@ -117,6 +117,10 @@
     "company": "Company Name",
     "taxNumber": "Tax Number",
     "address": "Billing Address",
+    "street": "Street Address",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "country": "Country",
     "terms": "Terms and Conditions",
     "privacy": "Privacy Policy",
     "acceptTerms": "I accept the terms and conditions",
@@ -180,6 +184,84 @@
     "phone": "Please enter a valid phone number",
     "minLength": "Must be at least {{min}} characters",
     "maxLength": "Must be no more than {{max}} characters"
+  },
+  "cookies": {
+    "title": "Cookie Notice",
+    "message": "We use cookies to improve your experience on our website. Essential cookies are necessary for the site to function, while analytics cookies help us improve our services.",
+    "acceptAll": "Accept All",
+    "acceptRequired": "Required Only"
+  },
+  "legal": {
+    "lastUpdated": "Last Updated",
+    "terms": {
+      "title": "Terms and Conditions",
+      "acceptance": {
+        "title": "Acceptance of Terms",
+        "content": "By accessing and using Atelier Archilles booking system, you agree to be bound by these terms and conditions. If you do not agree with any part of these terms, please do not use our services."
+      },
+      "bookings": {
+        "title": "Bookings and Reservations",
+        "content1": "All studio bookings must be made through our online booking system. A booking is confirmed only after successful payment through our secure payment gateway (Barion).",
+        "content2": "You will receive a confirmation email with your booking details and a unique booking code. Please keep this code for your records."
+      },
+      "payment": {
+        "title": "Payment Terms",
+        "content1": "Payment is required at the time of booking. We accept payments through Barion payment gateway. All prices are listed in Hungarian Forints (HUF).",
+        "content2": "Invoices will be provided upon request during the checkout process."
+      },
+      "cancellation": {
+        "title": "Cancellation Policy",
+        "content1": "Free cancellation is available up to 24 hours before your scheduled session. Cancellations made less than 24 hours before the booking will not be refunded.",
+        "content2": "To cancel your booking, use the cancellation link provided in your confirmation email or enter your booking code on our website."
+      },
+      "studio": {
+        "title": "Studio Usage",
+        "content": "You are responsible for the proper use of studio equipment and facilities. Any damage caused during your session may result in additional charges. The studio must be left in the same condition as you found it."
+      },
+      "liability": {
+        "title": "Limitation of Liability",
+        "content": "Atelier Archilles is not liable for any loss, damage, or injury occurring on the premises beyond what is required by Hungarian law. Clients are responsible for their own equipment and belongings."
+      },
+      "contact": {
+        "title": "Contact Information",
+        "content": "For questions about these terms, please contact us at info@atelierarchilles.com"
+      }
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": {
+        "title": "Introduction",
+        "content": "Atelier Archilles respects your privacy and is committed to protecting your personal data. This privacy policy explains how we collect, use, and safeguard your information."
+      },
+      "collect": {
+        "title": "Information We Collect",
+        "content": "We collect the following information when you make a booking:",
+        "item1": "Name and contact information (email, phone)",
+        "item2": "Payment information (processed securely through Barion)",
+        "item3": "Booking details (date, time, studio selection)",
+        "item4": "Invoice information (if requested)"
+      },
+      "use": {
+        "title": "How We Use Your Information",
+        "content": "Your information is used solely for processing bookings, sending confirmations, and providing customer support. We do not sell or share your personal data with third parties except as necessary to process payments (Barion) and send emails."
+      },
+      "cookies": {
+        "title": "Cookies",
+        "content": "We use essential cookies to maintain your session and preferences. Analytics cookies help us improve our website. You can control cookie preferences through our cookie consent banner."
+      },
+      "rights": {
+        "title": "Your Rights (GDPR)",
+        "content": "Under GDPR, you have the right to access, correct, delete, or export your personal data. You may also object to processing or request restriction of processing. Contact us to exercise these rights."
+      },
+      "security": {
+        "title": "Data Security",
+        "content": "We implement appropriate technical and organizational measures to protect your personal data. All payment information is handled securely through Barion's PCI-DSS compliant platform."
+      },
+      "contact": {
+        "title": "Contact Us",
+        "content": "For privacy-related inquiries, contact us at privacy@atelierarchilles.com"
+      }
+    }
   }
 }
 

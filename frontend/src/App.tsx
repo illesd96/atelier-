@@ -14,6 +14,10 @@ import { CheckoutPage } from './pages/CheckoutPage';
 import { PaymentResultPage } from './pages/PaymentResultPage';
 import { TermsPage } from './pages/TermsPage';
 import { PrivacyPage } from './pages/PrivacyPage';
+import { FAQPage } from './pages/FAQPage';
+import { ContactPage } from './pages/ContactPage';
+import { BlogPage } from './pages/BlogPage';
+import { BlogPostPage } from './pages/BlogPostPage';
 import { CookieConsent } from './components/CookieConsent';
 
 function App() {
@@ -30,8 +34,11 @@ function App() {
                 <Route path="payment/result" element={<PaymentResultPage />} />
                 <Route path="terms" element={<TermsPage />} />
                 <Route path="privacy" element={<PrivacyPage />} />
+                <Route path="faq" element={<FAQPage />} />
+                <Route path="contact" element={<ContactPage />} />
+                <Route path="blog" element={<BlogPage />} />
+                <Route path="blog/:slug" element={<BlogPostPage />} />
                 <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} />
-                <Route path="contact" element={<div className="p-4"><h1>Contact</h1><p>Coming soon...</p></div>} />
               </Route>
             </Routes>
             <CookieConsent />

@@ -1,0 +1,243 @@
+/* Blog Post Page Styling - Atelier Aesthetic */
+.blog-post-page {
+  min-height: calc(100vh - 200px);
+  background: white;
+}
+
+.container-narrow {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Header */
+.blog-post-header {
+  padding: 3rem 0 2rem 0;
+}
+
+.blog-post-back {
+  display: inline-flex;
+  align-items: center;
+  color: #666666;
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-bottom: 2rem;
+  transition: color 0.2s ease;
+}
+
+.blog-post-back:hover {
+  color: #000000;
+}
+
+.blog-post-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.blog-post-category {
+  background: #000000;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.blog-post-date {
+  font-size: 0.875rem;
+  color: #999999;
+}
+
+.blog-post-title {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 2.5rem;
+  letter-spacing: -0.02em;
+  color: #000000;
+  line-height: 1.2;
+  margin-bottom: 2rem;
+}
+
+/* Featured Image */
+.blog-post-image {
+  width: 100%;
+  height: 500px;
+  overflow: hidden;
+  margin-bottom: 3rem;
+  border-radius: 12px;
+}
+
+.blog-post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Content */
+.blog-post-content {
+  padding: 2rem 0 4rem 0;
+}
+
+.blog-post-body {
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: #333333;
+}
+
+.blog-post-body p {
+  margin-bottom: 1.5rem;
+}
+
+.blog-post-body p:first-child {
+  font-size: 1.25rem;
+  color: #000000;
+  font-weight: 400;
+  line-height: 1.7;
+}
+
+.blog-post-body h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.75rem;
+  color: #000000;
+  margin: 2.5rem 0 1rem 0;
+  letter-spacing: -0.01em;
+}
+
+.blog-post-body h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: #000000;
+  margin: 2rem 0 1rem 0;
+}
+
+.blog-post-body ul,
+.blog-post-body ol {
+  margin: 1.5rem 0 1.5rem 2rem;
+}
+
+.blog-post-body li {
+  margin-bottom: 0.75rem;
+  line-height: 1.8;
+}
+
+.blog-post-body strong {
+  font-weight: 600;
+  color: #000000;
+}
+
+.blog-post-body em {
+  font-style: italic;
+  color: #666666;
+}
+
+/* Navigation */
+.blog-post-navigation {
+  border-top: 1px solid #e0e0e0;
+  padding: 3rem 0;
+  margin-top: 2rem;
+}
+
+.post-nav-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.post-nav-card {
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.post-nav-card:hover {
+  border-color: #000000;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+.post-nav-card.next {
+  text-align: right;
+}
+
+.post-nav-label {
+  font-size: 0.875rem;
+  color: #999999;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.5rem;
+  display: block;
+}
+
+.post-nav-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.125rem;
+  color: #000000;
+  line-height: 1.4;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container-narrow {
+    padding: 0 1rem;
+  }
+
+  .blog-post-header {
+    padding: 2rem 0 1.5rem 0;
+  }
+
+  .blog-post-title {
+    font-size: 1.75rem;
+  }
+
+  .blog-post-image {
+    height: 300px;
+    border-radius: 8px;
+  }
+
+  .blog-post-body {
+    font-size: 1rem;
+  }
+
+  .blog-post-body p:first-child {
+    font-size: 1.125rem;
+  }
+
+  .blog-post-body h2 {
+    font-size: 1.5rem;
+  }
+
+  .blog-post-body h3 {
+    font-size: 1.125rem;
+  }
+
+  .post-nav-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .post-nav-card {
+    padding: 1.5rem;
+  }
+
+  .post-nav-card.next {
+    text-align: left;
+  }
+
+  .post-nav-title {
+    font-size: 1rem;
+  }
+}
+

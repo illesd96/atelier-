@@ -28,8 +28,10 @@
     "booking": "Booking",
     "about": "About",
     "contact": "Contact",
+    "blog": "Blog",
     "terms": "Terms of Service",
     "privacy": "Privacy Policy",
+    "faq": "FAQ",
     "language": "Language"
   },
   "home": {
@@ -190,6 +192,237 @@
     "message": "We use cookies to improve your experience on our website. Essential cookies are necessary for the site to function, while analytics cookies help us improve our services.",
     "acceptAll": "Accept All",
     "acceptRequired": "Required Only"
+  },
+  "blog": {
+    "title": "Journal",
+    "subtitle": "Insights, tips, and stories from the world of photography",
+    "readMore": "Read More",
+    "backToBlog": "Back to Journal",
+    "previousPost": "Previous",
+    "nextPost": "Next",
+    "posts": {
+      "prepare": {
+        "title": "How to Prepare for Your Photography Session",
+        "excerpt": "A comprehensive guide to ensure your photo session is stress-free and produces stunning results. Learn the essential steps for preparation.",
+        "content": [
+          "Preparing for a photography session can feel overwhelming, but with the right approach, it becomes an exciting and rewarding experience. Whether you're planning a portrait session, family shoot, or branding photos, proper preparation is key to achieving exceptional results.",
+          "Start by communicating with your photographer at least a week before the session. Discuss your vision, share inspiration images, and clarify expectations. This alignment ensures everyone is working towards the same goal and helps avoid any surprises on the day.",
+          "Plan your outfits carefully. Choose clothing that makes you feel confident and comfortable. Avoid busy patterns or logos that might distract from your face. Consider the location and style of shoot when selecting colors - neutral tones work beautifully in most settings.",
+          "Take care of yourself in the days leading up to the shoot. Get plenty of rest, stay hydrated, and avoid making dramatic changes to your appearance right before the session. If you're planning any haircuts or color treatments, do them at least a week in advance.",
+          "Arrive at the studio or location 10-15 minutes early. This gives you time to relax, touch up your appearance, and mentally prepare. Rushing creates unnecessary stress and can show in your photos.",
+          "Finally, trust the process and your photographer. The best photos often come from moments of genuine emotion and connection, not forced poses. Relax, be yourself, and enjoy the experience - your authentic self is what makes truly memorable photographs."
+        ]
+      },
+      "posing": {
+        "title": "The Art of Posing: A Complete Guide for Portraits",
+        "excerpt": "Master the fundamentals of posing to look your best in front of the camera. From body angles to facial expressions, we cover it all.",
+        "content": [
+          "Posing in front of a camera is an art that anyone can master with understanding and practice. The key is not about being stiff or perfect, but about finding angles and movements that feel natural while showcasing your best features.",
+          "Start with your posture. Stand or sit tall with your shoulders back and down. Good posture immediately transforms your presence in photographs. Imagine a string pulling you up from the crown of your head - this creates an elongated, confident silhouette.",
+          "Never square your body directly to the camera. Instead, turn your body at a slight angle (about 30-45 degrees) and bring your face back toward the lens. This simple trick creates dimension and is universally flattering for all body types.",
+          "Pay attention to your hands. Avoid letting them hang limply or pressing them flat against your body. Instead, create space by placing hands gently on hips, in pockets, or use them naturally as if you're mid-conversation. Slightly bent fingers appear more elegant than straight ones.",
+          "Your jaw and neck positioning matter more than you think. Instead of pulling your head back (which can create a double chin), push your forehead slightly forward. This might feel awkward but creates a defined jawline in photos.",
+          "The most important tip: move. Don't stay frozen in one position. Shift your weight, adjust your stance, turn your head slightly - these micro-movements help you find what feels comfortable and give your photographer options to capture your best angles.",
+          "Remember, the best pose is one where you feel like yourself. Work with your photographer to find what works for your unique features and personality."
+        ]
+      },
+      "outfit": {
+        "title": "What to Wear for Your Photo Session",
+        "excerpt": "Choosing the right outfit can make or break your photos. Discover how to select clothing that photographs beautifully and reflects your personal style.",
+        "content": [
+          "Your outfit choice significantly impacts the final result of your photo session. The right clothing doesn't just photograph well - it helps you feel confident and comfortable, which translates directly into better images.",
+          "Start with solid colors and subtle patterns. Bold patterns, logos, and busy designs can be distracting and date your photos quickly. Classic solids or subtle textures photograph beautifully and keep the focus on your face and expression.",
+          "Consider color psychology and what emotions you want to convey. Black and white create a timeless, sophisticated look. Earth tones and neutrals feel warm and approachable. Jewel tones add richness and drama. Choose colors that complement your skin tone and align with the mood you're creating.",
+          "Fit is everything. Clothes should fit well but not be too tight or restrictive. You need to move comfortably and breathe easily. Consider bringing a few options to the session so you can choose what feels and looks best in the studio setting.",
+          "Avoid very bright whites and true blacks if possible, as they can be challenging for cameras to capture detail. Opt for off-whites, creams, or charcoals instead. These tones photograph beautifully while maintaining depth and dimension.",
+          "Coordinate, don't match. For family or couple sessions, choose complementary colors rather than identical outfits. Aim for a cohesive color palette where everyone's clothing works together without being too matchy.",
+          "Finally, wear something that represents your personal style. The most successful photos come when you feel like yourself. If you're uncomfortable or feel like you're wearing a costume, it will show in your expression and body language."
+        ]
+      },
+      "lighting": {
+        "title": "Understanding Studio Lighting: A Beginner's Guide",
+        "excerpt": "Demystify studio lighting setups and learn how different lighting techniques can dramatically transform your photographs.",
+        "content": [
+          "Lighting is the single most important element in photography - it shapes form, creates mood, and can transform an ordinary scene into something extraordinary. Understanding basic lighting principles empowers you to achieve the exact look you envision.",
+          "Natural light is beautiful and forgiving. Window light creates soft, flattering illumination that's perfect for portraits. Position your subject at an angle to the window rather than directly facing it for dimensional lighting that sculpts features beautifully.",
+          "Studio lighting gives you complete control over your final image. The key light is your main light source and should be positioned at roughly 45 degrees to your subject. This creates dimension and depth, avoiding the flat look of direct frontal lighting.",
+          "Fill lights soften shadows created by your key light. They shouldn't overpower the key light but rather lift shadow areas just enough to maintain detail. The ratio between your key and fill lights determines the contrast and mood of your image.",
+          "Rim or hair lights add separation between your subject and background. Positioned behind your subject, they create a subtle glow that adds depth and polish to your final image. This is especially important when shooting against darker backgrounds.",
+          "Soft light versus hard light creates dramatically different moods. Soft light (from larger light sources or modifiers like softboxes) is flattering and gentle. Hard light (from smaller, direct sources) creates drama and emphasizes texture.",
+          "The beauty of modern photography is experimentation. Don't be afraid to try different setups. Move lights around, try different modifiers, and shoot test images. Understanding how light affects your subject comes from hands-on experience and exploration."
+        ]
+      },
+      "choosing": {
+        "title": "How to Choose the Right Photographer",
+        "excerpt": "Finding a photographer whose style and personality match your vision is crucial. Learn what to look for and questions to ask before booking.",
+        "content": [
+          "Choosing the right photographer is about more than just finding someone with a camera. It's about finding an artist whose vision aligns with yours and a person you feel comfortable being yourself around.",
+          "Start by examining their portfolio carefully. Look beyond individual beautiful images and assess whether their overall style matches what you're seeking. Every photographer has a distinct visual signature - color palettes, lighting choices, composition preferences. Make sure their aesthetic speaks to you.",
+          "Read reviews and testimonials, but look for specific feedback about the experience, not just the final images. Was the photographer professional? Did they make clients feel comfortable? Were they flexible and creative? The process is as important as the product.",
+          "Schedule a consultation before committing. This conversation tells you so much about whether you'll work well together. A good photographer listens to your ideas, offers suggestions based on experience, and makes you feel excited about the session.",
+          "Discuss logistics clearly: pricing, deliverables, timeline, and usage rights. Professional photographers have transparent pricing and clear contracts. Understanding exactly what you're getting eliminates surprises and builds trust.",
+          "Consider their communication style. Are they responsive to emails? Do they answer questions thoroughly? How they handle pre-session communication indicates how the actual session will go.",
+          "Trust your instincts. If a photographer's work is beautiful but something feels off, keep looking. You need to feel comfortable and confident with whoever you choose. The best photographs come from sessions where genuine connection and mutual respect exist."
+        ]
+      },
+      "branding": {
+        "title": "Brand Photography: Elevate Your Business Image",
+        "excerpt": "Professional brand photography is an investment in your business. Discover how the right images can transform your marketing and connect with clients.",
+        "content": [
+          "In today's digital-first world, your visual brand is often the first impression potential clients have of your business. Professional brand photography isn't an expense - it's a strategic investment that pays dividends across all your marketing channels.",
+          "Brand photography goes far beyond headshots. It tells your story through images that capture your workspace, your process, your products, and the personality behind your business. These authentic, cohesive images build trust and connection with your audience.",
+          "Start by defining your brand identity. What emotions do you want to evoke? What values do you represent? Your photography should reflect these intangible qualities visually. A law firm and a creative agency require completely different visual approaches.",
+          "Plan for variety. A successful brand photography session produces images for multiple uses: website headers, social media posts, email marketing, print materials. Create a shot list that covers different angles, crops, and scenarios. Think both wide environmental shots and detailed close-ups.",
+          "Authenticity is everything. Staged, stock-photo-looking images don't connect with today's audiences. The most effective brand photography shows real moments, real work, and real personality. Let your unique story shine through.",
+          "Include yourself in your brand photography. People connect with people, not logos. Images of you working, creating, or engaging with clients humanize your brand and make it relatable. Even if you're camera-shy, having personal images in your marketing builds trust.",
+          "Update your brand photography regularly. Your business evolves, and your imagery should too. Plan for annual or bi-annual sessions to keep your visual content fresh, current, and aligned with your growing brand."
+        ]
+      }
+    }
+  },
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Get in touch with us for any questions or inquiries about our studios",
+    "info": {
+      "address": {
+        "title": "Address",
+        "line1": "1111 Budapest",
+        "line2": "Karinthy Frigyes út 19."
+      },
+      "email": {
+        "title": "Email"
+      },
+      "phone": {
+        "title": "Phone"
+      },
+      "hours": {
+        "title": "Opening Hours",
+        "weekday": "Monday - Friday: 9:00 - 20:00",
+        "weekend": "Saturday - Sunday: 10:00 - 18:00"
+      }
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "description": "Have a question about booking or our studios? Send us a message and we'll respond within 24 hours.",
+      "name": "Name",
+      "email": "Email Address",
+      "subject": "Subject",
+      "message": "Message",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Thank you! Your message has been sent successfully. We'll get back to you within 24 hours.",
+      "error": "Oops! Something went wrong. Please try again or contact us directly via email."
+    },
+    "location": {
+      "title": "Find Our Studio",
+      "finding": {
+        "title": "Location",
+        "description": "Atelier Archilles is located in the heart of Budapest, in the 11th district, easily accessible by public transport or car."
+      },
+      "parking": {
+        "title": "Parking",
+        "description": "Free parking is available on the street in designated areas. The studio is a 2-3 minute walk from the parking area. Please arrive a few minutes early to allow time for parking and walking to the studio."
+      },
+      "public": {
+        "title": "Public Transport",
+        "description": "Take metro line M4 to Móricz Zsigmond körtér or tram lines 47, 48, 49 to the same stop. The studio is just a short walk from the station."
+      },
+      "mapTitle": "Atelier Archilles Location Map"
+    }
+  },
+  "faq": {
+    "title": "Frequently Asked Questions",
+    "subtitle": "Everything you need to know about booking and using our studios",
+    "questions": {
+      "booking": {
+        "question": "How does the booking process work?",
+        "answer": [
+          "Book your time slot through our online booking system with secure online card payment.",
+          "You will receive a confirmation email with your booking details.",
+          "Only confirmed bookings are considered valid - please check for the confirmation email.",
+          "If you don't receive the email, please contact us at info@atelierarchilles.com and we'll investigate the issue."
+        ]
+      },
+      "modify": {
+        "question": "How can I modify or cancel my booking?",
+        "answer": "You can modify or cancel your booking by referencing the booking code from your confirmation email. Send a written request to info@atelierarchilles.com. Please refer to our cancellation policy in the Terms and Conditions for details."
+      },
+      "refund": {
+        "question": "Will I get a refund if I cancel my booking?",
+        "answer": "When you cancel your booking in accordance with our cancellation policy, we will refund the amount as specified in the policy. Refunds are processed through the Barion payment system within 72 hours and will be credited to your card. You will receive an email notification from Barion about the refund."
+      },
+      "arrival": {
+        "question": "When should we arrive?",
+        "answer": [
+          "Please arrive on time for your photo session!",
+          "Studios are rented by the hour, so if you arrive late, we cannot extend your booking by the delay time.",
+          "The booking time includes setup time, so please plan accordingly.",
+          "Please arrive maximum 5 minutes before your booking time - arriving earlier won't help as the studios will still be occupied."
+        ]
+      },
+      "duration": {
+        "question": "How long can I stay in the studio?",
+        "answer": "Your booking time is 55 minutes. Studios must be vacated at 55 minutes past the hour. For multi-hour bookings in the same studio, you only need to leave at the 55th minute of the final hour. For bookings across different studios, each studio must be vacated at 55 minutes past the hour. This ensures everyone receives the studio in proper condition."
+      },
+      "equipment": {
+        "question": "What lighting equipment is available?",
+        "answer": [
+          "Our studios feature both flash units and continuous LED lights:",
+          "Studio A: 2 continuous LED lights + softbox",
+          "Studio B: 1 continuous LED light + softbox",
+          "Studio C: 1 continuous LED light + octabox",
+          "Additionally available:",
+          "Professional flash units",
+          "Reflectors in various sizes",
+          "Beauty dishes and grids"
+        ]
+      },
+      "leaving": {
+        "question": "When do I need to leave the studio?",
+        "answer": [
+          "We'll knock 10 minutes before the end of your booking time to notify you.",
+          "Studios must be handed over at the 55th minute of each hour in the same condition as you received them.",
+          "Please be considerate of other clients and finish your session on time.",
+          "Your booking time includes packing up and restoring the studio's decoration."
+        ]
+      },
+      "makeup": {
+        "question": "Can I do makeup on-site before the photoshoot?",
+        "answer": [
+          "You can do makeup before your photoshoot in our dedicated makeup area.",
+          "The makeup studio costs 4,000 HUF/hour and must be booked separately.",
+          "You can arrive with your own makeup artist or book our professional makeup services.",
+          "Makeup is not allowed in regular studios.",
+          "You can only arrive during studio opening hours (earliest at 9:00 AM)."
+        ]
+      },
+      "usage": {
+        "question": "What should I be mindful of when using the studios?",
+        "answer": [
+          "Our studios are carefully designed with unique and valuable furnishings - please return the studio in the same condition you received it.",
+          "You are liable for any damages caused during your session.",
+          "Please use indoor shoes or slippers provided - street shoes are not allowed.",
+          "Please do not step on carpets, sofas, beds, or any textiles with any type of footwear."
+        ]
+      },
+      "pets": {
+        "question": "Can I bring pets?",
+        "answer": [
+          "We're pet-friendly! We welcome house-trained, non-aggressive dogs.",
+          "You are responsible for any damage caused by your pet.",
+          "Please use your own blankets when allowing pets on furniture.",
+          "Small dogs (under 8kg) are welcome during the day. Larger dogs can only be accommodated during the final booking slot of the day."
+        ]
+      },
+      "steamer": {
+        "question": "Do you have an iron or steamer?",
+        "answer": "Yes, both! Just ask our staff and they'll provide them for on-site use."
+      },
+      "changing": {
+        "question": "Is there a changing area?",
+        "answer": "Yes! We have a dedicated changing area and makeup room with all necessary amenities for preparing for your shoot."
+      }
+    }
   },
   "legal": {
     "lastUpdated": "Last Updated",

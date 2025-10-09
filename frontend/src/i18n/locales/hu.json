@@ -28,8 +28,10 @@
     "booking": "Foglalás",
     "about": "Rólunk",
     "contact": "Kapcsolat",
+    "blog": "Blog",
     "terms": "ÁSZF",
     "privacy": "Adatvédelem",
+    "faq": "GYIK",
     "language": "Nyelv"
   },
   "home": {
@@ -190,6 +192,237 @@
     "message": "Sütiket használunk a weboldalon való élmény javítása érdekében. Az alapvető sütik szükségesek a webhely működéséhez, míg az elemzési sütik segítenek szolgáltatásaink javításában.",
     "acceptAll": "Összes Elfogadása",
     "acceptRequired": "Csak Kötelező"
+  },
+  "blog": {
+    "title": "Napló",
+    "subtitle": "Betekintések, tippek és történetek a fotózás világából",
+    "readMore": "Tovább",
+    "backToBlog": "Vissza a Naplóhoz",
+    "previousPost": "Előző",
+    "nextPost": "Következő",
+    "posts": {
+      "prepare": {
+        "title": "Hogyan Készülj Fel a Fotózásra",
+        "excerpt": "Átfogó útmutató, amely biztosítja, hogy fotózásod stresszmentes legyen és lenyűgöző eredményeket hozzon. Ismerd meg a felkészülés lényeges lépéseit.",
+        "content": [
+          "Egy fotózásra való felkészülés elsőre nyomasztónak tűnhet, de a megfelelő megközelítéssel izgalmas és kifizetődő élménnyé válik. Akár portré, családi vagy branding fotózást tervezel, a megfelelő felkészülés kulcsfontosságú a kivételes eredmények eléréséhez.",
+          "Kezdd azzal, hogy legalább egy héttel a fotózás előtt kommunikálsz a fotósoddal. Beszéljétek meg az elképzeléseidet, ossz meg inspirációs képeket és tisztázd az elvárásokat. Ez a közös munka biztosítja, hogy mindenki ugyanazon cél felé dolgozik és segít elkerülni a meglepetéseket a fotózás napján.",
+          "Tervezd meg gondosan az öltözékedet. Válassz olyan ruhát, amiben magabiztosnak és kényelmesen érzed magad. Kerüld a túl mintás darabokat vagy logókat, amelyek elterelhetik a figyelmet az arcodról. Vedd figyelembe a helyszínt és a fotózás stílusát a színek kiválasztásakor - a semleges tónusok szinte minden környezetben gyönyörűek.",
+          "Vigyázz magadra a fotózást megelőző napokban. Pihenj sokat, igyál megfelelő mennyiségű vizet és kerüld a drasztikus külsőd változtatásokat közvetlenül a fotózás előtt. Ha frizurát vagy hajfestést tervezel, végeztesd el legalább egy héttel a fotózás előtt.",
+          "Érkezz a stúdióba vagy a helyszínre 10-15 perccel korábban. Ez időt ad arra, hogy megnyugodj, rendbe hozd a külsődet és mentálisan felkészülj. A rohanás felesleges stresszt okoz és látszódhat a fotóidon.",
+          "Végül bízz a folyamatban és a fotósodban. A legjobb fotók gyakran az őszinte érzelmek és kapcsolat pillanataiból születnek, nem a mesterkélt pózokból. Lazulj el, légy önmagad és élvezd az élményt - az autentikus éned az, ami igazán emlékezetes fotókat készít."
+        ]
+      },
+      "posing": {
+        "title": "A Pózolás Művészete: Teljes Útmutató Portréhoz",
+        "excerpt": "Sajátítsd el a pózolás alapjait, hogy a legjobban nézz ki a kamera előtt. A testtartástól az arckifejezésekig, mindent lefedünk.",
+        "content": [
+          "A kamera előtti pózolás olyan művészet, amit bárki elsajátíthat megértéssel és gyakorlással. A kulcs nem az, hogy merev vagy tökéletes legyél, hanem hogy olyan szögeket és mozgásokat találj, amelyek természetesek és a legjobb vonásaidat mutatják be.",
+          "Kezdd a testtartásoddal. Állj vagy ülj egyenesen, a vállaid hátra és lefelé. A jó testtartás azonnal átalakítja a jelenlétéd a fotókon. Képzelj el egy zsinórt, ami a fejed tetejéről húz felfelé - ez megnyújtott, magabiztos sziluettet teremt.",
+          "Soha ne állj közvetlenül a kamerával szemben. Ehelyett fordítsd el a tested kissé (körülbelül 30-45 fokkal) és fordítsd vissza az arcod a lencse felé. Ez az egyszerű trükk dimenziót teremt és minden testtípusnál hízelgő.",
+          "Figyelj a kezeidre. Kerüld, hogy ernyedten lógjanak vagy laposra nyomd őket a tested mellé. Ehelyett hozz létre teret azáltal, hogy finoman a csípődre teszed őket, a zsebedbe dugod vagy természetesen használod őket, mintha beszélgetnél. A kissé hajlított ujjak elegánsabbnak tűnnek, mint az egyenesek.",
+          "Az állkapcsod és nyakad pozíciója többet számít, mint gondolnád. Ahelyett, hogy hátrahúznád a fejed (ami dupla állt eredményezhet), told kissé előre a homlokodat. Ez furcsán érezhet, de határozott állvonalat hoz létre a fotókon.",
+          "A legfontosabb tipp: mozogj. Ne maradj egy pozícióban lefagyva. Változtasd a súlypontod, állítsd meg az állásod, fordítsd el kissé a fejed - ezek a mikromozgások segítenek megtalálni, ami kényelmesnek érződik és opciót adnak a fotósodnak a legjobb szögeid megörökítésére.",
+          "Emlékezz, a legjobb póz az, amiben önmagadnak érzed magad. Dolgozz együtt a fotósoddal, hogy megtaláljátok, mi működik az egyedi vonásaidhoz és személyiségedhez."
+        ]
+      },
+      "outfit": {
+        "title": "Mit Vegyél Fel a Fotózásra",
+        "excerpt": "A megfelelő ruhaválasztás jelentősen befolyásolja a fotóid. Fedezd fel, hogyan válassz olyan ruhát, ami gyönyörűen fotóz és tükrözi a személyes stílusod.",
+        "content": [
+          "Az öltözék választása jelentősen befolyásolja a fotózás végeredményét. A megfelelő ruha nem csak jól fotóz - segít magabiztosnak és kényelmesen érezni magad, ami közvetlenül jobb képeket eredményez.",
+          "Kezdd egyszínű színekkel és finom mintákkal. A feltűnő minták, logók és túlzsúfolt dizájnok elterelhetik a figyelmet és gyorsan elavulttá teszik a fotóid. A klasszikus egyszínűek vagy finom textúrák gyönyörűen fotóznak és az arcodon és kifejezéseden tartják a fókuszt.",
+          "Fontold meg a színpszichológiát és azt, milyen érzelmeket szeretnél közvetíteni. A fekete és fehér időtlen, kifinomult megjelenést teremt. A földszínek és semlegesek melegséget és megközelíthetőséget sugároznak. Az ékszerszínek gazdagságot és drámát adnak hozzá. Válassz olyan színeket, amelyek kiegészítik a bőrszínedet és illeszkednek a hangulathoz, amit szeretnél létrehozni.",
+          "A szabás minden. A ruháknak jól kell illeniük, de nem lehetnek túl szűkek vagy korlátozóak. Kényelmesen kell tudnod mozogni és könnyedén lélegezni. Fontold meg, hogy néhány opciót hozz magaddal a fotózásra, hogy kiválaszd, mi érződik és néz ki a legjobban a stúdió környezetében.",
+          "Kerüld a nagyon fényes fehéreket és az igazi feketét, ha lehetséges, mivel ezek kihívást jelenthetnek a kamerák számára a részletek megörökítésében. Inkább válassz törtfehéret, krémet vagy szürkéket. Ezek a tónusok gyönyörűen fotóznak, miközben megtartják a mélységet és a dimenziót.",
+          "Koordinálj, ne egyezz. Családi vagy páros fotózásnál válassz egymást kiegészítő színeket, ne azonos öltözékeket. Törekedjél egy összhangzó színpalettára, ahol mindenki ruhája összeillik anélkül, hogy túl egységesek lennének.",
+          "Végül viselj olyat, ami a személyes stílusodat képviseli. A legsikeresebb fotók akkor születnek, amikor önmagadnak érzed magad. Ha kényelmetlenül vagy jelmezes érzésed van, az látszani fog a kifejezésedben és testbeszédedben."
+        ]
+      },
+      "lighting": {
+        "title": "Stúdió Világítás Megértése: Kezdő Útmutató",
+        "excerpt": "Demisztifikáld a stúdió világítás beállításokat és tanuld meg, hogyan alakíthatják át drámaiadan a fotóidat a különböző világítási technikák.",
+        "content": [
+          "A világítás a legfontosabb elem a fotográfiában - formát alakít, hangulatot teremt és egy hétköznapi jelenetet rendkívülivé varázsolhat. Az alapvető világítási elvek megértése felhatalmaz arra, hogy pontosan azt az megjelenést érd el, amit elképzelsz.",
+          "A természetes fény gyönyörű és megbocsátó. Az ablakfény puha, hízelgő megvilágítást teremt, ami tökéletes portékhoz. Állítsd az alanyt az ablakhoz képest szögben, nem közvetlenül szembe azzal, hogy dimenziós világítást kapj, ami gyönyörűen formázza a vonásokat.",
+          "A stúdió világítás teljes kontrollt ad a végső képed felett. A fő fény a fő fényforrásod és körülbelül 45 fokban kell elhelyezni az alanyhoz képest. Ez dimenziót és mélységet teremt, elkerülve a direkt frontális világítás lapos megjelenését.",
+          "A kiegészítő fények lágyítják a fő fény által létrehozott árnyékokat. Ne legyenek erősebbek a fő fénynél, hanem csak éppen annyira emeljék fel az árnyékos területeket, hogy megmaradjon a részlet. A fő és kiegészítő fények aránya határozza meg a kép kontrasztját és hangulatát.",
+          "A perem vagy hajfények elválasztást teremtenek az alany és a háttér között. Az alany mögé helyezve finom ragyogást hoznak létre, ami mélységet és csiszoltságot ad a végső képhez. Ez különösen fontos sötétebb hátterek előtt való fotózáskor.",
+          "A puha fény versus kemény fény drámaiandan különböző hangulatokat teremt. A puha fény (nagyobb fényforrásokból vagy módosítókból, mint a softbox) hízelgő és gyengéd. A kemény fény (kisebb, direkt forrásokból) drámát teremt és kiemeli a textúrát.",
+          "A modern fotográfia szépsége a kísérletezés. Ne félj különböző beállításokat kipróbálni. Mozgasd a fényeket, próbálj különböző módosítókat és készíts teszt képeket. Az, hogy a fény hogyan hat az alanyodra, kézzelfogható tapasztalatból és felfedezésből érthető meg."
+        ]
+      },
+      "choosing": {
+        "title": "Hogyan Válassz Megfelelő Fotóst",
+        "excerpt": "Olyan fotós megtalálása, akinek a stílusa és személyisége illeszkedik a vízióúhoz, kulcsfontosságú. Tanuld meg, mire figyelj és milyen kérdéseket tegyél fel foglalás előtt.",
+        "content": [
+          "A megfelelő fotós kiválasztása több, mint csak valakit találni fényképezőgéppel. Arról szól, hogy találj egy művészt, akinek a víziója összhangban van a tiéddel és egy személyt, aki mellett kényelmesen tudod érezni magad.",
+          "Kezdd azzal, hogy alaposan megvizsgálod a portfólióját. Nézz túl az egyedi gyönyörű képeken és értékeld, hogy az általános stílusuk megegyezik-e azzal, amit keresel. Minden fotósnak van egyedi vizuális aláírása - színpaletták, világítási választások, kompozíciós preferenciák. Bizonyosodj meg róla, hogy az esztétikájuk megszólít téged.",
+          "Olvasd el a véleményeket és ajánlásokat, de keress konkrét visszajelzéseket az élményről, nem csak a végső képekről. Professzionális volt a fotós? Kényelmes érzést keltett az ügyfelekben? Rugalmas és kreatív volt? A folyamat ugyanolyan fontos, mint a termék.",
+          "Egyeztess konzultációt a kötelezettségvállalás előtt. Ez a beszélgetés sokat elmond arról, jól fogtok-e együtt dolgozni. Egy jó fotós meghallgatja az ötleteidet, javaslatokat tesz a tapasztalata alapján és izgatottá tesz a fotózással kapcsolatban.",
+          "Tisztázd egyértelműen a logisztikát: árazást, eredményeket, időkeretet és felhasználási jogokat. A professzionális fotósoknak átlátható árazásuk és világos szerződésük van. Annak pontos ismerete, hogy mit kapsz, kiküszöböli a meglepetéseket és bizalmat épít.",
+          "Fontold meg a kommunikációs stílusukat. Reagálnak az emailekre? Alaposan válaszolnak a kérdésekre? Ahogy a fotózás előtti kommunikációt kezelik, jelzi, hogyan fog menni a tényleges fotózás.",
+          "Bízz az ösztöneidben. Ha egy fotós munkája gyönyörű, de valami nem érződik jónak, keresgélj tovább. Kényelmesen és magabiztosan kell érezned magad bárkit is választasz. A legjobb fotók olyan fotózásokból születnek, ahol őszinte kapcsolat és kölcsönös tisztelet létezik."
+        ]
+      },
+      "branding": {
+        "title": "Márka Fotózás: Emeld Fel Vállalkozásod Imázsát",
+        "excerpt": "A professzionális márka fotózás befektetés a vállalkozásodba. Fedezd fel, hogyan alakíthatják át a megfelelő képek a marketingedet és kapcsolódjanak az ügyfelekhez.",
+        "content": [
+          "A mai digitális-első világban a vizuális márkád gyakran az első benyomás, amit a potenciális ügyfelek a vállalkozásodról kapnak. A professzionális márka fotózás nem költség - stratégiai befektetés, ami osztalékot fizet minden marketing csatornádon.",
+          "A márka fotózás messze túlmutat a fejfotókon. Történetet mesél képeken keresztül, amelyek megörökítik a munkaterületedet, a folyamatodat, a termékeidet és a vállalkozásod mögötti személyiséget. Ezek az autentikus, összhangzó képek bizalmat és kapcsolatot építenek a közönségeddel.",
+          "Kezdd azzal, hogy meghatározod a márkaidentitásodat. Milyen érzelmeket szeretnél kiváltani? Milyen értékeket képviselsz? A fotózásodnak tükröznie kell ezeket a megfoghatatlan tulajdonságokat vizuálisan. Egy ügyvédi irodának és egy kreatív ügynökségnek teljesen különböző vizuális megközelítésekre van szüksége.",
+          "Tervezz változatosságra. Egy sikeres márka fotózás több felhasználásra alkalmas képeket hoz létre: weboldal fejlécek, közösségi média posztok, email marketing, nyomtatott anyagok. Készíts képlistát, ami lefed különböző szögeket, kivágásokat és forgatókönyveket. Gondolj széles környezeti felvételekre és részletes közeli képekre is.",
+          "Az hitelesség minden. A mesterkélt, stock fotó kinézetű képek nem kapcsolódnak a mai közönséghez. A leghatékonyabb márka fotózás valódi pillanatokat, valódi munkát és valódi személyiséget mutat. Engedd, hogy az egyedi történeted ragyogjon át.",
+          "Vedd bele magad a márka fotózásba. Az emberek emberekhez kapcsolódnak, nem logókhoz. A rólad készült képek, amint dolgozol, alkotsz vagy ügyfelekkel foglalkozol, emberivé és reláthatóvá teszik a márkádat. Még ha kamera-félős is vagy, a személyes képek a marketingedben bizalmat építenek.",
+          "Frissítsd rendszeresen a márka fotózásodat. A vállalkozásod fejlődik, és a képanyagodnak is kell. Tervezz éves vagy félévenkénti fotózásokat, hogy a vizuális tartalmad friss, aktuális és összhangban legyen a növekvő márkáddal."
+        ]
+      }
+    }
+  },
+  "contact": {
+    "title": "Kapcsolat",
+    "subtitle": "Vedd fel velünk a kapcsolatot bármilyen kérdéssel vagy érdeklődéssel kapcsolatban",
+    "info": {
+      "address": {
+        "title": "Cím",
+        "line1": "1111 Budapest",
+        "line2": "Karinthy Frigyes út 19."
+      },
+      "email": {
+        "title": "Email"
+      },
+      "phone": {
+        "title": "Telefon"
+      },
+      "hours": {
+        "title": "Nyitvatartás",
+        "weekday": "Hétfő - Péntek: 9:00 - 20:00",
+        "weekend": "Szombat - Vasárnap: 10:00 - 18:00"
+      }
+    },
+    "form": {
+      "title": "Írj Nekünk",
+      "description": "Van kérdésed a foglalással vagy a stúdióinkkal kapcsolatban? Írj nekünk és 24 órán belül válaszolunk!",
+      "name": "Név",
+      "email": "Email Cím",
+      "subject": "Tárgy",
+      "message": "Üzenet",
+      "send": "Üzenet Küldése",
+      "sending": "Küldés...",
+      "success": "Köszönjük! Az üzeneted sikeresen elküldve. 24 órán belül válaszolunk.",
+      "error": "Hoppá! Valami hiba történt. Kérjük próbáld újra vagy írj nekünk közvetlenül emailben."
+    },
+    "location": {
+      "title": "Találd Meg a Stúdiónkat",
+      "finding": {
+        "title": "Helyszín",
+        "description": "Az Atelier Archilles Budapest szívében, a XI. kerületben található, könnyen elérhető tömegközlekedéssel vagy autóval."
+      },
+      "parking": {
+        "title": "Parkolás",
+        "description": "Ingyenes parkolás elérhető az utcán kijelölt helyeken. A stúdió 2-3 perces sétával érhető el a parkolótól. Kérjük érkezz néhány perccel korábban, hogy legyen idő parkolni és elsétálni a stúdióig."
+      },
+      "public": {
+        "title": "Tömegközlekedés",
+        "description": "Az M4-es metróval a Móricz Zsigmond körtérig vagy a 47-es, 48-as, 49-es villamossal ugyanide. A stúdió rövid sétára van a megállótól."
+      },
+      "mapTitle": "Atelier Archilles Helyszín Térkép"
+    }
+  },
+  "faq": {
+    "title": "Gyakran Ismételt Kérdések",
+    "subtitle": "Minden, amit a foglalásról és stúdióink használatáról tudnod kell",
+    "questions": {
+      "booking": {
+        "question": "Mi a foglalás menete?",
+        "answer": [
+          "Időpontot foglalni az online foglaló rendszerünkön keresztül lehetséges, online bankkártyás előre fizetéssel.",
+          "A foglalásról visszaigazoló e-mailt küldünk, amelyben a foglalás részleteid át lehet tekinteni.",
+          "Kizárólag a visszaigazolt foglalást tudjuk érvényesnek tekinteni - kérjük minden esetben győződj meg a visszaigazoló email megérkezéséről.",
+          "Amennyiben valamilyen oknál fogva nem kaptad meg az e-mailt, kérjük írj az info@atelierarchilles.com e-mail címre és utána járunk a problémának."
+        ]
+      },
+      "modify": {
+        "question": "Hogyan módosíthatom vagy mondhatom le a foglalásomat?",
+        "answer": "Foglalásodat a foglaláskor megkapott visszaigazoló e-mailben található azonosítóra hivatkozva, írásban tudod módosítani vagy lemondani, az info@atelierarchilles.com címre küldött e-mailen keresztül. A részletekért olvasd el foglalási- és lemondási szabályzatunkat az ÁSZF-ben."
+      },
+      "refund": {
+        "question": "Kapok visszatérítést a lemondott foglalás esetén?",
+        "answer": "A foglalásod lemondásakor a foglalási szabályzatnak megfelelően visszatérítjük a kifizetett foglalás díját. A foglalási szabályzatnak megfelelően visszajáró összeg visszatérítését a Barion rendszerén keresztül 72 órán belül elindítjuk, ami a bankkártyádon fog jóváíródni. A visszatérítésről a Barion fog értesíteni e-mailben."
+      },
+      "arrival": {
+        "question": "Mikor érkezzünk?",
+        "answer": [
+          "Kérjük a fotózásra időben érkezz!",
+          "A fotóstúdió termeit órás időintervallumokban lehetséges bérelni, ezért ha esetleg késnél, el kell fogadnod, hogy nem áll módunkban a késés időtartamával meghosszabbítani a foglalásod.",
+          "A foglalási időbe a terembe pakolás ideje is bele tartozik, kérjük ezzel számolj a foglalás esetén.",
+          "Kérjük, hogy a foglalásod előtt maximum 5 perccel érkezz - korábban nincs értelme, hiszen a termek foglaltak lesznek."
+        ]
+      },
+      "duration": {
+        "question": "Pontosan mennyi ideig lehetek a teremben?",
+        "answer": "A foglalási idő 55 perc. A termeket minden esetben 55-kor kell elhagyni. Több órás foglalás esetén, ha azonos teremben van végig a foglalás, elég az utolsó óra 55. percében elhagyni a termet. Ha több órás, de különböző termekben, akkor minden termet 55-kor kell elhagyni. Erre azért van szükség, hogy a termeket mindenki a megfelelő állapotban kaphassa meg érkezéskor."
+      },
+      "equipment": {
+        "question": "Milyen fénytechnikai eszközök állnak rendelkezésre?",
+        "answer": [
+          "Stúdiónkban vakukat és állandófényű lámpákat is használhatsz a fotózásokhoz:",
+          "A Stúdió: 2 db állandó fényű LED lámpa + softbox",
+          "B Stúdió: 1 db állandó fényű LED lámpa + softbox",
+          "C Stúdió: 1 db állandó fényű LED lámpa + oktobox",
+          "Ezeken kívül rendelkezésre áll még:",
+          "Professzionális vaku egységek",
+          "Derítőlapok különböző méretekben",
+          "Beauty dish és méhsejtrácsok"
+        ]
+      },
+      "leaving": {
+        "question": "Mikor kell elhagynom a termet?",
+        "answer": [
+          "A foglalási idő lejárta előtt 10 perccel, kopogtatással jelezzük nektek a foglalási idő lejártának közeledtét.",
+          "A termeket mindig az adott óra 55. percében át kell adni, abban az állapotban ahogy a szoba érkezéskor kinézett.",
+          "Kérjük légy tekintettel a többi foglalóra is, ezért a fotózást a foglalásod idősávjának végén pontosan fejezd be.",
+          "Vedd figyelembe hogy a foglalási időbe az összepakolás és a terem dekorációjának visszaállítása is bele tartozik."
+        ]
+      },
+      "makeup": {
+        "question": "Előtte sminkelni szeretnék a helyszínen, van erre lehetőség?",
+        "answer": [
+          "Lehetőségetek van sminkelni a fotózásokat megelőző időszakban, ehhez az erre a célra kialakított sminkhelységet tudod használni.",
+          "A sminkhely bérleti díja 4.000 Ft/óra, külön kell foglalni.",
+          "Érkezhetsz saját sminkessel vagy igénybe veheted szakmai sminkszolgáltatásunkat.",
+          "A stúdió termeiben sminkelni tilos.",
+          "A stúdió nyitvatartási idején belül tudtok csak érkezni, tehát leghamarabb 9:00 órától."
+        ]
+      },
+      "usage": {
+        "question": "Mire kell figyelnem a termek használata közben?",
+        "answer": [
+          "A termeinket nagy gonddal rendeztük be, minden berendezési tárgy egyedi és értékes, ezért kérünk, ügyelj arra, hogy a termet olyan állapotban add át, mint ahogy átvetted.",
+          "Az esetlegesen okozott károkért a felelősség Téged terhel.",
+          "Fokozottan szeretnénk felhívni a figyelmedet a váltócipő használatára. Ne utcai cipőben légy a termekben.",
+          "A szőnyegekre, kanapéra, ágyra és bármilyen textilre, kérünk, ne lépj sem utcai, sem benti cipővel!"
+        ]
+      },
+      "pets": {
+        "question": "Háziállatot hozhatok magammal?",
+        "answer": [
+          "Kutyabarát stúdió vagyunk, ami azt jelenti, hogy szívesen látjuk szobatiszta, nem agresszív kutyusaitokat.",
+          "Rongálás esetén az okozott kárért vállalnotok kell a felelősséget.",
+          "Kérünk, hogy ügyeljetek a tisztaságra, a kanapéra, ágyra csak saját takaróval engedjétek fel kedvenceiteket.",
+          "Kistestű kutyákat (maximum 8kg) napközben fogadunk. A nagyobb testű kutyákat csak az utolsó órában tudjuk fogadni."
+        ]
+      },
+      "steamer": {
+        "question": "Vasaló vagy gőzölő van nálatok?",
+        "answer": "Igen, mindkettő! Csak kérd a kollégáinktól és odaadják neked, így tudod a helyszínen használni őket, ha szükség lenne rá."
+      },
+      "changing": {
+        "question": "Van nálatok öltöző?",
+        "answer": "Igen! Dedikált öltöző és sminkhelyiség áll rendelkezésre minden szükséges kényelemmel a fotózásra való felkészüléshez."
+      }
+    }
   },
   "legal": {
     "lastUpdated": "Utoljára frissítve",

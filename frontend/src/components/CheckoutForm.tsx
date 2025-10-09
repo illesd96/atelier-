@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -11,6 +11,7 @@ import { Divider } from 'primereact/divider';
 // import { Message } from 'primereact/message';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../contexts/CartContext';
+import { useAuth } from '../contexts/AuthContext';
 import api from '../services/api';
 import { CheckoutRequest } from '../types';
 import './CheckoutForm.css';
@@ -48,12 +49,14 @@ type CheckoutFormData = z.infer<typeof checkoutSchema>;
 export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
   const { t, i18n } = useTranslation();
   const { items, getTotal } = useCart();
+  const { user, token } = useAuth();
   const [loading, setLoading] = useState(false);
 
   const {
     control,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
   } = useForm<CheckoutFormData>({
     resolver: zodResolver(checkoutSchema),
@@ -72,6 +75,26 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       privacyAccepted: false,
     },
   });
+
+  // Pre-fill form with user data when authenticated
+  useEffect(() => {
+    if (user) {
+      reset({
+        name: user.name || '',
+        email: user.email || '',
+        phone: user.phone || '',
+        invoiceRequired: false,
+        company: '',
+        taxNumber: '',
+        street: '',
+        city: '',
+        postalCode: '',
+        country: 'Hungary',
+        termsAccepted: false,
+        privacyAccepted: false,
+      });
+    }
+  }, [user, reset]);
 
   const invoiceRequired = watch('invoiceRequired');
   const total = getTotal();
@@ -119,7 +142,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         privacy_accepted: data.privacyAccepted,
       };
 
-      const response = await api.createCheckout(checkoutRequest);
+      const response = await api.createCheckout(checkoutRequest, token || undefined);
       onSuccess(response.redirectUrl);
 
     } catch (error: any) {

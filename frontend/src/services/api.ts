@@ -18,6 +18,11 @@ const apiClient = axios.create({
   },
 });
 
+// Helper to get auth header
+const getAuthHeader = (token: string) => ({
+  Authorization: `Bearer ${token}`,
+});
+
 // Request interceptor for logging
 apiClient.interceptors.request.use(
   (config) => {
@@ -79,9 +84,10 @@ export const api = {
     return response.data;
   },
 
-  // Create checkout session
-  async createCheckout(checkoutData: CheckoutRequest): Promise<CheckoutResponse> {
-    const response = await apiClient.post('/checkout', checkoutData);
+  // Create checkout session (with optional auth)
+  async createCheckout(checkoutData: CheckoutRequest, token?: string): Promise<CheckoutResponse> {
+    const headers = token ? getAuthHeader(token) : {};
+    const response = await apiClient.post('/checkout', checkoutData, { headers });
     return response.data;
   },
 
@@ -116,6 +122,96 @@ export const api = {
     const response = await apiClient.get('/health');
     return response.data;
   }
+};
+
+// Authentication API
+export const authAPI = {
+  // Register new user
+  async register(email: string, password: string, name: string, phone?: string) {
+    const response = await apiClient.post('/auth/register', {
+      email,
+      password,
+      name,
+      phone,
+    });
+    return response.data;
+  },
+
+  // Login user
+  async login(email: string, password: string) {
+    const response = await apiClient.post('/auth/login', {
+      email,
+      password,
+    });
+    return response.data;
+  },
+
+  // Get user profile
+  async getProfile(token: string) {
+    const response = await apiClient.get('/auth/profile', {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+
+  // Update user profile
+  async updateProfile(token: string, data: { name?: string; phone?: string }) {
+    const response = await apiClient.put('/auth/profile', data, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+
+  // Change password
+  async changePassword(token: string, currentPassword: string, newPassword: string) {
+    const response = await apiClient.put('/auth/password', {
+      currentPassword,
+      newPassword,
+    }, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+};
+
+// User API
+export const userAPI = {
+  // Get order history
+  async getOrderHistory(token: string) {
+    const response = await apiClient.get('/user/orders', {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+
+  // Get saved addresses
+  async getSavedAddresses(token: string) {
+    const response = await apiClient.get('/user/addresses', {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+
+  // Save new address
+  async saveAddress(token: string, address: {
+    company?: string;
+    tax_number?: string;
+    address: string;
+    is_default?: boolean;
+  }) {
+    const response = await apiClient.post('/user/addresses', address, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+
+  // Delete address
+  async deleteAddress(token: string, addressId: string) {
+    const response = await apiClient.delete(`/user/addresses/${addressId}`, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
 };
 
 export default api;

@@ -65,6 +65,63 @@
   font-weight: 600 !important;
 }
 
+.profile-icon-button,
+.login-icon-button {
+  width: 30px !important;
+  height: 40px !important;
+  min-width: 30px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #333 !important;
+}
+
+.profile-icon-button:hover,
+.login-icon-button:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  color: var(--accent-color) !important;
+  border: none !important;
+}
+
+.profile-icon-button:focus,
+.login-icon-button:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.profile-icon-button:active,
+.login-icon-button:active {
+  background: transparent !important;
+  background-color: transparent !important;
+}
+
+/* Override PrimeReact button defaults */
+.profile-icon-button.p-button,
+.login-icon-button.p-button {
+  padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.profile-icon-button.p-button:enabled:hover,
+.login-icon-button.p-button:enabled:hover {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.profile-icon-button.p-button:enabled:active,
+.login-icon-button.p-button:enabled:active {
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
 .menu-toggle {
   width: 44px;
   height: 44px;
@@ -166,6 +223,11 @@
   }
   
   .booking-button {
+    display: none;
+  }
+  
+  .profile-icon-button,
+  .login-icon-button {
     display: none;
   }
   

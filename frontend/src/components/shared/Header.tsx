@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
 import { LanguageSwitcher } from '../LanguageSwitcher';
+import { useAuth } from '../../contexts/AuthContext';
 import './Header.css';
 
 const Header: React.FC = () => {
@@ -11,6 +12,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { isAuthenticated, user } = useAuth();
 
   const menuItems = [
     { label: t('navigation.home'), href: '/' },
@@ -76,6 +78,24 @@ const Header: React.FC = () => {
               className="booking-button"
               size="small"
             />
+            
+            {isAuthenticated ? (
+              <Button
+                icon="pi pi-user"
+                onClick={() => navigate('/profile')}
+                className="profile-icon-button"
+                size="small"
+                text
+              />
+            ) : (
+              <Button
+                icon="pi pi-user"
+                onClick={() => navigate('/login')}
+                className="login-icon-button"
+                size="small"
+                text
+              />
+            )}
             
             <button
               className="menu-toggle"

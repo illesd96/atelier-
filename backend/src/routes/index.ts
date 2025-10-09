@@ -4,9 +4,34 @@ import { validateCart } from '../controllers/cart';
 import { createCheckout } from '../controllers/checkout';
 import { handleBarionWebhook } from '../controllers/webhooks';
 import { createTempReservation, removeTempReservation, getUserReservations, extendReservation } from '../controllers/reservations';
+import { 
+  register, 
+  login, 
+  getProfile, 
+  updateProfile, 
+  updatePassword,
+  getOrderHistory,
+  getSavedAddresses,
+  saveAddress,
+  deleteAddress,
+} from '../controllers/user';
+import { authenticateToken, optionalAuth } from '../middleware/auth';
 import pool from '../database/connection';
 
 const router = Router();
+
+// Auth endpoints
+router.post('/auth/register', register);
+router.post('/auth/login', login);
+router.get('/auth/profile', authenticateToken, getProfile);
+router.put('/auth/profile', authenticateToken, updateProfile);
+router.put('/auth/password', authenticateToken, updatePassword);
+
+// User endpoints
+router.get('/user/orders', authenticateToken, getOrderHistory);
+router.get('/user/addresses', authenticateToken, getSavedAddresses);
+router.post('/user/addresses', authenticateToken, saveAddress);
+router.delete('/user/addresses/:id', authenticateToken, deleteAddress);
 
 // Availability endpoints
 router.get('/availability', getAvailability);
@@ -14,8 +39,8 @@ router.get('/availability', getAvailability);
 // Cart endpoints
 router.post('/cart/validate', validateCart);
 
-// Checkout endpoints
-router.post('/checkout', createCheckout);
+// Checkout endpoints (with optional auth)
+router.post('/checkout', optionalAuth, createCheckout);
 
 // Reservation endpoints
 router.post('/reservations', createTempReservation);

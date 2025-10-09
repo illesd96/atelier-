@@ -1,0 +1,184 @@
+.profile-page {
+  min-height: calc(100vh - 200px);
+  padding: 2rem 1rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.profile-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.profile-container h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: #2d3748;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.info-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.info-row label {
+  font-weight: 600;
+  color: #4a5568;
+  min-width: 120px;
+}
+
+.info-row span {
+  color: #2d3748;
+}
+
+.profile-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.empty-orders {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #718096;
+}
+
+.empty-orders i {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 0.3;
+}
+
+.empty-orders p {
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.order-items-detail {
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.order-items-detail h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #2d3748;
+  font-size: 1.1rem;
+}
+
+.order-item-card {
+  background: white;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.order-item-card:last-child {
+  margin-bottom: 0;
+}
+
+.order-item-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.order-item-info strong {
+  color: #2d3748;
+  min-width: 120px;
+}
+
+.order-item-info span {
+  color: #718096;
+}
+
+.password-dialog {
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.field-group label {
+  font-weight: 600;
+  color: #2d3748;
+  font-size: 0.9rem;
+}
+
+/* Fix password input width in dialog */
+.field-group .p-password,
+.field-group .p-password > .p-inputtext {
+  width: 100% !important;
+  display: block !important;
+}
+
+.field-group .p-input-icon-right {
+  width: 100% !important;
+  display: block !important;
+}
+
+.field-group .p-password .p-inputtext {
+  width: 100% !important;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.orders-table {
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .profile-container h1 {
+    font-size: 1.5rem;
+  }
+
+  .info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .info-row label {
+    min-width: auto;
+  }
+
+  .profile-actions {
+    flex-direction: column;
+  }
+
+  .profile-actions button {
+    width: 100%;
+  }
+
+  .order-item-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .order-item-info strong {
+    min-width: auto;
+  }
+}
+

@@ -41,15 +41,19 @@ export const createCheckout = async (req: Request, res: Response) => {
     // Calculate total
     const totalAmount = checkoutData.items.reduce((sum, item) => sum + item.price, 0);
     
+    // Get user ID if logged in
+    const userId = req.user?.userId || null;
+    
     // Create order
     const orderResult = await client.query(`
       INSERT INTO orders (
-        status, language, customer_name, email, phone, 
+        user_id, status, language, customer_name, email, phone, 
         total_amount, currency, invoice_required, invoice_company, 
         invoice_tax_number, invoice_address, terms_accepted, privacy_accepted
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
       RETURNING id
     `, [
+      userId,
       'pending',
       checkoutData.language,
       checkoutData.customer.name,

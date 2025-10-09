@@ -7,8 +7,33 @@ export interface Room {
   updated_at: Date;
 }
 
+export interface User {
+  id: string;
+  email: string;
+  password_hash: string;
+  name: string;
+  phone?: string;
+  email_verified: boolean;
+  active: boolean;
+  created_at: Date;
+  updated_at: Date;
+  last_login_at?: Date;
+}
+
+export interface UserAddress {
+  id: string;
+  user_id: string;
+  company?: string;
+  tax_number?: string;
+  address: string;
+  is_default: boolean;
+  created_at: Date;
+  updated_at: Date;
+}
+
 export interface Order {
   id: string;
+  user_id?: string;
   status: 'pending' | 'paid' | 'failed' | 'expired' | 'cancelled';
   language: 'hu' | 'en';
   customer_name: string;
@@ -91,6 +116,31 @@ export interface CheckoutRequest {
   language: 'hu' | 'en';
   terms_accepted: boolean;
   privacy_accepted: boolean;
+}
+
+export interface RegisterRequest {
+  email: string;
+  password: string;
+  name: string;
+  phone?: string;
+}
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface AuthResponse {
+  success: boolean;
+  token?: string;
+  user?: {
+    id: string;
+    email: string;
+    name: string;
+    phone?: string;
+    email_verified: boolean;
+  };
+  message?: string;
 }
 
 // Cal.com types removed - using internal booking system

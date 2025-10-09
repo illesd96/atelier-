@@ -109,27 +109,14 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       // Find default or most recent saved address
       const defaultAddress = savedAddresses.find(addr => addr.is_default) || savedAddresses[0];
       
-      let addressData = {};
-      if (defaultAddress) {
-        // Parse the address string to extract components
-        const addressParts = defaultAddress.address.split(',').map(part => part.trim());
-        
-        addressData = {
-          invoiceRequired: true,
-          company: defaultAddress.company || '',
-          taxNumber: defaultAddress.tax_number || '',
-          street: addressParts[0] || '',
-          postalCode: addressParts[1]?.split(' ')[0] || '',
-          city: addressParts[1]?.split(' ').slice(1).join(' ') || '',
-          country: addressParts[2] || 'Hungary',
-        };
-      }
-
-      reset({
+      // Check if we have invoice data to pre-fill
+      const hasInvoiceData = defaultAddress && (defaultAddress.company || defaultAddress.tax_number);
+      
+      let formData: any = {
         name: user.name || '',
         email: user.email || '',
         phone: user.phone || '',
-        invoiceRequired: savedAddresses.length > 0,
+        invoiceRequired: hasInvoiceData || false,
         company: '',
         taxNumber: '',
         street: '',
@@ -138,8 +125,22 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         country: 'Hungary',
         termsAccepted: false,
         privacyAccepted: false,
-        ...addressData,
-      });
+      };
+
+      if (hasInvoiceData && defaultAddress) {
+        // Parse the address string to extract components
+        const addressParts = defaultAddress.address.split(',').map(part => part.trim());
+        
+        // Add invoice data to form
+        formData.company = defaultAddress.company || '';
+        formData.taxNumber = defaultAddress.tax_number || '';
+        formData.street = addressParts[0] || '';
+        formData.postalCode = addressParts[1]?.split(' ')[0] || '';
+        formData.city = addressParts[1]?.split(' ').slice(1).join(' ') || '';
+        formData.country = addressParts[2] || 'Hungary';
+      }
+
+      reset(formData);
     }
   }, [user, savedAddresses, reset]);
 

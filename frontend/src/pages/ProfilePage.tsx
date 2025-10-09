@@ -340,7 +340,7 @@ export const ProfilePage: React.FC = () => {
             <DataTable 
               value={orders} 
               expandedRows={[]}
-              onRowToggle={(e) => {}}
+              onRowToggle={() => {}}
               rowExpansionTemplate={expandedRowTemplate}
               dataKey="id"
               responsiveLayout="scroll"

@@ -172,6 +172,31 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         ? `${data.street}, ${data.postalCode} ${data.city}, ${data.country}`
         : undefined;
 
+      // Save billing/invoice information for logged-in users BEFORE checkout
+      if (user && token && data.invoiceRequired && address) {
+        try {
+          console.log('Saving address for user:', user.email);
+          console.log('Address data:', {
+            company: data.company,
+            tax_number: data.taxNumber,
+            address: address,
+            is_default: savedAddresses.length === 0,
+          });
+          
+          await userAPI.saveAddress(token, {
+            company: data.company,
+            tax_number: data.taxNumber,
+            address: address,
+            is_default: savedAddresses.length === 0, // Set as default if it's the first one
+          });
+          
+          console.log('Address saved successfully');
+        } catch (error) {
+          console.error('Failed to save address:', error);
+          // Don't block checkout if address saving fails
+        }
+      }
+
       const checkoutRequest: CheckoutRequest = {
         items,
         customer: {
@@ -191,22 +216,6 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       };
 
       const response = await api.createCheckout(checkoutRequest, token || undefined);
-      
-      // Save billing/invoice information for logged-in users
-      if (user && token && data.invoiceRequired) {
-        try {
-          await userAPI.saveAddress(token, {
-            company: data.company,
-            tax_number: data.taxNumber,
-            address: address!,
-            is_default: savedAddresses.length === 0, // Set as default if it's the first one
-          });
-        } catch (error) {
-          console.error('Failed to save address:', error);
-          // Don't block checkout if address saving fails
-        }
-      }
-      
       onSuccess(response.redirectUrl);
 
     } catch (error: any) {

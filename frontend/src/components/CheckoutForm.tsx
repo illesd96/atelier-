@@ -12,7 +12,7 @@ import { Divider } from 'primereact/divider';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import api from '../services/api';
+import api, { userAPI } from '../services/api';
 import { CheckoutRequest } from '../types';
 import './CheckoutForm.css';
 
@@ -46,11 +46,20 @@ const checkoutSchema = z.object({
 
 type CheckoutFormData = z.infer<typeof checkoutSchema>;
 
+interface SavedAddress {
+  id: string;
+  company?: string;
+  tax_number?: string;
+  address: string;
+  is_default: boolean;
+}
+
 export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
   const { t, i18n } = useTranslation();
   const { items, getTotal } = useCart();
   const { user, token } = useAuth();
   const [loading, setLoading] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
 
   const {
     control,
@@ -76,14 +85,51 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
     },
   });
 
-  // Pre-fill form with user data when authenticated
+  // Load saved addresses for logged-in users
+  useEffect(() => {
+    const loadSavedAddresses = async () => {
+      if (user && token) {
+        try {
+          const response = await userAPI.getSavedAddresses(token);
+          if (response.success && response.addresses) {
+            setSavedAddresses(response.addresses);
+          }
+        } catch (error) {
+          console.error('Failed to load saved addresses:', error);
+        }
+      }
+    };
+
+    loadSavedAddresses();
+  }, [user, token]);
+
+  // Pre-fill form with user data and saved address when authenticated
   useEffect(() => {
     if (user) {
+      // Find default or most recent saved address
+      const defaultAddress = savedAddresses.find(addr => addr.is_default) || savedAddresses[0];
+      
+      let addressData = {};
+      if (defaultAddress) {
+        // Parse the address string to extract components
+        const addressParts = defaultAddress.address.split(',').map(part => part.trim());
+        
+        addressData = {
+          invoiceRequired: true,
+          company: defaultAddress.company || '',
+          taxNumber: defaultAddress.tax_number || '',
+          street: addressParts[0] || '',
+          postalCode: addressParts[1]?.split(' ')[0] || '',
+          city: addressParts[1]?.split(' ').slice(1).join(' ') || '',
+          country: addressParts[2] || 'Hungary',
+        };
+      }
+
       reset({
         name: user.name || '',
         email: user.email || '',
         phone: user.phone || '',
-        invoiceRequired: false,
+        invoiceRequired: savedAddresses.length > 0,
         company: '',
         taxNumber: '',
         street: '',
@@ -92,9 +138,10 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         country: 'Hungary',
         termsAccepted: false,
         privacyAccepted: false,
+        ...addressData,
       });
     }
-  }, [user, reset]);
+  }, [user, savedAddresses, reset]);
 
   const invoiceRequired = watch('invoiceRequired');
   const total = getTotal();
@@ -143,6 +190,22 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       };
 
       const response = await api.createCheckout(checkoutRequest, token || undefined);
+      
+      // Save billing/invoice information for logged-in users
+      if (user && token && data.invoiceRequired) {
+        try {
+          await userAPI.saveAddress(token, {
+            company: data.company,
+            tax_number: data.taxNumber,
+            address: address!,
+            is_default: savedAddresses.length === 0, // Set as default if it's the first one
+          });
+        } catch (error) {
+          console.error('Failed to save address:', error);
+          // Don't block checkout if address saving fails
+        }
+      }
+      
       onSuccess(response.redirectUrl);
 
     } catch (error: any) {

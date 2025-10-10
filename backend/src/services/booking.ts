@@ -64,6 +64,7 @@ class BookingService {
 
   /**
    * Generate hourly slots for a studio, marking booked ones
+   * Always uses Hungarian timezone (Europe/Budapest)
    */
   private generateHourlySlots(
     date: string, 
@@ -73,12 +74,22 @@ class BookingService {
     const slots: TimeSlot[] = [];
     const { openingHours } = config.business;
     
-    // Check if date is in the past
-    const selectedDate = new Date(date);
-    const today = new Date();
+    // Get current date/time in Hungarian timezone
+    const hungarianNow = new Date();
+    const hungarianTimeString = hungarianNow.toLocaleString('en-US', { 
+      timeZone: 'Europe/Budapest' 
+    });
+    const now = new Date(hungarianTimeString);
+    
+    const today = new Date(now);
     today.setHours(0, 0, 0, 0);
     
+    const selectedDate = new Date(date);
+    selectedDate.setHours(0, 0, 0, 0);
+    
     const isPastDate = selectedDate < today;
+    const isToday = selectedDate.toDateString() === today.toDateString();
+    const currentHour = now.getHours();
     
     // Generate hourly slots
     for (let hour = openingHours.start; hour < openingHours.end; hour++) {
@@ -90,9 +101,8 @@ class BookingService {
         slot.start_time === timeStr
       );
       
-      // Check if this slot is in the past (for today only)
-      const isInPast = selectedDate.toDateString() === today.toDateString() && 
-                       hour <= new Date().getHours();
+      // Check if this slot is in the past (for today only, using Hungarian time)
+      const isInPast = isToday && hour <= currentHour;
       
       let status: 'available' | 'booked' | 'unavailable' = 'available';
       

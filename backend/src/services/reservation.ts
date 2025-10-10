@@ -44,8 +44,14 @@ export class ReservationService {
         return null; // Slot is already reserved or booked
       }
 
-      // Create the reservation
-      const expiresAt = new Date();
+      // Create the reservation with expiry time in Hungarian timezone
+      const hungarianNow = new Date();
+      const hungarianTimeString = hungarianNow.toLocaleString('en-US', { 
+        timeZone: 'Europe/Budapest' 
+      });
+      const now = new Date(hungarianTimeString);
+      
+      const expiresAt = new Date(now);
       expiresAt.setMinutes(expiresAt.getMinutes() + ReservationService.RESERVATION_DURATION_MINUTES);
 
       const insertQuery = `
@@ -131,7 +137,14 @@ export class ReservationService {
     const client = await pool.connect();
 
     try {
-      const expiresAt = new Date();
+      // Calculate new expiry time in Hungarian timezone
+      const hungarianNow = new Date();
+      const hungarianTimeString = hungarianNow.toLocaleString('en-US', { 
+        timeZone: 'Europe/Budapest' 
+      });
+      const now = new Date(hungarianTimeString);
+      
+      const expiresAt = new Date(now);
       expiresAt.setMinutes(expiresAt.getMinutes() + ReservationService.RESERVATION_DURATION_MINUTES);
 
       const query = `

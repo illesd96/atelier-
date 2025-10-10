@@ -2,8 +2,9 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
-import { format, addDays, isToday, isTomorrow } from 'date-fns';
+import { format, isToday, isTomorrow } from 'date-fns';
 import { hu, enUS } from 'date-fns/locale';
+import { getMinSelectableDate, getMaxSelectableDate } from './../../utils/timezone';
 
 interface DateNavigationProps {
   selectedDate: Date;
@@ -75,8 +76,8 @@ export const DateNavigation: React.FC<DateNavigationProps> = ({
           onChange={(e) => handleDateChange(e.value as Date)}
           showIcon
           dateFormat="yy-mm-dd"
-          minDate={new Date()}
-          maxDate={addDays(new Date(), 90)}
+          minDate={getMinSelectableDate()}
+          maxDate={getMaxSelectableDate()}
         />
       </div>
     </div>

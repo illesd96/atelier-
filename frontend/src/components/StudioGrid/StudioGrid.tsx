@@ -13,6 +13,7 @@ import { GridBody } from './GridBody';
 import { LoadingState } from './LoadingState';
 import { ErrorState } from './ErrorState';
 import { Studio, StudioGridProps } from './types';
+import { getHungarianToday } from '../../utils/timezone';
 import './StudioGrid.css';
 
 const STUDIOS: Studio[] = [
@@ -29,7 +30,8 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
   const { addItem, removeItem, isInCart } = useCart();
   const toast = useRef<Toast>(null);
   
-  const [selectedDate, setSelectedDate] = useState<Date>(new Date());
+  // Always start with today's date in Hungarian timezone
+  const [selectedDate, setSelectedDate] = useState<Date>(getHungarianToday());
   const [availability, setAvailability] = useState<AvailabilityResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -68,7 +70,8 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
   };
 
   const goToToday = () => {
-    setSelectedDate(new Date());
+    // Always use Hungarian timezone for "today"
+    setSelectedDate(getHungarianToday());
   };
 
   const handleSlotClick = (studio: Studio, slot: TimeSlot) => {

@@ -82,7 +82,48 @@ CREATE TABLE IF NOT EXISTS temp_reservations (
 );
 
 -- ============================================================
--- 6. INDEXES FOR BETTER PERFORMANCE
+-- 6. USERS TABLE (For authentication)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS users (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    email VARCHAR(255) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    name VARCHAR(100) NOT NULL,
+    phone VARCHAR(20),
+    email_verified BOOLEAN DEFAULT false,
+    active BOOLEAN DEFAULT true,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    last_login_at TIMESTAMP
+);
+
+-- Add user_id to orders table if not exists
+DO $$ 
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns 
+        WHERE table_name = 'orders' AND column_name = 'user_id'
+    ) THEN
+        ALTER TABLE orders ADD COLUMN user_id UUID REFERENCES users(id) ON DELETE SET NULL;
+    END IF;
+END $$;
+
+-- ============================================================
+-- 7. USER ADDRESSES TABLE (For saved billing info)
+-- ============================================================
+CREATE TABLE IF NOT EXISTS user_addresses (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    company VARCHAR(200),
+    tax_number VARCHAR(50),
+    address TEXT NOT NULL,
+    is_default BOOLEAN DEFAULT false,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- ============================================================
+-- 8. INDEXES FOR BETTER PERFORMANCE
 -- ============================================================
 CREATE INDEX IF NOT EXISTS idx_orders_email ON orders(email);
 CREATE INDEX IF NOT EXISTS idx_orders_status ON orders(status);
@@ -93,9 +134,12 @@ CREATE INDEX IF NOT EXISTS idx_payments_provider_ref ON payments(provider_ref);
 CREATE INDEX IF NOT EXISTS idx_temp_reservations_expires ON temp_reservations(expires_at);
 CREATE INDEX IF NOT EXISTS idx_temp_reservations_session ON temp_reservations(session_id);
 CREATE INDEX IF NOT EXISTS idx_temp_reservations_slot ON temp_reservations(room_id, date, start_time);
+CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
+CREATE INDEX IF NOT EXISTS idx_orders_user_id ON orders(user_id);
+CREATE INDEX IF NOT EXISTS idx_user_addresses_user_id ON user_addresses(user_id);
 
 -- ============================================================
--- 7. FUNCTION TO AUTO-UPDATE updated_at TIMESTAMP
+-- 9. FUNCTION TO AUTO-UPDATE updated_at TIMESTAMP
 -- ============================================================
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
@@ -106,7 +150,7 @@ END;
 $$ language 'plpgsql';
 
 -- ============================================================
--- 8. TRIGGERS TO AUTOMATICALLY UPDATE updated_at
+-- 10. TRIGGERS TO AUTOMATICALLY UPDATE updated_at
 -- ============================================================
 DROP TRIGGER IF EXISTS update_rooms_updated_at ON rooms;
 CREATE TRIGGER update_rooms_updated_at 
@@ -132,8 +176,20 @@ CREATE TRIGGER update_payments_updated_at
     FOR EACH ROW 
     EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_users_updated_at ON users;
+CREATE TRIGGER update_users_updated_at 
+    BEFORE UPDATE ON users 
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_user_addresses_updated_at ON user_addresses;
+CREATE TRIGGER update_user_addresses_updated_at 
+    BEFORE UPDATE ON user_addresses 
+    FOR EACH ROW 
+    EXECUTE FUNCTION update_updated_at_column();
+
 -- ============================================================
--- 9. INSERT INITIAL DATA (4 Studios)
+-- 11. INSERT INITIAL DATA (4 Studios)
 -- ============================================================
 INSERT INTO rooms (id, name, description) VALUES
 ('studio-a', 'Studio A', 'Perfect for portrait photography'),
@@ -143,7 +199,7 @@ INSERT INTO rooms (id, name, description) VALUES
 ON CONFLICT (id) DO NOTHING;
 
 -- ============================================================
--- 10. VERIFY SETUP
+-- 12. VERIFY SETUP
 -- ============================================================
 -- Check all tables were created
 SELECT 
@@ -160,7 +216,7 @@ SELECT * FROM rooms;
 -- SETUP COMPLETE! ✅
 -- ============================================================
 -- You should see:
--- - 5 tables: rooms, orders, order_items, payments, temp_reservations
+-- - 7 tables: rooms, orders, order_items, payments, temp_reservations, users, user_addresses
 -- - 4 studios in the rooms table
 -- ============================================================
 

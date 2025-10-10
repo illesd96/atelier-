@@ -148,6 +148,11 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
   const total = getTotal();
 
   const onSubmit = async (data: CheckoutFormData) => {
+    console.log('=== CHECKOUT FORM SUBMITTED ===');
+    console.log('Form data:', data);
+    console.log('User:', user);
+    console.log('Token:', token ? 'EXISTS' : 'MISSING');
+    
     if (items.length === 0) {
       onError(t('booking.cartEmpty'));
       return;
@@ -175,7 +180,9 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       // Save billing/invoice information for logged-in users BEFORE checkout
       if (user && token && data.invoiceRequired && address) {
         try {
-          console.log('Saving address for user:', user.email);
+          console.log('=== SAVING ADDRESS ===');
+          console.log('User:', user.email);
+          console.log('Token exists:', !!token);
           console.log('Address data:', {
             company: data.company,
             tax_number: data.taxNumber,
@@ -183,16 +190,20 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
             is_default: savedAddresses.length === 0,
           });
           
-          await userAPI.saveAddress(token, {
+          const saveResult = await userAPI.saveAddress(token, {
             company: data.company,
             tax_number: data.taxNumber,
             address: address,
-            is_default: savedAddresses.length === 0, // Set as default if it's the first one
+            is_default: savedAddresses.length === 0,
           });
           
-          console.log('Address saved successfully');
-        } catch (error) {
-          console.error('Failed to save address:', error);
+          console.log('Address save response:', saveResult);
+          console.log('=== ADDRESS SAVED SUCCESSFULLY ===');
+        } catch (error: any) {
+          console.error('=== FAILED TO SAVE ADDRESS ===');
+          console.error('Error details:', error);
+          console.error('Error response:', error.response?.data);
+          console.error('Error status:', error.response?.status);
           // Don't block checkout if address saving fails
         }
       }

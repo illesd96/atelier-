@@ -14,6 +14,7 @@ export const config = {
     environment: process.env.BARION_ENVIRONMENT || 'test',
     posKey: process.env.BARION_POS_KEY || '',
     pixelId: process.env.BARION_PIXEL_ID || '',
+    payeeEmail: process.env.BARION_PAYEE_EMAIL || '',
     baseUrl: process.env.BARION_ENVIRONMENT === 'prod' 
       ? 'https://api.barion.com' 
       : 'https://api.test.barion.com',
@@ -33,8 +34,9 @@ export const config = {
   jwtSecret: process.env.JWT_SECRET || 'your-secret-key',
   webhookSecret: process.env.WEBHOOK_SECRET || 'webhook-secret',
   
-  // Frontend
+  // Frontend & Backend URLs
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
+  backendUrl: process.env.BACKEND_URL || 'http://localhost:3001',
   
   // Studios
   studios: JSON.parse(process.env.STUDIOS || '[{"id":"studio-a","name":"Studio A"},{"id":"studio-b","name":"Studio B"},{"id":"studio-c","name":"Studio C"},{"id":"makeup","name":"Makeup Studio"}]'),

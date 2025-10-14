@@ -80,6 +80,26 @@ class BarionService {
   ): BarionPaymentRequest {
     const paymentRequestId = `order-${orderId}`;
     
+    // Validate required Barion configuration
+    if (!config.barion.posKey) {
+      console.error('❌ BARION_POS_KEY is not configured!');
+      throw new Error('Barion POS Key is not configured');
+    }
+    
+    if (!config.barion.payeeEmail) {
+      console.error('❌ BARION_PAYEE_EMAIL is not configured!');
+      throw new Error('Barion Payee Email is not configured');
+    }
+    
+    console.log('🔧 Barion Configuration:', {
+      environment: config.barion.environment,
+      baseUrl: config.barion.baseUrl,
+      posKey: config.barion.posKey.substring(0, 10) + '...',
+      payeeEmail: config.barion.payeeEmail,
+      frontendUrl: config.frontendUrl,
+      backendUrl: config.backendUrl,
+    });
+    
     return {
       POSKey: config.barion.posKey,
       PaymentType: 'Immediate',
@@ -91,7 +111,7 @@ class BarionService {
       Transactions: [
         {
           POSTransactionId: `trans-${orderId}`,
-          Payee: config.barion.posKey,
+          Payee: config.barion.payeeEmail, // Changed from posKey to payeeEmail
           Total: total,
           Items: items.map((item, index) => ({
             Name: item.name,
@@ -105,7 +125,7 @@ class BarionService {
         },
       ],
       RedirectUrl: `${config.frontendUrl}/payment/result?orderId=${orderId}`,
-      CallbackUrl: `${config.frontendUrl.replace('3000', '3001')}/api/webhooks/barion`,
+      CallbackUrl: `${config.backendUrl}/api/webhooks/barion`, // Changed to use backendUrl
     };
   }
 }

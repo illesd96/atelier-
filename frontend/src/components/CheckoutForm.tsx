@@ -208,6 +208,9 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         }
       }
 
+      // Extract language code (handles 'hu-HU' -> 'hu', 'en-US' -> 'en')
+      const languageCode = i18n.language.split('-')[0] as 'hu' | 'en';
+      
       const checkoutRequest: CheckoutRequest = {
         items,
         customer: {
@@ -221,7 +224,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
           tax_number: data.taxNumber,
           address: address,
         } : { required: false },
-        language: i18n.language as 'hu' | 'en',
+        language: languageCode,
         terms_accepted: data.termsAccepted,
         privacy_accepted: data.privacyAccepted,
       };

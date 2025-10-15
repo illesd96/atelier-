@@ -68,6 +68,7 @@ export async function register(req: Request, res: Response) {
         name: user.name,
         phone: user.phone,
         email_verified: user.email_verified,
+        is_admin: user.is_admin,
       },
       message: 'Registration successful',
     } as AuthResponse);
@@ -125,6 +126,7 @@ export async function login(req: Request, res: Response) {
         name: user.name,
         phone: user.phone,
         email_verified: user.email_verified,
+        is_admin: user.is_admin,
       },
       message: 'Login successful',
     } as AuthResponse);

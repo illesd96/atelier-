@@ -9,6 +9,7 @@ export interface User {
   name: string;
   phone?: string;
   email_verified: boolean;
+  is_admin: boolean;
 }
 
 interface AuthContextType {

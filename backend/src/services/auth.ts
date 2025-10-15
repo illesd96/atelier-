@@ -145,7 +145,7 @@ export async function authenticateUser(
  */
 export async function getUserProfile(userId: string) {
   const result = await pool.query(
-    `SELECT id, email, name, phone, email_verified, active, created_at, last_login_at
+    `SELECT id, email, name, phone, email_verified, active, is_admin, created_at, last_login_at
      FROM users 
      WHERE id = $1`,
     [userId]

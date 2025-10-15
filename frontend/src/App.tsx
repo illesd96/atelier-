@@ -22,6 +22,7 @@ import { BlogPostPage } from './pages/BlogPostPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
+import { AdminBookingsPage } from './pages/AdminBookingsPage';
 import { CookieConsent } from './components/CookieConsent';
 
 function App() {
@@ -40,6 +41,7 @@ function App() {
                   <Route path="login" element={<LoginPage />} />
                   <Route path="register" element={<RegisterPage />} />
                   <Route path="profile" element={<ProfilePage />} />
+                  <Route path="admin/bookings" element={<AdminBookingsPage />} />
                   <Route path="terms" element={<TermsPage />} />
                   <Route path="privacy" element={<PrivacyPage />} />
                   <Route path="faq" element={<FAQPage />} />

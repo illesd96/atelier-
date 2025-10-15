@@ -212,6 +212,52 @@
   justify-content: center;
 }
 
+/* Admin Styles */
+.admin-link {
+  color: #fbbf24 !important;
+  font-weight: 600;
+}
+
+.admin-link.active {
+  background: rgba(251, 191, 36, 0.1);
+}
+
+.admin-icon-button {
+  width: 30px !important;
+  height: 40px !important;
+  min-width: 30px !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: #fbbf24 !important;
+}
+
+.admin-icon-button:hover {
+  background: rgba(251, 191, 36, 0.1) !important;
+  color: #f59e0b !important;
+}
+
+.admin-icon-button:focus {
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.admin-icon-button.p-button {
+  padding: 0 !important;
+  background: transparent !important;
+  background-color: transparent !important;
+  border: none !important;
+}
+
+.admin-icon-button.p-button:enabled:hover {
+  background: rgba(251, 191, 36, 0.1) !important;
+  background-color: rgba(251, 191, 36, 0.1) !important;
+  border: none !important;
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
   .header-content {
@@ -227,7 +273,8 @@
   }
   
   .profile-icon-button,
-  .login-icon-button {
+  .login-icon-button,
+  .admin-icon-button {
     display: none;
   }
   

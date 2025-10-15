@@ -216,6 +216,32 @@ export const userAPI = {
   },
 };
 
+// Admin API
+export const adminAPI = {
+  // Get all bookings
+  async getAllBookings(token: string, params?: {
+    status?: string;
+    date_from?: string;
+    date_to?: string;
+    limit?: number;
+    offset?: number;
+  }) {
+    const response = await apiClient.get('/admin/bookings', {
+      headers: getAuthHeader(token),
+      params,
+    });
+    return response.data;
+  },
+
+  // Get booking statistics
+  async getBookingStats(token: string) {
+    const response = await apiClient.get('/admin/stats', {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+};
+
 export default api;
 
 

@@ -12,7 +12,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   const menuItems = [
     { label: t('navigation.home'), href: '/' },
@@ -79,6 +79,18 @@ const Header: React.FC = () => {
               size="small"
             />
             
+            {user?.is_admin && (
+              <Button
+                icon="pi pi-chart-bar"
+                onClick={() => navigate('/admin/bookings')}
+                className="admin-icon-button"
+                size="small"
+                text
+                tooltip="Admin Dashboard"
+                tooltipOptions={{ position: 'bottom' }}
+              />
+            )}
+            
             {isAuthenticated ? (
               <Button
                 icon="pi pi-user"
@@ -123,6 +135,18 @@ const Header: React.FC = () => {
               </Link>
             </li>
           ))}
+          {user?.is_admin && (
+            <li>
+              <Link
+                to="/admin/bookings"
+                className={location.pathname === '/admin/bookings' ? 'active admin-link' : 'admin-link'}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                <i className="pi pi-chart-bar" style={{ marginRight: '0.5rem' }}></i>
+                Admin Dashboard
+              </Link>
+            </li>
+          )}
           <li>
             <button
               className="menu-booking-button"

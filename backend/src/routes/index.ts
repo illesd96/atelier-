@@ -16,7 +16,9 @@ import {
   saveAddress,
   deleteAddress,
 } from '../controllers/user';
+import { getAllBookings, getBookingStats } from '../controllers/admin';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
+import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
 
 const router = Router();
@@ -54,6 +56,10 @@ router.put('/reservations/extend', extendReservation);
 
 // Webhook endpoints
 router.post('/webhooks/barion', handleBarionWebhook);
+
+// Admin endpoints
+router.get('/admin/bookings', adminAuth, getAllBookings);
+router.get('/admin/stats', adminAuth, getBookingStats);
 
 // Health check
 router.get('/health', async (req, res) => {

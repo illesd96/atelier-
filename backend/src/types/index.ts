@@ -15,6 +15,7 @@ export interface User {
   phone?: string;
   email_verified: boolean;
   active: boolean;
+  is_admin: boolean;
   created_at: Date;
   updated_at: Date;
   last_login_at?: Date;
@@ -139,6 +140,7 @@ export interface AuthResponse {
     name: string;
     phone?: string;
     email_verified: boolean;
+    is_admin: boolean;
   };
   message?: string;
 }

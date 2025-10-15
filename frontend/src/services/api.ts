@@ -93,10 +93,12 @@ export const api = {
 
   // Get order status
   async getOrderStatus(orderId: string): Promise<{
+    success: boolean;
     order: Order;
     items: OrderItem[];
+    payment_id?: string;
   }> {
-    const response = await apiClient.get(`/orders/${orderId}`);
+    const response = await apiClient.get(`/orders/${orderId}/status`);
     return response.data;
   },
 

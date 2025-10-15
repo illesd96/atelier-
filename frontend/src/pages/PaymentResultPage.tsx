@@ -5,6 +5,7 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../hooks/useCart';
+import api from '../services/api';
 
 export const PaymentResultPage: React.FC = () => {
   const { t } = useTranslation();
@@ -13,28 +14,80 @@ export const PaymentResultPage: React.FC = () => {
   const { clearCart } = useCart();
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<'success' | 'failed' | 'cancelled' | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   const orderId = searchParams.get('orderId');
   const paymentId = searchParams.get('paymentId');
 
   useEffect(() => {
-    // Simulate checking payment status
-    // In a real app, you would poll the backend to check payment status
-    const timer = setTimeout(() => {
-      setLoading(false);
-      // For demo purposes, randomly set result
-      // In production, this would be determined by actual payment status
-      const results = ['success', 'failed', 'cancelled'] as const;
-      const randomResult = results[Math.floor(Math.random() * results.length)];
-      setResult(randomResult);
-      
-      if (randomResult === 'success') {
-        clearCart();
+    const checkPaymentStatus = async () => {
+      if (!orderId) {
+        setError('Missing order ID');
+        setLoading(false);
+        return;
       }
-    }, 2000);
 
-    return () => clearTimeout(timer);
-  }, [clearCart]);
+      try {
+        // Poll for payment status (check up to 10 times with 2 second intervals)
+        let attempts = 0;
+        const maxAttempts = 10;
+        
+        const pollStatus = async (): Promise<void> => {
+          attempts++;
+          
+          try {
+            const response = await api.getOrderStatus(orderId);
+            
+            if (response.success && response.order) {
+              const status = response.order.status;
+              
+              if (status === 'paid') {
+                setResult('success');
+                clearCart();
+                setLoading(false);
+              } else if (status === 'failed') {
+                setResult('failed');
+                setLoading(false);
+              } else if (status === 'cancelled' || status === 'expired') {
+                setResult('cancelled');
+                setLoading(false);
+              } else if (status === 'pending' && attempts < maxAttempts) {
+                // Still pending, poll again after 2 seconds
+                setTimeout(pollStatus, 2000);
+              } else {
+                // Max attempts reached or unknown status
+                setResult('failed');
+                setLoading(false);
+              }
+            } else {
+              throw new Error('Failed to get order status');
+            }
+          } catch (err) {
+            console.error('Error checking payment status:', err);
+            if (attempts < maxAttempts) {
+              // Retry on error
+              setTimeout(pollStatus, 2000);
+            } else {
+              setError('Unable to verify payment status');
+              setResult('failed');
+              setLoading(false);
+            }
+          }
+        };
+        
+        // Start polling
+        pollStatus();
+        
+      } catch (err) {
+        console.error('Error in payment status check:', err);
+        setError('Unable to verify payment status');
+        setResult('failed');
+        setLoading(false);
+      }
+    };
+
+    checkPaymentStatus();
+  }, [orderId, clearCart]);
 
   const handleReturnHome = () => {
     navigate('/');
@@ -51,7 +104,7 @@ export const PaymentResultPage: React.FC = () => {
           <ProgressSpinner style={{ width: '60px', height: '60px' }} />
           <h2 className="mt-4 mb-2">{t('payment.processing')}</h2>
           <p className="text-gray-600 m-0">
-            Please wait while we process your payment...
+            {error || 'Please wait while we process your payment...'}
           </p>
         </Card>
       </div>

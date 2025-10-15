@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { getAvailability } from '../controllers/availability';
 import { validateCart } from '../controllers/cart';
 import { createCheckout } from '../controllers/checkout';
+import { getOrderStatus } from '../controllers/orders';
 import { handleBarionWebhook } from '../controllers/webhooks';
 import { createTempReservation, removeTempReservation, getUserReservations, extendReservation } from '../controllers/reservations';
 import { 
@@ -41,6 +42,9 @@ router.post('/cart/validate', validateCart);
 
 // Checkout endpoints (with optional auth)
 router.post('/checkout', optionalAuth, createCheckout);
+
+// Order endpoints
+router.get('/orders/:orderId/status', getOrderStatus);
 
 // Reservation endpoints
 router.post('/reservations', createTempReservation);

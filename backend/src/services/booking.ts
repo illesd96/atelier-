@@ -23,16 +23,25 @@ class BookingService {
         
         if (tablesResult.rows.length === 2) {
           // Get all booked slots for this date
+          // Include: 
+          // 1. Items with 'booked' status and order 'paid' (confirmed bookings)
+          // 2. Items with 'pending' status and order 'paid' (webhook hasn't run yet)
+          // 3. Items with 'pending' status and order 'pending' (payment in progress, temporarily reserved)
           const bookedSlotsResult = await client.query(`
-            SELECT room_id, start_time, end_time, status
+            SELECT room_id, start_time, end_time, oi.status
             FROM order_items oi
             JOIN orders o ON o.id = oi.order_id
             WHERE oi.booking_date = $1 
-            AND oi.status IN ('booked', 'pending')
-            AND o.status IN ('paid', 'pending')
+            AND (
+              (oi.status = 'booked' AND o.status = 'paid')  -- Confirmed bookings
+              OR (oi.status = 'pending' AND o.status = 'paid')  -- Paid but webhook didn't run
+              OR (oi.status = 'pending' AND o.status = 'pending')  -- Payment in progress
+            )
           `, [date]);
           
           bookedSlots = bookedSlotsResult.rows;
+          
+          console.log(`Found ${bookedSlots.length} booked/pending slots for ${date}`);
         }
       } catch (dbError) {
         console.warn('Database tables not ready, showing all slots as available:', dbError);

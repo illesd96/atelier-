@@ -28,7 +28,11 @@ class BookingService {
           // 2. Items with 'pending' status and order 'paid' (webhook hasn't run yet)
           // 3. Items with 'pending' status and order 'pending' (payment in progress, temporarily reserved)
           const bookedSlotsResult = await client.query(`
-            SELECT room_id, start_time, end_time, oi.status
+            SELECT 
+              room_id, 
+              to_char(start_time, 'HH24:MI') as start_time,
+              to_char(end_time, 'HH24:MI') as end_time,
+              oi.status
             FROM order_items oi
             JOIN orders o ON o.id = oi.order_id
             WHERE oi.booking_date = $1 
@@ -266,7 +270,7 @@ class BookingService {
             JOIN orders o ON o.id = oi.order_id
             WHERE oi.room_id = $1 
             AND oi.booking_date = $2 
-            AND oi.start_time = $3
+            AND to_char(oi.start_time, 'HH24:MI') = $3
             AND oi.status IN ('booked', 'pending')
             AND o.status IN ('paid', 'pending')
           `, [studioId, date, startTime]);

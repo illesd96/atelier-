@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { z } from 'zod';
 import pool from '../database/connection';
 import barionService from '../services/barion';
+import bookingService from '../services/booking';
 import config from '../config';
 import { CheckoutRequest, CartItem } from '../types';
 
@@ -35,6 +36,31 @@ export const createCheckout = async (req: Request, res: Response) => {
   
   try {
     const checkoutData: CheckoutRequest = checkoutSchema.parse(req.body);
+    
+    // VALIDATE AVAILABILITY BEFORE CREATING ORDER
+    const unavailableItems: string[] = [];
+    
+    for (const item of checkoutData.items) {
+      const isAvailable = await bookingService.isSlotAvailable(
+        item.room_id, 
+        item.date, 
+        item.start_time
+      );
+      
+      if (!isAvailable) {
+        unavailableItems.push(
+          `${item.room_name} on ${item.date} at ${item.start_time}`
+        );
+      }
+    }
+    
+    if (unavailableItems.length > 0) {
+      return res.status(409).json({
+        error: 'Some time slots are no longer available',
+        unavailable_items: unavailableItems,
+        message: 'The following slots have been booked by someone else: ' + unavailableItems.join(', '),
+      });
+    }
     
     await client.query('BEGIN');
     

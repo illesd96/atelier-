@@ -25,34 +25,43 @@ const normalizedOrigins = allowedOrigins.map(origin =>
   typeof origin === 'string' ? origin.replace(/\/$/, '') : origin
 );
 
-app.use(cors({
-  origin: (origin, callback) => {
-    // Allow requests with no origin (like mobile apps or Postman)
-    if (!origin) return callback(null, true);
-    
-    // Normalize the origin by removing trailing slash
-    const normalizedOrigin = origin.replace(/\/$/, '');
-    
-    // Check if origin is allowed
-    const isAllowed = normalizedOrigins.some(allowed => {
-      if (typeof allowed === 'string') {
-        return allowed === normalizedOrigin;
+// Conditional CORS - skip for webhooks
+app.use((req, res, next) => {
+  // Skip CORS for webhook routes
+  if (req.path.startsWith('/api/webhooks')) {
+    return next();
+  }
+  
+  // Apply CORS for all other routes
+  cors({
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps or Postman)
+      if (!origin) return callback(null, true);
+      
+      // Normalize the origin by removing trailing slash
+      const normalizedOrigin = origin.replace(/\/$/, '');
+      
+      // Check if origin is allowed
+      const isAllowed = normalizedOrigins.some(allowed => {
+        if (typeof allowed === 'string') {
+          return allowed === normalizedOrigin;
+        }
+        if (allowed instanceof RegExp) {
+          return allowed.test(normalizedOrigin);
+        }
+        return false;
+      });
+      
+      if (isAllowed) {
+        callback(null, true);
+      } else {
+        console.warn('⚠️  CORS blocked origin:', origin);
+        callback(new Error('Not allowed by CORS'));
       }
-      if (allowed instanceof RegExp) {
-        return allowed.test(normalizedOrigin);
-      }
-      return false;
-    });
-    
-    if (isAllowed) {
-      callback(null, true);
-    } else {
-      console.warn('⚠️  CORS blocked origin:', origin);
-      callback(new Error('Not allowed by CORS'));
-    }
-  },
-  credentials: true,
-}));
+    },
+    credentials: true,
+  })(req, res, next);
+});
 
 // Body parsing middleware (before rate limiting for webhooks)
 app.use(express.json({ limit: '10mb' }));
@@ -60,10 +69,12 @@ app.use(express.urlencoded({ extended: true }));
 
 // Webhook logging middleware
 app.use('/api/webhooks/*', (req, res, next) => {
-  console.log('🔔 Webhook request:', {
+  console.log('🔔 Webhook request received:', {
     url: req.url,
     method: req.method,
     ip: req.ip,
+    contentType: req.headers['content-type'],
+    bodySize: JSON.stringify(req.body).length,
     timestamp: new Date().toISOString()
   });
   next();

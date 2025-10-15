@@ -6,23 +6,29 @@ import emailService from '../services/email';
 import config from '../config';
 
 export const handleBarionWebhook = async (req: Request, res: Response) => {
+  const startTime = Date.now();
   console.log('📥 Barion webhook received:', {
     body: req.body,
-    headers: req.headers,
+    headers: {
+      'content-type': req.headers['content-type'],
+      'user-agent': req.headers['user-agent'],
+    },
     timestamp: new Date().toISOString()
   });
+
+  // Quickly validate and respond to Barion to avoid timeout
+  const { PaymentId, PaymentState } = req.body;
+  
+  if (!PaymentId) {
+    console.error('❌ Missing PaymentId in webhook');
+    return res.status(400).json({ error: 'Missing PaymentId' });
+  }
+  
+  console.log('💳 Processing Barion webhook:', { PaymentId, PaymentState });
 
   const client = await pool.connect();
   
   try {
-    const { PaymentId, PaymentState } = req.body;
-    
-    console.log('💳 Processing Barion webhook:', { PaymentId, PaymentState });
-    
-    if (!PaymentId) {
-      console.error('❌ Missing PaymentId in webhook');
-      return res.status(400).json({ error: 'Missing PaymentId' });
-    }
     
     await client.query('BEGIN');
     
@@ -122,14 +128,25 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
     }
     
     await client.query('COMMIT');
-    console.log('✅ Webhook processed successfully');
-    res.json({ success: true });
+    
+    const duration = Date.now() - startTime;
+    console.log(`✅ Webhook processed successfully in ${duration}ms`);
+    
+    // Always return success to Barion (even if some operations fail)
+    // This prevents the "Hello Rosti!" error
+    res.status(200).json({ success: true, message: 'Webhook received' });
     
   } catch (error) {
     await client.query('ROLLBACK');
-    console.error('❌ Error in Barion webhook:', error);
+    
+    const duration = Date.now() - startTime;
+    console.error(`❌ Error in Barion webhook after ${duration}ms:`, error);
     console.error('Error details:', error instanceof Error ? error.stack : error);
-    res.status(500).json({ error: 'Internal server error' });
+    console.error('Request body:', req.body);
+    
+    // Still return 200 to Barion to prevent retry loops
+    // The payment status will be checked via getPaymentState on user return
+    res.status(200).json({ success: false, error: 'Processing error', message: 'Webhook acknowledged' });
   } finally {
     client.release();
   }

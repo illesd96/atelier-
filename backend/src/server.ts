@@ -54,17 +54,29 @@ app.use(cors({
   credentials: true,
 }));
 
-// Rate limiting
+// Body parsing middleware (before rate limiting for webhooks)
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true }));
+
+// Webhook logging middleware
+app.use('/api/webhooks/*', (req, res, next) => {
+  console.log('🔔 Webhook request:', {
+    url: req.url,
+    method: req.method,
+    ip: req.ip,
+    timestamp: new Date().toISOString()
+  });
+  next();
+});
+
+// Rate limiting (excluding webhooks)
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   message: 'Too many requests from this IP, please try again later.',
+  skip: (req) => req.path.startsWith('/api/webhooks'), // Don't rate limit webhooks
 });
 app.use('/api/', limiter);
-
-// Body parsing middleware
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true }));
 
 // API routes
 app.use('/api', routes);

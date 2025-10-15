@@ -76,7 +76,8 @@ class BarionService {
     }>,
     total: number,
     currency: string = 'HUF',
-    locale: 'hu-HU' | 'en-US' = 'hu-HU'
+    locale: 'hu-HU' | 'en-US' = 'hu-HU',
+    customerEmail?: string // Customer's email for payment notifications
   ): BarionPaymentRequest {
     const paymentRequestId = `order-${orderId}`;
     
@@ -100,7 +101,7 @@ class BarionService {
       backendUrl: config.backendUrl,
     });
     
-    return {
+    const paymentRequest: BarionPaymentRequest = {
       POSKey: config.barion.posKey,
       PaymentType: 'Immediate',
       GuestCheckOut: true,
@@ -111,7 +112,7 @@ class BarionService {
       Transactions: [
         {
           POSTransactionId: `trans-${orderId}`,
-          Payee: config.barion.payeeEmail, // Changed from posKey to payeeEmail
+          Payee: config.barion.payeeEmail, // Business email (receives money)
           Total: total,
           Items: items.map((item, index) => ({
             Name: item.name,
@@ -125,8 +126,16 @@ class BarionService {
         },
       ],
       RedirectUrl: `${config.frontendUrl}/payment/result?orderId=${orderId}`,
-      CallbackUrl: `${config.backendUrl}/api/webhooks/barion`, // Changed to use backendUrl
+      CallbackUrl: `${config.backendUrl}/api/webhooks/barion`,
     };
+    
+    // Add customer email if provided (for payment notifications)
+    if (customerEmail) {
+      paymentRequest.PayerHint = customerEmail;
+      console.log('💌 Customer email added to payment:', customerEmail);
+    }
+    
+    return paymentRequest;
   }
 }
 

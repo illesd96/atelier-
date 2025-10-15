@@ -126,7 +126,8 @@ export const createCheckout = async (req: Request, res: Response) => {
       barionItems,
       totalAmount,
       config.business.currency,
-      checkoutData.language === 'hu' ? 'hu-HU' : 'en-US'
+      checkoutData.language === 'hu' ? 'hu-HU' : 'en-US',
+      checkoutData.customer.email // Pass customer email for payment notifications
     );
     
     const barionResponse = await barionService.createPayment(paymentRequest);

@@ -153,6 +153,7 @@ export interface BarionPaymentRequest {
   GuestCheckOut: boolean;
   FundingSources: string[];
   PaymentRequestId: string;
+  PayerHint?: string; // Customer's email address for payment notifications
   Locale: 'hu-HU' | 'en-US';
   Currency: 'HUF' | 'EUR';
   Transactions: Array<{

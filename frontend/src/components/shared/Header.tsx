@@ -135,18 +135,6 @@ const Header: React.FC = () => {
               </Link>
             </li>
           ))}
-          {user?.is_admin && (
-            <li>
-              <Link
-                to="/admin/bookings"
-                className={location.pathname === '/admin/bookings' ? 'active admin-link' : 'admin-link'}
-                onClick={() => setIsMenuOpen(false)}
-              >
-                <i className="pi pi-chart-bar" style={{ marginRight: '0.5rem' }}></i>
-                Admin Dashboard
-              </Link>
-            </li>
-          )}
           <li>
             <button
               className="menu-booking-button"

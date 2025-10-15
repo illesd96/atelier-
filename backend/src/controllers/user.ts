@@ -267,6 +267,19 @@ export async function getOrderHistory(req: Request, res: Response) {
       return res.status(401).json({ error: 'Not authenticated' });
     }
 
+    // Get user email first
+    const userResult = await pool.query(
+      'SELECT email FROM users WHERE id = $1',
+      [req.user.userId]
+    );
+    
+    if (userResult.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    
+    const userEmail = userResult.rows[0].email;
+    
+    // Get orders by user_id OR email (to include guest checkouts with same email)
     const result = await pool.query(
       `SELECT 
         o.id,
@@ -281,19 +294,19 @@ export async function getOrderHistory(req: Request, res: Response) {
             'room_id', oi.room_id,
             'room_name', r.name,
             'booking_date', oi.booking_date,
-            'start_time', oi.start_time,
-            'end_time', oi.end_time,
+            'start_time', to_char(oi.start_time, 'HH24:MI'),
+            'end_time', to_char(oi.end_time, 'HH24:MI'),
             'status', oi.status
           ) ORDER BY oi.booking_date, oi.start_time
         ) as items
        FROM orders o
        LEFT JOIN order_items oi ON o.id = oi.order_id
        LEFT JOIN rooms r ON oi.room_id = r.id
-       WHERE o.user_id = $1
+       WHERE o.user_id = $1 OR LOWER(o.email) = LOWER($2)
        GROUP BY o.id
        ORDER BY o.created_at DESC
        LIMIT 50`,
-      [req.user.userId]
+      [req.user.userId, userEmail]
     );
 
     res.json({

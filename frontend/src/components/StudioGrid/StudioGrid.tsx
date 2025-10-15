@@ -20,7 +20,6 @@ const STUDIOS: Studio[] = [
   { id: 'studio-a', name: 'Studio A' },
   { id: 'studio-b', name: 'Studio B' },
   { id: 'studio-c', name: 'Studio C' },
-  { id: 'makeup', name: 'Makeup Studio' },
 ];
 
 const HOURLY_RATE = 15000;

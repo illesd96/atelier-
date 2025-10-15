@@ -68,8 +68,7 @@ CREATE INDEX idx_payments_provider_ref ON payments(provider_ref);
 INSERT INTO rooms (id, name, description) VALUES
 ('studio-a', 'Studio A', 'Perfect for portrait photography'),
 ('studio-b', 'Studio B', 'Ideal for product photography'),
-('studio-c', 'Studio C', 'Great for fashion shoots'),
-('makeup', 'Makeup Studio', 'Professional makeup station');
+('studio-c', 'Studio C', 'Great for fashion shoots');
 
 -- Function to update updated_at timestamp
 CREATE OR REPLACE FUNCTION update_updated_at_column()

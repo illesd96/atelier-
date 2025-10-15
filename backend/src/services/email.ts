@@ -207,7 +207,6 @@ class EmailService {
       'studio-a': isHungarian ? 'A Stúdió' : 'Studio A',
       'studio-b': isHungarian ? 'B Stúdió' : 'Studio B',
       'studio-c': isHungarian ? 'C Stúdió' : 'Studio C',
-      'makeup': isHungarian ? 'Smink Stúdió' : 'Makeup Studio',
     };
     
     return roomNames[roomId as keyof typeof roomNames] || roomId;

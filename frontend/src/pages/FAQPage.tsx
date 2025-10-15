@@ -76,10 +76,6 @@ export const FAQPage: React.FC = () => {
       answer: t('faq.questions.leaving.answer', { returnObjects: true }) as string[],
     },
     {
-      question: t('faq.questions.makeup.question'),
-      answer: t('faq.questions.makeup.answer', { returnObjects: true }) as string[],
-    },
-    {
       question: t('faq.questions.usage.question'),
       answer: t('faq.questions.usage.answer', { returnObjects: true }) as string[],
     },

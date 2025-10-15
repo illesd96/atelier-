@@ -142,38 +142,6 @@ export const HomePage: React.FC = () => {
         </div>
       </div>
 
-      {/* Studios Section - Makeup Studio */}
-      <div className="section">
-        <div className="container">
-          <div className="grid grid-5-7 items-center">
-            <div>
-              <div className="story-image">
-                <img
-                  src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?w=800&h=1000&fit=crop"
-                  alt="Makeup Studio"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover' }}
-                />
-              </div>
-            </div>
-            <div>
-              <h2 className="title-medium uppercase">{t('studios.makeup.title')}</h2>
-              <p className="text-content">
-                {t('studios.makeup.description1')}
-              </p>
-              <p className="text-content">
-                {t('studios.makeup.description2')}
-              </p>
-              <Button
-                label={t('studios.bookStudio')}
-                onClick={handleBookNow}
-                className="mt-4"
-                icon="pi pi-calendar"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* About Studio Section */}
       <section className="about-studio-section">
         <div className="about-studio-content">

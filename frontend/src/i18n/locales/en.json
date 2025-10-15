@@ -70,11 +70,6 @@
       "title": "Studio C — Fashion Forward",
       "description1": "The largest of our spaces, built for movement, drama, and grand visions. High ceilings, expansive floor area, and professional-grade equipment make this the perfect stage for fashion shoots and large productions.",
       "description2": "From runway-inspired editorials to avant-garde concepts - this is where bold ideas come to life."
-    },
-    "makeup": {
-      "title": "Makeup Studio — Beauty Refined",
-      "description1": "A dedicated space for hair and makeup artistry. Professional mirrors, perfect lighting, and all the amenities needed to prepare for your shoot.",
-      "description2": "Complete with styling stations and comfortable seating - the ideal preparation space for models, clients, and creative teams."
     }
   },
   "booking": {
@@ -103,8 +98,7 @@
     "studios": {
       "studio-a": "Studio A",
       "studio-b": "Studio B", 
-      "studio-c": "Studio C",
-      "makeup": "Makeup Studio"
+      "studio-c": "Studio C"
     }
   },
   "checkout": {
@@ -386,16 +380,6 @@
           "Your booking time includes packing up and restoring the studio's decoration."
         ]
       },
-      "makeup": {
-        "question": "Can I do makeup on-site before the photoshoot?",
-        "answer": [
-          "You can do makeup before your photoshoot in our dedicated makeup area.",
-          "The makeup studio costs 4,000 HUF/hour and must be booked separately.",
-          "You can arrive with your own makeup artist or book our professional makeup services.",
-          "Makeup is not allowed in regular studios.",
-          "You can only arrive during studio opening hours (earliest at 9:00 AM)."
-        ]
-      },
       "usage": {
         "question": "What should I be mindful of when using the studios?",
         "answer": [
@@ -420,7 +404,7 @@
       },
       "changing": {
         "question": "Is there a changing area?",
-        "answer": "Yes! We have a dedicated changing area and makeup room with all necessary amenities for preparing for your shoot."
+        "answer": "Yes! We have a dedicated changing area with all necessary amenities for preparing for your shoot."
       }
     }
   },

@@ -130,14 +130,6 @@ export const getServiceSchema = () => ({
           "name": "Studio C Rental",
           "description": "Great for fashion shoots"
         }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Makeup Studio",
-          "description": "Professional makeup station"
-        }
       }
     ]
   }

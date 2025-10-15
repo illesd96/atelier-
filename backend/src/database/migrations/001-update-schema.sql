@@ -15,8 +15,7 @@ CREATE TABLE IF NOT EXISTS rooms (
 INSERT INTO rooms (id, name, description) VALUES
 ('studio-a', 'Studio A', 'Perfect for portrait photography'),
 ('studio-b', 'Studio B', 'Ideal for product photography'),
-('studio-c', 'Studio C', 'Great for fashion shoots'),
-('makeup', 'Makeup Studio', 'Professional makeup station')
+('studio-c', 'Studio C', 'Great for fashion shoots')
 ON CONFLICT (id) DO NOTHING;
 
 -- Update order_items table if cal_booking_id column exists

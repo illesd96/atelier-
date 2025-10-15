@@ -70,11 +70,6 @@
       "title": "C Stúdió — Divat Előretör",
       "description1": "Legnagyobb terünk, mozgásra, drámára és nagyszabású víziókra építve. Magas mennyezetek, tágas padlóterület és profi szintű felszerelés teszik ezt a tökéletes színpaddá divatfotózásokhoz és nagy produkciókhoz.",
       "description2": "Kifutó-inspirált editorialoktól az avantgárd koncepciókig - itt kelnek életre a merész ötletek."
-    },
-    "makeup": {
-      "title": "Smink Stúdió — Szépség Finomítva",
-      "description1": "Dedikált tér a haj- és sminkművészethez. Professzionális tükrök, tökéletes világítás és minden kényelem, ami a fotózásra való felkészüléshez szükséges.",
-      "description2": "Stylist állomásokkal és kényelmes ülőhelyekkel felszerelve - az ideális előkészítő tér modellek, ügyfelek és kreatív csapatok számára."
     }
   },
   "booking": {
@@ -103,8 +98,7 @@
     "studios": {
       "studio-a": "A Stúdió",
       "studio-b": "B Stúdió",
-      "studio-c": "C Stúdió", 
-      "makeup": "Smink Stúdió"
+      "studio-c": "C Stúdió"
     }
   },
   "checkout": {
@@ -386,16 +380,6 @@
           "Vedd figyelembe hogy a foglalási időbe az összepakolás és a terem dekorációjának visszaállítása is bele tartozik."
         ]
       },
-      "makeup": {
-        "question": "Előtte sminkelni szeretnék a helyszínen, van erre lehetőség?",
-        "answer": [
-          "Lehetőségetek van sminkelni a fotózásokat megelőző időszakban, ehhez az erre a célra kialakított sminkhelységet tudod használni.",
-          "A sminkhely bérleti díja 4.000 Ft/óra, külön kell foglalni.",
-          "Érkezhetsz saját sminkessel vagy igénybe veheted szakmai sminkszolgáltatásunkat.",
-          "A stúdió termeiben sminkelni tilos.",
-          "A stúdió nyitvatartási idején belül tudtok csak érkezni, tehát leghamarabb 9:00 órától."
-        ]
-      },
       "usage": {
         "question": "Mire kell figyelnem a termek használata közben?",
         "answer": [
@@ -420,7 +404,7 @@
       },
       "changing": {
         "question": "Van nálatok öltöző?",
-        "answer": "Igen! Dedikált öltöző és sminkhelyiség áll rendelkezésre minden szükséges kényelemmel a fotózásra való felkészüléshez."
+        "answer": "Igen! Dedikált öltöző áll rendelkezésre minden szükséges kényelemmel a fotózásra való felkészüléshez."
       }
     }
   },

@@ -43,6 +43,7 @@ export const ProfilePage: React.FC = () => {
   const [showPasswordDialog, setShowPasswordDialog] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
+  const [expandedRows, setExpandedRows] = useState<any>(null);
   
   const [formData, setFormData] = useState({
     name: user?.name || '',
@@ -339,8 +340,8 @@ export const ProfilePage: React.FC = () => {
           ) : (
             <DataTable 
               value={orders} 
-              expandedRows={[]}
-              onRowToggle={() => {}}
+              expandedRows={expandedRows}
+              onRowToggle={(e) => setExpandedRows(e.data)}
               rowExpansionTemplate={expandedRowTemplate}
               dataKey="id"
               responsiveLayout="scroll"

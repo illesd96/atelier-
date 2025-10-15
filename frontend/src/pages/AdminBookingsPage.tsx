@@ -259,9 +259,9 @@ export const AdminBookingsPage: React.FC = () => {
         )}
 
         {/* Filters */}
-        <Card className="filters-card mt-4">
-          <div className="grid">
-            <div className="col-12 md:col-3">
+        <Card className="filters-card">
+          <div className="filters-row">
+            <div className="filter-item">
               <label htmlFor="status-filter">Status</label>
               <Dropdown
                 id="status-filter"
@@ -272,10 +272,9 @@ export const AdminBookingsPage: React.FC = () => {
                   setFirst(0);
                 }}
                 placeholder="Filter by status"
-                className="w-full"
               />
             </div>
-            <div className="col-12 md:col-3">
+            <div className="filter-item">
               <label htmlFor="date-from">Date From</label>
               <Calendar
                 id="date-from"
@@ -286,11 +285,10 @@ export const AdminBookingsPage: React.FC = () => {
                 }}
                 dateFormat="yy-mm-dd"
                 placeholder="From date"
-                className="w-full"
                 showIcon
               />
             </div>
-            <div className="col-12 md:col-3">
+            <div className="filter-item">
               <label htmlFor="date-to">Date To</label>
               <Calendar
                 id="date-to"
@@ -301,11 +299,10 @@ export const AdminBookingsPage: React.FC = () => {
                 }}
                 dateFormat="yy-mm-dd"
                 placeholder="To date"
-                className="w-full"
                 showIcon
               />
             </div>
-            <div className="col-12 md:col-3 flex align-items-end">
+            <div className="filter-item filter-button">
               <Button
                 label="Clear Filters"
                 icon="pi pi-filter-slash"
@@ -315,7 +312,7 @@ export const AdminBookingsPage: React.FC = () => {
                   setDateTo(null);
                   setFirst(0);
                 }}
-                className="p-button-outlined w-full"
+                outlined
               />
             </div>
           </div>

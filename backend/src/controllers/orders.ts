@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import pool from '../database/connection';
 import barionService from '../services/barion';
+import bookingService from '../services/booking';
 
 /**
  * Get order status by ID
@@ -48,6 +49,26 @@ export const getOrderStatus = async (req: Request, res: Response) => {
             `, [orderId]);
             
             order.status = 'paid';
+            
+            // FALLBACK: Create bookings if webhook hasn't run yet
+            console.log('💡 Payment succeeded, checking if bookings need to be created...');
+            try {
+              const checkBookings = await pool.query(
+                `SELECT COUNT(*) as count FROM order_items WHERE order_id = $1 AND status = 'booked'`,
+                [orderId]
+              );
+              
+              if (parseInt(checkBookings.rows[0].count) === 0) {
+                console.log('🔄 Webhook hasn\'t created bookings yet, creating them now...');
+                const bookingResult = await bookingService.createBookings(orderId);
+                console.log('✅ Bookings created via fallback:', bookingResult.bookingIds);
+              } else {
+                console.log('✅ Bookings already created by webhook');
+              }
+            } catch (bookingError) {
+              console.error('❌ Error creating bookings in fallback:', bookingError);
+              // Don't fail the whole request if booking creation fails
+            }
           } else if (barionStatus.Status === 'Failed' || barionStatus.Status === 'Canceled') {
             await pool.query(`
               UPDATE orders 
@@ -66,7 +87,18 @@ export const getOrderStatus = async (req: Request, res: Response) => {
     
     // Get order items
     const itemsResult = await pool.query(`
-      SELECT oi.*, r.name as room_name
+      SELECT 
+        oi.id,
+        oi.order_id,
+        oi.room_id,
+        oi.booking_date,
+        to_char(oi.start_time, 'HH24:MI') as start_time,
+        to_char(oi.end_time, 'HH24:MI') as end_time,
+        oi.booking_id,
+        oi.status,
+        oi.created_at,
+        oi.updated_at,
+        r.name as room_name
       FROM order_items oi
       LEFT JOIN rooms r ON r.id = oi.room_id
       WHERE oi.order_id = $1

@@ -28,6 +28,9 @@
   overflow: hidden;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
 }
 
 .studio-card:hover {
@@ -54,6 +57,9 @@
 
 .studio-card-content {
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .studio-card-title {
@@ -70,7 +76,7 @@
   line-height: 1.7;
   color: #6b7280;
   margin-bottom: 1.5rem;
-  min-height: 80px;
+  flex: 1;
 }
 
 .studio-card-button {
@@ -78,6 +84,12 @@
   font-weight: 600;
   padding: 0;
   transition: all 0.3s ease;
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.studio-card-button .p-button-label {
+  margin-right: 0.5rem;
 }
 
 .studio-card-button:hover {
@@ -87,6 +99,7 @@
 
 .studio-card-button .p-button-icon {
   transition: transform 0.3s ease;
+  margin-left: 0.25rem;
 }
 
 .studio-card-button:hover .p-button-icon {

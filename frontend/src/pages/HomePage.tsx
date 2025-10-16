@@ -49,7 +49,7 @@ export const HomePage: React.FC = () => {
           <h2 className="studios-section-title">{t('home.studios.sectionTitle')}</h2>
           <div className="studios-grid">
             {/* Studio A - Rustic */}
-            <div className="studio-card">
+            <div className="studio-card" onClick={() => navigate('/rooms/studio-a')}>
               <div className="studio-card-image">
                 <img
                   src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=800&fit=crop"
@@ -63,7 +63,6 @@ export const HomePage: React.FC = () => {
                 </p>
                 <Button
                   label={t('common.viewDetails')}
-                  onClick={() => navigate('/rooms/studio-a')}
                   className="studio-card-button"
                   text
                   icon="pi pi-arrow-right"
@@ -73,7 +72,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             {/* Studio B - Clay */}
-            <div className="studio-card">
+            <div className="studio-card" onClick={() => navigate('/rooms/studio-b')}>
               <div className="studio-card-image">
                 <img
                   src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=800&fit=crop"
@@ -87,7 +86,6 @@ export const HomePage: React.FC = () => {
                 </p>
                 <Button
                   label={t('common.viewDetails')}
-                  onClick={() => navigate('/rooms/studio-b')}
                   className="studio-card-button"
                   text
                   icon="pi pi-arrow-right"
@@ -97,7 +95,7 @@ export const HomePage: React.FC = () => {
             </div>
 
             {/* Studio C - Lost */}
-            <div className="studio-card">
+            <div className="studio-card" onClick={() => navigate('/rooms/studio-c')}>
               <div className="studio-card-image">
                 <img
                   src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=600&h=800&fit=crop"
@@ -111,7 +109,6 @@ export const HomePage: React.FC = () => {
                 </p>
                 <Button
                   label={t('common.viewDetails')}
-                  onClick={() => navigate('/rooms/studio-c')}
                   className="studio-card-button"
                   text
                   icon="pi pi-arrow-right"

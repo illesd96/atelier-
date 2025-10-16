@@ -133,8 +133,6 @@ export const RoomDetailPage: React.FC = () => {
       {/* CTA Section */}
       <div className="room-cta-section">
         <div className="container text-center">
-          <h2>{t('home.cta.title')}</h2>
-          <p>{t('home.cta.subtitle')}</p>
           <Button
             label={t('booking.title')}
             icon="pi pi-calendar"

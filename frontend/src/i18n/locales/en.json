@@ -65,22 +65,22 @@
     "bookStudio": "Book This Studio",
     "studioA": {
       "title": "Studio A — The Portrait Sanctuary",
-      "cardTitle": "RUSTIC TEREM",
-      "cardDescription": "A fotóstúdió Rustic terme rusztikus berendezési stílusával és neutrális színeivel természetes közeget biztosít a fotózásokhoz. Egyben a stúdió legnagyobb terme, összesen 120 négyzetméter.",
+      "cardTitle": "RUSTIC ROOM",
+      "cardDescription": "The Rustic room provides a natural setting for photography with its rustic furnishing style and neutral colors. It is also the studio's largest room, totaling 120 square meters.",
       "description1": "Our flagship studio, designed for intimate portrait work and creative experimentation. Natural light floods through oversized windows, while professional lighting rigs offer infinite control.",
       "description2": "Perfect for headshots, fashion editorials, and artistic portraits that demand both precision and soul."
     },
     "studioB": {
       "title": "Studio B — Product Perfection",
-      "cardTitle": "CLAY TEREM",
-      "cardDescription": "Modern minimalizmus a föld színeivel és japandi stílusjegyekkel. Tökéletes helyszíne a mind a branding, mind a családos fotózásoknak.",
+      "cardTitle": "CLAY ROOM",
+      "cardDescription": "Modern minimalism with earth tones and japandi style elements. Perfect location for both branding and family photo shoots.",
       "description1": "Clean, minimal, and endlessly versatile. Studio B is engineered for product photography and commercial work that demands pixel-perfect results.",
       "description2": "Professional seamless backdrops, precision lighting, and ample space for elaborate setups. Your products deserve to shine."
     },
     "studioC": {
       "title": "Studio C — Fashion Forward",
-      "cardTitle": "LOST TEREM",
-      "cardDescription": "A Lost fiatalos, letisztult és lakásszerű berendezés jellemzi. A termet 3 óriási ablak tölti meg fénnyel és egy konyhával összekapcsolt nappali várja a vendégeit, rengeteg kiegészítővel.",
+      "cardTitle": "LOST ROOM",
+      "cardDescription": "The Lost room features youthful, clean and apartment-like furnishings. The room is filled with light from 3 huge windows and a living room connected to a kitchen awaits guests with lots of accessories.",
       "description1": "The largest of our spaces, built for movement, drama, and grand visions. High ceilings, expansive floor area, and professional-grade equipment make this the perfect stage for fashion shoots and large productions.",
       "description2": "From runway-inspired editorials to avant-garde concepts - this is where bold ideas come to life."
     }

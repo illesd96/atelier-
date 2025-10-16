@@ -1,7 +1,7 @@
 /* Studio Grid Styles */
 .studio-booking-grid {
   overflow-x: auto;
-  min-width: 100%;
+  width: 100%;
 }
 
 .grid-header {

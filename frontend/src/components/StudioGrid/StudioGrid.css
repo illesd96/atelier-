@@ -1,4 +1,23 @@
 /* Studio Grid Styles */
+.studio-grid {
+  width: 100%;
+}
+
+.studio-grid .p-card {
+  width: 100%;
+  overflow: visible;
+}
+
+.studio-grid .p-card .p-card-body {
+  padding: 0;
+  width: 100%;
+}
+
+.studio-grid .p-card .p-card-content {
+  padding: 0;
+  width: 100%;
+}
+
 .studio-booking-grid {
   overflow-x: auto;
   width: 100%;
@@ -11,6 +30,7 @@
   background-color: #f8f9fa;
   border-radius: 8px 8px 0 0;
   padding: 1px;
+  width: 100%;
 }
 
 .time-column-header {
@@ -54,6 +74,7 @@
   background-color: #f8f9fa;
   padding: 1px;
   border-radius: 0 0 8px 8px;
+  width: 100%;
 }
 
 .grid-row {
@@ -61,6 +82,7 @@
   grid-template-columns: 100px repeat(3, 1fr);
   gap: 1px;
   margin-bottom: 1px;
+  width: 100%;
 }
 
 .time-cell {

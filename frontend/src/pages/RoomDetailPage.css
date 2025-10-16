@@ -191,26 +191,25 @@
 }
 
 /* CTA Section */
-.room-cta-section {
+.room-cta-section-simple {
   padding: 4rem 2rem;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: white;
   text-align: center;
 }
 
-.cta-button {
+.cta-button-simple {
   padding: 1rem 3rem;
   font-size: 1.2rem;
-  background: white;
-  color: #667eea;
-  border: 2px solid white;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
   font-weight: 600;
+  transition: all 0.3s ease;
 }
 
-.cta-button:hover {
-  background: transparent;
-  color: white;
-  border-color: white;
+.cta-button-simple:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
 }
 
 /* Not Found */

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
@@ -15,6 +15,11 @@ export const RoomDetailPage: React.FC = () => {
 
   const room = roomId ? getRoomById(roomId) : null;
   const currentLang = i18n.language as 'hu' | 'en';
+
+  // Scroll to top when page loads
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [roomId]);
 
   if (!room) {
     return (
@@ -131,14 +136,14 @@ export const RoomDetailPage: React.FC = () => {
       )}
 
       {/* CTA Section */}
-      <div className="room-cta-section">
+      <div className="room-cta-section-simple">
         <div className="container text-center">
           <Button
             label={t('booking.title')}
             icon="pi pi-calendar"
             size="large"
             onClick={() => navigate('/booking')}
-            className="cta-button"
+            className="cta-button-simple"
           />
         </div>
       </div>

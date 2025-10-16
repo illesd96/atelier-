@@ -101,9 +101,20 @@ export const RoomDetailPage: React.FC = () => {
               <div 
                 key={index} 
                 className="gallery-item"
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  console.log('Gallery item clicked:', index);
                   setActiveIndex(index);
                   setDisplayCustom(true);
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setActiveIndex(index);
+                    setDisplayCustom(true);
+                  }
                 }}
               >
                 <img src={image} alt={`${room.name} ${index + 1}`} />

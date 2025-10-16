@@ -75,7 +75,7 @@
 }
 
 .room-hero-features {
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(255, 255, 255, 0.75);
   padding: 2.5rem;
   border-radius: 12px;
   backdrop-filter: blur(10px);
@@ -150,10 +150,16 @@
   border-radius: 12px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
 .gallery-item:hover {
   transform: scale(1.03);
+}
+
+.gallery-item * {
+  pointer-events: none;
 }
 
 .gallery-item img {

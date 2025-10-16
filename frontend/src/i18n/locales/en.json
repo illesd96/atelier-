@@ -21,7 +21,11 @@
     "date": "Date",
     "time": "Time",
     "price": "Price",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "viewDetails": "View Details",
+    "gallery": "Gallery",
+    "notFound": "Page Not Found",
+    "backHome": "Back to Home"
   },
   "navigation": {
     "home": "Home",
@@ -52,22 +56,31 @@
     "closing": {
       "text1": "We believe in spaces that inspire - environments where technical mastery and creative freedom converge to produce extraordinary work.",
       "text2": "This is photography elevated. This is Atelier Archilles."
+    },
+    "studios": {
+      "sectionTitle": "A Fotóstúdió Termei"
     }
   },
   "studios": {
     "bookStudio": "Book This Studio",
     "studioA": {
       "title": "Studio A — The Portrait Sanctuary",
+      "cardTitle": "RUSTIC TEREM",
+      "cardDescription": "A fotóstúdió Rustic terme rusztikus berendezési stílusával és neutrális színeivel természetes közeget biztosít a fotózásokhoz. Egyben a stúdió legnagyobb terme, összesen 120 négyzetméter.",
       "description1": "Our flagship studio, designed for intimate portrait work and creative experimentation. Natural light floods through oversized windows, while professional lighting rigs offer infinite control.",
       "description2": "Perfect for headshots, fashion editorials, and artistic portraits that demand both precision and soul."
     },
     "studioB": {
       "title": "Studio B — Product Perfection",
+      "cardTitle": "CLAY TEREM",
+      "cardDescription": "Modern minimalizmus a föld színeivel és japandi stílusjegyekkel. Tökéletes helyszíne a mind a branding, mind a családos fotózásoknak.",
       "description1": "Clean, minimal, and endlessly versatile. Studio B is engineered for product photography and commercial work that demands pixel-perfect results.",
       "description2": "Professional seamless backdrops, precision lighting, and ample space for elaborate setups. Your products deserve to shine."
     },
     "studioC": {
       "title": "Studio C — Fashion Forward",
+      "cardTitle": "LOST TEREM",
+      "cardDescription": "A Lost fiatalos, letisztult és lakásszerű berendezés jellemzi. A termet 3 óriási ablak tölti meg fénnyel és egy konyhával összekapcsolt nappali várja a vendégeit, rengeteg kiegészítővel.",
       "description1": "The largest of our spaces, built for movement, drama, and grand visions. High ceilings, expansive floor area, and professional-grade equipment make this the perfect stage for fashion shoots and large productions.",
       "description2": "From runway-inspired editorials to avant-garde concepts - this is where bold ideas come to life."
     }

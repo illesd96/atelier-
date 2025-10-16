@@ -23,6 +23,7 @@ import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminBookingsPage } from './pages/AdminBookingsPage';
+import { RoomDetailPage } from './pages/RoomDetailPage';
 import { CookieConsent } from './components/CookieConsent';
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
               <Routes>
                 <Route path="/" element={<Layout />}>
                   <Route index element={<HomePage />} />
+                  <Route path="rooms/:roomId" element={<RoomDetailPage />} />
                   <Route path="booking" element={<BookingPage />} />
                   <Route path="checkout" element={<CheckoutPage />} />
                   <Route path="payment/result" element={<PaymentResultPage />} />

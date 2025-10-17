@@ -17,7 +17,7 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
   });
 
   // Quickly validate and respond to Barion to avoid timeout
-  const { PaymentId, PaymentState } = req.body;
+  let { PaymentId, PaymentState } = req.body;
   
   if (!PaymentId) {
     console.error('❌ Missing PaymentId in webhook');
@@ -25,6 +25,24 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
   }
   
   console.log('💳 Processing Barion webhook:', { PaymentId, PaymentState });
+
+  // If PaymentState is not provided, fetch it from Barion
+  if (!PaymentState) {
+    console.log('⚠️  PaymentState not provided in webhook, fetching from Barion API...');
+    try {
+      const paymentStatus = await barionService.getPaymentState(PaymentId);
+      PaymentState = paymentStatus.Status;
+      console.log('✅ Fetched PaymentState from Barion:', PaymentState);
+    } catch (error) {
+      console.error('❌ Failed to fetch PaymentState from Barion:', error);
+      // Return 200 to prevent Barion from retrying
+      return res.status(200).json({ 
+        success: false, 
+        error: 'Could not fetch payment state',
+        message: 'Webhook acknowledged'
+      });
+    }
+  }
 
   const client = await pool.connect();
   

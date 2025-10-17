@@ -128,22 +128,49 @@ export const RoomDetailPage: React.FC = () => {
       </div>
 
       {/* Lightbox Viewer */}
-      {displayCustom && (
+      <div style={{ display: displayCustom ? 'block' : 'none' }}>
         <Galleria
           value={room.galleryImages}
           activeIndex={activeIndex}
           onItemChange={(e) => setActiveIndex(e.index)}
           responsiveOptions={responsiveOptions}
           numVisible={7}
-          style={{ maxWidth: '95vw' }}
+          style={{ maxWidth: '95vw', display: displayCustom ? 'block' : 'none' }}
           circular
           fullScreen
           showItemNavigators
           showThumbnails={false}
-          onHide={() => setDisplayCustom(false)}
           item={itemTemplate}
           thumbnail={thumbnailTemplate}
         />
+      </div>
+      
+      {/* Close button overlay for gallery */}
+      {displayCustom && (
+        <div 
+          style={{
+            position: 'fixed',
+            top: '20px',
+            right: '20px',
+            zIndex: 99999,
+            cursor: 'pointer',
+            background: 'rgba(0,0,0,0.5)',
+            borderRadius: '50%',
+            width: '50px',
+            height: '50px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            color: 'white',
+            fontSize: '24px'
+          }}
+          onClick={() => {
+            console.log('Close button clicked');
+            setDisplayCustom(false);
+          }}
+        >
+          ×
+        </div>
       )}
 
       {/* CTA Section */}

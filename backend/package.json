@@ -10,7 +10,9 @@
     "test": "jest",
     "test:watch": "jest --watch",
     "db:setup": "node src/database/setup.js",
-    "fix:bookings": "ts-node src/scripts/fix-pending-bookings.ts"
+    "fix:bookings": "ts-node src/scripts/fix-pending-bookings.ts",
+    "send-reminders": "ts-node src/scripts/send-reminders.ts",
+    "send-reminders:prod": "node dist/scripts/send-reminders.js"
   },
   "dependencies": {
     "express": "^4.18.2",

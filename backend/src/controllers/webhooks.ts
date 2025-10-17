@@ -96,6 +96,12 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
           );
           
           await emailService.sendBookingConfirmation(order, orderItems, calendarFile);
+          
+          // Log the confirmation email
+          const bookingDate = orderItems[0]?.booking_date;
+          if (bookingDate) {
+            await emailService.logEmail(order.id, 'confirmation', bookingDate);
+          }
         } catch (emailError) {
           console.error('Error sending confirmation email:', emailError);
           // Don't fail the booking process if email fails

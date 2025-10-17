@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="{{language}}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{#if isHungarian}}Foglalás Emlékeztető{{else}}Booking Reminder{{/if}}</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9fafb;
+        }
+        .container {
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 10px;
+        }
+        .title {
+            color: #f59e0b;
+            font-size: 28px;
+            font-weight: bold;
+            margin: 0;
+        }
+        .reminder-badge {
+            background: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        .booking-details {
+            margin: 30px 0;
+        }
+        .booking-item {
+            background: #f9fafb;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 6px;
+            border: 1px solid #e5e7eb;
+        }
+        .room-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        .booking-time {
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        .important-info {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 6px;
+        }
+        .important-info h4 {
+            color: #92400e;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        .important-info ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #78350f;
+        }
+        .important-info li {
+            margin: 8px 0;
+        }
+        .actions {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin: 0 10px;
+            background: #3b82f6;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-weight: 500;
+        }
+        .button.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e5e7eb;
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+        }
+        .contact-info {
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">📸 Atelier Archilles</div>
+            <h1 class="title">
+                {{#if isHungarian}}
+                    ⏰ Foglalás Emlékeztető
+                {{else}}
+                    ⏰ Booking Reminder
+                {{/if}}
+            </h1>
+        </div>
+
+        <p>
+            {{#if isHungarian}}
+                Kedves {{customerName}},
+            {{else}}
+                Dear {{customerName}},
+            {{/if}}
+        </p>
+
+        <div class="reminder-badge">
+            {{#if isHungarian}}
+                📅 A foglalás holnap esedékes!
+            {{else}}
+                📅 Your booking is tomorrow!
+            {{/if}}
+        </div>
+
+        <p>
+            {{#if isHungarian}}
+                Ez egy barátságos emlékeztető arról, hogy stúdiófoglalása holnap jön el. Alig várjuk, hogy üdvözölhessünk!
+            {{else}}
+                This is a friendly reminder that your studio booking is coming up tomorrow. We're looking forward to welcoming you!
+            {{/if}}
+        </p>
+
+        <div class="booking-details">
+            <h3>
+                {{#if isHungarian}}
+                    Foglalás részletei:
+                {{else}}
+                    Booking Details:
+                {{/if}}
+            </h3>
+
+            {{#each items}}
+            <div class="booking-item">
+                <div class="room-name">{{room_name}}</div>
+                <div class="booking-time">
+                    📅 {{formatted_date}}
+                </div>
+                <div class="booking-time">
+                    🕒 {{formatted_time}}
+                </div>
+            </div>
+            {{/each}}
+        </div>
+
+        <div class="important-info">
+            <h4>
+                {{#if isHungarian}}
+                    ⚠️ Fontos információk:
+                {{else}}
+                    ⚠️ Important Information:
+                {{/if}}
+            </h4>
+            <ul>
+                {{#if isHungarian}}
+                    <li>Kérjük, érkezzen 5-10 perccel a foglalás kezdete előtt</li>
+                    <li>Hozzon magával váltócipőt (utcai cipő nem megengedett a termekben)</li>
+                    <li>A stúdió címe: Budapest, [Your Address]</li>
+                    <li>Ingyenes lemondás a foglalás előtt 24 órával</li>
+                    <li>Foglalási kód: <strong>{{bookingCode}}</strong></li>
+                {{else}}
+                    <li>Please arrive 5-10 minutes before your booking starts</li>
+                    <li>Bring indoor shoes (street shoes not allowed in studios)</li>
+                    <li>Studio address: Budapest, [Your Address]</li>
+                    <li>Free cancellation up to 24 hours before booking</li>
+                    <li>Booking code: <strong>{{bookingCode}}</strong></li>
+                {{/if}}
+            </ul>
+        </div>
+
+        <div class="actions">
+            <a href="{{viewBookingUrl}}" class="button primary">
+                {{#if isHungarian}}
+                    Foglalás megtekintése
+                {{else}}
+                    View Booking
+                {{/if}}
+            </a>
+            <a href="{{contactUrl}}" class="button">
+                {{#if isHungarian}}
+                    Kapcsolatfelvétel
+                {{else}}
+                    Contact Us
+                {{/if}}
+            </a>
+        </div>
+
+        <div class="contact-info">
+            <h4>
+                {{#if isHungarian}}
+                    Kérdése van?
+                {{else}}
+                    Have Questions?
+                {{/if}}
+            </h4>
+            <p>
+                📧 info@atelierarchilles.com<br>
+                📞 +36 1 234 5678<br>
+                📍 Budapest, Hungary
+            </p>
+        </div>
+
+        <div class="footer">
+            <p>
+                {{#if isHungarian}}
+                    Ha módosítani vagy lemondani szeretné foglalását, kérjük, tegye meg legalább 24 órával előre.
+                {{else}}
+                    If you need to modify or cancel your booking, please do so at least 24 hours in advance.
+                {{/if}}
+            </p>
+            <p>
+                {{#if isHungarian}}
+                    Köszönjük, hogy minket választott! Holnap találkozunk!
+                {{else}}
+                    Thank you for choosing us! See you tomorrow!
+                {{/if}}
+            </p>
+        </div>
+    </div>
+</body>
+</html>
+

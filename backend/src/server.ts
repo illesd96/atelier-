@@ -5,6 +5,8 @@ import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
 import config from './config';
 import routes from './routes';
+import scheduler from './services/scheduler';
+import emailService from './services/email';
 
 dotenv.config();
 
@@ -111,11 +113,40 @@ app.use('*', (req, res) => {
 
 const PORT = config.port;
 
-app.listen(PORT, () => {
+app.listen(PORT, async () => {
   console.log(`🚀 Server running on port ${PORT}`);
   console.log(`📊 Environment: ${config.nodeEnv}`);
   console.log(`🌐 Frontend URL: ${config.frontendUrl}`);
   console.log(`💳 Barion environment: ${config.barion.environment}`);
+  
+  // Test email service connection
+  console.log('\n📧 Testing email service...');
+  const emailConnected = await emailService.testConnection();
+  if (!emailConnected) {
+    console.warn('⚠️  Email service not configured properly. Emails will not be sent.');
+  }
+  
+  // Start scheduled jobs (e.g., reminder emails)
+  if (config.nodeEnv === 'production') {
+    console.log('\n📅 Starting scheduled jobs...');
+    scheduler.start();
+  } else {
+    console.log('\n⏸️  Scheduled jobs disabled in development mode');
+    console.log('   To test reminders, run: npm run send-reminders');
+  }
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('\n🛑 SIGTERM signal received: closing HTTP server');
+  scheduler.stop();
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('\n🛑 SIGINT signal received: closing HTTP server');
+  scheduler.stop();
+  process.exit(0);
 });
 
 export default app;

@@ -4,19 +4,25 @@ import fs from 'fs';
 import path from 'path';
 import config from '../config';
 import { Order, OrderItem } from '../types';
+import pool from '../database/connection';
 
 class EmailService {
   private transporter;
   private templates: Record<string, HandlebarsTemplateDelegate> = {};
 
   constructor() {
+    // Configure transporter for Gmail/Google Workspace
     this.transporter = nodemailer.createTransport({
+      service: 'gmail', // Use 'gmail' service for better compatibility
       host: config.email.host,
       port: config.email.port,
-      secure: config.email.port === 465,
+      secure: config.email.port === 465, // true for 465, false for other ports
       auth: {
         user: config.email.user,
-        pass: config.email.pass,
+        pass: config.email.pass, // Use App Password for Google accounts
+      },
+      tls: {
+        rejectUnauthorized: false, // Allow self-signed certificates (for development)
       },
     });
 
@@ -47,6 +53,13 @@ class EmailService {
         'utf8'
       );
       this.templates['payment-failed'] = Handlebars.compile(paymentFailedHtml);
+
+      // Load reminder template
+      const reminderHtml = fs.readFileSync(
+        path.join(templatesDir, 'reminder.html'), 
+        'utf8'
+      );
+      this.templates['reminder'] = Handlebars.compile(reminderHtml);
 
     } catch (error) {
       console.error('Error loading email templates:', error);
@@ -262,13 +275,136 @@ ${events}
 END:VCALENDAR`;
   }
 
+  async sendBookingReminder(
+    order: Order,
+    items: OrderItem[]
+  ): Promise<void> {
+    try {
+      const template = this.templates['reminder'];
+      if (!template) {
+        throw new Error('Reminder email template not found');
+      }
+
+      const isHungarian = order.language === 'hu';
+      
+      const html = template({
+        customerName: order.customer_name,
+        orderId: order.id,
+        bookingCode: order.id.slice(-8).toUpperCase(),
+        items: items.map(item => ({
+          ...item,
+          room_name: this.getRoomName(item.room_id, isHungarian),
+          formatted_date: this.formatDate(item.booking_date, isHungarian),
+          formatted_time: `${item.start_time} - ${item.end_time}`,
+        })),
+        viewBookingUrl: `${config.frontendUrl}/profile`,
+        contactUrl: `${config.frontendUrl}/contact`,
+        language: order.language,
+        isHungarian,
+      });
+
+      await this.transporter.sendMail({
+        from: `${config.email.fromName} <${config.email.from}>`,
+        to: order.email,
+        subject: isHungarian 
+          ? `⏰ Emlékeztető: Holnap esedékes a foglalása - ${order.id.slice(-8).toUpperCase()}`
+          : `⏰ Reminder: Your booking is tomorrow - ${order.id.slice(-8).toUpperCase()}`,
+        html,
+      });
+
+      console.log(`Reminder email sent to ${order.email}`);
+
+    } catch (error) {
+      console.error('Error sending reminder email:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get bookings that need reminders (24 hours before booking date)
+   */
+  async getBookingsForReminder(): Promise<Array<{ order: Order; items: OrderItem[] }>> {
+    try {
+      // Get bookings that are tomorrow (24 hours from now)
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      const tomorrowDate = tomorrow.toISOString().split('T')[0];
+
+      const result = await pool.query(`
+        SELECT 
+          o.id as order_id,
+          o.email,
+          o.customer_name,
+          o.language,
+          o.total_amount,
+          o.status as order_status,
+          o.created_at,
+          json_agg(
+            json_build_object(
+              'id', oi.id,
+              'room_id', oi.room_id,
+              'room_name', r.name,
+              'booking_date', oi.booking_date,
+              'start_time', to_char(oi.start_time, 'HH24:MI'),
+              'end_time', to_char(oi.end_time, 'HH24:MI'),
+              'status', oi.status
+            )
+          ) as items
+        FROM orders o
+        JOIN order_items oi ON oi.order_id = o.id
+        LEFT JOIN rooms r ON r.id = oi.room_id
+        WHERE o.status = 'paid'
+        AND oi.status = 'booked'
+        AND oi.booking_date = $1
+        AND NOT EXISTS (
+          SELECT 1 FROM email_logs el
+          WHERE el.order_id = o.id
+          AND el.email_type = 'reminder'
+          AND el.booking_date = oi.booking_date
+        )
+        GROUP BY o.id
+      `, [tomorrowDate]);
+
+      return result.rows.map(row => ({
+        order: {
+          id: row.order_id,
+          email: row.email,
+          customer_name: row.customer_name,
+          language: row.language,
+          total_amount: row.total_amount,
+          status: row.order_status,
+          created_at: row.created_at,
+        } as Order,
+        items: row.items,
+      }));
+
+    } catch (error) {
+      console.error('Error getting bookings for reminder:', error);
+      return [];
+    }
+  }
+
+  /**
+   * Log sent email to avoid duplicate reminders
+   */
+  async logEmail(orderId: string, emailType: string, bookingDate: string): Promise<void> {
+    try {
+      await pool.query(`
+        INSERT INTO email_logs (order_id, email_type, booking_date, sent_at)
+        VALUES ($1, $2, $3, CURRENT_TIMESTAMP)
+      `, [orderId, emailType, bookingDate]);
+    } catch (error) {
+      console.error('Error logging email:', error);
+    }
+  }
+
   async testConnection(): Promise<boolean> {
     try {
       await this.transporter.verify();
-      console.log('Email service connection verified');
+      console.log('✅ Email service connection verified');
       return true;
     } catch (error) {
-      console.error('Email service connection failed:', error);
+      console.error('❌ Email service connection failed:', error);
       return false;
     }
   }

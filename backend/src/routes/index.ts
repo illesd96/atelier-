@@ -20,6 +20,8 @@ import { getAllBookings, getBookingStats } from '../controllers/admin';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
+import { sendReminders } from '../scripts/send-reminders';
+import config from '../config';
 
 const router = Router();
 
@@ -60,6 +62,36 @@ router.post('/webhooks/barion', handleBarionWebhook);
 // Admin endpoints
 router.get('/admin/bookings', adminAuth, getAllBookings);
 router.get('/admin/stats', adminAuth, getBookingStats);
+
+// Cron endpoints (for Vercel Cron or external cron services)
+router.get('/cron/send-reminders', async (req, res) => {
+  try {
+    // Verify authorization (use Vercel cron secret or basic auth)
+    const authHeader = req.headers.authorization;
+    const cronSecret = process.env.CRON_SECRET || config.webhookSecret;
+    
+    if (authHeader !== `Bearer ${cronSecret}`) {
+      console.warn('⚠️  Unauthorized cron attempt from:', req.ip);
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    console.log('🔔 Cron job triggered: send-reminders');
+    await sendReminders();
+    
+    res.json({ 
+      success: true, 
+      message: 'Reminders processed',
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    console.error('❌ Cron job failed:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to send reminders',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
 
 // Health check
 router.get('/health', async (req, res) => {

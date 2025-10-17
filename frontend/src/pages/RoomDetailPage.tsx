@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
-import { Galleria } from 'primereact/galleria';
 import { getRoomById } from '../data/rooms';
 import './RoomDetailPage.css';
 
@@ -30,28 +29,25 @@ export const RoomDetailPage: React.FC = () => {
     );
   }
 
-  const itemTemplate = (item: string) => {
-    return <img src={item} alt={room.name} style={{ width: '100%', display: 'block' }} />;
+  const handlePrevImage = () => {
+    setActiveIndex((prev) => (prev === 0 ? room.galleryImages.length - 1 : prev - 1));
   };
 
-  const thumbnailTemplate = (item: string) => {
-    return <img src={item} alt={room.name} style={{ width: '100%', display: 'block' }} />;
+  const handleNextImage = () => {
+    setActiveIndex((prev) => (prev === room.galleryImages.length - 1 ? 0 : prev + 1));
   };
 
-  const responsiveOptions = [
-    {
-      breakpoint: '1024px',
-      numVisible: 5
-    },
-    {
-      breakpoint: '768px',
-      numVisible: 3
-    },
-    {
-      breakpoint: '560px',
-      numVisible: 1
-    }
-  ];
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if (!displayCustom) return;
+    if (e.key === 'Escape') setDisplayCustom(false);
+    if (e.key === 'ArrowLeft') handlePrevImage();
+    if (e.key === 'ArrowRight') handleNextImage();
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [displayCustom, activeIndex]);
 
   return (
     <div className="room-detail-page">
@@ -127,49 +123,53 @@ export const RoomDetailPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Lightbox Viewer */}
-      <div style={{ display: displayCustom ? 'block' : 'none' }}>
-        <Galleria
-          value={room.galleryImages}
-          activeIndex={activeIndex}
-          onItemChange={(e) => setActiveIndex(e.index)}
-          responsiveOptions={responsiveOptions}
-          numVisible={7}
-          style={{ maxWidth: '95vw', display: displayCustom ? 'block' : 'none' }}
-          circular
-          fullScreen
-          showItemNavigators
-          showThumbnails={false}
-          item={itemTemplate}
-          thumbnail={thumbnailTemplate}
-        />
-      </div>
-      
-      {/* Close button overlay for gallery */}
+      {/* Custom Lightbox Viewer */}
       {displayCustom && (
-        <div 
-          style={{
-            position: 'fixed',
-            top: '20px',
-            right: '20px',
-            zIndex: 99999,
-            cursor: 'pointer',
-            background: 'rgba(0,0,0,0.5)',
-            borderRadius: '50%',
-            width: '50px',
-            height: '50px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'white',
-            fontSize: '24px'
-          }}
-          onClick={() => {
-            console.log('Close button clicked');
-            setDisplayCustom(false);
-          }}
-        >
-          ×
+        <div className="custom-lightbox">
+          {/* Background overlay */}
+          <div 
+            className="custom-lightbox-overlay"
+            onClick={() => setDisplayCustom(false)}
+          />
+          
+          {/* Close button */}
+          <button 
+            className="custom-lightbox-close"
+            onClick={() => setDisplayCustom(false)}
+            aria-label="Close"
+          >
+            <i className="pi pi-times"></i>
+          </button>
+          
+          {/* Previous button */}
+          <button 
+            className="custom-lightbox-prev"
+            onClick={handlePrevImage}
+            aria-label="Previous"
+          >
+            <i className="pi pi-chevron-left"></i>
+          </button>
+          
+          {/* Next button */}
+          <button 
+            className="custom-lightbox-next"
+            onClick={handleNextImage}
+            aria-label="Next"
+          >
+            <i className="pi pi-chevron-right"></i>
+          </button>
+          
+          {/* Image container */}
+          <div className="custom-lightbox-content">
+            <img 
+              src={room.galleryImages[activeIndex]} 
+              alt={`${room.name} ${activeIndex + 1}`}
+              className="custom-lightbox-image"
+            />
+            <div className="custom-lightbox-counter">
+              {activeIndex + 1} / {room.galleryImages.length}
+            </div>
+          </div>
         </div>
       )}
 

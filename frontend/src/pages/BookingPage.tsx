@@ -67,12 +67,12 @@ export const BookingPage: React.FC = () => {
       {/* Floating Cart Button */}
       <Button
         icon="pi pi-shopping-cart"
-        label={cartItemCount > 0 ? `${cartItemCount}` : ''}
         onClick={() => setCartVisible(true)}
         className="floating-cart-button"
         severity="secondary"
         rounded
         size="large"
+        aria-label={`${t('booking.cart')} (${cartItemCount})`}
       >
         {cartItemCount > 0 && (
           <Badge 

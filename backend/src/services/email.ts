@@ -225,8 +225,15 @@ class EmailService {
     return roomNames[roomId as keyof typeof roomNames] || roomId;
   }
 
-  private formatDate(dateStr: string, isHungarian: boolean): string {
-    const date = new Date(dateStr);
+  private formatDate(dateStr: string | Date, isHungarian: boolean): string {
+    // Handle both string and Date object inputs
+    const date = typeof dateStr === 'string' ? new Date(dateStr) : dateStr;
+    
+    // Validate date
+    if (isNaN(date.getTime())) {
+      console.error('Invalid date:', dateStr);
+      return String(dateStr); // Return original value if invalid
+    }
     
     if (isHungarian) {
       return date.toLocaleDateString('hu-HU', {
@@ -250,11 +257,36 @@ class EmailService {
    */
   generateCalendarFile(order: Order, items: OrderItem[]): string {
     const events = items.map(item => {
-      const startDate = new Date(`${item.booking_date}T${item.start_time}:00.000Z`);
-      const endDate = new Date(`${item.booking_date}T${item.end_time}:00.000Z`);
+      // Parse booking_date (format: YYYY-MM-DD)
+      const bookingDate: any = item.booking_date;
+      const dateStr = typeof bookingDate === 'string' 
+        ? bookingDate
+        : (bookingDate instanceof Date ? bookingDate.toISOString().split('T')[0] : String(bookingDate));
+      
+      // Parse times (format: HH:MM)
+      const startTime: any = item.start_time;
+      const startTimeStr = typeof startTime === 'string'
+        ? startTime
+        : (startTime instanceof Date ? startTime.toTimeString().slice(0, 5) : String(startTime));
+      
+      const endTime: any = item.end_time;
+      const endTimeStr = typeof endTime === 'string'
+        ? endTime
+        : (endTime instanceof Date ? endTime.toTimeString().slice(0, 5) : String(endTime));
+      
+      // Create local datetime strings for Europe/Budapest timezone
+      const startDate = new Date(`${dateStr}T${startTimeStr}:00`);
+      const endDate = new Date(`${dateStr}T${endTimeStr}:00`);
       
       const formatDate = (date: Date) => {
-        return date.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+        // Format: YYYYMMDDTHHmmss (local time, no Z for local)
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+        return `${year}${month}${day}T${hours}${minutes}${seconds}`;
       };
 
       return `BEGIN:VEVENT

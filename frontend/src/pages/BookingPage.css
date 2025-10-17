@@ -1,114 +1,76 @@
-/* Cart Button Styles */
-.cart-button {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border: none;
-  color: white;
-  font-weight: 600;
-  padding: 0.75rem 1.5rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-  transition: all 0.3s ease;
+/* Booking Page Layout */
+.booking-page {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem calc(100% / 12);
   position: relative;
-  overflow: visible;
-  margin-right: 0.5rem;
 }
 
-.cart-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
-  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+/* Floating Cart Button */
+.floating-cart-button {
+  position: fixed !important;
+  bottom: 2rem;
+  right: 2rem;
+  width: 70px;
+  height: 70px;
+  border-radius: 50% !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+  border: none !important;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.5) !important;
+  z-index: 1000;
+  transition: all 0.3s ease !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
 }
 
-.cart-button:active {
-  transform: translateY(0);
+.floating-cart-button:hover {
+  transform: translateY(-4px) scale(1.05) !important;
+  box-shadow: 0 12px 32px rgba(102, 126, 234, 0.6) !important;
+  background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%) !important;
 }
 
-.cart-button .p-button-icon {
-  font-size: 1.1rem;
-  margin-right: 0.5rem;
+.floating-cart-button:active {
+  transform: translateY(-2px) scale(1.02) !important;
 }
 
-.cart-badge {
+.floating-cart-button .p-button-icon {
+  font-size: 1.5rem !important;
+  color: white !important;
+  margin: 0 !important;
+}
+
+.floating-cart-button .p-button-label {
+  display: none !important;
+}
+
+.floating-cart-badge {
+  position: absolute !important;
+  top: -5px !important;
+  right: -5px !important;
   background: #ff4757 !important;
   color: white !important;
   font-weight: 700;
   font-size: 0.75rem;
-  min-width: 1.5rem;
-  height: 1.5rem;
-  border-radius: 50%;
-  display: flex;
+  min-width: 24px !important;
+  height: 24px !important;
+  border-radius: 50% !important;
+  display: flex !important;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.4);
+  box-shadow: 0 2px 8px rgba(255, 71, 87, 0.6) !important;
   animation: pulse 2s infinite;
-  padding: 0 0.25rem;
-  white-space: nowrap;
+  border: 3px solid white !important;
 }
 
 @keyframes pulse {
-  0% {
+  0%, 100% {
     transform: scale(1);
   }
   50% {
     transform: scale(1.1);
   }
-  100% {
-    transform: scale(1);
-  }
-}
-
-.cart-button:not(:hover) .cart-badge {
-  animation: none;
-}
-
-/* Booking Page Layout */
-.booking-page-container {
-  display: flex;
-  max-width: 100%;
-  margin: 0;
-  padding: 0;
-  min-height: 100vh;
-}
-
-.booking-page-main {
-  flex: 1;
-  max-width: calc(100% - 400px); /* Reserve space for cart */
-  margin: 0 auto;
-  padding: 2rem calc(100% / 12);
-  overflow-x: hidden;
-}
-
-.booking-page-cart {
-  position: fixed;
-  right: 0;
-  top: 80px; /* Adjust based on your header height */
-  width: 400px;
-  height: calc(100vh - 80px);
-  background: white;
-  border-left: 1px solid #e5e5e5;
-  z-index: 100;
-  overflow-y: auto;
-}
-
-.booking-page-cart .p-sidebar {
-  position: static !important;
-  width: 100% !important;
-  height: 100% !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-.booking-page-cart .p-sidebar-mask {
-  display: none !important;
-}
-
-.booking-page-cart .p-sidebar-close {
-  display: none !important;
-}
-
-/* Hide mobile cart button on desktop */
-.mobile-cart-button {
-  display: none;
 }
 
 /* Rental Information Section */
@@ -174,24 +136,26 @@
   font-weight: 600;
 }
 
-@media (max-width: 1200px) {
-  /* On tablets and mobile, hide the fixed cart and show mobile button */
-  .booking-page-cart {
-    display: none;
-  }
-
-  .booking-page-main {
-    max-width: 100%;
-  }
-
-  .mobile-cart-button {
-    display: inline-flex !important;
-  }
-}
-
 @media (max-width: 768px) {
-  .booking-page-main {
+  .booking-page {
     padding: 1rem;
+  }
+
+  .floating-cart-button {
+    bottom: 1rem;
+    right: 1rem;
+    width: 60px;
+    height: 60px;
+  }
+
+  .floating-cart-button .p-button-icon {
+    font-size: 1.25rem !important;
+  }
+
+  .floating-cart-badge {
+    min-width: 20px !important;
+    height: 20px !important;
+    font-size: 0.65rem;
   }
 
   .rental-info-section {

@@ -6,7 +6,6 @@ import { Toast } from 'primereact/toast';
 import { Badge } from 'primereact/badge';
 import { StudioGrid } from '../components/StudioGrid';
 import { CartDrawer } from '../components/CartDrawer';
-import { FixedCart } from '../components/FixedCart';
 import { useCart } from '../contexts/CartContext';
 import './BookingPage.css';
 
@@ -28,37 +27,12 @@ export const BookingPage: React.FC = () => {
   const cartItemCount = items.length;
 
   return (
-    <div className="booking-page-container">
-      <div className="booking-page-main">
-        <div className="flex justify-content-between align-items-center mb-4">
-          <h1 className="text-4xl font-bold text-gray-900 m-0">
-            {t('booking.title')}
-          </h1>
-          
-          {/* Mobile cart button - only visible on small screens */}
-          <Button
-            icon="pi pi-shopping-cart"
-            label={t('booking.cart')}
-            onClick={() => setCartVisible(true)}
-            severity="secondary"
-            outlined
-            className="relative cart-button mobile-cart-button"
-            size="large"
-          >
-            {cartItemCount > 0 && (
-              <Badge 
-                value={cartItemCount} 
-                severity="danger" 
-                className="absolute cart-badge"
-                style={{
-                  top: '-8px',
-                  right: '-8px',
-                  zIndex: 10
-                }}
-              />
-            )}
-          </Button>
-        </div>
+    <div className="booking-page">
+      <div className="flex justify-content-between align-items-center mb-4">
+        <h1 className="text-4xl font-bold text-gray-900 m-0">
+          {t('booking.title')}
+        </h1>
+      </div>
 
       {/* Rental Information Section */}
       <div className="rental-info-section">
@@ -88,15 +62,27 @@ export const BookingPage: React.FC = () => {
         </div>
       </div>
 
-        <StudioGrid onCartUpdate={handleCartUpdate} />
-      </div>
+      <StudioGrid onCartUpdate={handleCartUpdate} />
 
-      {/* Fixed Cart - Desktop only */}
-      <div className="booking-page-cart">
-        <FixedCart onCheckout={handleCheckout} />
-      </div>
+      {/* Floating Cart Button */}
+      <Button
+        icon="pi pi-shopping-cart"
+        label={cartItemCount > 0 ? `${cartItemCount}` : ''}
+        onClick={() => setCartVisible(true)}
+        className="floating-cart-button"
+        severity="secondary"
+        rounded
+        size="large"
+      >
+        {cartItemCount > 0 && (
+          <Badge 
+            value={cartItemCount} 
+            severity="danger" 
+            className="floating-cart-badge"
+          />
+        )}
+      </Button>
 
-      {/* Mobile Cart Drawer */}
       <CartDrawer
         visible={cartVisible}
         onHide={() => setCartVisible(false)}

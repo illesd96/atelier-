@@ -112,6 +112,26 @@
       "studio-a": "Studio A",
       "studio-b": "Studio B", 
       "studio-c": "Studio C"
+    },
+    "rentalDetails": {
+      "title": "Studio Rental Details",
+      "basicInfo": {
+        "title": "Basic Rental Information",
+        "description": "You can book the photo studio hourly through our online booking calendar. The current prices are shown in the studio rental price table."
+      },
+      "workshop": {
+        "title": "Shooting / Workshop",
+        "description": "The studio can also be rented for shooting and workshops. For smaller scale shoots, studio rental can be booked through the online booking system. For larger shoots or workshops with booking contact, please contact us via the contact form or info@nordix-rooms.hu email."
+      },
+      "process": {
+        "title": "Booking Process",
+        "intro": "You can view the studio rooms' current availability and book time slots through the online booking system.",
+        "cartInfo": "To book a time slot, click on the selected time slot, which will add it to the <strong>cart</strong>. Add the necessary personal and billing information to your cart. You can finalize your booking from the cart later. If you have already registered, you can log in after selecting your booking time slots.",
+        "personalInfo": "At the end of the booking, add the necessary personal and billing information. You can finalize the booking at the end of the booking flow; it is possible to report back to the booking finalization before registering.",
+        "payment": "You can settle your booking fees in every case online by credit card payment through the Barion system.",
+        "confirmation": "Please note that before completing the booking, please <strong>CAREFULLY READ THE TERMS AND CONDITIONS</strong>.",
+        "questions": "You can find useful information related to using the studio in the <strong>frequently asked questions</strong> section."
+      }
     }
   },
   "checkout": {

@@ -57,6 +57,40 @@ export const BookingPage: React.FC = () => {
         </Button>
       </div>
 
+      {/* Rental Information Section */}
+      <div className="rental-info-section">
+        <h2 className="rental-info-title">{t('booking.rentalDetails.title')}</h2>
+        <div className="rental-info-grid">
+          <div className="rental-info-card">
+            <div className="rental-info-icon">
+              <i className="pi pi-dollar"></i>
+            </div>
+            <h3>{t('booking.rentalDetails.basicInfo.title')}</h3>
+            <p>{t('booking.rentalDetails.basicInfo.description')}</p>
+          </div>
+
+          <div className="rental-info-card">
+            <div className="rental-info-icon">
+              <i className="pi pi-chart-line"></i>
+            </div>
+            <h3>{t('booking.rentalDetails.workshop.title')}</h3>
+            <p>{t('booking.rentalDetails.workshop.description')}</p>
+          </div>
+
+          <div className="rental-info-card rental-info-card-wide">
+            <h3>{t('booking.rentalDetails.process.title')}</h3>
+            <div className="rental-process-content">
+              <p>{t('booking.rentalDetails.process.intro')}</p>
+              <p dangerouslySetInnerHTML={{ __html: t('booking.rentalDetails.process.cartInfo') }} />
+              <p>{t('booking.rentalDetails.process.personalInfo')}</p>
+              <p>{t('booking.rentalDetails.process.payment')}</p>
+              <p dangerouslySetInnerHTML={{ __html: t('booking.rentalDetails.process.confirmation') }} />
+              <p dangerouslySetInnerHTML={{ __html: t('booking.rentalDetails.process.questions') }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
       <StudioGrid onCartUpdate={handleCartUpdate} />
 
       <CartDrawer

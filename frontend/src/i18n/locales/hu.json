@@ -112,6 +112,26 @@
       "studio-a": "A Stúdió",
       "studio-b": "B Stúdió",
       "studio-c": "C Stúdió"
+    },
+    "rentalDetails": {
+      "title": "Stúdió Bérlés Részletei",
+      "basicInfo": {
+        "title": "Bérléssel kapcsolatos alapvető információk",
+        "description": "A fotóstúdiót óránként tudod foglalni az online foglaló naptárunkon keresztül. Az aktuális árainkat a stúdió bérlés díja táblázat tartalmazza."
+      },
+      "workshop": {
+        "title": "Forgatás / Workshop",
+        "description": "A stúdió forgatásokra és workshopokra is bérelhető. Kisebb létszámú forgatás esetén a stúdió bérlést az online foglaló rendszeren keresztül is megteheted, megjegyzésben kérjük röviden írd meg a részleteket. Nagyobb forgatás vagy workshoppal / rendezvénnyel kapcsolatos foglalás esetén kérjük vedd fel velünk a kapcsolatot a kapcsolati form, vagy az info@nordix-rooms.hu email címen keresztül."
+      },
+      "process": {
+        "title": "Foglalás menete",
+        "intro": "A fotóstúdió termeinek aktuális foglaltságát megtekinteni és időpontot foglalni az online foglaló rendszerünkön keresztül tudsz.",
+        "cartInfo": "Időpont foglalásához kattints a választott időpontra, amely így a <strong>kosárba</strong> kerül. A kosár használatával egyszerre több termet és időpontot is tudsz foglalni. A foglalást véglegesíteni a kosárból tudsz. Ha már regisztráltál, mindenképp jelentkezz be a foglalási időpontok kiválasztása előtt.",
+        "personalInfo": "A foglalás véglegesítéséhez add meg a szükséges személyes és számlázási adatokat. A foglalás véglegesítése során lehetőséged van regisztrálni, hogy a foglalásaidat később könnyen tudd kezelni. Ha már regisztráltál, mindenképp jelentkezz be a foglalás véglegesítése előtt.",
+        "payment": "A foglalásod díját minden esetben online bankkártyás fizetéssel tudod kiegyenlíteni a Barion rendszerén keresztül.",
+        "confirmation": "Kérjük, a foglalásod véglegesítése előtt alaposan <strong>olvasd el a FOGLALÁSI FELTÉTELEINKET</strong>.",
+        "questions": "A stúdió használatával kapcsolatban hasznos információkat találsz a <strong>gyakran ismételt kérdések</strong> oldalon."
+      }
     }
   },
   "checkout": {

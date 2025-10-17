@@ -62,10 +62,53 @@
 }
 
 /* Booking Page Layout */
-.booking-page {
-  max-width: 1600px;
+.booking-page-container {
+  display: flex;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+.booking-page-main {
+  flex: 1;
+  max-width: calc(100% - 400px); /* Reserve space for cart */
   margin: 0 auto;
   padding: 2rem calc(100% / 12);
+  overflow-x: hidden;
+}
+
+.booking-page-cart {
+  position: fixed;
+  right: 0;
+  top: 80px; /* Adjust based on your header height */
+  width: 400px;
+  height: calc(100vh - 80px);
+  background: white;
+  border-left: 1px solid #e5e5e5;
+  z-index: 100;
+  overflow-y: auto;
+}
+
+.booking-page-cart .p-sidebar {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.booking-page-cart .p-sidebar-mask {
+  display: none !important;
+}
+
+.booking-page-cart .p-sidebar-close {
+  display: none !important;
+}
+
+/* Hide mobile cart button on desktop */
+.mobile-cart-button {
+  display: none;
 }
 
 /* Rental Information Section */
@@ -105,19 +148,6 @@
   grid-column: 1 / -1;
 }
 
-.rental-info-icon {
-  width: 60px;
-  height: 60px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  color: white;
-  font-size: 1.5rem;
-}
-
 .rental-info-card h3 {
   font-size: 1.25rem;
   font-weight: 600;
@@ -144,8 +174,23 @@
   font-weight: 600;
 }
 
+@media (max-width: 1200px) {
+  /* On tablets and mobile, hide the fixed cart and show mobile button */
+  .booking-page-cart {
+    display: none;
+  }
+
+  .booking-page-main {
+    max-width: 100%;
+  }
+
+  .mobile-cart-button {
+    display: inline-flex !important;
+  }
+}
+
 @media (max-width: 768px) {
-  .booking-page {
+  .booking-page-main {
     padding: 1rem;
   }
 

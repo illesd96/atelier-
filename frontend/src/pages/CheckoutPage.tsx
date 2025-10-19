@@ -97,24 +97,35 @@ export const CheckoutPage: React.FC = () => {
       <Dialog
         header={t('checkout.authPrompt.title')}
         visible={showAuthDialog}
-        style={{ width: '450px' }}
+        style={{ width: '500px', maxWidth: '90vw' }}
         onHide={() => setShowAuthDialog(false)}
         dismissableMask
         closeOnEscape
+        className="auth-prompt-dialog"
       >
-        <div className="text-center py-3">
-          <i className="pi pi-user text-6xl text-primary mb-3"></i>
-          <p className="text-lg mb-4 line-height-3">
+        <div className="text-center px-4 py-3">
+          {/* Icon */}
+          <div className="mb-4">
+            <div className="inline-flex align-items-center justify-content-center bg-primary-50 border-circle" 
+                 style={{ width: '80px', height: '80px' }}>
+              <i className="pi pi-user text-5xl text-primary"></i>
+            </div>
+          </div>
+          
+          {/* Message */}
+          <p className="text-lg mb-5 line-height-3 px-2" style={{ color: '#495057' }}>
             {t('checkout.authPrompt.message')}
           </p>
           
-          <div className="flex flex-column gap-3">
+          {/* Buttons */}
+          <div className="flex flex-column gap-3 mb-5">
             <Button
               label={t('checkout.authPrompt.login')}
               icon="pi pi-sign-in"
               onClick={handleLogin}
               className="w-full"
               size="large"
+              style={{ padding: '0.875rem 1.25rem' }}
             />
             <Button
               label={t('checkout.authPrompt.register')}
@@ -123,6 +134,7 @@ export const CheckoutPage: React.FC = () => {
               className="w-full"
               severity="success"
               size="large"
+              style={{ padding: '0.875rem 1.25rem' }}
             />
             <Button
               label={t('checkout.authPrompt.continueAsGuest')}
@@ -132,22 +144,24 @@ export const CheckoutPage: React.FC = () => {
               severity="secondary"
               outlined
               size="large"
+              style={{ padding: '0.875rem 1.25rem' }}
             />
           </div>
 
-          <div className="mt-4 text-sm text-gray-600">
-            <p className="mb-2">
-              <i className="pi pi-check-circle mr-2"></i>
-              {t('checkout.authPrompt.benefit1')}
-            </p>
-            <p className="mb-2">
-              <i className="pi pi-check-circle mr-2"></i>
-              {t('checkout.authPrompt.benefit2')}
-            </p>
-            <p className="m-0">
-              <i className="pi pi-check-circle mr-2"></i>
-              {t('checkout.authPrompt.benefit3')}
-            </p>
+          {/* Benefits Card */}
+          <div className="p-4 bg-gray-50 border-round-lg text-left">
+            <div className="flex align-items-start mb-3">
+              <i className="pi pi-check-circle text-green-500 mr-3 mt-1" style={{ fontSize: '1.1rem' }}></i>
+              <span className="text-base line-height-3">{t('checkout.authPrompt.benefit1')}</span>
+            </div>
+            <div className="flex align-items-start mb-3">
+              <i className="pi pi-check-circle text-green-500 mr-3 mt-1" style={{ fontSize: '1.1rem' }}></i>
+              <span className="text-base line-height-3">{t('checkout.authPrompt.benefit2')}</span>
+            </div>
+            <div className="flex align-items-start">
+              <i className="pi pi-check-circle text-green-500 mr-3 mt-1" style={{ fontSize: '1.1rem' }}></i>
+              <span className="text-base line-height-3">{t('checkout.authPrompt.benefit3')}</span>
+            </div>
           </div>
         </div>
       </Dialog>

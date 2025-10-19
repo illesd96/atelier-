@@ -256,6 +256,58 @@
   }
 }
 
+/* Auth Prompt Dialog */
+.auth-prompt-dialog .p-dialog-header {
+  padding: 1.5rem 1.5rem 1rem 1.5rem;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.auth-prompt-dialog .p-dialog-header .p-dialog-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: #000000;
+}
+
+.auth-prompt-dialog .p-dialog-content {
+  padding: 1.5rem;
+}
+
+/* Icon circle background */
+.auth-prompt-dialog .bg-primary-50 {
+  background-color: #e8f0fe;
+  transition: transform 0.2s ease;
+}
+
+.auth-prompt-dialog .bg-primary-50:hover {
+  transform: scale(1.05);
+}
+
+/* Button styling in dialog */
+.auth-prompt-dialog .p-button {
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  transition: all 0.2s ease;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.auth-prompt-dialog .p-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Benefits card styling */
+.auth-prompt-dialog .bg-gray-50 {
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+}
+
+.auth-prompt-dialog .text-green-500 {
+  color: #22c55e;
+}
+
+/* Responsive dialog */
 @media (max-width: 768px) {
   .checkout-page {
     padding: 1rem;
@@ -268,6 +320,18 @@
   
   .checkout-page .p-card .p-card-body {
     padding: 1.5rem;
+  }
+
+  .auth-prompt-dialog .p-dialog {
+    width: 95vw !important;
+  }
+
+  .auth-prompt-dialog .p-dialog-header .p-dialog-title {
+    font-size: 1.25rem;
+  }
+
+  .auth-prompt-dialog .p-button {
+    font-size: 0.95rem;
   }
 }
 

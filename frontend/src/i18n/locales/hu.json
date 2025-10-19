@@ -138,6 +138,16 @@
   "checkout": {
     "title": "Fizetés",
     "pastAppointmentsRemoved": "{{count}} múltbeli időpont(ok) automatikusan eltávolításra került(ek) a kosárból",
+    "authPrompt": {
+      "title": "Hozzon Létre Fiókot vagy Jelentkezzen Be",
+      "message": "Jelentkezzen be vagy hozzon létre fiókot a gyorsabb fizetésért és foglalásai nyomon követéséhez.",
+      "login": "Bejelentkezés",
+      "register": "Fiók Létrehozása",
+      "continueAsGuest": "Folytatás Vendégként",
+      "benefit1": "Foglalási előzmények követése",
+      "benefit2": "Gyorsabb fizetés legközelebb",
+      "benefit3": "Foglalási értesítések fogadása"
+    },
     "customerInfo": "Vásárló Adatok",
     "name": "Teljes Név",
     "email": "Email Cím",

@@ -19,13 +19,16 @@ export const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   
-  const from = (location.state as any)?.from?.pathname || '/booking';
+  // Check for return path in sessionStorage or location state
+  const returnPath = sessionStorage.getItem('returnPath') || (location.state as any)?.from?.pathname || '/booking';
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from, { replace: true });
+      // Clear return path and navigate
+      sessionStorage.removeItem('returnPath');
+      navigate(returnPath, { replace: true });
     }
-  }, [isAuthenticated, navigate, from]);
+  }, [isAuthenticated, navigate, returnPath]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,7 +39,9 @@ export const LoginPage: React.FC = () => {
       const result = await login(email, password);
       
       if (result.success) {
-        navigate(from, { replace: true });
+        // Clear return path and navigate
+        sessionStorage.removeItem('returnPath');
+        navigate(returnPath, { replace: true });
       } else {
         setError(result.message || t('login.error'));
       }

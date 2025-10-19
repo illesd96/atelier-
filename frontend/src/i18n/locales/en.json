@@ -138,6 +138,16 @@
   "checkout": {
     "title": "Checkout",
     "pastAppointmentsRemoved": "{{count}} past appointment(s) were automatically removed from your cart",
+    "authPrompt": {
+      "title": "Create an Account or Sign In",
+      "message": "Sign in or create an account for a faster checkout experience and to track your bookings.",
+      "login": "Sign In",
+      "register": "Create Account",
+      "continueAsGuest": "Continue as Guest",
+      "benefit1": "Track your booking history",
+      "benefit2": "Faster checkout next time",
+      "benefit3": "Receive booking updates"
+    },
     "customerInfo": "Customer Information",
     "name": "Full Name",
     "email": "Email Address",

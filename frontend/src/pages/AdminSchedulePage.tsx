@@ -111,10 +111,6 @@ export const AdminSchedulePage: React.FC = () => {
     return date.toISOString().split('T')[0];
   };
 
-  const formatDateTime = (dateStr: string, time: string): string => {
-    return `${dateStr} ${time}`;
-  };
-
   const updateAttendance = async (booking: ScheduleBooking, status: string) => {
     if (!token) return;
 

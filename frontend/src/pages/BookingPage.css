@@ -23,6 +23,7 @@
   align-items: center;
   justify-content: center;
   padding: 0 !important;
+  overflow: visible !important;
 }
 
 .floating-cart-button:hover {
@@ -47,14 +48,15 @@
 
 .floating-cart-badge {
   position: absolute !important;
-  top: -5px !important;
-  right: -5px !important;
+  top: -8px !important;
+  right: -8px !important;
   background: #ff4757 !important;
   color: white !important;
   font-weight: 700;
   font-size: 0.75rem;
-  min-width: 24px !important;
-  height: 24px !important;
+  min-width: 26px !important;
+  height: 26px !important;
+  padding: 0 6px !important;
   border-radius: 50% !important;
   display: flex !important;
   align-items: center;
@@ -62,6 +64,7 @@
   box-shadow: 0 2px 8px rgba(255, 71, 87, 0.6) !important;
   animation: pulse 2s infinite;
   border: 3px solid white !important;
+  z-index: 1001 !important;
 }
 
 @keyframes pulse {
@@ -153,9 +156,12 @@
   }
 
   .floating-cart-badge {
-    min-width: 20px !important;
-    height: 20px !important;
+    min-width: 22px !important;
+    height: 22px !important;
     font-size: 0.65rem;
+    top: -6px !important;
+    right: -6px !important;
+    border: 2px solid white !important;
   }
 
   .rental-info-section {

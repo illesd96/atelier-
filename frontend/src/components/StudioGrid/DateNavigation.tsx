@@ -65,6 +65,7 @@ export const DateNavigation: React.FC<DateNavigationProps> = ({
       <div className="flex align-items-center gap-2">
         <Button 
           label={t('booking.today')}
+          icon="pi pi-calendar"
           onClick={onToday}
           severity="secondary"
           outlined

@@ -174,6 +174,7 @@ export const BookingGrid: React.FC<BookingGridProps> = ({ onCartUpdate }) => {
         <div className="flex align-items-center gap-2">
           <Button 
             label={t('booking.today')}
+            icon="pi pi-calendar"
             onClick={goToToday}
             severity="secondary"
             outlined

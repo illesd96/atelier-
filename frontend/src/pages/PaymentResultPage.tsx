@@ -5,29 +5,8 @@ import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../hooks/useCart';
+import { OrderItem } from '../types';
 import api from '../services/api';
-
-interface OrderDetails {
-  id: string;
-  status: string;
-  customer_name: string;
-  email: string;
-  total_amount: number;
-  currency: string;
-  created_at: string;
-}
-
-interface OrderItemDetails {
-  id: string;
-  order_id: string;
-  room_id: string;
-  room_name: string;
-  booking_date: string;
-  start_time: string;
-  end_time: string;
-  booking_id: string;
-  status: string;
-}
 
 export const PaymentResultPage: React.FC = () => {
   const { t } = useTranslation();
@@ -37,11 +16,9 @@ export const PaymentResultPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<'success' | 'failed' | 'cancelled' | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
-  const [orderItems, setOrderItems] = useState<OrderItemDetails[]>([]);
+  const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
   const orderId = searchParams.get('orderId');
-  const paymentId = searchParams.get('paymentId');
 
   useEffect(() => {
     const checkPaymentStatus = async () => {
@@ -65,8 +42,7 @@ export const PaymentResultPage: React.FC = () => {
             if (response.success && response.order) {
               const status = response.order.status;
               
-              // Store order details and items
-              setOrderDetails(response.order);
+              // Store order items
               setOrderItems(response.items || []);
               
               if (status === 'paid') {
@@ -250,9 +226,9 @@ export const PaymentResultPage: React.FC = () => {
                 <p className="text-sm font-semibold text-gray-700 mb-2">
                   {t('payment.bookingCodes')}:
                 </p>
-                {orderItems.map((item, index) => (
+                {orderItems.map((item) => (
                   <div key={item.id} className="text-sm text-gray-600 mb-1 pl-2">
-                    <strong>{item.room_name}</strong> - {item.booking_date} {item.start_time}
+                    <strong>{item.room_name || 'Studio'}</strong> - {item.booking_date} {item.start_time}
                     <br />
                     <span className="font-mono text-primary">
                       {item.booking_id || t('payment.bookingPending')}

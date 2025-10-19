@@ -276,3 +276,104 @@ export async function updateAttendance(req: Request, res: Response) {
   }
 }
 
+/**
+ * Cancel a booking item
+ */
+export async function cancelBookingItem(req: Request, res: Response) {
+  try {
+    const { bookingItemId } = req.params;
+    
+    const result = await pool.query(
+      `UPDATE order_items 
+       SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP
+       WHERE id = $1
+       RETURNING id, status, booking_date, start_time, end_time, room_id`,
+      [bookingItemId]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'Booking item not found',
+      });
+    }
+    
+    res.json({
+      success: true,
+      booking: result.rows[0],
+      message: 'Booking item cancelled successfully',
+    });
+  } catch (error) {
+    console.error('Cancel booking item error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+    });
+  }
+}
+
+/**
+ * Modify a booking item (change date/time/room)
+ */
+export async function modifyBookingItem(req: Request, res: Response) {
+  try {
+    const { bookingItemId } = req.params;
+    const { room_id, booking_date, start_time, end_time } = req.body;
+    
+    // Validate required fields
+    if (!room_id || !booking_date || !start_time || !end_time) {
+      return res.status(400).json({
+        success: false,
+        error: 'Missing required fields: room_id, booking_date, start_time, end_time',
+      });
+    }
+    
+    // Check if the new slot is available
+    const conflictCheck = await pool.query(
+      `SELECT id FROM order_items 
+       WHERE room_id = $1 
+       AND booking_date = $2 
+       AND start_time < $4 
+       AND end_time > $3
+       AND status IN ('booked', 'pending')
+       AND id != $5`,
+      [room_id, booking_date, start_time, end_time, bookingItemId]
+    );
+    
+    if (conflictCheck.rows.length > 0) {
+      return res.status(409).json({
+        success: false,
+        error: 'Time slot is not available',
+      });
+    }
+    
+    // Update the booking item
+    const result = await pool.query(
+      `UPDATE order_items 
+       SET room_id = $1, booking_date = $2, start_time = $3, end_time = $4, updated_at = CURRENT_TIMESTAMP
+       WHERE id = $5
+       RETURNING id, room_id, booking_date, start_time, end_time, status`,
+      [room_id, booking_date, start_time, end_time, bookingItemId]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'Booking item not found',
+      });
+    }
+    
+    res.json({
+      success: true,
+      booking: result.rows[0],
+      message: 'Booking item modified successfully',
+    });
+  } catch (error) {
+    console.error('Modify booking item error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+    });
+  }
+}
+

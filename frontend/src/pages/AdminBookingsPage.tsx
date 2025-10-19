@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
@@ -7,6 +7,9 @@ import { Badge } from 'primereact/badge';
 import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
+import { Dialog } from 'primereact/dialog';
+import { Toast } from 'primereact/toast';
+import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useAuth } from '../contexts/AuthContext';
 import { adminAPI } from '../services/api';
 import './AdminBookingsPage.css';
@@ -55,6 +58,7 @@ interface BookingStats {
 export const AdminBookingsPage: React.FC = () => {
   const { user, token, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const toast = useRef<Toast>(null);
   
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [stats, setStats] = useState<BookingStats | null>(null);
@@ -70,6 +74,16 @@ export const AdminBookingsPage: React.FC = () => {
   const [first, setFirst] = useState(0);
   const [rows, setRows] = useState(25);
   const [totalRecords, setTotalRecords] = useState(0);
+
+  // Modify dialog state
+  const [modifyDialogVisible, setModifyDialogVisible] = useState(false);
+  const [selectedBookingItem, setSelectedBookingItem] = useState<BookingItem | null>(null);
+  const [modifyData, setModifyData] = useState({
+    room_id: '',
+    booking_date: null as Date | null,
+    start_time: '',
+    end_time: '',
+  });
 
   // Status options
   const statusOptions = [
@@ -158,6 +172,92 @@ export const AdminBookingsPage: React.FC = () => {
     }).format(amount);
   };
 
+  // Handler for canceling a booking item
+  const handleCancelBookingItem = (item: BookingItem) => {
+    confirmDialog({
+      message: `Are you sure you want to cancel this booking?\n${item.room_name} - ${item.booking_date} ${item.start_time}-${item.end_time}`,
+      header: 'Cancel Booking Confirmation',
+      icon: 'pi pi-exclamation-triangle',
+      accept: async () => {
+        if (!token) return;
+        
+        try {
+          await adminAPI.cancelBookingItem(token, item.id);
+          
+          if (toast.current) {
+            toast.current.show({
+              severity: 'success',
+              summary: 'Success',
+              detail: 'Booking item cancelled successfully',
+              life: 3000,
+            });
+          }
+          
+          // Reload bookings
+          loadBookings();
+        } catch (error) {
+          console.error('Failed to cancel booking item:', error);
+          if (toast.current) {
+            toast.current.show({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Failed to cancel booking item',
+              life: 3000,
+            });
+          }
+        }
+      },
+    });
+  };
+
+  // Handler for opening modify dialog
+  const handleModifyBookingItem = (item: BookingItem) => {
+    setSelectedBookingItem(item);
+    setModifyData({
+      room_id: item.room_id,
+      booking_date: new Date(item.booking_date),
+      start_time: item.start_time,
+      end_time: item.end_time,
+    });
+    setModifyDialogVisible(true);
+  };
+
+  // Handler for saving modified booking
+  const handleSaveModifiedBooking = async () => {
+    if (!token || !selectedBookingItem || !modifyData.booking_date) return;
+
+    try {
+      await adminAPI.modifyBookingItem(token, selectedBookingItem.id, {
+        room_id: modifyData.room_id,
+        booking_date: formatDate(modifyData.booking_date),
+        start_time: modifyData.start_time,
+        end_time: modifyData.end_time,
+      });
+
+      if (toast.current) {
+        toast.current.show({
+          severity: 'success',
+          summary: 'Success',
+          detail: 'Booking modified successfully',
+          life: 3000,
+        });
+      }
+
+      setModifyDialogVisible(false);
+      loadBookings();
+    } catch (error: any) {
+      console.error('Failed to modify booking:', error);
+      if (toast.current) {
+        toast.current.show({
+          severity: 'error',
+          summary: 'Error',
+          detail: error.response?.data?.error || 'Failed to modify booking',
+          life: 5000,
+        });
+      }
+    }
+  };
+
   const statusBodyTemplate = (rowData: Booking) => {
     const statusMap: Record<string, { severity: "success" | "info" | "warning" | "danger", label: string }> = {
       paid: { severity: 'success', label: 'Paid' },
@@ -213,6 +313,29 @@ export const AdminBookingsPage: React.FC = () => {
             field="status" 
             header="Status"
             body={(item: BookingItem) => <Badge value={item.status} />}
+          />
+          <Column 
+            header="Actions"
+            body={(item: BookingItem) => (
+              <div className="flex gap-2">
+                <Button
+                  icon="pi pi-pencil"
+                  className="p-button-rounded p-button-info p-button-sm"
+                  tooltip="Modify"
+                  tooltipOptions={{ position: 'top' }}
+                  onClick={() => handleModifyBookingItem(item)}
+                  disabled={item.status === 'cancelled'}
+                />
+                <Button
+                  icon="pi pi-times"
+                  className="p-button-rounded p-button-danger p-button-sm"
+                  tooltip="Cancel"
+                  tooltipOptions={{ position: 'top' }}
+                  onClick={() => handleCancelBookingItem(item)}
+                  disabled={item.status === 'cancelled'}
+                />
+              </div>
+            )}
           />
         </DataTable>
       </div>
@@ -373,6 +496,96 @@ export const AdminBookingsPage: React.FC = () => {
             />
           </DataTable>
         </Card>
+
+        {/* Modify Dialog */}
+        <Dialog
+          header="Modify Booking"
+          visible={modifyDialogVisible}
+          style={{ width: '500px' }}
+          onHide={() => setModifyDialogVisible(false)}
+          footer={
+            <div>
+              <Button
+                label="Cancel"
+                icon="pi pi-times"
+                onClick={() => setModifyDialogVisible(false)}
+                className="p-button-text"
+              />
+              <Button
+                label="Save"
+                icon="pi pi-check"
+                onClick={handleSaveModifiedBooking}
+                autoFocus
+              />
+            </div>
+          }
+        >
+          {selectedBookingItem && (
+            <div className="p-fluid">
+              <div className="field mb-3">
+                <label className="font-semibold">Current Booking</label>
+                <p>{selectedBookingItem.room_name} - {selectedBookingItem.booking_date} {selectedBookingItem.start_time}-{selectedBookingItem.end_time}</p>
+              </div>
+
+              <div className="field mb-3">
+                <label htmlFor="room">Room</label>
+                <Dropdown
+                  id="room"
+                  value={modifyData.room_id}
+                  options={[
+                    { label: 'Studio A', value: 'studio-a' },
+                    { label: 'Studio B', value: 'studio-b' },
+                    { label: 'Studio C', value: 'studio-c' },
+                  ]}
+                  onChange={(e) => setModifyData({ ...modifyData, room_id: e.value })}
+                  placeholder="Select a room"
+                />
+              </div>
+
+              <div className="field mb-3">
+                <label htmlFor="date">Date</label>
+                <Calendar
+                  id="date"
+                  value={modifyData.booking_date}
+                  onChange={(e) => setModifyData({ ...modifyData, booking_date: e.value as Date })}
+                  dateFormat="yy-mm-dd"
+                  showIcon
+                />
+              </div>
+
+              <div className="field mb-3">
+                <label htmlFor="start-time">Start Time</label>
+                <Dropdown
+                  id="start-time"
+                  value={modifyData.start_time}
+                  options={Array.from({ length: 11 }, (_, i) => {
+                    const hour = 9 + i;
+                    return { label: `${hour.toString().padStart(2, '0')}:00`, value: `${hour.toString().padStart(2, '0')}:00` };
+                  })}
+                  onChange={(e) => setModifyData({ ...modifyData, start_time: e.value })}
+                  placeholder="Select start time"
+                />
+              </div>
+
+              <div className="field mb-3">
+                <label htmlFor="end-time">End Time</label>
+                <Dropdown
+                  id="end-time"
+                  value={modifyData.end_time}
+                  options={Array.from({ length: 12 }, (_, i) => {
+                    const hour = 9 + i;
+                    return { label: `${hour.toString().padStart(2, '0')}:00`, value: `${hour.toString().padStart(2, '0')}:00` };
+                  })}
+                  onChange={(e) => setModifyData({ ...modifyData, end_time: e.value })}
+                  placeholder="Select end time"
+                />
+              </div>
+            </div>
+          )}
+        </Dialog>
+
+        <Toast ref={toast} />
+        <ConfirmDialog />
       </div>
     </div>
   );

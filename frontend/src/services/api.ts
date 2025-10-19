@@ -264,6 +264,27 @@ export const adminAPI = {
     });
     return response.data;
   },
+
+  // Cancel booking item
+  async cancelBookingItem(token: string, bookingItemId: string) {
+    const response = await apiClient.put(`/admin/bookings/${bookingItemId}/cancel`, {}, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+
+  // Modify booking item
+  async modifyBookingItem(token: string, bookingItemId: string, data: {
+    room_id: string;
+    booking_date: string;
+    start_time: string;
+    end_time: string;
+  }) {
+    const response = await apiClient.put(`/admin/bookings/${bookingItemId}/modify`, data, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
 };
 
 export default api;

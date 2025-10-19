@@ -16,7 +16,7 @@ import {
   saveAddress,
   deleteAddress,
 } from '../controllers/user';
-import { getAllBookings, getBookingStats, getScheduleView, updateAttendance } from '../controllers/admin';
+import { getAllBookings, getBookingStats, getScheduleView, updateAttendance, cancelBookingItem, modifyBookingItem } from '../controllers/admin';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
@@ -64,6 +64,8 @@ router.get('/admin/bookings', adminAuth, getAllBookings);
 router.get('/admin/stats', adminAuth, getBookingStats);
 router.get('/admin/schedule', adminAuth, getScheduleView);
 router.put('/admin/bookings/:bookingItemId/attendance', adminAuth, updateAttendance);
+router.put('/admin/bookings/:bookingItemId/cancel', adminAuth, cancelBookingItem);
+router.put('/admin/bookings/:bookingItemId/modify', adminAuth, modifyBookingItem);
 
 // Cron endpoints (for Vercel Cron or external cron services)
 router.get('/cron/send-reminders', async (req, res) => {

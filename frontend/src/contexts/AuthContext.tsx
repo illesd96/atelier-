@@ -18,7 +18,7 @@ interface AuthContextType {
   isLoading: boolean;
   isAuthenticated: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; message?: string; emailVerified?: boolean; warning?: string }>;
-  register: (email: string, password: string, name: string, phone?: string) => Promise<{ success: boolean; message?: string }>;
+  register: (email: string, password: string, name: string, phone?: string) => Promise<{ success: boolean; message?: string; requiresVerification?: boolean }>;
   logout: () => void;
   refreshProfile: () => Promise<void>;
 }
@@ -103,10 +103,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     try {
       const response = await authAPI.register(email, password, name, phone);
       
-      if (response.success && response.token && response.user) {
-        setToken(response.token);
-        setUser(response.user);
-        return { success: true };
+      if (response.success) {
+        // Only set token if provided (for backward compatibility)
+        if (response.token && response.user) {
+          setToken(response.token);
+          setUser(response.user);
+        }
+        return { 
+          success: true, 
+          message: response.message,
+          requiresVerification: response.requiresVerification 
+        };
       }
       
       return { 

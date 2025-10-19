@@ -65,9 +65,17 @@ export const RegisterPage: React.FC = () => {
       );
       
       if (result.success) {
-        // Clear return path and navigate
-        sessionStorage.removeItem('returnPath');
-        navigate(returnPath, { replace: true });
+        if (result.requiresVerification) {
+          // Show success message and redirect to login after delay
+          alert(result.message || t('register.verificationRequired'));
+          setTimeout(() => {
+            navigate('/login', { replace: true });
+          }, 1000);
+        } else {
+          // Old behavior: auto-login (backward compatibility)
+          sessionStorage.removeItem('returnPath');
+          navigate(returnPath, { replace: true });
+        }
       } else {
         setError(result.message || t('register.error'));
       }

@@ -476,9 +476,7 @@ END:VCALENDAR`;
       await this.transporter.sendMail({
         from: `${config.email.fromName} <${config.email.from}>`,
         to: email,
-        subject: isHungarian 
-          ? '📧 Email cím megerősítése'
-          : '📧 Verify Your Email Address',
+        subject: '📧 Email cím megerősítése / Verify Your Email Address',
         html,
       });
 

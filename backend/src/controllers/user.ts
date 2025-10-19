@@ -73,13 +73,10 @@ export async function register(req: Request, res: Response) {
       // Continue with registration even if email fails
     }
 
-    // Generate token
-    const { generateToken } = await import('../services/auth');
-    const token = generateToken(user.id, user.email);
-
+    // Don't generate token on registration - require email verification first
     res.status(201).json({
       success: true,
-      token,
+      token: null,
       user: {
         id: user.id,
         email: user.email,
@@ -88,7 +85,8 @@ export async function register(req: Request, res: Response) {
         email_verified: user.email_verified,
         is_admin: user.is_admin,
       },
-      message: 'Registration successful. Please check your email to verify your account.',
+      message: 'Registration successful! Please check your email to verify your account before logging in.',
+      requiresVerification: true,
     } as AuthResponse);
   } catch (error: any) {
     console.error('Registration error:', error);

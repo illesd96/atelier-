@@ -560,6 +560,7 @@
   "register": {
     "title": "Fiók létrehozása",
     "subtitle": "Csatlakozzon hozzánk a könnyebb foglalásért",
+    "verificationRequired": "Sikeres regisztráció! Kérjük ellenőrizze email fiókját a megerősítéshez, mielőtt bejelentkezik.",
     "name": "Teljes név",
     "namePlaceholder": "Írja be teljes nevét",
     "email": "E-mail",

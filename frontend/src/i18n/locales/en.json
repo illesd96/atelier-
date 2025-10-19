@@ -560,6 +560,7 @@
   "register": {
     "title": "Create Account",
     "subtitle": "Join us for easier bookings",
+    "verificationRequired": "Registration successful! Please check your email to verify your account before logging in.",
     "name": "Full Name",
     "namePlaceholder": "Enter your full name",
     "email": "Email",

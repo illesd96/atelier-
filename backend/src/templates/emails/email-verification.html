@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="{{language}}">
+<html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{{#if isHungarian}}Email Megerősítés{{else}}Email Verification{{/if}}</title>
+  <title>Email Megerősítés / Email Verification</title>
   <style>
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -38,6 +38,23 @@
       color: #666;
       font-size: 16px;
       margin: 0 0 30px 0;
+    }
+    .language-section {
+      margin-bottom: 40px;
+      padding-bottom: 40px;
+      border-bottom: 2px solid #e5e5e5;
+    }
+    .language-section:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .language-label {
+      font-size: 12px;
+      color: #999;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 20px;
     }
     .content {
       margin: 30px 0;
@@ -111,94 +128,87 @@
   <div class="email-container">
     <div class="header">
       <div class="logo">📧</div>
-      <h1>
-        {{#if isHungarian}}
-          Erősítse meg email címét
-        {{else}}
-          Verify Your Email Address
-        {{/if}}
-      </h1>
-      <p class="subtitle">
-        {{#if isHungarian}}
-          Még egy lépés a fiók aktiválásához
-        {{else}}
-          One more step to activate your account
-        {{/if}}
-      </p>
+      <h1>Email Megerősítés / Email Verification</h1>
+      <p class="subtitle">Még egy lépés a fiók aktiválásához / One more step to activate your account</p>
     </div>
 
     <div class="content">
-      <p class="greeting">
-        {{#if isHungarian}}
+      <!-- Hungarian Section -->
+      <div class="language-section">
+        <div class="language-label">🇭🇺 Magyar</div>
+        
+        <p class="greeting">
           Üdvözöljük, {{name}}!
-        {{else}}
-          Welcome, {{name}}!
-        {{/if}}
-      </p>
+        </p>
 
-      <p>
-        {{#if isHungarian}}
+        <p>
           Köszönjük, hogy regisztrált nálunk! Az aktiváláshoz kérjük, erősítse meg email címét az alábbi gombra kattintva:
-        {{else}}
-          Thank you for registering with us! To activate your account, please verify your email address by clicking the button below:
-        {{/if}}
-      </p>
+        </p>
 
-      <div class="button-container">
-        <a href="{{verificationUrl}}" class="verify-button">
-          {{#if isHungarian}}
+        <div class="button-container">
+          <a href="{{verificationUrl}}" class="verify-button">
             Email Cím Megerősítése
-          {{else}}
-            Verify Email Address
-          {{/if}}
-        </a>
-      </div>
+          </a>
+        </div>
 
-      <div class="info-box">
-        <p>
-          {{#if isHungarian}}
+        <div class="info-box">
+          <p>
             ⏰ Ez a link 24 órán belül lejár. Ha lejárt, kérhet újat a bejelentkezési oldalon.
-          {{else}}
-            ⏰ This link will expire in 24 hours. If it expires, you can request a new one from the login page.
-          {{/if}}
-        </p>
-      </div>
+          </p>
+        </div>
 
-      <div class="alt-link">
-        <p>
-          {{#if isHungarian}}
+        <div class="alt-link">
+          <p>
             Ha a gomb nem működik, másolja be ezt a linket a böngészőjébe:
-          {{else}}
-            If the button doesn't work, copy and paste this link into your browser:
-          {{/if}}
+          </p>
+          <a href="{{verificationUrl}}">{{verificationUrl}}</a>
+        </div>
+
+        <p style="margin-top: 30px; font-size: 14px; color: #666;">
+          Ha nem Ön regisztrált nálunk, kérjük, hagyja figyelmen kívül ezt az emailt.
         </p>
-        <a href="{{verificationUrl}}">{{verificationUrl}}</a>
       </div>
 
-      <p style="margin-top: 30px; font-size: 14px; color: #666;">
-        {{#if isHungarian}}
-          Ha nem Ön regisztrált nálunk, kérjük, hagyja figyelmen kívül ezt az emailt.
-        {{else}}
+      <!-- English Section -->
+      <div class="language-section">
+        <div class="language-label">🇬🇧 English</div>
+        
+        <p class="greeting">
+          Welcome, {{name}}!
+        </p>
+
+        <p>
+          Thank you for registering with us! To activate your account, please verify your email address by clicking the button below:
+        </p>
+
+        <div class="button-container">
+          <a href="{{verificationUrl}}" class="verify-button">
+            Verify Email Address
+          </a>
+        </div>
+
+        <div class="info-box">
+          <p>
+            ⏰ This link will expire in 24 hours. If it expires, you can request a new one from the login page.
+          </p>
+        </div>
+
+        <div class="alt-link">
+          <p>
+            If the button doesn't work, copy and paste this link into your browser:
+          </p>
+          <a href="{{verificationUrl}}">{{verificationUrl}}</a>
+        </div>
+
+        <p style="margin-top: 30px; font-size: 14px; color: #666;">
           If you didn't create an account with us, please ignore this email.
-        {{/if}}
-      </p>
+        </p>
+      </div>
     </div>
 
     <div class="footer">
-      <p>
-        {{#if isHungarian}}
-          © 2025 Photo Studio. Minden jog fenntartva.
-        {{else}}
-          © 2025 Photo Studio. All rights reserved.
-        {{/if}}
-      </p>
-      <p>
-        {{#if isHungarian}}
-          Ez egy automatikus értesítés, kérjük ne válaszoljon rá.
-        {{else}}
-          This is an automated notification, please do not reply.
-        {{/if}}
-      </p>
+      <p>© 2025 Photo Studio. Minden jog fenntartva. / All rights reserved.</p>
+      <p>Ez egy automatikus értesítés, kérjük ne válaszoljon rá. / This is an automated notification, please do not reply.</p>
     </div>
   </div>
 </body>

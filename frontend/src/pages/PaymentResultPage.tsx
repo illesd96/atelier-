@@ -7,6 +7,28 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../hooks/useCart';
 import api from '../services/api';
 
+interface OrderDetails {
+  id: string;
+  status: string;
+  customer_name: string;
+  email: string;
+  total_amount: number;
+  currency: string;
+  created_at: string;
+}
+
+interface OrderItemDetails {
+  id: string;
+  order_id: string;
+  room_id: string;
+  room_name: string;
+  booking_date: string;
+  start_time: string;
+  end_time: string;
+  booking_id: string;
+  status: string;
+}
+
 export const PaymentResultPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -15,6 +37,8 @@ export const PaymentResultPage: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [result, setResult] = useState<'success' | 'failed' | 'cancelled' | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [orderDetails, setOrderDetails] = useState<OrderDetails | null>(null);
+  const [orderItems, setOrderItems] = useState<OrderItemDetails[]>([]);
 
   const orderId = searchParams.get('orderId');
   const paymentId = searchParams.get('paymentId');
@@ -40,6 +64,10 @@ export const PaymentResultPage: React.FC = () => {
             
             if (response.success && response.order) {
               const status = response.order.status;
+              
+              // Store order details and items
+              setOrderDetails(response.order);
+              setOrderItems(response.items || []);
               
               if (status === 'paid') {
                 setResult('success');
@@ -214,13 +242,24 @@ export const PaymentResultPage: React.FC = () => {
         
         {orderId && (
           <div className="mb-4 p-3 bg-gray-50 border-round">
-            <p className="text-sm text-gray-600 m-0">
+            <p className="text-sm text-gray-600 mb-2">
               <strong>{t('payment.orderId')}:</strong> {orderId}
             </p>
-            {paymentId && (
-              <p className="text-sm text-gray-600 m-0">
-                <strong>{t('payment.bookingCode')}:</strong> {paymentId.slice(-8).toUpperCase()}
-              </p>
+            {orderItems.length > 0 && (
+              <div className="mt-3">
+                <p className="text-sm font-semibold text-gray-700 mb-2">
+                  {t('payment.bookingCodes')}:
+                </p>
+                {orderItems.map((item, index) => (
+                  <div key={item.id} className="text-sm text-gray-600 mb-1 pl-2">
+                    <strong>{item.room_name}</strong> - {item.booking_date} {item.start_time}
+                    <br />
+                    <span className="font-mono text-primary">
+                      {item.booking_id || t('payment.bookingPending')}
+                    </span>
+                  </div>
+                ))}
+              </div>
             )}
           </div>
         )}

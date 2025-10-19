@@ -183,6 +183,8 @@
     "cancelledMessage": "A fizetés megszakítva. A kosár tartalma megőrizve.",
     "orderId": "Rendelés Azonosító",
     "bookingCode": "Foglalási Kód",
+    "bookingCodes": "Foglalási Számok",
+    "bookingPending": "Megerősítés folyamatban",
     "returnToHome": "Vissza a Főoldalra",
     "tryAgain": "Újra Próbálkozás"
   },

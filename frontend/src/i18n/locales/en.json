@@ -183,6 +183,8 @@
     "cancelledMessage": "Payment was cancelled. Your cart has been preserved.",
     "orderId": "Order ID",
     "bookingCode": "Booking Code",
+    "bookingCodes": "Booking Codes",
+    "bookingPending": "Pending confirmation",
     "returnToHome": "Return to Home",
     "tryAgain": "Try Again"
   },

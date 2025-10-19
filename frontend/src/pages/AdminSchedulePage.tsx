@@ -297,42 +297,46 @@ export const AdminSchedulePage: React.FC = () => {
       </div>
 
       {/* Filters */}
-      <div className="filter-section card p-3 mb-4">
-        <div className="grid">
-          <div className="col-12 md:col-3">
-            <label className="block mb-2 font-semibold">Date From</label>
+      <div className="filters-card card p-3 mb-4">
+        <div className="filters-row">
+          <div className="filter-item">
+            <label htmlFor="date-from">Date From</label>
             <Calendar
+              id="date-from"
               value={dateFrom}
               onChange={(e) => setDateFrom(e.value as Date)}
               dateFormat="yy-mm-dd"
               showIcon
+              placeholder="From date"
             />
           </div>
-          <div className="col-12 md:col-3">
-            <label className="block mb-2 font-semibold">Date To</label>
+          <div className="filter-item">
+            <label htmlFor="date-to">Date To</label>
             <Calendar
+              id="date-to"
               value={dateTo}
               onChange={(e) => setDateTo(e.value as Date)}
               dateFormat="yy-mm-dd"
               showIcon
+              placeholder="To date"
             />
           </div>
-          <div className="col-12 md:col-3">
-            <label className="block mb-2 font-semibold">Room</label>
+          <div className="filter-item">
+            <label htmlFor="room-filter">Room</label>
             <Dropdown
+              id="room-filter"
               value={roomFilter}
               options={roomOptions}
               onChange={(e) => setRoomFilter(e.value)}
               placeholder="Select Room"
-              className="w-full"
             />
           </div>
-          <div className="col-12 md:col-3 flex align-items-end">
+          <div className="filter-item filter-button">
             <Button
               label="Refresh"
               icon="pi pi-refresh"
               onClick={loadSchedule}
-              className="w-full"
+              outlined
             />
           </div>
         </div>

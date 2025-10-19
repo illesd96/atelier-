@@ -17,7 +17,7 @@ interface AuthContextType {
   token: string | null;
   isLoading: boolean;
   isAuthenticated: boolean;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  login: (email: string, password: string) => Promise<{ success: boolean; message?: string; emailVerified?: boolean; warning?: string }>;
   register: (email: string, password: string, name: string, phone?: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => void;
   refreshProfile: () => Promise<void>;

@@ -6,7 +6,7 @@ import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import { useAuth } from '../contexts/AuthContext';
-import { api } from '../services/api';
+import { authAPI } from '../services/api';
 import './LoginPage.css';
 
 export const LoginPage: React.FC = () => {
@@ -70,7 +70,7 @@ export const LoginPage: React.FC = () => {
   const handleResendVerification = async () => {
     setResendingEmail(true);
     try {
-      await api.resendVerification(email, i18n.language);
+      await authAPI.resendVerification(email, i18n.language);
       alert(t('login.verificationEmailSent'));
     } catch (error) {
       alert(t('login.verificationEmailError'));

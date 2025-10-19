@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import { ProgressSpinner } from 'primereact/progressspinner';
-import { api } from '../services/api';
+import { authAPI } from '../services/api';
 import './LoginPage.css';
 
 export const EmailVerificationPage: React.FC = () => {
@@ -25,7 +25,7 @@ export const EmailVerificationPage: React.FC = () => {
       }
 
       try {
-        const response = await api.verifyEmail(token);
+        const response = await authAPI.verifyEmail(token);
         
         if (response.success) {
           setStatus('success');

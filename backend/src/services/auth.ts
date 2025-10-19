@@ -1,11 +1,13 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import pool from '../database/connection';
 import { User } from '../types';
 
 const SALT_ROUNDS = 10;
 const JWT_SECRET = process.env.JWT_SECRET || 'your-secret-key-change-in-production';
 const JWT_EXPIRES_IN = '7d'; // Token valid for 7 days
+const VERIFICATION_TOKEN_EXPIRES_HOURS = 24; // Verification token valid for 24 hours
 
 export interface JWTPayload {
   userId: string;
@@ -46,7 +48,14 @@ export function verifyToken(token: string): JWTPayload | null {
 }
 
 /**
- * Create a new user
+ * Generate a random verification token
+ */
+export function generateVerificationToken(): string {
+  return crypto.randomBytes(32).toString('hex');
+}
+
+/**
+ * Create a new user with email verification
  */
 export async function createUser(
   email: string,
@@ -56,12 +65,15 @@ export async function createUser(
 ): Promise<User | null> {
   try {
     const passwordHash = await hashPassword(password);
+    const verificationToken = generateVerificationToken();
+    const tokenExpires = new Date();
+    tokenExpires.setHours(tokenExpires.getHours() + VERIFICATION_TOKEN_EXPIRES_HOURS);
     
     const result = await pool.query<User>(
-      `INSERT INTO users (email, password_hash, name, phone)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO users (email, password_hash, name, phone, verification_token, verification_token_expires)
+       VALUES ($1, $2, $3, $4, $5, $6)
        RETURNING *`,
-      [email.toLowerCase(), passwordHash, name, phone]
+      [email.toLowerCase(), passwordHash, name, phone, verificationToken, tokenExpires]
     );
 
     return result.rows[0];
@@ -215,5 +227,73 @@ export async function changePassword(
   );
 
   return true;
+}
+
+/**
+ * Verify email with token
+ */
+export async function verifyEmail(token: string): Promise<boolean> {
+  try {
+    const result = await pool.query<User>(
+      `SELECT * FROM users 
+       WHERE verification_token = $1 
+       AND verification_token_expires > NOW()`,
+      [token]
+    );
+
+    const user = result.rows[0];
+    
+    if (!user) {
+      return false;
+    }
+
+    // Mark email as verified and clear the token
+    await pool.query(
+      `UPDATE users 
+       SET email_verified = TRUE, 
+           verification_token = NULL, 
+           verification_token_expires = NULL 
+       WHERE id = $1`,
+      [user.id]
+    );
+
+    return true;
+  } catch (error) {
+    console.error('Error verifying email:', error);
+    return false;
+  }
+}
+
+/**
+ * Resend verification email (generate new token)
+ */
+export async function resendVerification(email: string): Promise<{ token: string; user: User } | null> {
+  try {
+    const user = await findUserByEmail(email);
+    
+    if (!user) {
+      return null;
+    }
+
+    if (user.email_verified) {
+      throw new Error('Email already verified');
+    }
+
+    const verificationToken = generateVerificationToken();
+    const tokenExpires = new Date();
+    tokenExpires.setHours(tokenExpires.getHours() + VERIFICATION_TOKEN_EXPIRES_HOURS);
+
+    await pool.query(
+      `UPDATE users 
+       SET verification_token = $1, verification_token_expires = $2 
+       WHERE id = $3`,
+      [verificationToken, tokenExpires, user.id]
+    );
+
+    return { token: verificationToken, user };
+  } catch (error) {
+    console.error('Error resending verification:', error);
+    throw error;
+  }
 }
 

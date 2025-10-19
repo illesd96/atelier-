@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="{{language}}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{#if isHungarian}}Email Megerősítés{{else}}Email Verification{{/if}}</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    .email-container {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 40px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    .logo {
+      font-size: 48px;
+      margin-bottom: 10px;
+    }
+    h1 {
+      color: #000000;
+      font-size: 24px;
+      margin: 0 0 10px 0;
+      font-weight: 600;
+    }
+    .subtitle {
+      color: #666;
+      font-size: 16px;
+      margin: 0 0 30px 0;
+    }
+    .content {
+      margin: 30px 0;
+    }
+    .greeting {
+      font-size: 16px;
+      margin-bottom: 20px;
+    }
+    .button-container {
+      text-align: center;
+      margin: 40px 0;
+    }
+    .verify-button {
+      display: inline-block;
+      background-color: #000000;
+      color: #ffffff !important;
+      padding: 16px 40px;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: 0.5px;
+      transition: background-color 0.2s;
+    }
+    .verify-button:hover {
+      background-color: #333333;
+    }
+    .alt-link {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+      border-left: 4px solid #000000;
+    }
+    .alt-link p {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: #666;
+    }
+    .alt-link a {
+      color: #0066cc;
+      word-break: break-all;
+      font-size: 13px;
+    }
+    .info-box {
+      background-color: #e8f0fe;
+      border-left: 4px solid: #1976d2;
+      padding: 15px;
+      margin: 20px 0;
+      border-radius: 4px;
+    }
+    .info-box p {
+      margin: 0;
+      font-size: 14px;
+      color: #1976d2;
+    }
+    .footer {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e5e5;
+      text-align: center;
+      font-size: 12px;
+      color: #999;
+    }
+    .footer p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="email-container">
+    <div class="header">
+      <div class="logo">📧</div>
+      <h1>
+        {{#if isHungarian}}
+          Erősítse meg email címét
+        {{else}}
+          Verify Your Email Address
+        {{/if}}
+      </h1>
+      <p class="subtitle">
+        {{#if isHungarian}}
+          Még egy lépés a fiók aktiválásához
+        {{else}}
+          One more step to activate your account
+        {{/if}}
+      </p>
+    </div>
+
+    <div class="content">
+      <p class="greeting">
+        {{#if isHungarian}}
+          Üdvözöljük, {{name}}!
+        {{else}}
+          Welcome, {{name}}!
+        {{/if}}
+      </p>
+
+      <p>
+        {{#if isHungarian}}
+          Köszönjük, hogy regisztrált nálunk! Az aktiváláshoz kérjük, erősítse meg email címét az alábbi gombra kattintva:
+        {{else}}
+          Thank you for registering with us! To activate your account, please verify your email address by clicking the button below:
+        {{/if}}
+      </p>
+
+      <div class="button-container">
+        <a href="{{verificationUrl}}" class="verify-button">
+          {{#if isHungarian}}
+            Email Cím Megerősítése
+          {{else}}
+            Verify Email Address
+          {{/if}}
+        </a>
+      </div>
+
+      <div class="info-box">
+        <p>
+          {{#if isHungarian}}
+            ⏰ Ez a link 24 órán belül lejár. Ha lejárt, kérhet újat a bejelentkezési oldalon.
+          {{else}}
+            ⏰ This link will expire in 24 hours. If it expires, you can request a new one from the login page.
+          {{/if}}
+        </p>
+      </div>
+
+      <div class="alt-link">
+        <p>
+          {{#if isHungarian}}
+            Ha a gomb nem működik, másolja be ezt a linket a böngészőjébe:
+          {{else}}
+            If the button doesn't work, copy and paste this link into your browser:
+          {{/if}}
+        </p>
+        <a href="{{verificationUrl}}">{{verificationUrl}}</a>
+      </div>
+
+      <p style="margin-top: 30px; font-size: 14px; color: #666;">
+        {{#if isHungarian}}
+          Ha nem Ön regisztrált nálunk, kérjük, hagyja figyelmen kívül ezt az emailt.
+        {{else}}
+          If you didn't create an account with us, please ignore this email.
+        {{/if}}
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>
+        {{#if isHungarian}}
+          © 2025 Photo Studio. Minden jog fenntartva.
+        {{else}}
+          © 2025 Photo Studio. All rights reserved.
+        {{/if}}
+      </p>
+      <p>
+        {{#if isHungarian}}
+          Ez egy automatikus értesítés, kérjük ne válaszoljon rá.
+        {{else}}
+          This is an automated notification, please do not reply.
+        {{/if}}
+      </p>
+    </div>
+  </div>
+</body>
+</html>
+

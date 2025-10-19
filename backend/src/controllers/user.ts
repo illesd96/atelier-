@@ -7,9 +7,12 @@ import {
   updateUserProfile,
   changePassword,
   findUserById,
+  verifyEmail as verifyEmailService,
+  resendVerification,
 } from '../services/auth';
 import { RegisterRequest, LoginRequest, AuthResponse } from '../types';
 import pool from '../database/connection';
+import emailService from '../services/email';
 
 // Validation schemas
 const registerSchema = z.object({
@@ -55,6 +58,21 @@ export async function register(req: Request, res: Response) {
       } as AuthResponse);
     }
 
+    // Send verification email
+    try {
+      if (user.verification_token) {
+        await emailService.sendEmailVerification(
+          user.email,
+          user.name,
+          user.verification_token,
+          req.body.language || 'en'
+        );
+      }
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      // Continue with registration even if email fails
+    }
+
     // Generate token
     const { generateToken } = await import('../services/auth');
     const token = generateToken(user.id, user.email);
@@ -70,7 +88,7 @@ export async function register(req: Request, res: Response) {
         email_verified: user.email_verified,
         is_admin: user.is_admin,
       },
-      message: 'Registration successful',
+      message: 'Registration successful. Please check your email to verify your account.',
     } as AuthResponse);
   } catch (error: any) {
     console.error('Registration error:', error);
@@ -117,6 +135,12 @@ export async function login(req: Request, res: Response) {
 
     const { user, token } = result;
 
+    // Check if email is verified (optional warning, not blocking login)
+    let message = 'Login successful';
+    if (!user.email_verified) {
+      message = 'Login successful. Please verify your email address to access all features.';
+    }
+
     res.json({
       success: true,
       token,
@@ -128,7 +152,8 @@ export async function login(req: Request, res: Response) {
         email_verified: user.email_verified,
         is_admin: user.is_admin,
       },
-      message: 'Login successful',
+      message,
+      warning: !user.email_verified ? 'Email not verified' : undefined,
     } as AuthResponse);
   } catch (error: any) {
     console.error('Login error:', error);
@@ -428,6 +453,102 @@ export async function deleteAddress(req: Request, res: Response) {
     });
   } catch (error) {
     console.error('Delete address error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+}
+
+/**
+ * Verify email with token
+ */
+export async function verifyEmail(req: Request, res: Response) {
+  try {
+    const { token } = req.body;
+
+    if (!token) {
+      return res.status(400).json({
+        success: false,
+        message: 'Verification token is required',
+      });
+    }
+
+    const success = await verifyEmailService(token);
+
+    if (!success) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid or expired verification token',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Email verified successfully',
+    });
+  } catch (error) {
+    console.error('Email verification error:', error);
+    res.status(500).json({
+      success: false,
+      message: 'Internal server error',
+    });
+  }
+}
+
+/**
+ * Resend verification email
+ */
+export async function resendVerificationEmail(req: Request, res: Response) {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is required',
+      });
+    }
+
+    const result = await resendVerification(email);
+
+    if (!result) {
+      return res.status(404).json({
+        success: false,
+        message: 'User not found',
+      });
+    }
+
+    // Send verification email
+    try {
+      await emailService.sendEmailVerification(
+        result.user.email,
+        result.user.name,
+        result.token,
+        req.body.language || 'en'
+      );
+    } catch (emailError) {
+      console.error('Failed to send verification email:', emailError);
+      return res.status(500).json({
+        success: false,
+        message: 'Failed to send verification email',
+      });
+    }
+
+    res.json({
+      success: true,
+      message: 'Verification email sent successfully',
+    });
+  } catch (error: any) {
+    console.error('Resend verification error:', error);
+
+    if (error.message === 'Email already verified') {
+      return res.status(400).json({
+        success: false,
+        message: 'Email is already verified',
+      });
+    }
+
     res.status(500).json({
       success: false,
       message: 'Internal server error',

@@ -539,7 +539,23 @@
     "error": "Hibás e-mail cím vagy jelszó",
     "noAccount": "Még nincs fiókja?",
     "registerLink": "Hozzon létre egyet",
-    "continueAsGuest": "Folytatás vendégként"
+    "continueAsGuest": "Folytatás vendégként",
+    "emailNotVerified": "Az email címe még nem lett megerősítve. Kérjük ellenőrizze a postafiókját a megerősítő linkért.",
+    "resendVerification": "Megerősítő Email Újraküldése",
+    "verificationEmailSent": "A megerősítő email elküldve. Kérjük ellenőrizze a postafiókját.",
+    "verificationEmailError": "Nem sikerült a megerősítő emailt elküldeni. Kérjük próbálja újra később."
+  },
+  "verification": {
+    "title": "Email Megerősítés",
+    "verifying": "Email cím megerősítése folyamatban...",
+    "successTitle": "Email Megerősítve!",
+    "success": "Az email címe sikeresen megerősítésre került.",
+    "redirecting": "Átirányítás a bejelentkezési oldalra 3 másodperc múlva...",
+    "errorTitle": "Megerősítés Sikertelen",
+    "error": "Nem sikerült az email cím megerősítése. Kérjük próbálja újra később.",
+    "invalidToken": "Érvénytelen vagy lejárt megerősítő link.",
+    "noToken": "Nincs megerősítő token megadva.",
+    "goToLogin": "Bejelentkezés"
   },
   "register": {
     "title": "Fiók létrehozása",

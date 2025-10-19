@@ -148,6 +148,23 @@ export const authAPI = {
     return response.data;
   },
 
+  // Verify email
+  async verifyEmail(token: string) {
+    const response = await apiClient.post('/auth/verify-email', {
+      token,
+    });
+    return response.data;
+  },
+
+  // Resend verification email
+  async resendVerification(email: string, language?: string) {
+    const response = await apiClient.post('/auth/resend-verification', {
+      email,
+      language,
+    });
+    return response.data;
+  },
+
   // Get user profile
   async getProfile(token: string) {
     const response = await apiClient.get('/auth/profile', {

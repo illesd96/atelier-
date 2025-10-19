@@ -15,6 +15,8 @@ import {
   getSavedAddresses,
   saveAddress,
   deleteAddress,
+  verifyEmail,
+  resendVerificationEmail,
 } from '../controllers/user';
 import { getAllBookings, getBookingStats, getScheduleView, updateAttendance, cancelBookingItem, modifyBookingItem } from '../controllers/admin';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
@@ -28,6 +30,8 @@ const router = Router();
 // Auth endpoints
 router.post('/auth/register', register);
 router.post('/auth/login', login);
+router.post('/auth/verify-email', verifyEmail);
+router.post('/auth/resend-verification', resendVerificationEmail);
 router.get('/auth/profile', authenticateToken, getProfile);
 router.put('/auth/profile', authenticateToken, updateProfile);
 router.put('/auth/password', authenticateToken, updatePassword);

@@ -539,7 +539,23 @@
     "error": "Invalid email or password",
     "noAccount": "Don't have an account?",
     "registerLink": "Create one",
-    "continueAsGuest": "Continue as guest"
+    "continueAsGuest": "Continue as guest",
+    "emailNotVerified": "Your email address is not verified. Please check your inbox for the verification link.",
+    "resendVerification": "Resend Verification Email",
+    "verificationEmailSent": "Verification email has been sent. Please check your inbox.",
+    "verificationEmailError": "Failed to send verification email. Please try again later."
+  },
+  "verification": {
+    "title": "Email Verification",
+    "verifying": "Verifying your email address...",
+    "successTitle": "Email Verified!",
+    "success": "Your email address has been successfully verified.",
+    "redirecting": "Redirecting to login page in 3 seconds...",
+    "errorTitle": "Verification Failed",
+    "error": "Failed to verify email address. Please try again later.",
+    "invalidToken": "Invalid or expired verification link.",
+    "noToken": "No verification token provided.",
+    "goToLogin": "Go to Login"
   },
   "register": {
     "title": "Create Account",

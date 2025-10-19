@@ -6,10 +6,11 @@ import { Password } from 'primereact/password';
 import { Button } from 'primereact/button';
 import { Message } from 'primereact/message';
 import { useAuth } from '../contexts/AuthContext';
+import { api } from '../services/api';
 import './LoginPage.css';
 
 export const LoginPage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { login, isAuthenticated } = useAuth();
@@ -18,6 +19,8 @@ export const LoginPage: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [showVerificationWarning, setShowVerificationWarning] = useState(false);
+  const [resendingEmail, setResendingEmail] = useState(false);
   
   // Check for return path in sessionStorage or location state
   const returnPath = sessionStorage.getItem('returnPath') || (location.state as any)?.from?.pathname || '/booking';
@@ -33,22 +36,46 @@ export const LoginPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    setShowVerificationWarning(false);
     setLoading(true);
 
     try {
       const result = await login(email, password);
       
       if (result.success) {
-        // Clear return path and navigate
-        sessionStorage.removeItem('returnPath');
-        navigate(returnPath, { replace: true });
+        // Show verification warning if email is not verified
+        if (!result.emailVerified) {
+          setShowVerificationWarning(true);
+          setLoading(false);
+          // Don't navigate immediately, let user see the warning
+          setTimeout(() => {
+            sessionStorage.removeItem('returnPath');
+            navigate(returnPath, { replace: true });
+          }, 3000);
+        } else {
+          // Clear return path and navigate immediately
+          sessionStorage.removeItem('returnPath');
+          navigate(returnPath, { replace: true });
+        }
       } else {
         setError(result.message || t('login.error'));
+        setLoading(false);
       }
     } catch (err) {
       setError(t('login.error'));
-    } finally {
       setLoading(false);
+    }
+  };
+
+  const handleResendVerification = async () => {
+    setResendingEmail(true);
+    try {
+      await api.resendVerification(email, i18n.language);
+      alert(t('login.verificationEmailSent'));
+    } catch (error) {
+      alert(t('login.verificationEmailError'));
+    } finally {
+      setResendingEmail(false);
     }
   };
 
@@ -61,6 +88,26 @@ export const LoginPage: React.FC = () => {
 
           {error && (
             <Message severity="error" text={error} className="w-full mb-4" />
+          )}
+
+          {showVerificationWarning && (
+            <div className="mb-4">
+              <Message 
+                severity="warn" 
+                text={t('login.emailNotVerified')} 
+                className="w-full mb-2" 
+              />
+              <Button
+                type="button"
+                label={t('login.resendVerification')}
+                onClick={handleResendVerification}
+                loading={resendingEmail}
+                severity="secondary"
+                outlined
+                size="small"
+                className="w-full"
+              />
+            </div>
           )}
 
           <form onSubmit={handleSubmit} className="login-form">

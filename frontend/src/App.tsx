@@ -21,6 +21,7 @@ import { BlogPage } from './pages/BlogPage';
 import { BlogPostPage } from './pages/BlogPostPage';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
+import { EmailVerificationPage } from './pages/EmailVerificationPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminBookingsPage } from './pages/AdminBookingsPage';
 import { AdminSchedulePage } from './pages/AdminSchedulePage';
@@ -43,6 +44,7 @@ function App() {
                   <Route path="payment/result" element={<PaymentResultPage />} />
                   <Route path="login" element={<LoginPage />} />
                   <Route path="register" element={<RegisterPage />} />
+                  <Route path="verify-email" element={<EmailVerificationPage />} />
                   <Route path="profile" element={<ProfilePage />} />
                   <Route path="admin/bookings" element={<AdminBookingsPage />} />
                   <Route path="admin/schedule" element={<AdminSchedulePage />} />

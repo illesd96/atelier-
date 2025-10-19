@@ -74,7 +74,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       if (response.success && response.token && response.user) {
         setToken(response.token);
         setUser(response.user);
-        return { success: true };
+        return { 
+          success: true, 
+          emailVerified: response.user.email_verified,
+          warning: response.warning 
+        };
       }
       
       return { 

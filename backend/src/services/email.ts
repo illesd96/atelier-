@@ -61,6 +61,13 @@ class EmailService {
       );
       this.templates['reminder'] = Handlebars.compile(reminderHtml);
 
+      // Load email verification template
+      const verificationHtml = fs.readFileSync(
+        path.join(templatesDir, 'email-verification.html'), 
+        'utf8'
+      );
+      this.templates['verification'] = Handlebars.compile(verificationHtml);
+
     } catch (error) {
       console.error('Error loading email templates:', error);
     }
@@ -438,6 +445,48 @@ END:VCALENDAR`;
     } catch (error) {
       console.error('❌ Email service connection failed:', error);
       return false;
+    }
+  }
+
+  /**
+   * Send email verification link to new users
+   */
+  async sendEmailVerification(
+    email: string,
+    name: string,
+    verificationToken: string,
+    language: string = 'en'
+  ): Promise<void> {
+    try {
+      const template = this.templates['verification'];
+      if (!template) {
+        throw new Error('Email verification template not found');
+      }
+
+      const isHungarian = language === 'hu';
+      const verificationUrl = `${config.frontendUrl}/verify-email?token=${verificationToken}`;
+      
+      const html = template({
+        name,
+        verificationUrl,
+        language,
+        isHungarian,
+      });
+
+      await this.transporter.sendMail({
+        from: `${config.email.fromName} <${config.email.from}>`,
+        to: email,
+        subject: isHungarian 
+          ? '📧 Email cím megerősítése'
+          : '📧 Verify Your Email Address',
+        html,
+      });
+
+      console.log(`Verification email sent to ${email}`);
+
+    } catch (error) {
+      console.error('Error sending verification email:', error);
+      throw error;
     }
   }
 }

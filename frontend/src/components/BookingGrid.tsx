@@ -184,7 +184,7 @@ export const BookingGrid: React.FC<BookingGridProps> = ({ onCartUpdate }) => {
             value={selectedDate}
             onChange={(e) => handleDateChange(e.value as Date)}
             showIcon
-            iconPos="left"
+            icon="pi pi-calendar"
             dateFormat="yy-mm-dd"
             minDate={new Date()}
             maxDate={addDays(new Date(), 90)}

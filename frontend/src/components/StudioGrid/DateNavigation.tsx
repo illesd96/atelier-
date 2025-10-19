@@ -75,7 +75,7 @@ export const DateNavigation: React.FC<DateNavigationProps> = ({
           value={selectedDate}
           onChange={(e) => handleDateChange(e.value as Date)}
           showIcon
-          iconPos="left"
+          icon="pi pi-calendar"
           dateFormat="yy-mm-dd"
           minDate={getMinSelectableDate()}
           maxDate={getMaxSelectableDate()}

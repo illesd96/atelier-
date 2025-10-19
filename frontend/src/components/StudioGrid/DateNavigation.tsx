@@ -65,7 +65,6 @@ export const DateNavigation: React.FC<DateNavigationProps> = ({
       <div className="flex align-items-center gap-2">
         <Button 
           label={t('booking.today')}
-          icon="pi pi-calendar"
           onClick={onToday}
           severity="secondary"
           outlined
@@ -76,9 +75,11 @@ export const DateNavigation: React.FC<DateNavigationProps> = ({
           value={selectedDate}
           onChange={(e) => handleDateChange(e.value as Date)}
           showIcon
+          iconPos="left"
           dateFormat="yy-mm-dd"
           minDate={getMinSelectableDate()}
           maxDate={getMaxSelectableDate()}
+          className="date-picker-with-icon"
         />
       </div>
     </div>

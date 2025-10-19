@@ -240,6 +240,30 @@ export const adminAPI = {
     });
     return response.data;
   },
+
+  // Get schedule/calendar view
+  async getScheduleView(token: string, params?: {
+    date_from?: string;
+    date_to?: string;
+    room_id?: string;
+  }) {
+    const response = await apiClient.get('/admin/schedule', {
+      headers: getAuthHeader(token),
+      params,
+    });
+    return response.data;
+  },
+
+  // Update booking attendance
+  async updateAttendance(token: string, bookingItemId: string, data: {
+    attendance_status: string;
+    admin_notes?: string;
+  }) {
+    const response = await apiClient.put(`/admin/bookings/${bookingItemId}/attendance`, data, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
 };
 
 export default api;

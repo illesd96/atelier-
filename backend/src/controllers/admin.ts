@@ -167,3 +167,112 @@ export async function getBookingStats(req: Request, res: Response) {
   }
 }
 
+/**
+ * Get schedule/calendar view of all bookings
+ */
+export async function getScheduleView(req: Request, res: Response) {
+  try {
+    const { date_from, date_to, room_id } = req.query;
+    
+    let query = `
+      SELECT 
+        oi.id,
+        oi.booking_id,
+        oi.booking_date,
+        to_char(oi.start_time, 'HH24:MI') as start_time,
+        to_char(oi.end_time, 'HH24:MI') as end_time,
+        oi.room_id,
+        r.name as room_name,
+        oi.status,
+        oi.attendance_status,
+        oi.admin_notes,
+        o.id as order_id,
+        o.customer_name,
+        o.email,
+        o.phone,
+        o.status as order_status
+      FROM order_items oi
+      JOIN orders o ON oi.order_id = o.id
+      JOIN rooms r ON oi.room_id = r.id
+      WHERE o.status = 'paid'
+    `;
+    
+    const queryParams: any[] = [];
+    
+    if (date_from && typeof date_from === 'string') {
+      queryParams.push(date_from);
+      query += ` AND oi.booking_date >= $${queryParams.length}`;
+    }
+    
+    if (date_to && typeof date_to === 'string') {
+      queryParams.push(date_to);
+      query += ` AND oi.booking_date <= $${queryParams.length}`;
+    }
+    
+    if (room_id && typeof room_id === 'string') {
+      queryParams.push(room_id);
+      query += ` AND oi.room_id = $${queryParams.length}`;
+    }
+    
+    query += ' ORDER BY oi.booking_date, oi.start_time, r.name';
+    
+    const result = await pool.query(query, queryParams);
+    
+    res.json({
+      success: true,
+      bookings: result.rows,
+    });
+  } catch (error) {
+    console.error('Get schedule view error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+    });
+  }
+}
+
+/**
+ * Update attendance status for a booking
+ */
+export async function updateAttendance(req: Request, res: Response) {
+  try {
+    const { bookingItemId } = req.params;
+    const { attendance_status, admin_notes } = req.body;
+    
+    // Validate attendance_status
+    const validStatuses = ['pending', 'showed_up', 'no_show', 'cancelled'];
+    if (!validStatuses.includes(attendance_status)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid attendance status',
+      });
+    }
+    
+    const result = await pool.query(
+      `UPDATE order_items 
+       SET attendance_status = $1, admin_notes = $2, updated_at = CURRENT_TIMESTAMP
+       WHERE id = $3
+       RETURNING id, attendance_status, admin_notes`,
+      [attendance_status, admin_notes || null, bookingItemId]
+    );
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        error: 'Booking item not found',
+      });
+    }
+    
+    res.json({
+      success: true,
+      booking: result.rows[0],
+    });
+  } catch (error) {
+    console.error('Update attendance error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Internal server error',
+    });
+  }
+}
+

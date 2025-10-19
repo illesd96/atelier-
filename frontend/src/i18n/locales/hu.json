@@ -3,6 +3,7 @@
     "loading": "Betöltés...",
     "error": "Hiba",
     "success": "Sikeres",
+    "warning": "Figyelmeztetés",
     "cancel": "Mégse",
     "confirm": "Megerősítés",
     "save": "Mentés",
@@ -136,6 +137,7 @@
   },
   "checkout": {
     "title": "Fizetés",
+    "pastAppointmentsRemoved": "{{count}} múltbeli időpont(ok) automatikusan eltávolításra került(ek) a kosárból",
     "customerInfo": "Vásárló Adatok",
     "name": "Teljes Név",
     "email": "Email Cím",

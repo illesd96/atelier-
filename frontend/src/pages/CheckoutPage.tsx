@@ -1,15 +1,33 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Toast } from 'primereact/toast';
 import { Button } from 'primereact/button';
 import { CheckoutForm } from '../components/CheckoutForm';
+import { useCart } from '../contexts/CartContext';
 import './CheckoutPage.css';
 
 export const CheckoutPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
+  const { removePastAppointments } = useCart();
+
+  // Clean up past appointments when checkout page opens
+  useEffect(() => {
+    const removedCount = removePastAppointments();
+    if (removedCount > 0) {
+      console.log(`Removed ${removedCount} past appointment(s) from cart`);
+      if (toast.current) {
+        toast.current.show({
+          severity: 'warn',
+          summary: t('common.warning'),
+          detail: t('checkout.pastAppointmentsRemoved', { count: removedCount }),
+          life: 5000,
+        });
+      }
+    }
+  }, [removePastAppointments, t]);
 
   const handleSuccess = (redirectUrl: string) => {
     // Redirect to Barion payment page

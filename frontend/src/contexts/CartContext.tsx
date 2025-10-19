@@ -10,6 +10,7 @@ interface CartContextType {
   addItem: (item: CartItem) => void;
   removeItem: (room_id: string, date: string, start_time: string) => void;
   clearCart: () => void;
+  removePastAppointments: () => number;
   isInCart: (room_id: string, date: string, start_time: string) => boolean;
   getTotal: () => number;
   getItemCount: () => number;
@@ -82,6 +83,31 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     setItems([]);
   }, []);
 
+  const removePastAppointments = useCallback(() => {
+    const now = new Date();
+    let removedCount = 0;
+    
+    setItems(currentItems => {
+      const validItems = currentItems.filter(item => {
+        // Parse the appointment date and time
+        const [year, month, day] = item.date.split('-').map(Number);
+        const [hours, minutes] = item.start_time.split(':').map(Number);
+        const appointmentDateTime = new Date(year, month - 1, day, hours, minutes);
+        
+        // Check if appointment is in the future
+        const isFuture = appointmentDateTime > now;
+        if (!isFuture) {
+          removedCount++;
+        }
+        return isFuture;
+      });
+      
+      return validItems;
+    });
+    
+    return removedCount;
+  }, []);
+
   const isInCart = useCallback((room_id: string, date: string, start_time: string) => {
     return items.some(item => 
       item.room_id === room_id && 
@@ -134,6 +160,7 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
     addItem,
     removeItem,
     clearCart,
+    removePastAppointments,
     isInCart,
     getTotal,
     getItemCount,

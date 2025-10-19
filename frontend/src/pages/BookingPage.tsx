@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
@@ -12,8 +12,16 @@ import './BookingPage.css';
 export const BookingPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { items } = useCart();
+  const { items, removePastAppointments } = useCart();
   const [cartVisible, setCartVisible] = useState(false);
+
+  // Clean up past appointments when page opens
+  useEffect(() => {
+    const removedCount = removePastAppointments();
+    if (removedCount > 0) {
+      console.log(`Removed ${removedCount} past appointment(s) from cart`);
+    }
+  }, [removePastAppointments]);
 
   const handleCartUpdate = () => {
     // Cart state is automatically synchronized via Context

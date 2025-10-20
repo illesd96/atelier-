@@ -101,6 +101,15 @@ router.get('/cron/send-reminders', async (req, res) => {
   }
 });
 
+// Favicon requests - redirect to frontend or return 204
+router.get('/favicon.ico', (req, res) => {
+  res.status(204).end(); // No Content - silences the 404s
+});
+
+router.get('/favicon.png', (req, res) => {
+  res.status(204).end();
+});
+
 // Health check
 router.get('/health', async (req, res) => {
   try {

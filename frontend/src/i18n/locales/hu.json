@@ -36,8 +36,13 @@
     "blog": "Blog",
     "terms": "ÁSZF",
     "privacy": "Adatvédelem",
+    "cookies": "Cookie Szabályzat",
+    "impressum": "Impresszum",
     "faq": "GYIK",
     "language": "Nyelv"
+  },
+  "footer": {
+    "securePayment": "Biztonságos Fizetés"
   },
   "home": {
     "title": "Atelier Archilles",
@@ -137,6 +142,7 @@
   },
   "checkout": {
     "title": "Fizetés",
+    "securePayment": "Biztonságos Fizetés",
     "pastAppointmentsRemoved": "{{count}} múltbeli időpont(ok) automatikusan eltávolításra került(ek) a kosárból",
     "authPrompt": {
       "title": "Hozzon Létre Fiókot vagy Jelentkezzen Be",
@@ -457,6 +463,7 @@
   },
   "legal": {
     "lastUpdated": "Utoljára frissítve",
+    "downloadPDF": "PDF verzió letöltése",
     "terms": {
       "title": "Általános Szerződési Feltételek",
       "acceptance": {
@@ -471,7 +478,17 @@
       "payment": {
         "title": "Fizetési Feltételek",
         "content1": "A fizetés a foglaláskor esedékes. A Barion fizetési rendszeren keresztül fogadunk el fizetéseket. Minden ár Magyar Forintban (HUF) van megadva.",
-        "content2": "Számlát kérésre biztosítunk a fizetési folyamat során."
+        "content2": "Számlát kérésre biztosítunk a fizetési folyamat során.",
+        "barion": {
+          "title": "Barion Fizetési Rendszer",
+          "description": "A Barion biztonságos online fizetési szolgáltatást használjuk. A Barion PCI-DSS Level 1 tanúsítvánnyal rendelkező fizetési szolgáltató, amely a kártyás tranzakciók legmagasabb szintű biztonságát garantálja. Fizethet bankkártyával (Visa, Mastercard), betéti kártyával vagy banki átutalással a Barion rendszerén keresztül.",
+          "security": "Biztonságos Fizetés",
+          "securityDetails": "Minden fizetési információ ipari szabványnak megfelelő SSL titkosítással kerül továbbításra. Az Atelier Archilles nem tárolja az Ön kártyaadatait. A tranzakciókat közvetlenül a Barion biztonságos platformja dolgozza fel, az európai fizetési szabályozásoknak (PSD2) megfelelően."
+        },
+        "fulfillment": {
+          "title": "Szolgáltatás Teljesítése",
+          "description": "A stúdió foglalása azonnal megerősítésre kerül a sikeres fizetést követően. Perceken belül megkapja a foglalási megerősítést és foglalási kódját emailben. A stúdió az Ön számára a megadott időpontban használatra kész lesz."
+        }
       },
       "cancellation": {
         "title": "Lemondási Feltételek",

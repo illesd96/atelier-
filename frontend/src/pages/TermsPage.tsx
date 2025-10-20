@@ -9,7 +9,26 @@ export const TermsPage: React.FC = () => {
     <div className="legal-page">
       <div className="legal-container">
         <h1>{t('legal.terms.title')}</h1>
-        <p className="legal-updated">{t('legal.lastUpdated')}: October 2, 2025</p>
+        <p className="legal-updated">{t('legal.lastUpdated')}: October 20, 2025</p>
+        
+        <div className="legal-download" style={{
+          padding: '1rem',
+          background: '#f8f9fa',
+          borderRadius: '8px',
+          marginBottom: '2rem',
+          textAlign: 'center'
+        }}>
+          <a 
+            href="/documents/Atelier-Archilles_Terms_and_Conditions_v251020.pdf" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="p-button p-button-primary"
+            style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}
+          >
+            <i className="pi pi-file-pdf"></i>
+            {t('legal.downloadPDF')}
+          </a>
+        </div>
 
         <section>
           <h2>1. {t('legal.terms.acceptance.title')}</h2>
@@ -26,6 +45,17 @@ export const TermsPage: React.FC = () => {
           <h2>3. {t('legal.terms.payment.title')}</h2>
           <p>{t('legal.terms.payment.content1')}</p>
           <p>{t('legal.terms.payment.content2')}</p>
+          
+          <h3>{t('legal.terms.payment.barion.title')}</h3>
+          <p>{t('legal.terms.payment.barion.description')}</p>
+          <div className="payment-logo">
+            <img src="/images/barion_logo.svg" alt="Barion" style={{height: '40px', margin: '10px 0'}} />
+          </div>
+          <p><strong>{t('legal.terms.payment.barion.security')}</strong></p>
+          <p>{t('legal.terms.payment.barion.securityDetails')}</p>
+          
+          <h3>{t('legal.terms.payment.fulfillment.title')}</h3>
+          <p>{t('legal.terms.payment.fulfillment.description')}</p>
         </section>
 
         <section>

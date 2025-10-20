@@ -17,10 +17,11 @@
     <!-- Barion Pixel -->
     <script>
       (function(w, d) {
-        // Initialize bp function
+        // Initialize bp function with queue
         w.bp = w.bp || function() {
           (w.bp.q = w.bp.q || []).push(arguments);
         };
+        w.bp.q = w.bp.q || [];
         w.bp.l = 1 * new Date();
         
         // Get pixel ID from meta tag

@@ -28,6 +28,7 @@
         
         // Validation and initialization
         if (!pixelId || pixelId === '%VITE_BARION_PIXEL_ID%') {
+          console.log('pixelId', pixelId);
           console.warn('[Barion Pixel] Pixel ID not configured. Set VITE_BARION_PIXEL_ID environment variable.');
           return;
         }

@@ -28,13 +28,13 @@
         
         // Validation and initialization
         if (!pixelId || pixelId === '%VITE_BARION_PIXEL_ID%') {
-          console.log('pixelId', pixelId);
           console.warn('[Barion Pixel] Pixel ID not configured. Set VITE_BARION_PIXEL_ID environment variable.');
           return;
         }
         
-        if (!pixelId.startsWith('BP-')) {
-          console.error('[Barion Pixel] Invalid Pixel ID format. Expected format: BP-xxxxx-xxxxx');
+        // Accept both BP- and BPT- prefixes (Barion uses both formats)
+        if (!pixelId.startsWith('BP-') && !pixelId.startsWith('BPT-')) {
+          console.error('[Barion Pixel] Invalid Pixel ID format. Expected format: BP-xxxxx or BPT-xxxxx');
           return;
         }
         

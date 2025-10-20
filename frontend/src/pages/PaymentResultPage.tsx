@@ -8,6 +8,7 @@ import { useCart } from '../hooks/useCart';
 import { OrderItem } from '../types';
 import api from '../services/api';
 import { barionPixel } from '../utils/barionPixel';
+import { format } from 'date-fns';
 
 export const PaymentResultPage: React.FC = () => {
   const { t } = useTranslation();
@@ -20,6 +21,15 @@ export const PaymentResultPage: React.FC = () => {
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
 
   const orderId = searchParams.get('orderId');
+
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    try {
+      return format(new Date(dateString), 'yyyy-MM-dd');
+    } catch {
+      return dateString;
+    }
+  };
 
   useEffect(() => {
     const checkPaymentStatus = async () => {
@@ -239,7 +249,7 @@ export const PaymentResultPage: React.FC = () => {
                 </p>
                 {orderItems.map((item) => (
                   <div key={item.id} className="text-sm text-gray-600 mb-1 pl-2">
-                    <strong>{item.room_name || 'Studio'}</strong> - {item.booking_date} {item.start_time}
+                    <strong>{item.room_name || 'Studio'}</strong> - {formatDate(item.booking_date)} {item.start_time}
                     <br />
                     <span className="font-mono text-primary">
                       {item.booking_id || t('payment.bookingPending')}

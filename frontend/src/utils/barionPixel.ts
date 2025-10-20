@@ -8,59 +8,21 @@ declare global {
 
 class BarionPixel {
   private pixelId: string | null = null;
-  private initialized: boolean = false;
 
   constructor() {
     this.pixelId = import.meta.env.VITE_BARION_PIXEL_ID || null;
-    this.initialize();
-  }
-
-  /**
-   * Initialize Barion Pixel
-   */
-  private initialize() {
-    if (!this.pixelId) {
-      if (process.env.NODE_ENV === 'development') {
-        console.warn('⚠️ Barion Pixel ID not configured');
-      }
-      return;
+    
+    if (!this.pixelId && process.env.NODE_ENV === 'development') {
+      console.warn('⚠️ Barion Pixel ID not configured');
     }
-
-    // Wait for window.bp to be available
-    if (typeof window === 'undefined') {
-      return;
-    }
-
-    // Retry initialization if bp is not yet loaded
-    const tryInit = () => {
-      if (!window.bp) {
-        // Retry after a short delay
-        setTimeout(tryInit, 100);
-        return;
-      }
-
-      try {
-        window.bp('init', 'addBarionPixelId', this.pixelId);
-        this.initialized = true;
-        if (process.env.NODE_ENV === 'development') {
-          console.log('✅ Barion Pixel initialized:', this.pixelId);
-        }
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('❌ Failed to initialize Barion Pixel:', error);
-        }
-      }
-    };
-
-    // Start initialization
-    tryInit();
   }
 
   /**
    * Check if pixel is ready
+   * Note: Pixel is initialized in index.html
    */
   private isReady(): boolean {
-    return this.initialized && typeof window !== 'undefined' && !!window.bp;
+    return typeof window !== 'undefined' && !!window.bp;
   }
 
   /**

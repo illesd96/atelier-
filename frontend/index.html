@@ -15,6 +15,14 @@
         };
         w.bp.l = 1 * new Date();
       })(window);
+      
+      // Initialize Barion Pixel with ID after script loads
+      window.addEventListener('load', function() {
+        var pixelId = '%VITE_BARION_PIXEL_ID%';
+        if (pixelId && pixelId.startsWith('BP-') && window.bp) {
+          window.bp('init', 'addBarionPixelId', pixelId);
+        }
+      });
     </script>
     <script async src="https://pixel.barion.com/bp.js"></script>
   </head>

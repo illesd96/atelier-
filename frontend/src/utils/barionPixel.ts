@@ -13,7 +13,7 @@ class BarionPixel {
     this.pixelId = import.meta.env.VITE_BARION_PIXEL_ID || null;
     
     if (!this.pixelId && process.env.NODE_ENV === 'development') {
-      console.warn('⚠️ Barion Pixel ID not configured');
+      console.warn('[Barion Pixel] ID not configured - tracking disabled');
     }
   }
 
@@ -22,7 +22,13 @@ class BarionPixel {
    * Note: Pixel is initialized in index.html
    */
   private isReady(): boolean {
-    return typeof window !== 'undefined' && !!window.bp;
+    const ready = typeof window !== 'undefined' && !!window.bp;
+    
+    if (!ready && process.env.NODE_ENV === 'development') {
+      console.warn('[Barion Pixel] Not ready - bp function not found');
+    }
+    
+    return ready;
   }
 
   /**

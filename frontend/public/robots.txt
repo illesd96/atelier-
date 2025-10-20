@@ -1,0 +1,29 @@
+# robots.txt for Atelier Archilles Photography Studio
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /payment/
+Disallow: /checkout
+Disallow: /*?*utm_
+Disallow: /*?*ref=
+
+# Sitemap location
+Sitemap: https://atelier-archilles.hu/sitemap.xml
+
+# Crawl-delay for bots (optional, helps prevent overload)
+Crawl-delay: 1
+
+# Block bad bots
+User-agent: AhrefsBot
+Crawl-delay: 10
+
+User-agent: SemrushBot
+Crawl-delay: 10
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: DotBot
+Disallow: /
+

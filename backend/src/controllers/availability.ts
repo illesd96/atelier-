@@ -24,8 +24,14 @@ export const getAvailability = async (req: Request, res: Response) => {
     }
     
     console.error('Error in getAvailability:', error);
+    console.error('Error details:', {
+      message: error instanceof Error ? error.message : 'Unknown error',
+      stack: error instanceof Error ? error.stack : undefined,
+    });
+    
     res.status(500).json({
-      error: 'Internal server error',
+      error: 'Failed to fetch availability',
+      message: error instanceof Error ? error.message : 'Unknown error',
     });
   }
 };

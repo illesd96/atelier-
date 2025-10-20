@@ -20,22 +20,40 @@ class BarionPixel {
    */
   private initialize() {
     if (!this.pixelId) {
-      console.warn('⚠️ Barion Pixel ID not configured');
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('⚠️ Barion Pixel ID not configured');
+      }
       return;
     }
 
-    if (typeof window === 'undefined' || !window.bp) {
-      console.warn('⚠️ Barion Pixel script not loaded');
+    // Wait for window.bp to be available
+    if (typeof window === 'undefined') {
       return;
     }
 
-    try {
-      window.bp('init', 'addBarionPixelId', this.pixelId);
-      this.initialized = true;
-      console.log('✅ Barion Pixel initialized:', this.pixelId);
-    } catch (error) {
-      console.error('❌ Failed to initialize Barion Pixel:', error);
-    }
+    // Retry initialization if bp is not yet loaded
+    const tryInit = () => {
+      if (!window.bp) {
+        // Retry after a short delay
+        setTimeout(tryInit, 100);
+        return;
+      }
+
+      try {
+        window.bp('init', 'addBarionPixelId', this.pixelId);
+        this.initialized = true;
+        if (process.env.NODE_ENV === 'development') {
+          console.log('✅ Barion Pixel initialized:', this.pixelId);
+        }
+      } catch (error) {
+        if (process.env.NODE_ENV === 'development') {
+          console.error('❌ Failed to initialize Barion Pixel:', error);
+        }
+      }
+    };
+
+    // Start initialization
+    tryInit();
   }
 
   /**
@@ -53,9 +71,10 @@ class BarionPixel {
 
     try {
       window.bp('track', 'contentView');
-      console.log('📊 Barion Pixel: Page view tracked');
     } catch (error) {
-      console.error('Failed to track page view:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to track page view:', error);
+      }
     }
   }
 
@@ -72,9 +91,10 @@ class BarionPixel {
         id: productId,
         name: productName,
       });
-      console.log('📊 Barion Pixel: Product view tracked:', productName);
     } catch (error) {
-      console.error('Failed to track product view:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to track product view:', error);
+      }
     }
   }
 
@@ -97,9 +117,10 @@ class BarionPixel {
         })),
         value: total,
       });
-      console.log('📊 Barion Pixel: Add to cart tracked');
     } catch (error) {
-      console.error('Failed to track add to cart:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to track add to cart:', error);
+      }
     }
   }
 
@@ -120,9 +141,10 @@ class BarionPixel {
         })),
         value: total,
       });
-      console.log('📊 Barion Pixel: Checkout initiated');
     } catch (error) {
-      console.error('Failed to track checkout:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to track checkout:', error);
+      }
     }
   }
 
@@ -145,9 +167,10 @@ class BarionPixel {
         step: 3,
         id: orderId,
       });
-      console.log('📊 Barion Pixel: Purchase tracked:', orderId);
     } catch (error) {
-      console.error('Failed to track purchase:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to track purchase:', error);
+      }
     }
   }
 
@@ -163,9 +186,10 @@ class BarionPixel {
         eventAction: eventName,
         ...data,
       });
-      console.log('📊 Barion Pixel: Custom event tracked:', eventName);
     } catch (error) {
-      console.error('Failed to track custom event:', error);
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to track custom event:', error);
+      }
     }
   }
 }

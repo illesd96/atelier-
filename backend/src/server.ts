@@ -18,6 +18,8 @@ app.use(helmet());
 // CORS configuration - allow multiple origins for Vercel deployments
 const allowedOrigins = [
   config.frontendUrl,
+  'https://www.atelier-archilles.hu',  // Custom domain
+  'https://atelier-archilles.hu',      // Custom domain without www
   'https://atelier-frontend-mu.vercel.app',
   /https:\/\/atelier-frontend-.*\.vercel\.app$/, // Allow all Vercel preview deployments
 ];

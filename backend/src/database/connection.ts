@@ -19,9 +19,9 @@ if (!dbUrl) {
 const pool = new Pool({
   connectionString: dbUrl,
   ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false,
-  max: 20,
+  max: 5,  // Reduced for Neon free tier (max 10 connections)
   idleTimeoutMillis: 30000,
-  connectionTimeoutMillis: 2000,
+  connectionTimeoutMillis: 10000,  // Increased timeout for database wake-up
 });
 
 // Test connection and log status

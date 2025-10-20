@@ -7,13 +7,14 @@ import { Dialog } from 'primereact/dialog';
 import { CheckoutForm } from '../components/CheckoutForm';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
+import { barionPixel } from '../utils/barionPixel';
 import './CheckoutPage.css';
 
 export const CheckoutPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
-  const { removePastAppointments } = useCart();
+  const { items, removePastAppointments } = useCart();
   const { isAuthenticated } = useAuth();
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 
@@ -31,7 +32,19 @@ export const CheckoutPage: React.FC = () => {
         });
       }
     }
-  }, [removePastAppointments, t]);
+    
+    // Track checkout initiation with Barion Pixel
+    if (items.length > 0) {
+      const pixelItems = items.map(item => ({
+        id: item.room_id,
+        name: `${item.room_id} - ${item.date} ${item.start_time}`,
+        quantity: 1,
+        price: 15000, // Default hourly rate
+      }));
+      const total = pixelItems.reduce((sum, item) => sum + item.price, 0);
+      barionPixel.trackInitiateCheckout(pixelItems, total);
+    }
+  }, [removePastAppointments, items, t]);
 
   // Show auth dialog for non-authenticated users
   useEffect(() => {

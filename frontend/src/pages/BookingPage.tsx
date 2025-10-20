@@ -7,6 +7,7 @@ import { Badge } from 'primereact/badge';
 import { StudioGrid } from '../components/StudioGrid';
 import { CartDrawer } from '../components/CartDrawer';
 import { useCart } from '../contexts/CartContext';
+import { barionPixel } from '../utils/barionPixel';
 import './BookingPage.css';
 
 export const BookingPage: React.FC = () => {
@@ -21,6 +22,9 @@ export const BookingPage: React.FC = () => {
     if (removedCount > 0) {
       console.log(`Removed ${removedCount} past appointment(s) from cart`);
     }
+    
+    // Track page view with Barion Pixel
+    barionPixel.trackPageView();
   }, [removePastAppointments]);
 
   const handleCartUpdate = () => {

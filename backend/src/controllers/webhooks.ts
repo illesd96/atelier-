@@ -3,6 +3,7 @@ import pool from '../database/connection';
 import barionService from '../services/barion';
 import bookingService from '../services/booking';
 import emailService from '../services/email';
+import szamlazzService from '../services/szamlazz';
 import config from '../config';
 
 export const handleBarionWebhook = async (req: Request, res: Response) => {
@@ -105,6 +106,78 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
         
         console.log('✅ Successfully created bookings:', bookingResult.bookingIds);
         
+        // Generate invoice via Szamlazz.hu
+        let invoiceId: string | null = null;
+        let invoicePdf: Buffer | undefined;
+        
+        if (szamlazzService.isEnabled()) {
+          console.log('📄 Generating invoice via Szamlazz.hu...');
+          try {
+            // Prepare invoice items
+            const invoiceItems = orderItems.map(item => {
+              const netPrice = order.total_amount / 1.27; // Assuming 27% VAT
+              const vatRate = 27;
+              const netUnitPrice = netPrice / orderItems.length;
+              const vatAmount = netUnitPrice * (vatRate / 100);
+              const grossAmount = netUnitPrice + vatAmount;
+
+              return {
+                name: `${item.room_name || 'Studio'} foglalás - ${item.booking_date} ${item.start_time}-${item.end_time}`,
+                quantity: 1,
+                unit: 'óra',
+                netUnitPrice: Math.round(netUnitPrice),
+                vatRate: vatRate,
+                netPrice: Math.round(netUnitPrice),
+                vatAmount: Math.round(vatAmount),
+                grossAmount: Math.round(grossAmount),
+              };
+            });
+
+            // Prepare customer data
+            const customerData = {
+              name: order.customer_name,
+              email: order.email,
+              phone: order.phone || undefined,
+              taxNumber: order.billing_tax_number || undefined,
+              country: 'HU',
+              zip: order.billing_zip || undefined,
+              city: order.billing_city || undefined,
+              address: order.billing_address || undefined,
+            };
+
+            // Create invoice
+            const invoiceResponse = await szamlazzService.createInvoice({
+              orderId: order.id,
+              customer: customerData,
+              items: invoiceItems,
+              paymentMethod: config.szamlazz.invoice.paymentMethod,
+              currency: config.szamlazz.invoice.currency,
+              language: order.language || config.szamlazz.invoice.language,
+              comment: `Foglalási azonosító: ${order.id}`,
+            });
+
+            if (invoiceResponse.success) {
+              console.log('✅ Invoice generated:', invoiceResponse.invoiceNumber);
+              
+              // Save invoice to database
+              invoiceId = await szamlazzService.saveInvoice(
+                order.id,
+                invoiceResponse,
+                customerData,
+                invoiceItems
+              );
+
+              // Store PDF for email attachment
+              invoicePdf = invoiceResponse.pdfData;
+            } else {
+              console.error('❌ Failed to generate invoice:', invoiceResponse.errorMessage);
+            }
+          } catch (invoiceError) {
+            console.error('Error generating invoice:', invoiceError);
+            // Continue with booking process even if invoice fails
+          }
+        }
+        
         // Send confirmation email
         console.log('📧 Sending confirmation email to:', order.email);
         try {
@@ -113,12 +186,26 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
             'utf-8'
           );
           
-          await emailService.sendBookingConfirmation(order, orderItems, calendarFile);
+          await emailService.sendBookingConfirmation(
+            order, 
+            orderItems, 
+            calendarFile,
+            invoicePdf // Attach invoice PDF if available
+          );
           
           // Log the confirmation email
           const bookingDate = orderItems[0]?.booking_date;
           if (bookingDate) {
             await emailService.logEmail(order.id, 'confirmation', bookingDate);
+          }
+          
+          // Mark invoice as sent if email was successful
+          if (invoiceId && invoicePdf) {
+            await client.query(`
+              UPDATE invoices 
+              SET status = 'sent', sent_at = CURRENT_TIMESTAMP 
+              WHERE id = $1
+            `, [invoiceId]);
           }
         } catch (emailError) {
           console.error('Error sending confirmation email:', emailError);

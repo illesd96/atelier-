@@ -30,6 +30,29 @@ export const config = {
     fromName: process.env.FROM_NAME || 'Photo Studio',
   },
   
+  // Szamlazz.hu Invoice System
+  szamlazz: {
+    agentKey: process.env.SZAMLAZZ_AGENT_KEY || '',
+    username: process.env.SZAMLAZZ_USERNAME || '',
+    password: process.env.SZAMLAZZ_PASSWORD || '',
+    apiUrl: 'https://www.szamlazz.hu/szamla/',
+    enabled: process.env.SZAMLAZZ_ENABLED === 'true',
+    // Invoice settings
+    seller: {
+      bank: process.env.SZAMLAZZ_SELLER_BANK || '',
+      bankAccountNumber: process.env.SZAMLAZZ_SELLER_BANK_ACCOUNT || '',
+      emailReplyTo: process.env.SZAMLAZZ_SELLER_EMAIL_REPLY || process.env.FROM_EMAIL || '',
+      emailSubject: process.env.SZAMLAZZ_EMAIL_SUBJECT || 'Számla',
+      emailText: process.env.SZAMLAZZ_EMAIL_TEXT || 'Köszönjük a vásárlást!',
+    },
+    invoice: {
+      paymentMethod: 'Barion',
+      currency: 'HUF',
+      language: 'hu',
+      invoicePrefix: process.env.SZAMLAZZ_INVOICE_PREFIX || 'PHOTO',
+    },
+  },
+  
   // Security
   jwtSecret: process.env.JWT_SECRET || 'your-secret-key',
   webhookSecret: process.env.WEBHOOK_SECRET || 'webhook-secret',

@@ -76,7 +76,8 @@ class EmailService {
   async sendBookingConfirmation(
     order: Order,
     items: OrderItem[],
-    calendarFile?: Buffer
+    calendarFile?: Buffer,
+    invoicePdf?: Buffer
   ): Promise<void> {
     try {
       const template = this.templates['confirmation'];
@@ -102,14 +103,23 @@ class EmailService {
         rescheduleUrl: `${config.frontendUrl}/booking/reschedule?code=${order.id}`,
         language: order.language,
         isHungarian,
+        hasInvoice: !!invoicePdf,
       });
 
-      const attachments = [];
+      const attachments: any[] = [];
       if (calendarFile) {
         attachments.push({
           filename: 'booking.ics',
           content: calendarFile,
           contentType: 'text/calendar',
+        });
+      }
+      
+      if (invoicePdf) {
+        attachments.push({
+          filename: `szamla-${order.id.slice(-8).toUpperCase()}.pdf`,
+          content: invoicePdf,
+          contentType: 'application/pdf',
         });
       }
 
@@ -123,7 +133,7 @@ class EmailService {
         attachments,
       });
 
-      console.log(`Confirmation email sent to ${order.email}`);
+      console.log(`Confirmation email sent to ${order.email}${invoicePdf ? ' (with invoice)' : ''}`);
 
     } catch (error) {
       console.error('Error sending confirmation email:', error);

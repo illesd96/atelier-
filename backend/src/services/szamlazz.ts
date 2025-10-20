@@ -1,11 +1,18 @@
 import axios from 'axios';
 import FormData from 'form-data';
-import { parseString } from 'xml2js';
+import { parseString, ParserOptions } from 'xml2js';
 import { promisify } from 'util';
 import config from '../config';
 import pool from '../database/connection';
 
-const parseXml = promisify(parseString);
+// Create a promisified version with proper typing
+const parseXmlBase = promisify(parseString);
+const parseXml = (xml: string, options?: ParserOptions): Promise<any> => {
+  if (options) {
+    return parseXmlBase(xml, options);
+  }
+  return parseXmlBase(xml);
+};
 
 interface InvoiceItem {
   name: string;

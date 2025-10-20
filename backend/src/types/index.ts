@@ -14,6 +14,8 @@ export interface User {
   name: string;
   phone?: string;
   email_verified: boolean;
+  verification_token?: string;
+  verification_token_expires?: Date;
   active: boolean;
   is_admin: boolean;
   created_at: Date;
@@ -133,7 +135,7 @@ export interface LoginRequest {
 
 export interface AuthResponse {
   success: boolean;
-  token?: string;
+  token?: string | null;
   user?: {
     id: string;
     email: string;
@@ -143,6 +145,9 @@ export interface AuthResponse {
     is_admin: boolean;
   };
   message?: string;
+  requiresVerification?: boolean;
+  emailVerified?: boolean;
+  warning?: string;
 }
 
 // Cal.com types removed - using internal booking system

@@ -25,18 +25,20 @@ export const getOrganizationSchema = () => ({
   "description": "Professional photography studio in Budapest offering studio rental, portrait photography, fashion shoots, product photography, and event photography services.",
   "address": {
     "@type": "PostalAddress",
-    "streetAddress": "Your Street Address",
+    "streetAddress": "Vak Bottyán utca 3. 6. emelet 1. ajtó",
     "addressLocality": "Budapest",
-    "postalCode": "1000",
+    "postalCode": "1111",
     "addressCountry": "HU"
   },
   "geo": {
     "@type": "GeoCoordinates",
-    "latitude": "47.497912",
-    "longitude": "19.040235"
+    "latitude": "47.4797",
+    "longitude": "19.0548"
   },
-  "telephone": "+36-XX-XXX-XXXX",
+  "telephone": "+36309747362",
   "email": "info@atelierarchilles.com",
+  "taxID": "32265105143",
+  "legalName": "Archilles Studio Korlátolt Felelősségű Társaság",
   "openingHoursSpecification": [
     {
       "@type": "OpeningHoursSpecification",

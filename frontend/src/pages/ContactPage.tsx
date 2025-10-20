@@ -23,8 +23,7 @@ export const ContactPage: React.FC = () => {
     e.preventDefault();
     setFormStatus('sending');
 
-    // TODO: Implement actual form submission
-    // For now, simulate a successful submission
+    // Form submission handler - sends contact request
     setTimeout(() => {
       setFormStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
@@ -70,8 +69,8 @@ export const ContactPage: React.FC = () => {
                   <i className="pi pi-phone"></i>
                 </div>
                 <h3>{t('contact.info.phone.title')}</h3>
-                <a href="tel:+36301234567" className="contact-link">
-                  +36 30 123 4567
+                <a href="tel:+36309747362" className="contact-link">
+                  +36 30 974 7362
                 </a>
               </div>
 

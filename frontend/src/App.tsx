@@ -54,7 +54,7 @@ function App() {
                   <Route path="contact" element={<ContactPage />} />
                   <Route path="blog" element={<BlogPage />} />
                   <Route path="blog/:slug" element={<BlogPostPage />} />
-                  <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} />
+                  {/* <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} /> */}
                 </Route>
               </Routes>
               <CookieConsent />

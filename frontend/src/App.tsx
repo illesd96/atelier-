@@ -8,6 +8,7 @@ import './styles/inputs.css';
 import './i18n';
 import { CartProvider } from './contexts/CartContext';
 import { AuthProvider } from './contexts/AuthContext';
+import { ConfigProvider } from './contexts/ConfigContext';
 import { Layout } from './components/Layout';
 import { HomePage } from './pages/HomePage';
 import { BookingPage } from './pages/BookingPage';
@@ -31,37 +32,39 @@ import { CookieConsent } from './components/CookieConsent';
 function App() {
   return (
     <PrimeReactProvider>
-      <AuthProvider>
-        <CartProvider>
-          <Router>
-            <div className="App">
-              <Routes>
-                <Route path="/" element={<Layout />}>
-                  <Route index element={<HomePage />} />
-                  <Route path="rooms/:roomId" element={<RoomDetailPage />} />
-                  <Route path="booking" element={<BookingPage />} />
-                  <Route path="checkout" element={<CheckoutPage />} />
-                  <Route path="payment/result" element={<PaymentResultPage />} />
-                  <Route path="login" element={<LoginPage />} />
-                  <Route path="register" element={<RegisterPage />} />
-                  <Route path="verify-email" element={<EmailVerificationPage />} />
-                  <Route path="profile" element={<ProfilePage />} />
-                  <Route path="admin/bookings" element={<AdminBookingsPage />} />
-                  <Route path="admin/schedule" element={<AdminSchedulePage />} />
-                  <Route path="terms" element={<TermsPage />} />
-                  <Route path="privacy" element={<PrivacyPage />} />
-                  <Route path="faq" element={<FAQPage />} />
-                  <Route path="contact" element={<ContactPage />} />
-                  <Route path="blog" element={<BlogPage />} />
-                  <Route path="blog/:slug" element={<BlogPostPage />} />
-                  {/* <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} /> */}
-                </Route>
-              </Routes>
-              <CookieConsent />
-            </div>
-          </Router>
-        </CartProvider>
-      </AuthProvider>
+      <ConfigProvider>
+        <AuthProvider>
+          <CartProvider>
+            <Router>
+              <div className="App">
+                <Routes>
+                  <Route path="/" element={<Layout />}>
+                    <Route index element={<HomePage />} />
+                    <Route path="rooms/:roomId" element={<RoomDetailPage />} />
+                    <Route path="booking" element={<BookingPage />} />
+                    <Route path="checkout" element={<CheckoutPage />} />
+                    <Route path="payment/result" element={<PaymentResultPage />} />
+                    <Route path="login" element={<LoginPage />} />
+                    <Route path="register" element={<RegisterPage />} />
+                    <Route path="verify-email" element={<EmailVerificationPage />} />
+                    <Route path="profile" element={<ProfilePage />} />
+                    <Route path="admin/bookings" element={<AdminBookingsPage />} />
+                    <Route path="admin/schedule" element={<AdminSchedulePage />} />
+                    <Route path="terms" element={<TermsPage />} />
+                    <Route path="privacy" element={<PrivacyPage />} />
+                    <Route path="faq" element={<FAQPage />} />
+                    <Route path="contact" element={<ContactPage />} />
+                    <Route path="blog" element={<BlogPage />} />
+                    <Route path="blog/:slug" element={<BlogPostPage />} />
+                    {/* <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} /> */}
+                  </Route>
+                </Routes>
+                <CookieConsent />
+              </div>
+            </Router>
+          </CartProvider>
+        </AuthProvider>
+      </ConfigProvider>
     </PrimeReactProvider>
   );
 }

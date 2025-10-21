@@ -42,6 +42,16 @@ router.get('/user/addresses', authenticateToken, getSavedAddresses);
 router.post('/user/addresses', authenticateToken, saveAddress);
 router.delete('/user/addresses/:id', authenticateToken, deleteAddress);
 
+// Config endpoint - returns business configuration
+router.get('/config', (req, res) => {
+  res.json({
+    hourlyRate: config.business.hourlyRate,
+    currency: config.business.currency,
+    openingHours: config.business.openingHours,
+    studios: config.studios,
+  });
+});
+
 // Availability endpoints
 router.get('/availability', getAvailability);
 

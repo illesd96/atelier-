@@ -61,6 +61,17 @@ apiClient.interceptors.response.use(
 );
 
 export const api = {
+  // Get business configuration (pricing, hours, etc.)
+  async getConfig(): Promise<{
+    hourlyRate: number;
+    currency: string;
+    openingHours: { start: number; end: number };
+    studios: Array<{ id: string; name: string }>;
+  }> {
+    const response = await apiClient.get('/config');
+    return response.data;
+  },
+
   // Get availability for a specific date
   async getAvailability(date: string): Promise<AvailabilityResponse> {
     const response = await apiClient.get('/availability', {

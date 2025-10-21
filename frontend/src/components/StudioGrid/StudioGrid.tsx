@@ -4,6 +4,7 @@ import { Card } from 'primereact/card';
 import { Toast } from 'primereact/toast';
 import { format, addDays, subDays } from 'date-fns';
 import { useCart } from '../../contexts/CartContext';
+import { useConfig } from '../../contexts/ConfigContext';
 import api from '../../services/api';
 import { AvailabilityResponse, CartItem, TimeSlot } from '../../types';
 import { DateNavigation } from './DateNavigation';
@@ -22,11 +23,10 @@ const STUDIOS: Studio[] = [
   { id: 'studio-c', name: 'Studio C' },
 ];
 
-const HOURLY_RATE = 15000;
-
 export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
   const { t } = useTranslation();
   const { addItem, removeItem, isInCart } = useCart();
+  const { config } = useConfig();
   const toast = useRef<Toast>(null);
   
   // Always start with today's date in Hungarian timezone
@@ -96,7 +96,7 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
         date: dateStr,
         start_time: slot.time,
         end_time: endTime,
-        price: HOURLY_RATE,
+        price: config?.hourlyRate || 15000,
       };
       
       addItem(cartItem);
@@ -139,7 +139,7 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
       {availability && (
         <Card>
           <div className="studio-booking-grid">
-            <GridHeader studios={STUDIOS} hourlyRate={HOURLY_RATE} />
+            <GridHeader studios={STUDIOS} hourlyRate={config?.hourlyRate || 15000} />
             <GridBody
               availability={availability}
               studios={STUDIOS}

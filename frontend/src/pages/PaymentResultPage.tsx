@@ -7,7 +7,6 @@ import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../hooks/useCart';
 import { OrderItem } from '../types';
 import api from '../services/api';
-import { barionPixel } from '../utils/barionPixel';
 import { format } from 'date-fns';
 
 export const PaymentResultPage: React.FC = () => {
@@ -60,16 +59,6 @@ export const PaymentResultPage: React.FC = () => {
                 setResult('success');
                 clearCart();
                 setLoading(false);
-                
-                // Track successful purchase with Barion Pixel
-                const pixelItems = (response.items || []).map(item => ({
-                  id: item.room_id || 'studio',
-                  name: `${item.room_name || 'Studio'} - ${item.booking_date}`,
-                  quantity: 1,
-                  price: 15000, // Default hourly rate
-                }));
-                const total = response.order.total_amount || 0;
-                barionPixel.trackPurchase(response.order.id, pixelItems, total);
               } else if (status === 'failed') {
                 setResult('failed');
                 setLoading(false);

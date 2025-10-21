@@ -13,7 +13,7 @@ export const CheckoutPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
-  const { items, removePastAppointments } = useCart();
+  const { removePastAppointments } = useCart();
   const { isAuthenticated } = useAuth();
   const [showAuthDialog, setShowAuthDialog] = useState(false);
 

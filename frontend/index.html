@@ -17,7 +17,7 @@
     <script>
       (function(w, d) {
         var pixelId = '%VITE_BARION_PIXEL_ID%';
-        if (!pixelId) return;
+        if (!pixelId || pixelId.indexOf('%') === 0) return;
         
         w.bp = w.bp || function() { (w.bp.q = w.bp.q || []).push(arguments); };
         w.bp.q = w.bp.q || [];

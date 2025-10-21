@@ -3,38 +3,56 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/fav/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="/fav/favicon.svg" />
     <link rel="icon" type="image/png" sizes="96x96" href="/fav/favicon-96x96.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/fav/apple-touch-icon.png" />
     <link rel="manifest" href="/fav/site.webmanifest" />
-    
+
     <title>Atelier Archilles — Photography Studio</title>
-    
-    <!-- Barion Pixel -->
+
+    <!-- Barion Pixel (Fixed and Official-Compatible) -->
     <script>
-      (function(w, d) {
-        // Skip in development
+      (function (w, d) {
+        // Skip in development mode
         if (w.location.hostname === 'localhost' || w.location.hostname === '127.0.0.1') return;
-        
-        var pixelId = '%VITE_BARION_PIXEL_ID%';
-        if (!pixelId || pixelId.indexOf('%') === 0) return;
-        
-        w.bp = w.bp || function() { (w.bp.q = w.bp.q || []).push(arguments); };
-        w.bp.q = w.bp.q || [];
-        w.bp.l = 1 * new Date();
-        w.bp('init', 'addBarionPixelId', pixelId);
-        
-        // Load script
-        var s = d.createElement('script');
-        s.async = true;
-        s.src = 'https://pixel.barion.com/bp.js';
-        d.head.appendChild(s);
+
+        // Replace this with your actual pixel ID, or inject it via build environment
+        var pixelId = '%VITE_BARION_PIXEL_ID%' || 'BPT-fHvthFc8pR-A3';
+
+        // If the env var placeholder is not replaced, use fallback
+        if (!pixelId || pixelId.startsWith('%')) {
+          console.warn('Barion Pixel: Missing or unresolved pixel ID.');
+          return;
+        }
+
+        // Make the pixel ID globally available BEFORE loading bp.js
+        w.barion_pixel_id = pixelId;
+
+        // Load the official Barion pixel script
+        var bp = d.createElement('script');
+        bp.type = 'text/javascript';
+        bp.async = true;
+        bp.src = 'https://pixel.barion.com/bp.js';
+        var s = d.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(bp, s);
       })(window, document);
     </script>
+
+    <!-- NoScript fallback for browsers without JS -->
+    <noscript>
+      <img
+        height="1"
+        width="1"
+        style="display:none"
+        src="https://pixel.barion.com/a.gif?pixelId=YOUR_PIXEL_ID_HERE"
+        alt="Barion Pixel"
+      />
+    </noscript>
   </head>
+
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

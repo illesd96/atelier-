@@ -16,6 +16,9 @@
     <!-- Barion Pixel -->
     <script>
       (function(w, d) {
+        // Skip in development
+        if (w.location.hostname === 'localhost' || w.location.hostname === '127.0.0.1') return;
+        
         var pixelId = '%VITE_BARION_PIXEL_ID%';
         if (!pixelId || pixelId.indexOf('%') === 0) return;
         
@@ -23,9 +26,14 @@
         w.bp.q = w.bp.q || [];
         w.bp.l = 1 * new Date();
         w.bp('init', 'addBarionPixelId', pixelId);
+        
+        // Load script
+        var s = d.createElement('script');
+        s.async = true;
+        s.src = 'https://pixel.barion.com/bp.js';
+        d.head.appendChild(s);
       })(window, document);
     </script>
-    <script async src="https://pixel.barion.com/bp.js"></script>
   </head>
   <body>
     <div id="root"></div>

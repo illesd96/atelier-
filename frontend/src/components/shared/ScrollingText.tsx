@@ -5,15 +5,17 @@ interface ScrollingTextProps {
   speed?: number;
 }
 
-const ScrollingText: React.FC<ScrollingTextProps> = ({ text, speed = 120 }) => {
+const ScrollingText: React.FC<ScrollingTextProps> = ({ text, speed = 50 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const element = scrollRef.current;
     if (!element) return;
 
-    const totalWidth = element.scrollWidth;
-    const duration = totalWidth / speed;
+    // Use a fixed reference width (e.g., desktop width) for consistent speed
+    // This ensures the animation speed is the same on all devices
+    const referenceWidth = 1920; // Standard desktop width
+    const duration = referenceWidth / speed;
     
     element.style.animationDuration = `${duration}s`;
   }, [text, speed]);

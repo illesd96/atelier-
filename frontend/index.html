@@ -13,24 +13,30 @@
 
     <title>Atelier Archilles — Photography Studio</title>
 
-    <!-- Barion Pixel (Vite-friendly, official-compatible) -->
+    <!-- Barion Pixel (Vite-friendly, correct boot order) -->
     <script>
       (function (w, d) {
         // Skip in local dev
         if (w.location.hostname === 'localhost' || w.location.hostname === '127.0.0.1') return;
 
-        // Vite replaces %VITE_BARION_PIXEL_ID% at build time
+        // Vite will replace this at build time
         var pixelId = '%VITE_BARION_PIXEL_ID%';
-
         if (!pixelId || pixelId.startsWith('%')) {
           console.warn('Barion Pixel: Missing VITE_BARION_PIXEL_ID.');
           return;
         }
 
-        // Expose ID BEFORE loading bp.js
+        // 1) Expose pixel ID BEFORE loading bp.js
         w.barion_pixel_id = pixelId;
 
-        // Load Barion script
+        // 2) Predefine the queue function that bp.js expects
+        //    (so load_tracker can access window.bp.q safely)
+        w.bp = w.bp || function () { (w.bp.q = w.bp.q || []).push(arguments); };
+        w.bp.q = w.bp.q || [];
+        // (optional) be explicit which function name to use
+        w.barionpixel_function = 'bp';
+
+        // 3) Load Barion script
         var s = d.createElement('script');
         s.type = 'text/javascript';
         s.async = true;
@@ -42,7 +48,7 @@
   </head>
 
   <body>
-    <!-- NoScript fallback must be in <body>, not <head> -->
+    <!-- NoScript fallback must be inside <body> -->
     <noscript>
       <img
         height="1"

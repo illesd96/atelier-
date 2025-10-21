@@ -34,10 +34,15 @@
     "about": "About",
     "contact": "Contact",
     "blog": "Blog",
-    "terms": "Terms of Service",
+    "terms": "Terms & Conditions",
     "privacy": "Privacy Policy",
+    "cookies": "Cookie Policy",
+    "impressum": "Impressum",
     "faq": "FAQ",
     "language": "Language"
+  },
+  "footer": {
+    "securePayment": "Secure Payment"
   },
   "home": {
     "title": "Atelier Archilles",
@@ -137,6 +142,7 @@
   },
   "checkout": {
     "title": "Checkout",
+    "securePayment": "Secure Payment",
     "pastAppointmentsRemoved": "{{count}} past appointment(s) were automatically removed from your cart",
     "authPrompt": {
       "title": "Create an Account or Sign In",
@@ -457,6 +463,7 @@
   },
   "legal": {
     "lastUpdated": "Last Updated",
+    "downloadPDF": "Download PDF Version",
     "terms": {
       "title": "Terms and Conditions",
       "acceptance": {
@@ -471,7 +478,17 @@
       "payment": {
         "title": "Payment Terms",
         "content1": "Payment is required at the time of booking. We accept payments through Barion payment gateway. All prices are listed in Hungarian Forints (HUF).",
-        "content2": "Invoices will be provided upon request during the checkout process."
+        "content2": "Invoices will be provided upon request during the checkout process.",
+        "barion": {
+          "title": "Barion Payment Gateway",
+          "description": "We use Barion as our secure online payment processor. Barion is a PCI-DSS Level 1 certified payment service provider, ensuring the highest level of security for your card transactions. You can pay with credit cards (Visa, Mastercard), debit cards, or via bank transfer through Barion.",
+          "security": "Secure Payment Processing",
+          "securityDetails": "All payment information is transmitted using industry-standard SSL encryption. Atelier Archilles does not store your card details. Transactions are processed directly by Barion's secure platform in compliance with European payment regulations (PSD2)."
+        },
+        "fulfillment": {
+          "title": "Service Fulfillment",
+          "description": "Your studio booking is confirmed immediately upon successful payment. You will receive your booking confirmation and booking code via email within minutes. The studio will be ready for you at your scheduled time."
+        }
       },
       "cancellation": {
         "title": "Cancellation Policy",

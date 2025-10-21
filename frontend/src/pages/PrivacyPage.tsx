@@ -9,7 +9,26 @@ export const PrivacyPage: React.FC = () => {
     <div className="legal-page">
       <div className="legal-container">
         <h1>{t('legal.privacy.title')}</h1>
-        <p className="legal-updated">{t('legal.lastUpdated')}: October 2, 2025</p>
+        <p className="legal-updated">{t('legal.lastUpdated')}: October 20, 2025</p>
+        
+        <div className="legal-download" style={{
+          padding: '1rem',
+          background: '#f8f9fa',
+          borderRadius: '8px',
+          marginBottom: '2rem',
+          textAlign: 'center'
+        }}>
+          <a 
+            href="/documents/Atelier-Archilles_Privacy_Policy_v251020.pdf" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="p-button p-button-primary"
+            style={{display: 'inline-flex', alignItems: 'center', gap: '0.5rem'}}
+          >
+            <i className="pi pi-file-pdf"></i>
+            {t('legal.downloadPDF')}
+          </a>
+        </div>
 
         <section>
           <h2>1. {t('legal.privacy.intro.title')}</h2>

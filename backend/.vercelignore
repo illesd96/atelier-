@@ -1,0 +1,50 @@
+# Ignore frontend files when deploying backend
+../frontend/
+
+# Ignore root level files
+../*.md
+../*.pdf
+../BARION_*.md
+../CHECK_*.sql
+../CLEANUP_*.md
+../CORS_*.md
+../CUSTOM_*.md
+../DEBUG_*.md
+../DEPLOYMENT*.md
+../DESIGN_*.md
+../EMAIL_*.md
+../FIX_*.sql
+../GOOGLE_*.md
+../HUNGARIAN_*.md
+../LATEST_*.md
+../LEGAL_*.md
+../LOCAL_*.md
+../NEON_*.md
+../PAYMENT_*.md
+../PRODUCTION_*.md
+../QUICK-FIX.md
+../README.md
+../SEO_*.md
+../SESSION_*.md
+../SETUP*.md
+../TEST_*.sql
+../TROUBLESHOOTING.md
+../TYPESCRIPT_*.md
+../UPDATE_*.md
+../VERCEL_*.md
+../VERIFY_*.sql
+../WEBHOOK_*.md
+
+# Ignore node_modules
+node_modules/
+../node_modules/
+
+# Ignore local env files
+.env
+.env.local
+.env.*.local
+
+# Ignore development files
+*.log
+.DS_Store
+

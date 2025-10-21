@@ -25,12 +25,35 @@ const Footer: React.FC = () => {
               <Link to="/contact" className="footer-link">
                 {t('navigation.contact')}
               </Link>
-              <Link to="/terms" className="footer-link">
+              <a href="/documents/Atelier-Archilles_Terms_and_Conditions_v251020.pdf" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="footer-link">
                 {t('navigation.terms')}
-              </Link>
-              <Link to="/privacy" className="footer-link">
+              </a>
+              <a href="/documents/Atelier-Archilles_Privacy_Policy_v251020.pdf" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="footer-link">
                 {t('navigation.privacy')}
-              </Link>
+              </a>
+              <a href="/documents/Atelier-Archilles_Cookie_Policy_v251020.pdf" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="footer-link">
+                {t('navigation.cookies')}
+              </a>
+              <a href="/documents/Atelier-Archilles_Impressum_v251020.pdf" 
+                 target="_blank" 
+                 rel="noopener noreferrer" 
+                 className="footer-link">
+                {t('navigation.impressum')}
+              </a>
+            </div>
+            
+            <div className="footer-payment">
+              <p className="footer-payment-text">{t('footer.securePayment')}</p>
+              <img src="/images/barion_logo.svg" alt="Barion" className="footer-barion-logo" />
             </div>
             
             <div className="footer-copyright">

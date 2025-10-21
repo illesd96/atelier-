@@ -104,6 +104,18 @@ export const CheckoutPage: React.FC = () => {
         />
       </div>
 
+      {/* Secure Payment Badge */}
+      <div className="secure-payment-banner mb-4 p-3 border-round" style={{
+        background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+        border: '1px solid #dee2e6'
+      }}>
+        <div className="flex align-items-center justify-content-center gap-3">
+          <i className="pi pi-shield text-2xl text-primary"></i>
+          <span className="text-lg font-semibold">{t('checkout.securePayment')}</span>
+          <img src="/images/barion_logo.svg" alt="Barion" style={{height: '35px'}} />
+        </div>
+      </div>
+
       <CheckoutForm onSuccess={handleSuccess} onError={handleError} />
 
       {/* Auth Prompt Dialog */}

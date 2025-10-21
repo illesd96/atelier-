@@ -8,7 +8,7 @@ The admin system allows designated admin users to:
 - View all bookings in the system
 - Filter bookings by status and date range
 - View detailed statistics (today's orders, weekly/monthly totals, revenue)
-- Access detailed information about each booking including customer details and time slots  
+- Access detailed information about each booking including customer details and time slots
 
 ## Features Implemented
 

@@ -5,7 +5,7 @@ interface ScrollingTextProps {
   speed?: number;
 }
 
-const ScrollingText: React.FC<ScrollingTextProps> = ({ text, speed = 10 }) => {
+const ScrollingText: React.FC<ScrollingTextProps> = ({ text, speed = 60 }) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

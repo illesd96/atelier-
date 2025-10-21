@@ -254,23 +254,15 @@ export const PaymentResultPage: React.FC = () => {
                   boxShadow: '0 4px 12px rgba(34, 197, 94, 0.3)'
                 }}>
                   <div style={{color: 'white', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px'}}>
-                    ✅ {t('payment.checkinCode')}
+                    ✅ {t('payment.orderId')}
                   </div>
-                  <div style={{fontFamily: 'monospace', color: 'white', fontSize: '36px', fontWeight: 'bold', letterSpacing: '6px', textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}>
-                    {item.checkin_code || '------'}
+                  <div style={{fontFamily: 'monospace', color: 'white', fontSize: '18px', fontWeight: 'bold', letterSpacing: '2px', textShadow: '0 2px 4px rgba(0,0,0,0.3)', wordBreak: 'break-all', padding: '0 10px'}}>
+                    {orderId}
                   </div>
                   <div style={{color: 'rgba(255,255,255,0.9)', fontSize: '11px', marginTop: '8px'}}>
-                    {item.checkin_code ? t('payment.showOnArrival') : t('payment.codeGenerating')}
+                    {t('payment.showOnArrival')}
                   </div>
                 </div>
-                
-                {item.booking_id && (
-                  <div className="mt-2 p-2 bg-white border-round text-center">
-                    <small className="text-gray-500" style={{fontSize: '10px'}}>
-                      {t('payment.reference')}: <span className="font-mono text-gray-400">{item.booking_id}</span>
-                    </small>
-                  </div>
-                )}
               </div>
             ))}
           </div>

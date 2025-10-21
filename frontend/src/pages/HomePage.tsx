@@ -24,7 +24,7 @@ export const HomePage: React.FC = () => {
         </div>
         <ScrollingText 
           text="WHERE LIGHT MEETS ARTISTRY"
-          speed={120}
+          speed={60}
         />
       </section>
 
@@ -136,7 +136,7 @@ export const HomePage: React.FC = () => {
       <section className="banner-section">
         <ScrollingText 
           text="BOOK YOUR SESSION TODAY"
-          speed={120}
+          speed={60}
         />
       </section>
     </>

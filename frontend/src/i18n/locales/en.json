@@ -202,6 +202,7 @@
     "bookingCodes": "Booking Codes",
     "checkinCode": "Check-In Code",
     "showOnArrival": "Show this code when you arrive",
+    "codeGenerating": "Your code will appear here shortly",
     "reference": "Reference",
     "bookingPending": "Pending confirmation",
     "returnToHome": "Return to Home",

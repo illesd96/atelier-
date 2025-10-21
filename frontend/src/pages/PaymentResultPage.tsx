@@ -247,28 +247,22 @@ export const PaymentResultPage: React.FC = () => {
                   📅 {formatDate(item.booking_date)} &nbsp; 🕒 {item.start_time}
                 </div>
                 
-                {item.checkin_code ? (
-                  <div className="p-4" style={{
-                    background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
-                    borderRadius: '12px',
-                    textAlign: 'center',
-                    boxShadow: '0 4px 12px rgba(34, 197, 94, 0.3)'
-                  }}>
-                    <div style={{color: 'white', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px'}}>
-                      ✅ {t('payment.checkinCode')}
-                    </div>
-                    <div style={{fontFamily: 'monospace', color: 'white', fontSize: '36px', fontWeight: 'bold', letterSpacing: '6px', textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}>
-                      {item.checkin_code}
-                    </div>
-                    <div style={{color: 'rgba(255,255,255,0.9)', fontSize: '11px', marginTop: '8px'}}>
-                      {t('payment.showOnArrival')}
-                    </div>
+                <div className="p-4" style={{
+                  background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
+                  borderRadius: '12px',
+                  textAlign: 'center',
+                  boxShadow: '0 4px 12px rgba(34, 197, 94, 0.3)'
+                }}>
+                  <div style={{color: 'white', fontSize: '11px', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '8px'}}>
+                    ✅ {t('payment.checkinCode')}
                   </div>
-                ) : (
-                  <div className="text-center p-3 bg-yellow-50 border-round">
-                    <span className="text-yellow-700">{t('payment.bookingPending')}</span>
+                  <div style={{fontFamily: 'monospace', color: 'white', fontSize: '36px', fontWeight: 'bold', letterSpacing: '6px', textShadow: '0 2px 4px rgba(0,0,0,0.3)'}}>
+                    {item.checkin_code || '------'}
                   </div>
-                )}
+                  <div style={{color: 'rgba(255,255,255,0.9)', fontSize: '11px', marginTop: '8px'}}>
+                    {item.checkin_code ? t('payment.showOnArrival') : t('payment.codeGenerating')}
+                  </div>
+                </div>
                 
                 {item.booking_id && (
                   <div className="mt-2 p-2 bg-white border-round text-center">

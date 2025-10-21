@@ -13,47 +13,46 @@
 
     <title>Atelier Archilles — Photography Studio</title>
 
-    <!-- Barion Pixel (Fixed and Official-Compatible) -->
+    <!-- Barion Pixel (Vite-friendly, official-compatible) -->
     <script>
       (function (w, d) {
-        // Skip in development mode
+        // Skip in local dev
         if (w.location.hostname === 'localhost' || w.location.hostname === '127.0.0.1') return;
 
-        // Replace this with your actual pixel ID, or inject it via build environment
-        var pixelId = '%VITE_BARION_PIXEL_ID%' || 'BPT-fHvthFc8pR-A3';
+        // Vite replaces %VITE_BARION_PIXEL_ID% at build time
+        var pixelId = '%VITE_BARION_PIXEL_ID%';
 
-        // If the env var placeholder is not replaced, use fallback
         if (!pixelId || pixelId.startsWith('%')) {
-          console.warn('Barion Pixel: Missing or unresolved pixel ID.');
+          console.warn('Barion Pixel: Missing VITE_BARION_PIXEL_ID.');
           return;
         }
 
-        // Make the pixel ID globally available BEFORE loading bp.js
+        // Expose ID BEFORE loading bp.js
         w.barion_pixel_id = pixelId;
 
-        // Load the official Barion pixel script
-        var bp = d.createElement('script');
-        bp.type = 'text/javascript';
-        bp.async = true;
-        bp.src = 'https://pixel.barion.com/bp.js';
-        var s = d.getElementsByTagName('script')[0];
-        s.parentNode.insertBefore(bp, s);
+        // Load Barion script
+        var s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.async = true;
+        s.src = 'https://pixel.barion.com/bp.js';
+        var first = d.getElementsByTagName('script')[0];
+        first.parentNode.insertBefore(s, first);
       })(window, document);
     </script>
+  </head>
 
-    <!-- NoScript fallback for browsers without JS -->
+  <body>
+    <!-- NoScript fallback must be in <body>, not <head> -->
     <noscript>
       <img
         height="1"
         width="1"
         style="display:none"
-        src="https://pixel.barion.com/a.gif?pixelId=YOUR_PIXEL_ID_HERE"
+        src="https://pixel.barion.com/a.gif?pixelId=%VITE_BARION_PIXEL_ID%"
         alt="Barion Pixel"
       />
     </noscript>
-  </head>
 
-  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

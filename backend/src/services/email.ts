@@ -90,9 +90,10 @@ class EmailService {
       const html = template({
         customerName: order.customer_name,
         orderId: order.id,
-        bookingCode: order.id.slice(-8).toUpperCase(),
         items: items.map(item => ({
           ...item,
+          booking_id: item.booking_id,
+          checkin_code: item.checkin_code,
           room_name: this.getRoomName(item.room_id, isHungarian),
           formatted_date: this.formatDate(item.booking_date, isHungarian),
           formatted_time: `${item.start_time} - ${item.end_time}`,

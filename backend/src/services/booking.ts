@@ -135,6 +135,18 @@ class BookingService {
   }
 
   /**
+   * Generate a simple 6-character check-in code (uppercase alphanumeric)
+   */
+  private generateCheckinCode(): string {
+    const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Removed ambiguous characters (0, O, 1, I)
+    let code = '';
+    for (let i = 0; i < 6; i++) {
+      code += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+    return code;
+  }
+
+  /**
    * Create internal booking records (replaces Cal.com booking creation)
    */
   async createBookings(orderId: string): Promise<{ success: boolean; bookingIds: string[] }> {
@@ -156,12 +168,30 @@ class BookingService {
         // Generate a simple booking ID
         const bookingId = `BK-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
         
-        // Update the order item with booking ID and mark as booked
+        // Generate a simple check-in code and ensure it's unique
+        let checkinCode = this.generateCheckinCode();
+        let isUnique = false;
+        let attempts = 0;
+        
+        while (!isUnique && attempts < 10) {
+          const existingCode = await client.query(`
+            SELECT id FROM order_items WHERE checkin_code = $1
+          `, [checkinCode]);
+          
+          if (existingCode.rows.length === 0) {
+            isUnique = true;
+          } else {
+            checkinCode = this.generateCheckinCode();
+            attempts++;
+          }
+        }
+        
+        // Update the order item with booking ID, check-in code, and mark as booked
         await client.query(`
           UPDATE order_items 
-          SET booking_id = $1, status = 'booked', updated_at = CURRENT_TIMESTAMP
-          WHERE id = $2
-        `, [bookingId, item.id]);
+          SET booking_id = $1, checkin_code = $2, status = 'booked', updated_at = CURRENT_TIMESTAMP
+          WHERE id = $3
+        `, [bookingId, checkinCode, item.id]);
         
         bookingIds.push(bookingId);
       }

@@ -145,24 +145,6 @@
             {{/if}}
         </p>
 
-        <div class="booking-code">
-            <strong>
-                {{#if isHungarian}}
-                    Foglalási kód: {{bookingCode}}
-                {{else}}
-                    Booking Code: {{bookingCode}}
-                {{/if}}
-            </strong>
-            <br>
-            <small>
-                {{#if isHungarian}}
-                    Kérjük, jegyezze fel ezt a kódot a későbbi hivatkozáshoz
-                {{else}}
-                    Please keep this code for future reference
-                {{/if}}
-            </small>
-        </div>
-
         <div class="booking-details">
             <h3>
                 {{#if isHungarian}}
@@ -181,6 +163,39 @@
                 <div class="booking-time">
                     🕒 {{formatted_time}}
                 </div>
+                {{#if checkin_code}}
+                <div class="booking-code" style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);">
+                    <div style="color: white; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                        {{#if ../isHungarian}}
+                            ✅ Bejelentkezési Kód
+                        {{else}}
+                            ✅ Check-In Code
+                        {{/if}}
+                    </div>
+                    <div style="font-family: 'Courier New', monospace; color: white; font-size: 32px; font-weight: bold; letter-spacing: 4px; text-shadow: 0 2px 4px rgba(0,0,0,0.2);">
+                        {{checkin_code}}
+                    </div>
+                    <small style="color: rgba(255,255,255,0.9); font-size: 11px; display: block; margin-top: 8px;">
+                        {{#if ../isHungarian}}
+                            Mutassa fel ezt a kódot érkezéskor
+                        {{else}}
+                            Show this code when you arrive
+                        {{/if}}
+                    </small>
+                </div>
+                {{/if}}
+                {{#if booking_id}}
+                <div style="margin-top: 8px; padding: 8px; background: #f3f4f6; border-radius: 4px; text-align: left;">
+                    <small style="color: #6b7280; font-size: 11px;">
+                        {{#if ../isHungarian}}
+                            Hivatkozási szám:
+                        {{else}}
+                            Reference:
+                        {{/if}}
+                        <span style="font-family: monospace; color: #9ca3af;">{{booking_id}}</span>
+                    </small>
+                </div>
+                {{/if}}
             </div>
             {{/each}}
         </div>

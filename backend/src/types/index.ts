@@ -62,6 +62,7 @@ export interface OrderItem {
   start_time: string; // HH:MM
   end_time: string; // HH:MM
   booking_id?: string;
+  checkin_code?: string;
   status: 'pending' | 'booked' | 'cancelled' | 'failed';
   created_at: Date;
   updated_at: Date;

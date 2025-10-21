@@ -200,6 +200,9 @@
     "orderId": "Rendelés Azonosító",
     "bookingCode": "Foglalási Kód",
     "bookingCodes": "Foglalási Számok",
+    "checkinCode": "Bejelentkezési Kód",
+    "showOnArrival": "Mutassa fel ezt a kódot érkezéskor",
+    "reference": "Hivatkozás",
     "bookingPending": "Megerősítés folyamatban",
     "returnToHome": "Vissza a Főoldalra",
     "tryAgain": "Újra Próbálkozás"

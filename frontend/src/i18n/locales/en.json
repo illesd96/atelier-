@@ -200,6 +200,9 @@
     "orderId": "Order ID",
     "bookingCode": "Booking Code",
     "bookingCodes": "Booking Codes",
+    "checkinCode": "Check-In Code",
+    "showOnArrival": "Show this code when you arrive",
+    "reference": "Reference",
     "bookingPending": "Pending confirmation",
     "returnToHome": "Return to Home",
     "tryAgain": "Try Again"

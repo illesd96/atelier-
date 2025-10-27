@@ -128,6 +128,27 @@ export const HomePage: React.FC = () => {
           <p className="about-studio-text">
             <span className="about-studio-bold-text uppercase">{t('home.closing.text2')}</span>
           </p>
+          
+          {/* Secure Payment Badge */}
+          <div className="payment-methods-section" style={{
+            marginTop: '3rem',
+            padding: '2rem',
+            background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
+            borderRadius: '8px',
+            textAlign: 'center'
+          }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <i className="pi pi-shield" style={{ fontSize: '1.5rem', color: 'var(--primary-color)' }}></i>
+                <span style={{ fontSize: '1.1rem', fontWeight: '600' }}>{t('footer.securePayment')}</span>
+              </div>
+              <img 
+                src="/images/barion/barion-smart-payment-banner-EU/barion-banner-lightmode.svg" 
+                alt="Barion - Accepted Payment Methods" 
+                style={{ height: '50px', maxWidth: '100%' }} 
+              />
+            </div>
+          </div>
         </div>
       </section>
 

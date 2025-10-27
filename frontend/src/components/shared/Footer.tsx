@@ -53,7 +53,11 @@ const Footer: React.FC = () => {
             
             <div className="footer-payment">
               <p className="footer-payment-text">{t('footer.securePayment')}</p>
-              <img src="/images/barion_logo.svg" alt="Barion" className="footer-barion-logo" />
+              <img 
+                src="/images/barion/barion-smart-payment-banner-EU/barion-banner-lightmode.svg" 
+                alt="Barion - Accepted Payment Methods" 
+                className="footer-barion-logo" 
+              />
             </div>
             
             <div className="footer-copyright">

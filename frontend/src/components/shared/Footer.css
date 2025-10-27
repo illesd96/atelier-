@@ -50,9 +50,10 @@
 
 .footer-payment {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.5rem 1rem;
+  padding: 1rem 1.5rem;
   background: rgba(0, 151, 219, 0.05);
   border-radius: 8px;
   border: 1px solid rgba(0, 151, 219, 0.1);
@@ -62,10 +63,12 @@
   font-size: 0.875rem;
   color: var(--gray-muted);
   margin: 0;
+  font-weight: 500;
 }
 
 .footer-barion-logo {
-  height: 20px;
+  height: 35px;
+  max-width: 100%;
   opacity: 0.9;
   transition: opacity 0.3s ease;
 }

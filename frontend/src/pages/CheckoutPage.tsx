@@ -96,10 +96,16 @@ export const CheckoutPage: React.FC = () => {
         background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
         border: '1px solid #dee2e6'
       }}>
-        <div className="flex align-items-center justify-content-center gap-3">
-          <i className="pi pi-shield text-2xl text-primary"></i>
-          <span className="text-lg font-semibold">{t('checkout.securePayment')}</span>
-          <img src="/images/barion_logo.svg" alt="Barion" style={{height: '35px'}} />
+        <div className="flex flex-column align-items-center justify-content-center gap-3">
+          <div className="flex align-items-center gap-2">
+            <i className="pi pi-shield text-2xl text-primary"></i>
+            <span className="text-lg font-semibold">{t('checkout.securePayment')}</span>
+          </div>
+          <img 
+            src="/images/barion/barion-smart-payment-banner-EU/barion-banner-lightmode.svg" 
+            alt="Barion - Accepted Payment Methods" 
+            style={{height: '50px', maxWidth: '100%'}} 
+          />
         </div>
       </div>
 

@@ -48,8 +48,12 @@ export const TermsPage: React.FC = () => {
           
           <h3>{t('legal.terms.payment.barion.title')}</h3>
           <p>{t('legal.terms.payment.barion.description')}</p>
-          <div className="payment-logo">
-            <img src="/images/barion_logo.svg" alt="Barion" style={{height: '40px', margin: '10px 0'}} />
+          <div className="payment-logo" style={{display: 'flex', justifyContent: 'center', margin: '1.5rem 0'}}>
+            <img 
+              src="/images/barion/barion-smart-payment-banner-EU/barion-banner-lightmode.svg" 
+              alt="Barion - Accepted Payment Methods" 
+              style={{height: '50px', maxWidth: '100%'}} 
+            />
           </div>
           <p><strong>{t('legal.terms.payment.barion.security')}</strong></p>
           <p>{t('legal.terms.payment.barion.securityDetails')}</p>

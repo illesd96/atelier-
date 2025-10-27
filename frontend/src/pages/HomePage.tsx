@@ -130,7 +130,7 @@ export const HomePage: React.FC = () => {
           </p>
           
           {/* Secure Payment Badge */}
-          <div className="payment-methods-section" style={{
+          {/* <div className="payment-methods-section" style={{
             marginTop: '3rem',
             padding: '2rem',
             background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
@@ -148,7 +148,7 @@ export const HomePage: React.FC = () => {
                 style={{ height: '50px', maxWidth: '100%' }} 
               />
             </div>
-          </div>
+          </div> */}
         </div>
       </section>
 

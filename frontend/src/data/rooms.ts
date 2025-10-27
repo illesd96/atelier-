@@ -30,7 +30,7 @@ export interface RoomData {
 export const roomsData: RoomData[] = [
   {
     id: 'studio-a',
-    name: 'Studio A',
+    name: 'Atelier',
     title: {
       hu: 'Rustic terem',
       en: 'Rustic Room'
@@ -89,7 +89,7 @@ export const roomsData: RoomData[] = [
   },
   {
     id: 'studio-b',
-    name: 'Studio B',
+    name: 'Frigyes',
     title: {
       hu: 'Clay terem',
       en: 'Clay Room'
@@ -148,7 +148,7 @@ export const roomsData: RoomData[] = [
   },
   {
     id: 'studio-c',
-    name: 'Studio C',
+    name: 'Karinthy',
     title: {
       hu: 'Lost terem',
       en: 'Lost Room'

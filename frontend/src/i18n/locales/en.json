@@ -115,9 +115,9 @@
     "price": "{{amount}} {{currency}}/hour",
     "confirmSlot": "Confirm Time Slot",
     "studios": {
-      "studio-a": "Studio A",
-      "studio-b": "Studio B", 
-      "studio-c": "Studio C"
+      "studio-a": "Atelier",
+      "studio-b": "Frigyes",
+      "studio-c": "Karinthy"
     },
     "rentalDetails": {
       "title": "Studio Rental Details",

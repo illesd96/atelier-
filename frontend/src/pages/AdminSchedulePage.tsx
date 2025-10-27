@@ -51,9 +51,9 @@ export const AdminSchedulePage: React.FC = () => {
 
   const roomOptions = [
     { label: 'All Rooms', value: '' },
-    { label: 'Studio A', value: 'studio-a' },
-    { label: 'Studio B', value: 'studio-b' },
-    { label: 'Studio C', value: 'studio-c' },
+    { label: 'Atelier', value: 'studio-a' },
+    { label: 'Frigyes', value: 'studio-b' },
+    { label: 'Karinthy', value: 'studio-c' },
   ];
 
   // Check if user is admin

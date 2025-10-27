@@ -533,9 +533,9 @@ export const AdminBookingsPage: React.FC = () => {
                   id="room"
                   value={modifyData.room_id}
                   options={[
-                    { label: 'Studio A', value: 'studio-a' },
-                    { label: 'Studio B', value: 'studio-b' },
-                    { label: 'Studio C', value: 'studio-c' },
+                    { label: 'Atelier', value: 'studio-a' },
+                    { label: 'Frigyes', value: 'studio-b' },
+                    { label: 'Karinthy', value: 'studio-c' },
                   ]}
                   onChange={(e) => setModifyData({ ...modifyData, room_id: e.value })}
                   placeholder="Select a room"

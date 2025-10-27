@@ -18,9 +18,9 @@ import { getHungarianToday } from '../../utils/timezone';
 import './StudioGrid.css';
 
 const STUDIOS: Studio[] = [
-  { id: 'studio-a', name: 'Studio A' },
-  { id: 'studio-b', name: 'Studio B' },
-  { id: 'studio-c', name: 'Studio C' },
+  { id: 'studio-a', name: 'Atelier' },
+  { id: 'studio-b', name: 'Frigyes' },
+  { id: 'studio-c', name: 'Karinthy' },
 ];
 
 export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {

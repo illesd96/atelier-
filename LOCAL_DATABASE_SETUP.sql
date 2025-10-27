@@ -203,9 +203,9 @@ CREATE TRIGGER update_payments_updated_at
 -- 11. INSERT INITIAL DATA (4 Studios)
 -- ============================================================
 INSERT INTO rooms (id, name, description, active) VALUES
-    ('studio-a', 'Studio A', 'Perfect for portrait photography', true),
-    ('studio-b', 'Studio B', 'Ideal for product photography', true),
-    ('studio-c', 'Studio C', 'Great for fashion shoots', true),
+    ('studio-a', 'Atelier', 'Perfect for portrait photography', true),
+    ('studio-b', 'Frigyes', 'Ideal for product photography', true),
+    ('studio-c', 'Karinthy', 'Great for fashion shoots', true),
     ('makeup', 'Makeup Studio', 'Professional makeup station', true);
 
 -- ============================================================

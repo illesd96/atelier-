@@ -115,9 +115,9 @@
     "price": "{{amount}} {{currency}}/óra",
     "confirmSlot": "Időpont Megerősítése",
     "studios": {
-      "studio-a": "A Stúdió",
-      "studio-b": "B Stúdió",
-      "studio-c": "C Stúdió"
+      "studio-a": "Atelier",
+      "studio-b": "Frigyes",
+      "studio-c": "Karinthy"
     },
     "rentalDetails": {
       "title": "Stúdió Bérlés Részletei",

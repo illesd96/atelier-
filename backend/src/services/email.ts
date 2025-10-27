@@ -235,9 +235,9 @@ class EmailService {
 
   private getRoomName(roomId: string, isHungarian: boolean): string {
     const roomNames = {
-      'studio-a': isHungarian ? 'A Stúdió' : 'Studio A',
-      'studio-b': isHungarian ? 'B Stúdió' : 'Studio B',
-      'studio-c': isHungarian ? 'C Stúdió' : 'Studio C',
+      'studio-a': 'Atelier',
+      'studio-b': 'Frigyes',
+      'studio-c': 'Karinthy',
     };
     
     return roomNames[roomId as keyof typeof roomNames] || roomId;

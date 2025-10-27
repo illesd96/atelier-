@@ -62,7 +62,7 @@ export const config = {
   backendUrl: process.env.BACKEND_URL || 'http://localhost:3001',
   
   // Studios
-  studios: JSON.parse(process.env.STUDIOS || '[{"id":"studio-a","name":"Studio A"},{"id":"studio-b","name":"Studio B"},{"id":"studio-c","name":"Studio C"}]'),
+  studios: JSON.parse(process.env.STUDIOS || '[{"id":"studio-a","name":"Atelier"},{"id":"studio-b","name":"Frigyes"},{"id":"studio-c","name":"Karinthy"}]'),
   
   // Business settings
   business: {

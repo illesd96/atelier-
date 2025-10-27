@@ -192,9 +192,9 @@ CREATE TRIGGER update_user_addresses_updated_at
 -- 11. INSERT INITIAL DATA (4 Studios)
 -- ============================================================
 INSERT INTO rooms (id, name, description) VALUES
-('studio-a', 'Studio A', 'Perfect for portrait photography'),
-('studio-b', 'Studio B', 'Ideal for product photography'),
-('studio-c', 'Studio C', 'Great for fashion shoots'),
+('studio-a', 'Atelier', 'Perfect for portrait photography'),
+('studio-b', 'Frigyes', 'Ideal for product photography'),
+('studio-c', 'Karinthy', 'Great for fashion shoots'),
 ('makeup', 'Makeup Studio', 'Professional makeup station')
 ON CONFLICT (id) DO NOTHING;
 

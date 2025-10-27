@@ -16,9 +16,9 @@ const Footer: React.FC = () => {
           
           <div className="footer-right">
             <div className="footer-links">
-              <Link to="/blog" className="footer-link">
+              {/* <Link to="/blog" className="footer-link">
                 {t('navigation.blog')}
-              </Link>
+              </Link> */}
               <Link to="/faq" className="footer-link">
                 {t('navigation.faq')}
               </Link>

@@ -32,8 +32,8 @@ export const roomsData: RoomData[] = [
     id: 'studio-a',
     name: 'Atelier',
     title: {
-      hu: 'Rustic terem',
-      en: 'Rustic Room'
+      hu: 'Atelier szoba',
+      en: 'Atelier Room'
     },
     subtitle: {
       hu: 'Rusztikus berendezés, természetes színekkel',
@@ -91,8 +91,8 @@ export const roomsData: RoomData[] = [
     id: 'studio-b',
     name: 'Frigyes',
     title: {
-      hu: 'Clay terem',
-      en: 'Clay Room'
+      hu: 'Frigyes szoba',
+      en: 'Frigyes Room'
     },
     subtitle: {
       hu: 'Modern minimalizmus, föld színekkel, japandi stílusjegyekkel',
@@ -150,8 +150,8 @@ export const roomsData: RoomData[] = [
     id: 'studio-c',
     name: 'Karinthy',
     title: {
-      hu: 'Lost terem',
-      en: 'Lost Room'
+      hu: 'Karinthy szoba',
+      en: 'Karinthy Room'
     },
     subtitle: {
       hu: 'Fiatalos, letisztult és lakásszerű',

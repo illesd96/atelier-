@@ -40,7 +40,7 @@ export const roomsData: RoomData[] = [
       en: 'Rustic furnishings with natural colors'
     },
     description: {
-      hu: 'A fotóstúdió Rustic terme rusztikus berendezési stílusával és neutrális színeivel természetes közeget biztosít a fotózásokhoz. Egyben a stúdió legnagyobb terme, összesen 120 négyzetméter.',
+      hu: 'Az Atelier terem a frissen hullott hó és a karácsonyi fenyők varázslatos hangulatát idézi. A hófedte lucfenyők, a puha hó és a finom fények meghitt, ünnepi atmoszférát teremtenek. Egy igazi téli álomvilág!',
       en: 'The Rustic room provides a natural environment for photography with its rustic furnishing style and neutral colors. It is also the largest room in the studio, totaling 120 square meters.'
     },
     features: {

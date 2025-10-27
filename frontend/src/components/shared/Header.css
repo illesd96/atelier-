@@ -32,6 +32,15 @@
   top: 50%;
   transform: translate(-50%, -50%);
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logo-icon {
+  height: 28px;
+  width: auto;
+  transition: opacity 0.3s ease;
 }
 
 .logo-text {
@@ -262,6 +271,10 @@
 @media (max-width: 768px) {
   .header-content {
     padding: 0 1rem;
+  }
+  
+  .logo-icon {
+    height: 22px;
   }
   
   .logo-text {

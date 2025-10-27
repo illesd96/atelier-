@@ -11,6 +11,7 @@ const Footer: React.FC = () => {
       <div className="container">
         <div className="footer-content">
           <div className="footer-logo">
+            <img src="/fav/favicon.svg" alt="Logo" className="footer-logo-icon" />
             ATELIER ARCHILLES
           </div>
           

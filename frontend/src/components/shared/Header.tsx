@@ -68,6 +68,7 @@ const Header: React.FC = () => {
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="header-content">
           <Link to="/" className="header-logo">
+            <img src="/fav/favicon.svg" alt="Logo" className="logo-icon" />
             <span className="logo-text">ATELIER ARCHILLES</span>
           </Link>
 

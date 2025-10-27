@@ -14,7 +14,8 @@ i18n
   .use(initReactI18next)
   .init({
     resources,
-    fallbackLng: 'en',
+    fallbackLng: 'hu',
+    lng: 'hu', // Set default language to Hungarian
     debug: import.meta.env.DEV,
     
     interpolation: {

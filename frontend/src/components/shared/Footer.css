@@ -21,6 +21,16 @@
   font-weight: 700;
   color: var(--text-color);
   letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-logo-icon {
+  height: 28px;
+  width: auto;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
 }
 
 .footer-right {
@@ -86,6 +96,14 @@
   .footer-content {
     flex-direction: column;
     text-align: center;
+  }
+  
+  .footer-logo {
+    justify-content: center;
+  }
+  
+  .footer-logo-icon {
+    height: 24px;
   }
 
   .footer-right {

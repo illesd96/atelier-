@@ -32,7 +32,7 @@ export const roomsData: RoomData[] = [
     id: 'studio-a',
     name: 'Atelier',
     title: {
-      hu: 'Atelier szoba',
+      hu: 'Atelier',
       en: 'Atelier Room'
     },
     subtitle: {
@@ -91,7 +91,7 @@ export const roomsData: RoomData[] = [
     id: 'studio-b',
     name: 'Frigyes',
     title: {
-      hu: 'Frigyes szoba',
+      hu: 'Frigyes',
       en: 'Frigyes Room'
     },
     subtitle: {
@@ -150,7 +150,7 @@ export const roomsData: RoomData[] = [
     id: 'studio-c',
     name: 'Karinthy',
     title: {
-      hu: 'Karinthy szoba',
+      hu: 'Karinthy',
       en: 'Karinthy Room'
     },
     subtitle: {

@@ -19,6 +19,13 @@ import {
   resendVerificationEmail,
 } from '../controllers/user';
 import { getAllBookings, getBookingStats, getScheduleView, updateAttendance, cancelBookingItem, modifyBookingItem } from '../controllers/admin';
+import { 
+  getOrderInvoice, 
+  downloadInvoicePdf, 
+  getAllInvoices, 
+  getInvoiceById, 
+  adminDownloadInvoicePdf 
+} from '../controllers/invoices';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
@@ -64,6 +71,10 @@ router.post('/checkout', optionalAuth, createCheckout);
 // Order endpoints
 router.get('/orders/:orderId/status', getOrderStatus);
 
+// Invoice endpoints
+router.get('/orders/:orderId/invoice', optionalAuth, getOrderInvoice);
+router.get('/invoices/:invoiceId/download', optionalAuth, downloadInvoicePdf);
+
 // Reservation endpoints
 router.post('/reservations', createTempReservation);
 router.delete('/reservations', removeTempReservation);
@@ -80,6 +91,11 @@ router.get('/admin/schedule', adminAuth, getScheduleView);
 router.put('/admin/bookings/:bookingItemId/attendance', adminAuth, updateAttendance);
 router.put('/admin/bookings/:bookingItemId/cancel', adminAuth, cancelBookingItem);
 router.put('/admin/bookings/:bookingItemId/modify', adminAuth, modifyBookingItem);
+
+// Admin invoice endpoints
+router.get('/admin/invoices', adminAuth, getAllInvoices);
+router.get('/admin/invoices/:invoiceId', adminAuth, getInvoiceById);
+router.get('/admin/invoices/:invoiceId/download', adminAuth, adminDownloadInvoicePdf);
 
 // Cron endpoints (for Vercel Cron or external cron services)
 router.get('/cron/send-reminders', async (req, res) => {

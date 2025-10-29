@@ -627,7 +627,12 @@
     "updatePassword": "Jelszó frissítése",
     "passwordChanged": "Jelszó sikeresen megváltoztatva",
     "logout": "Kijelentkezés",
-    "logoutConfirm": "Biztosan ki szeretne jelentkezni?"
+    "logoutConfirm": "Biztosan ki szeretne jelentkezni?",
+    "invoice": "Számla",
+    "invoiceNumber": "Számlaszám",
+    "invoiceStatus": "Számla státusza",
+    "downloadInvoice": "Számla letöltése",
+    "invoiceDownloadFailed": "Nem sikerült letölteni a számlát. Kérjük, próbálja újra."
   }
 }
 

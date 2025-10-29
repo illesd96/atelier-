@@ -41,6 +41,9 @@ interface Booking {
   items: BookingItem[];
   payment_id?: string;
   payment_status?: string;
+  invoice_id?: string;
+  invoice_number?: string;
+  invoice_status?: string;
 }
 
 interface BookingStats {
@@ -280,6 +283,40 @@ export const AdminBookingsPage: React.FC = () => {
     return formatDateTime(rowData.created_at);
   };
 
+  const handleDownloadInvoice = async (invoiceId: string, invoiceNumber: string) => {
+    if (!token) return;
+    
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/admin/invoices/${invoiceId}/download`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to download invoice');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `invoice-${invoiceNumber}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to download invoice:', error);
+      toast.current?.show({ 
+        severity: 'error', 
+        summary: 'Error', 
+        detail: 'Failed to download invoice' 
+      });
+    }
+  };
+
   const rowExpansionTemplate = (data: Booking) => {
     return (
       <div className="p-3">
@@ -298,6 +335,21 @@ export const AdminBookingsPage: React.FC = () => {
             <p><strong>Payment Status:</strong> {data.payment_status || 'N/A'}</p>
             <p><strong>Created:</strong> {formatDateTime(data.created_at)}</p>
             <p><strong>Updated:</strong> {formatDateTime(data.updated_at)}</p>
+            {data.invoice_number && (
+              <p className="flex align-items-center gap-2">
+                <strong>Invoice:</strong> 
+                <span>{data.invoice_number}</span>
+                <Button
+                  icon="pi pi-download"
+                  rounded
+                  text
+                  size="small"
+                  onClick={() => handleDownloadInvoice(data.invoice_id!, data.invoice_number!)}
+                  tooltip="Download Invoice"
+                />
+                <Badge value={data.invoice_status} severity={data.invoice_status === 'sent' ? 'success' : 'info'} />
+              </p>
+            )}
           </div>
         </div>
         

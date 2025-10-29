@@ -627,7 +627,12 @@
     "updatePassword": "Update Password",
     "passwordChanged": "Password changed successfully",
     "logout": "Sign Out",
-    "logoutConfirm": "Are you sure you want to sign out?"
+    "logoutConfirm": "Are you sure you want to sign out?",
+    "invoice": "Invoice",
+    "invoiceNumber": "Invoice Number",
+    "invoiceStatus": "Invoice Status",
+    "downloadInvoice": "Download Invoice",
+    "invoiceDownloadFailed": "Failed to download invoice. Please try again."
   }
 }
 

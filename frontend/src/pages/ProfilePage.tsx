@@ -22,6 +22,10 @@ interface Order {
   total_amount: number;
   currency: string;
   created_at: string;
+  invoice_id?: string;
+  invoice_number?: string;
+  invoice_status?: string;
+  invoice_created_at?: string;
   items: Array<{
     room_name: string;
     booking_date: string;
@@ -196,6 +200,34 @@ export const ProfilePage: React.FC = () => {
     });
   };
 
+  const handleDownloadInvoice = async (invoiceId: string, invoiceNumber: string) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL}/invoices/${invoiceId}/download`,
+        {
+          headers: token ? {
+            'Authorization': `Bearer ${token}`
+          } : {}
+        }
+      );
+
+      if (!response.ok) throw new Error('Failed to download invoice');
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = `invoice-${invoiceNumber}.pdf`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Failed to download invoice:', error);
+      setMessage({ type: 'error', text: t('profile.invoiceDownloadFailed') });
+    }
+  };
+
   const expandedRowTemplate = (order: Order) => {
     return (
       <div className="order-items-detail">
@@ -213,6 +245,31 @@ export const ProfilePage: React.FC = () => {
             </div>
           </div>
         ))}
+        
+        {order.invoice_id && (
+          <div className="order-invoice-section">
+            <Divider />
+            <div className="invoice-info">
+              <div>
+                <h4>{t('profile.invoice')}</h4>
+                <p><strong>{t('profile.invoiceNumber')}:</strong> {order.invoice_number}</p>
+                <p><strong>{t('profile.invoiceStatus')}:</strong>{' '}
+                  <Tag 
+                    value={order.invoice_status} 
+                    severity={order.invoice_status === 'sent' ? 'success' : 'info'}
+                  />
+                </p>
+              </div>
+              <Button
+                label={t('profile.downloadInvoice')}
+                icon="pi pi-download"
+                onClick={() => handleDownloadInvoice(order.invoice_id!, order.invoice_number!)}
+                outlined
+                size="small"
+              />
+            </div>
+          </div>
+        )}
       </div>
     );
   };
@@ -367,6 +424,24 @@ export const ProfilePage: React.FC = () => {
                 field="total_amount" 
                 header={t('profile.orderTotal')}
                 body={(order) => `${order.total_amount.toLocaleString()} ${order.currency}`}
+              />
+              <Column 
+                header={t('profile.invoice')}
+                body={(order) => order.invoice_number ? (
+                  <div className="flex align-items-center gap-2">
+                    <span className="text-sm">{order.invoice_number}</span>
+                    <Button
+                      icon="pi pi-download"
+                      rounded
+                      text
+                      size="small"
+                      onClick={() => handleDownloadInvoice(order.invoice_id!, order.invoice_number!)}
+                      tooltip={t('profile.downloadInvoice')}
+                    />
+                  </div>
+                ) : (
+                  <span className="text-gray-400">-</span>
+                )}
               />
             </DataTable>
           )}

@@ -305,6 +305,40 @@
   border-left-width: 4px;
 }
 
+/* Invoice section styling */
+.order-invoice-section {
+  margin-top: 1.5rem;
+}
+
+.order-invoice-section h4 {
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+  color: #111827;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.invoice-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.invoice-info p {
+  margin: 0.5rem 0;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.invoice-info strong {
+  color: #374151;
+}
+
 @media (max-width: 768px) {
   .profile-page {
     padding: 2rem 1rem;

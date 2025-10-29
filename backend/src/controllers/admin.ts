@@ -42,12 +42,16 @@ export async function getAllBookings(req: Request, res: Response) {
           ) ORDER BY oi.booking_date, oi.start_time
         ) as items,
         p.provider_ref as payment_id,
-        p.status as payment_status
+        p.status as payment_status,
+        i.id as invoice_id,
+        i.invoice_number,
+        i.status as invoice_status
       FROM orders o
       LEFT JOIN order_items oi ON o.id = oi.order_id
       LEFT JOIN rooms r ON oi.room_id = r.id
       LEFT JOIN users u ON o.user_id = u.id
       LEFT JOIN payments p ON p.order_id = o.id
+      LEFT JOIN invoices i ON i.order_id = o.id
     `;
 
     const queryParams: any[] = [];
@@ -75,7 +79,7 @@ export async function getAllBookings(req: Request, res: Response) {
     }
 
     query += `
-      GROUP BY o.id, u.id, p.id
+      GROUP BY o.id, u.id, p.id, i.id
       ORDER BY o.created_at DESC
     `;
 

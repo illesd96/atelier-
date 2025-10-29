@@ -311,6 +311,10 @@ export async function getOrderHistory(req: Request, res: Response) {
         o.currency,
         o.created_at,
         o.updated_at,
+        i.id as invoice_id,
+        i.invoice_number,
+        i.status as invoice_status,
+        i.created_at as invoice_created_at,
         json_agg(
           json_build_object(
             'id', oi.id,
@@ -325,8 +329,9 @@ export async function getOrderHistory(req: Request, res: Response) {
        FROM orders o
        LEFT JOIN order_items oi ON o.id = oi.order_id
        LEFT JOIN rooms r ON oi.room_id = r.id
+       LEFT JOIN invoices i ON i.order_id = o.id
        WHERE o.user_id = $1 OR LOWER(o.email) = LOWER($2)
-       GROUP BY o.id
+       GROUP BY o.id, i.id
        ORDER BY o.created_at DESC
        LIMIT 50`,
       [req.user.userId, userEmail]

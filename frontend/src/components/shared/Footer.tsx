@@ -26,7 +26,7 @@ const Footer: React.FC = () => {
               <Link to="/contact" className="footer-link">
                 {t('navigation.contact')}
               </Link>
-              <a href="/documents/Atelier-Archilles_Terms_and_Conditions_v251020.pdf" 
+              <a href="/documents/Atelier-Archilles_Terms_and_Conditions_v251028.pdf" 
                  target="_blank" 
                  rel="noopener noreferrer" 
                  className="footer-link">

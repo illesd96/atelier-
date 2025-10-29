@@ -19,7 +19,7 @@ export const TermsPage: React.FC = () => {
           textAlign: 'center'
         }}>
           <a 
-            href="/documents/Atelier-Archilles_Terms_and_Conditions_v251020.pdf" 
+            href="/documents/Atelier-Archilles_Terms_and_Conditions_v251028.pdf" 
             target="_blank" 
             rel="noopener noreferrer"
             className="p-button p-button-primary"

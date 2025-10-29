@@ -14,7 +14,7 @@
     <title>Atelier Archilles — Photography Studio</title>
 
     <!-- Barion Pixel (Vite-friendly, correct boot order) -->
-    <script>
+    <!-- <script>
       (function (w, d) {
         // Skip in local dev
         if (w.location.hostname === 'localhost' || w.location.hostname === '127.0.0.1') return;
@@ -44,12 +44,34 @@
         var first = d.getElementsByTagName('script')[0];
         first.parentNode.insertBefore(s, first);
       })(window, document);
-    </script>
+    </script> -->
+            <script>
+              // Create BP element on the window
+              window["bp"] = window["bp"] || function () {
+                  (window["bp"].q = window["bp"].q || []).push(arguments);
+              };
+              window["bp"].l = 1 * new Date();
+      
+              // Insert a script tag on the top of the head to load bp.js
+              scriptElement = document.createElement("script");
+              firstScript = document.getElementsByTagName("script")[0];
+              scriptElement.async = true;
+              scriptElement.src = 'https://pixel.barion.com/bp.js';
+              firstScript.parentNode.insertBefore(scriptElement, firstScript);
+              window['barion_pixel_id'] = 'BP-qlDXPMh1fn-83';            
+  
+              // Send init event
+              bp('init', 'addBarionPixelId', window['barion_pixel_id']);
+          </script>
+  
+          <noscript>
+              <img height="1" width="1" style="display:none" alt="Barion Pixel" src="https://pixel.barion.com/a.gif?ba_pixel_id='BP-qlDXPMh1fn-83'&ev=contentView&noscript=1">
+          </noscript>
   </head>
 
   <body>
     <!-- NoScript fallback must be inside <body> -->
-    <noscript>
+    <!-- <noscript>
       <img
         height="1"
         width="1"
@@ -57,7 +79,7 @@
         src="https://pixel.barion.com/a.gif?pixelId=%VITE_BARION_PIXEL_ID%"
         alt="Barion Pixel"
       />
-    </noscript>
+    </noscript> -->
 
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>

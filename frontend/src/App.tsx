@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { PrimeReactProvider } from 'primereact/api';
+import { HelmetProvider } from 'react-helmet-async';
 import 'primereact/resources/themes/lara-light-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
@@ -31,13 +32,14 @@ import { CookieConsent } from './components/CookieConsent';
 
 function App() {
   return (
-    <PrimeReactProvider>
-      <ConfigProvider>
-        <AuthProvider>
-          <CartProvider>
-            <Router>
-              <div className="App">
-                <Routes>
+    <HelmetProvider>
+      <PrimeReactProvider>
+        <ConfigProvider>
+          <AuthProvider>
+            <CartProvider>
+              <Router>
+                <div className="App">
+                  <Routes>
                   <Route path="/" element={<Layout />}>
                     <Route index element={<HomePage />} />
                     <Route path="rooms/:roomId" element={<RoomDetailPage />} />
@@ -58,14 +60,15 @@ function App() {
                     <Route path="blog/:slug" element={<BlogPostPage />} />
                     {/* <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} /> */}
                   </Route>
-                </Routes>
-                <CookieConsent />
-              </div>
-            </Router>
-          </CartProvider>
-        </AuthProvider>
-      </ConfigProvider>
-    </PrimeReactProvider>
+                  </Routes>
+                  <CookieConsent />
+                </div>
+              </Router>
+            </CartProvider>
+          </AuthProvider>
+        </ConfigProvider>
+      </PrimeReactProvider>
+    </HelmetProvider>
   );
 }
 

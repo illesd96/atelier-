@@ -2,15 +2,29 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { Button } from 'primereact/button';
+import { SEOHead } from '../components/SEO/SEOHead';
+import { generateHomePageSchema } from '../utils/structuredData';
 import ScrollingText from '../components/shared/ScrollingText';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const navigate = useNavigate();
+  const isHungarian = i18n.language === 'hu';
 
   return (
     <>
+      <SEOHead
+        title={isHungarian ? "Stúdió Bérlés Budapest 11. Kerület" : "Photography Studio Rental Budapest"}
+        description={isHungarian 
+          ? "Professzionális fotóstúdió bérlés Budapesten, 11. kerület. 3 egyedi design stúdió (260 m²) Anna Illés építész tervezésében. Foglalj most!"
+          : "Professional photography studio rental in Budapest. 3 unique design studios (260 m²) by architect Anna Illés. Book now!"
+        }
+        keywords="stúdió bérlés budapest, fotóstúdió bérlés, stúdió kiadó, photography studio rental, 11 kerület, design stúdió"
+        url="/"
+        image="/images/studio-hero.jpg"
+        structuredData={generateHomePageSchema()}
+      />
       {/* Banner Section with Hero Image */}
       <section className="banner-section">
         <div className="banner-image-container">

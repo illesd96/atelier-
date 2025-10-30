@@ -28,6 +28,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { AdminBookingsPage } from './pages/AdminBookingsPage';
 import { AdminSchedulePage } from './pages/AdminSchedulePage';
 import { RoomDetailPage } from './pages/RoomDetailPage';
+import { NotFoundPage } from './pages/NotFoundPage';
 import { CookieConsent } from './components/CookieConsent';
 
 function App() {
@@ -58,7 +59,8 @@ function App() {
                     <Route path="contact" element={<ContactPage />} />
                     <Route path="blog" element={<BlogPage />} />
                     <Route path="blog/:slug" element={<BlogPostPage />} />
-                    {/* <Route path="about" element={<div className="p-4"><h1>About Us</h1><p>Coming soon...</p></div>} /> */}
+                    {/* 404 - Must be last */}
+                    <Route path="*" element={<NotFoundPage />} />
                   </Route>
                   </Routes>
                   <CookieConsent />

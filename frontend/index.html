@@ -1,8 +1,14 @@
 <!doctype html>
-<html lang="en">
+<html lang="hu">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Preload critical resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="image" href="/images/studio-hero.jpg" fetchpriority="high" />
+    <link rel="dns-prefetch" href="https://pixel.barion.com" />
     
     <!-- SEO Meta Tags (Base - will be overridden by SEOHead component) -->
     <meta name="description" content="Professzionális stúdió bérlés Budapest 11. kerület. 3 design fotóstúdió 260 m²-en. Portré, divat, termék fotózás. Foglalj online!" />
@@ -18,6 +24,18 @@
     <link rel="manifest" href="/fav/site.webmanifest" />
 
     <title>Stúdió Bérlés Budapest | Atelier Archilles Fotóstúdió</title>
+    
+    <!-- Google Analytics 4 -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-XXXXXXXXXX', {
+        'anonymize_ip': true,
+        'cookie_flags': 'SameSite=None;Secure'
+      });
+    </script>
 
     <!-- Barion Pixel (Vite-friendly, correct boot order) -->
     <!-- <script>
@@ -51,23 +69,27 @@
         first.parentNode.insertBefore(s, first);
       })(window, document);
     </script> -->
-    <script>
-        // Create BP element on the window
-        window["bp"] = window["bp"] || function () {
-            (window["bp"].q = window["bp"].q || []).push(arguments);
-        };
-        window["bp"].l = 1 * new Date();
+    <!-- Barion Pixel - Deferred to not block page load -->
+    <script defer>
+        // Skip Barion in local development
+        if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+          // Create BP element on the window
+          window["bp"] = window["bp"] || function () {
+              (window["bp"].q = window["bp"].q || []).push(arguments);
+          };
+          window["bp"].l = 1 * new Date();
 
-        // Insert a script tag on the top of the head to load bp.js
-        scriptElement = document.createElement("script");
-        firstScript = document.getElementsByTagName("script")[0];
-        scriptElement.async = true;
-        scriptElement.src = 'https://pixel.barion.com/bp.js';
-        firstScript.parentNode.insertBefore(scriptElement, firstScript);
-        window['barion_pixel_id'] = 'BP-qlDXPMh1fn-83';            
+          // Insert a script tag on the top of the head to load bp.js
+          var scriptElement = document.createElement("script");
+          var firstScript = document.getElementsByTagName("script")[0];
+          scriptElement.async = true;
+          scriptElement.src = 'https://pixel.barion.com/bp.js';
+          firstScript.parentNode.insertBefore(scriptElement, firstScript);
+          window['barion_pixel_id'] = 'BP-qlDXPMh1fn-83';            
 
-        // Send init event
-        bp('init', 'addBarionPixelId', window['barion_pixel_id']);
+          // Send init event
+          bp('init', 'addBarionPixelId', window['barion_pixel_id']);
+        }
     </script>
   </head>
 

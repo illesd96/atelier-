@@ -5,6 +5,7 @@ import { Button } from 'primereact/button';
 import { SEOHead } from '../components/SEO/SEOHead';
 import { generateHomePageSchema } from '../utils/structuredData';
 import ScrollingText from '../components/shared/ScrollingText';
+import { OptimizedImage } from '../components/shared/OptimizedImage';
 import './HomePage.css';
 
 export const HomePage: React.FC = () => {
@@ -29,9 +30,13 @@ export const HomePage: React.FC = () => {
       <section className="banner-section">
         <div className="banner-image-container">
           <div className="banner-image">
-            <img
+            <OptimizedImage
               src="https://images.unsplash.com/photo-1554048612-b6a482bc67e5?w=1600&h=1200&fit=crop"
-              alt="Atelier Archilles Studio"
+              alt="Atelier Archilles fotóstúdió bérlés Budapest - professzionális stúdió tér"
+              width={1600}
+              height={1200}
+              loading="eager"
+              fetchpriority="high"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>
@@ -64,9 +69,12 @@ export const HomePage: React.FC = () => {
             {/* Studio A - Rustic */}
             <div className="studio-card" onClick={() => navigate('/rooms/studio-a')}>
               <div className="studio-card-image">
-                <img
+                <OptimizedImage
                   src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=800&fit=crop"
-                  alt="Rustic Studio"
+                  alt="Atelier stúdió - rusztikus fotóstúdió bérlés Budapest"
+                  width={600}
+                  height={800}
+                  loading="lazy"
                 />
               </div>
               <div className="studio-card-content">
@@ -87,9 +95,12 @@ export const HomePage: React.FC = () => {
             {/* Studio B - Clay */}
             <div className="studio-card" onClick={() => navigate('/rooms/studio-b')}>
               <div className="studio-card-image">
-                <img
+                <OptimizedImage
                   src="https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=600&h=800&fit=crop"
-                  alt="Clay Studio"
+                  alt="Frigyes stúdió - modern fotóstúdió bérlés Budapest"
+                  width={600}
+                  height={800}
+                  loading="lazy"
                 />
               </div>
               <div className="studio-card-content">
@@ -110,9 +121,12 @@ export const HomePage: React.FC = () => {
             {/* Studio C - Lost */}
             <div className="studio-card" onClick={() => navigate('/rooms/studio-c')}>
               <div className="studio-card-image">
-                <img
+                <OptimizedImage
                   src="https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=600&h=800&fit=crop"
-                  alt="Lost Studio"
+                  alt="Karinthy stúdió - tágas fotóstúdió bérlés Budapest"
+                  width={600}
+                  height={800}
+                  loading="lazy"
                 />
               </div>
               <div className="studio-card-content">

@@ -1,0 +1,158 @@
+.not-found-page {
+  min-height: calc(100vh - 200px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.not-found-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.not-found-content {
+  text-align: left;
+}
+
+.not-found-title {
+  font-size: 8rem;
+  font-weight: 900;
+  color: #667eea;
+  margin: 0;
+  line-height: 1;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.not-found-subtitle {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin: 1rem 0;
+}
+
+.not-found-text {
+  font-size: 1.125rem;
+  color: #4a5568;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.not-found-actions {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+}
+
+.not-found-links {
+  border-top: 1px solid #e2e8f0;
+  padding-top: 2rem;
+}
+
+.not-found-links h3 {
+  font-size: 1.25rem;
+  color: #2d3748;
+  margin-bottom: 1rem;
+}
+
+.not-found-links ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.not-found-links li {
+  margin: 0;
+}
+
+.not-found-links .p-button-link {
+  color: #667eea;
+  font-weight: 600;
+}
+
+.not-found-links .p-button-link:hover {
+  color: #5568d3;
+  text-decoration: underline;
+}
+
+.not-found-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.not-found-illustration svg {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+  animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .not-found-container {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .not-found-content {
+    text-align: center;
+  }
+
+  .not-found-title {
+    font-size: 6rem;
+  }
+
+  .not-found-subtitle {
+    font-size: 2rem;
+  }
+
+  .not-found-actions {
+    justify-content: center;
+  }
+
+  .not-found-links ul {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .not-found-title {
+    font-size: 4rem;
+  }
+
+  .not-found-subtitle {
+    font-size: 1.5rem;
+  }
+
+  .not-found-text {
+    font-size: 1rem;
+  }
+
+  .not-found-actions {
+    flex-direction: column;
+  }
+
+  .not-found-actions .p-button {
+    width: 100%;
+  }
+}
+

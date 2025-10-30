@@ -28,8 +28,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   
   const siteUrl = 'https://www.atelier-archilles.hu';
   const siteName = 'Atelier Archilles';
-  const defaultTitle = 'Atelier Archilles - Stúdió Bérlés Budapest | Professional Photography Studio Rental';
-  const defaultDescription = 'Professzionális fotóstúdió bérlés Budapesten. 3 egyedi design stúdió (260 m²) Anna Illés építész tervezésében. Tökéletes portré, divat, termék és commercial fotózáshoz. Studio rental Budapest.';
+  // SEO-optimized title and description with keywords
+  const defaultTitle = 'Stúdió Bérlés Budapest | Atelier Archilles Fotóstúdió';
+  const defaultDescription = 'Professzionális stúdió bérlés Budapest 11. kerület. 3 design fotóstúdió 260 m²-en. Portré, divat, termék fotózás. Foglalj online!';
   
   const pageTitle = title ? `${title} | ${siteName}` : defaultTitle;
   const pageDescription = description || defaultDescription;

@@ -39,7 +39,21 @@
     "cookies": "Cookie Szabályzat",
     "impressum": "Impresszum",
     "faq": "GYIK",
-    "language": "Nyelv"
+    "language": "Nyelv",
+    "studios": "Stúdiók"
+  },
+  "notFound": {
+    "title": "Oldal nem található",
+    "message": "Sajnáljuk, a keresett oldal nem létezik vagy áthelyezésre került.",
+    "goHome": "Vissza a főoldalra",
+    "goBack": "Vissza az előző oldalra",
+    "helpfulLinks": "Hasznos linkek:"
+  },
+  "nav": {
+    "studios": "Stúdiók",
+    "booking": "Foglalás",
+    "faq": "GYIK",
+    "contact": "Kapcsolat"
   },
   "footer": {
     "securePayment": "Biztonságos Fizetés"

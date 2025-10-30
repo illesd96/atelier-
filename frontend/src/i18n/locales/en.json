@@ -39,7 +39,21 @@
     "cookies": "Cookie Policy",
     "impressum": "Impressum",
     "faq": "FAQ",
-    "language": "Language"
+    "language": "Language",
+    "studios": "Studios"
+  },
+  "notFound": {
+    "title": "Page Not Found",
+    "message": "Sorry, the page you are looking for does not exist or has been moved.",
+    "goHome": "Go to Homepage",
+    "goBack": "Go Back",
+    "helpfulLinks": "Helpful Links:"
+  },
+  "nav": {
+    "studios": "Studios",
+    "booking": "Book Now",
+    "faq": "FAQ",
+    "contact": "Contact"
   },
   "footer": {
     "securePayment": "Secure Payment"

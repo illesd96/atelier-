@@ -9,7 +9,7 @@ Disallow: /*?*utm_
 Disallow: /*?*ref=
 
 # Sitemap location
-Sitemap: https://atelier-archilles.hu/sitemap.xml
+Sitemap: https://www.atelier-archilles.hu/sitemap.xml
 
 # Crawl-delay for bots (optional, helps prevent overload)
 Crawl-delay: 1

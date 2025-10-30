@@ -26,10 +26,10 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
   const { i18n } = useTranslation();
   const currentLanguage = i18n.language || 'hu';
   
-  const siteUrl = 'https://atelier-archilles.hu';
+  const siteUrl = 'https://www.atelier-archilles.hu';
   const siteName = 'Atelier Archilles';
-  const defaultTitle = 'Atelier Archilles - Professional Photography Studio in Budapest';
-  const defaultDescription = 'Book your photography session at Atelier Archilles. Modern studio spaces in Budapest with professional equipment, perfect for portraits, fashion, product photography, and more.';
+  const defaultTitle = 'Atelier Archilles - Stúdió Bérlés Budapest | Professional Photography Studio Rental';
+  const defaultDescription = 'Professzionális fotóstúdió bérlés Budapesten. 3 egyedi design stúdió (260 m²) Anna Illés építész tervezésében. Tökéletes portré, divat, termék és commercial fotózáshoz. Studio rental Budapest.';
   
   const pageTitle = title ? `${title} | ${siteName}` : defaultTitle;
   const pageDescription = description || defaultDescription;
@@ -85,8 +85,20 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       {/* Geo Tags for Local SEO */}
       <meta name="geo.region" content="HU-BU" />
       <meta name="geo.placename" content="Budapest" />
-      <meta name="geo.position" content="47.497912;19.040235" />
-      <meta name="ICBM" content="47.497912, 19.040235" />
+      <meta name="geo.position" content="47.476205;19.052146" />
+      <meta name="ICBM" content="47.476205, 19.052146" />
+      
+      {/* Business Contact */}
+      <meta property="business:contact_data:street_address" content="Karinthy Frigyes út 19" />
+      <meta property="business:contact_data:locality" content="Budapest" />
+      <meta property="business:contact_data:postal_code" content="1111" />
+      <meta property="business:contact_data:country_name" content="Hungary" />
+      <meta property="business:contact_data:email" content="anna@archilles.hu" />
+      <meta property="business:contact_data:phone_number" content="+36309747362" />
+      
+      {/* Place Details */}
+      <meta property="place:location:latitude" content="47.476205" />
+      <meta property="place:location:longitude" content="19.052146" />
       
       {/* Structured Data */}
       {structuredData && (

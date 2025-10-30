@@ -1,236 +1,372 @@
 /**
- * Structured Data (JSON-LD) generators for SEO
- * https://developers.google.com/search/docs/appearance/structured-data
+ * Structured Data (Schema.org JSON-LD) for SEO
+ * Atelier Archilles - Photography Studio Rental Budapest
  */
 
-const siteUrl = 'https://atelier-archilles.hu';
+const SITE_URL = 'https://www.atelier-archilles.hu';
+const BUSINESS_NAME = 'Atelier Archilles';
+
+// Business Information
+export const businessInfo = {
+  name: BUSINESS_NAME,
+  alternateName: 'Atelier Archilles Fotóstúdió',
+  description: 'Professional photography studio rental in Budapest. 3 unique design studios (260 m²) designed by architect Anna Illés. Perfect for portrait, fashion, product and commercial photography.',
+  url: SITE_URL,
+  telephone: '+36309747362',
+  email: 'anna@archilles.hu',
+  address: {
+    streetAddress: 'Karinthy Frigyes út 19',
+    addressLocality: 'Budapest',
+    addressRegion: 'Budapest',
+    postalCode: '1111',
+    addressCountry: 'HU',
+  },
+  geo: {
+    latitude: 47.476205,
+    longitude: 19.052146,
+  },
+  openingHours: 'Mo-Su 08:00-20:00',
+  priceRange: '€€',
+  image: `${SITE_URL}/images/studio-hero.jpg`,
+  logo: `${SITE_URL}/fav/favicon.svg`,
+  founder: {
+    name: 'Anna Illés',
+    jobTitle: 'Architect & Designer',
+  },
+};
 
 /**
- * Organization structured data
+ * Organization Schema - Main business entity
  */
-export const getOrganizationSchema = () => ({
-  "@context": "https://schema.org",
-  "@type": "PhotographyBusiness",
-  "@id": `${siteUrl}/#organization`,
-  "name": "Atelier Archilles",
-  "alternateName": "Atelier Archilles Photography Studio",
-  "url": siteUrl,
-  "logo": {
-    "@type": "ImageObject",
-    "url": `${siteUrl}/images/logo.png`,
-    "width": "512",
-    "height": "512"
+export const generateOrganizationSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  '@id': `${SITE_URL}/#organization`,
+  name: businessInfo.name,
+  alternateName: businessInfo.alternateName,
+  url: businessInfo.url,
+  logo: businessInfo.logo,
+  image: businessInfo.image,
+  description: businessInfo.description,
+  telephone: businessInfo.telephone,
+  email: businessInfo.email,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: businessInfo.address.streetAddress,
+    addressLocality: businessInfo.address.addressLocality,
+    addressRegion: businessInfo.address.addressRegion,
+    postalCode: businessInfo.address.postalCode,
+    addressCountry: businessInfo.address.addressCountry,
   },
-  "image": `${siteUrl}/images/studio-main.jpg`,
-  "description": "Professional photography studio in Budapest offering studio rental, portrait photography, fashion shoots, product photography, and event photography services.",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Vak Bottyán utca 3. 6. emelet 1. ajtó",
-    "addressLocality": "Budapest",
-    "postalCode": "1111",
-    "addressCountry": "HU"
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: businessInfo.geo.latitude,
+    longitude: businessInfo.geo.longitude,
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": "47.4797",
-    "longitude": "19.0548"
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ],
+    opens: '08:00',
+    closes: '20:00',
   },
-  "telephone": "+36309747362",
-  "email": "info@atelierarchilles.com",
-  "taxID": "32265105143",
-  "legalName": "Archilles Studio Korlátolt Felelősségű Társaság",
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      "opens": "08:00",
-      "closes": "20:00"
-    },
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Saturday", "Sunday"],
-      "opens": "09:00",
-      "closes": "18:00"
-    }
+  priceRange: businessInfo.priceRange,
+  sameAs: [
+    'https://www.facebook.com/atelierarchilles',
+    'https://www.instagram.com/atelier_archilles/',
+    'https://www.archilles.hu/',
   ],
-  "priceRange": "$$",
-  "currenciesAccepted": "HUF",
-  "paymentAccepted": "Cash, Credit Card, Bank Transfer",
-  "areaServed": {
-    "@type": "City",
-    "name": "Budapest"
+  founder: {
+    '@type': 'Person',
+    name: businessInfo.founder.name,
+    jobTitle: businessInfo.founder.jobTitle,
   },
-  "sameAs": [
-    "https://www.facebook.com/atelierarchilles",
-    "https://www.instagram.com/atelierarchilles",
-    "https://www.linkedin.com/company/atelierarchilles"
-  ]
+  areaServed: {
+    '@type': 'City',
+    name: 'Budapest',
+    '@id': 'https://www.wikidata.org/wiki/Q1781',
+  },
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Photography Studio Services',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Studio Rental',
+          description: 'Hourly rental of professional photography studios',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Portrait Photography Studio',
+          description: 'Studio space for portrait photography sessions',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Fashion Photography Studio',
+          description: 'Professional studio for fashion photography',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Product Photography Studio',
+          description: 'Studio space for commercial product photography',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Commercial Photography Studio',
+          description: 'Professional studio for commercial photography projects',
+        },
+      },
+    ],
+  },
 });
 
 /**
- * Website structured data
+ * Local Business Schema - For Google Maps and local search
  */
-export const getWebsiteSchema = () => ({
-  "@context": "https://schema.org",
-  "@type": "WebSite",
-  "@id": `${siteUrl}/#website`,
-  "url": siteUrl,
-  "name": "Atelier Archilles",
-  "description": "Professional photography studio rental and photography services in Budapest",
-  "publisher": {
-    "@id": `${siteUrl}/#organization`
+export const generateLocalBusinessSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  '@id': `${SITE_URL}/#localbusiness`,
+  name: businessInfo.name,
+  image: businessInfo.image,
+  url: businessInfo.url,
+  telephone: businessInfo.telephone,
+  email: businessInfo.email,
+  priceRange: businessInfo.priceRange,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: businessInfo.address.streetAddress,
+    addressLocality: businessInfo.address.addressLocality,
+    addressRegion: businessInfo.address.addressRegion,
+    postalCode: businessInfo.address.postalCode,
+    addressCountry: businessInfo.address.addressCountry,
   },
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": {
-      "@type": "EntryPoint",
-      "urlTemplate": `${siteUrl}/search?q={search_term_string}`
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: businessInfo.geo.latitude,
+    longitude: businessInfo.geo.longitude,
+  },
+  openingHoursSpecification: {
+    '@type': 'OpeningHoursSpecification',
+    dayOfWeek: [
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+      'Sunday',
+    ],
+    opens: '08:00',
+    closes: '20:00',
+  },
+  paymentAccepted: 'Card, Online Payment',
+  currenciesAccepted: 'HUF',
+});
+
+/**
+ * Website Schema
+ */
+export const generateWebsiteSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@id': `${SITE_URL}/#website`,
+  url: SITE_URL,
+  name: businessInfo.name,
+  description: businessInfo.description,
+  publisher: {
+    '@id': `${SITE_URL}/#organization`,
+  },
+  potentialAction: {
+    '@type': 'SearchAction',
+    target: {
+      '@type': 'EntryPoint',
+      urlTemplate: `${SITE_URL}/booking?search={search_term_string}`,
     },
-    "query-input": "required name=search_term_string"
+    'query-input': 'required name=search_term_string',
   },
-  "inLanguage": ["hu", "en"]
+  inLanguage: ['hu-HU', 'en-US'],
 });
 
 /**
- * Service structured data
+ * Breadcrumb Schema
  */
-export const getServiceSchema = () => ({
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "serviceType": "Photography Studio Rental",
-  "provider": {
-    "@id": `${siteUrl}/#organization`
+export const generateBreadcrumbSchema = (items: Array<{ name: string; url: string }>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: items.map((item, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    name: item.name,
+    item: `${SITE_URL}${item.url}`,
+  })),
+});
+
+/**
+ * Service Schema - For specific services
+ */
+export const generateServiceSchema = (service: {
+  name: string;
+  description: string;
+  price?: string;
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  serviceType: service.name,
+  description: service.description,
+  provider: {
+    '@id': `${SITE_URL}/#organization`,
   },
-  "areaServed": {
-    "@type": "City",
-    "name": "Budapest"
+  areaServed: {
+    '@type': 'City',
+    name: 'Budapest',
   },
-  "hasOfferCatalog": {
-    "@type": "OfferCatalog",
-    "name": "Photography Services",
-    "itemListElement": [
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Studio A Rental",
-          "description": "Perfect for portrait photography"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Studio B Rental",
-          "description": "Ideal for product photography"
-        }
-      },
-      {
-        "@type": "Offer",
-        "itemOffered": {
-          "@type": "Service",
-          "name": "Studio C Rental",
-          "description": "Great for fashion shoots"
-        }
-      }
-    ]
-  }
+  ...(service.price && {
+    offers: {
+      '@type': 'Offer',
+      price: service.price,
+      priceCurrency: 'HUF',
+    },
+  }),
 });
 
 /**
- * Breadcrumb structured data
+ * FAQ Schema - For FAQ page
  */
-export const getBreadcrumbSchema = (items: Array<{ name: string; url: string }>) => ({
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": items.map((item, index) => ({
-    "@type": "ListItem",
-    "position": index + 1,
-    "name": item.name,
-    "item": `${siteUrl}${item.url}`
-  }))
+export const generateFAQSchema = (faqs: Array<{ question: string; answer: string }>) => ({
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: faqs.map((faq) => ({
+    '@type': 'Question',
+    name: faq.question,
+    acceptedAnswer: {
+      '@type': 'Answer',
+      text: faq.answer,
+    },
+  })),
 });
 
 /**
- * FAQ structured data
+ * Article Schema - For blog posts
  */
-export const getFAQSchema = (faqs: Array<{ question: string; answer: string }>) => ({
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": faqs.map(faq => ({
-    "@type": "Question",
-    "name": faq.question,
-    "acceptedAnswer": {
-      "@type": "Answer",
-      "text": faq.answer
-    }
-  }))
-});
-
-/**
- * Blog post structured data
- */
-export const getBlogPostSchema = (post: {
+export const generateArticleSchema = (article: {
   title: string;
   description: string;
   image: string;
   datePublished: string;
   dateModified?: string;
-  author: string;
-  url: string;
+  author?: string;
 }) => ({
-  "@context": "https://schema.org",
-  "@type": "BlogPosting",
-  "headline": post.title,
-  "description": post.description,
-  "image": post.image,
-  "datePublished": post.datePublished,
-  "dateModified": post.dateModified || post.datePublished,
-  "author": {
-    "@type": "Person",
-    "name": post.author
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: article.title,
+  description: article.description,
+  image: article.image,
+  datePublished: article.datePublished,
+  dateModified: article.dateModified || article.datePublished,
+  author: {
+    '@type': 'Person',
+    name: article.author || 'Atelier Archilles',
   },
-  "publisher": {
-    "@id": `${siteUrl}/#organization`
+  publisher: {
+    '@id': `${SITE_URL}/#organization`,
   },
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": `${siteUrl}${post.url}`
-  }
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': SITE_URL,
+  },
 });
 
 /**
- * Local Business Schema (for Google Maps)
+ * Place Schema - For location-specific pages
  */
-export const getLocalBusinessSchema = () => ({
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${siteUrl}/#localbusiness`,
-  "name": "Atelier Archilles",
-  "image": `${siteUrl}/images/studio-exterior.jpg`,
-  "description": "Professional photography studio in Budapest offering studio rental and photography services",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "Your Street Address",
-    "addressLocality": "Budapest",
-    "postalCode": "1000",
-    "addressCountry": "HU"
+export const generatePlaceSchema = () => ({
+  '@context': 'https://schema.org',
+  '@type': 'Place',
+  name: businessInfo.name,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: businessInfo.address.streetAddress,
+    addressLocality: businessInfo.address.addressLocality,
+    addressRegion: businessInfo.address.addressRegion,
+    postalCode: businessInfo.address.postalCode,
+    addressCountry: businessInfo.address.addressCountry,
   },
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": 47.497912,
-    "longitude": 19.040235
+  geo: {
+    '@type': 'GeoCoordinates',
+    latitude: businessInfo.geo.latitude,
+    longitude: businessInfo.geo.longitude,
   },
-  "url": siteUrl,
-  "telephone": "+36-XX-XXX-XXXX",
-  "priceRange": "$$",
-  "openingHoursSpecification": [
-    {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
-      "opens": "08:00",
-      "closes": "20:00"
-    }
-  ]
+  hasMap: `https://www.google.com/maps?q=${businessInfo.geo.latitude},${businessInfo.geo.longitude}`,
+  additionalProperty: {
+    '@type': 'PropertyValue',
+    name: 'Nearest Metro',
+    value: 'Móricz Zsigmond körtér',
+  },
 });
 
+/**
+ * Event Schema - For special events or workshops
+ */
+export const generateEventSchema = (event: {
+  name: string;
+  description: string;
+  startDate: string;
+  endDate: string;
+  location?: string;
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'Event',
+  name: event.name,
+  description: event.description,
+  startDate: event.startDate,
+  endDate: event.endDate,
+  location: {
+    '@type': 'Place',
+    name: event.location || businessInfo.name,
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: businessInfo.address.streetAddress,
+      addressLocality: businessInfo.address.addressLocality,
+      postalCode: businessInfo.address.postalCode,
+      addressCountry: businessInfo.address.addressCountry,
+    },
+  },
+  organizer: {
+    '@id': `${SITE_URL}/#organization`,
+  },
+});
+
+/**
+ * Combined schema for home page
+ */
+export const generateHomePageSchema = () => ({
+  '@context': 'https://schema.org',
+  '@graph': [
+    generateOrganizationSchema(),
+    generateWebsiteSchema(),
+    generateLocalBusinessSchema(),
+    generatePlaceSchema(),
+  ],
+});

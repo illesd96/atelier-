@@ -101,40 +101,56 @@ export const generateOrganizationSchema = () => ({
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Studio Rental',
-          description: 'Hourly rental of professional photography studios',
+          name: 'Fotóstúdió Bérlés',
+          description: 'Professzionális fotóstúdió bérlés órás bontásban. Műterem bérlés természetes fénnyel és professzionális világítástechnikával.',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Portrait Photography Studio',
-          description: 'Studio space for portrait photography sessions',
+          name: 'Portré Fotózás Alkotótér',
+          description: 'Design alkotótér portré fotózáshoz természetes fénnyel és professzionális világítással',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Fashion Photography Studio',
-          description: 'Professional studio for fashion photography',
+          name: 'Divatfotózás Stúdió',
+          description: 'Professzionális fotóstúdió divatanyagok készítéséhez és katalógusfotókhoz',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Product Photography Studio',
-          description: 'Studio space for commercial product photography',
+          name: 'Termékfotó Stúdió',
+          description: 'Műterem bérlés termékfotózáshoz és katalógusfotó készítéshez professzionális világítástechnikával',
         },
       },
       {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Commercial Photography Studio',
-          description: 'Professional studio for commercial photography projects',
+          name: 'Lifestyle és Családi Fotózás',
+          description: 'Alkotótér lifestyle és családi fotózáshoz természetes fénnyel',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Forgatás és Workshop Helyszín',
+          description: 'Professzionális helyszín forgatáshoz és workshop rendezvényekhez',
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Rendezvényhelyszín',
+          description: 'Design stúdió bérlés rendezvényekhez és fotós workshopokhoz',
         },
       },
     ],

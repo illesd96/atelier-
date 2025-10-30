@@ -21,7 +21,7 @@ export const HomePage: React.FC = () => {
           ? "Professzionális fotóstúdió bérlés Budapesten, 11. kerület. 3 egyedi design stúdió (260 m²) Anna Illés építész tervezésében. Foglalj most!"
           : "Professional photography studio rental in Budapest. 3 unique design studios (260 m²) by architect Anna Illés. Book now!"
         }
-        keywords="stúdió bérlés budapest, fotóstúdió bérlés, stúdió kiadó, photography studio rental, 11 kerület, design stúdió"
+        keywords="fotóstúdió bérlés budapest, stúdió bérlés, műterem bérlés, alkotótér, professzionális fotózás, természetes fény, design stúdió, 11 kerület, divatfotózás, termékfotó, katalógusfotó, lifestyle fotózás, családi fotózás, portré fotózás, forgatás, workshop helyszín, rendezvényhelyszín budapest"
         url="/"
         image="/images/studio-hero.jpg"
         structuredData={generateHomePageSchema()}

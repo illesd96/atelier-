@@ -36,7 +36,7 @@ export const HomePage: React.FC = () => {
               width={1600}
               height={1200}
               loading="eager"
-              fetchpriority="high"
+              fetchPriority="high"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
           </div>

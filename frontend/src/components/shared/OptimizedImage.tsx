@@ -8,7 +8,7 @@ interface OptimizedImageProps {
   className?: string;
   style?: React.CSSProperties;
   loading?: 'lazy' | 'eager';
-  fetchpriority?: 'high' | 'low' | 'auto';
+  fetchPriority?: 'high' | 'low' | 'auto';
 }
 
 /**
@@ -22,7 +22,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   className,
   style,
   loading = 'lazy',
-  fetchpriority = 'auto',
+  fetchPriority = 'auto',
 }) => {
   // For external images (Unsplash), add format and quality parameters
   const optimizedSrc = src.includes('unsplash.com') 
@@ -38,7 +38,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
       className={className}
       style={style}
       loading={loading}
-      fetchpriority={fetchpriority}
+      fetchPriority={fetchPriority}
       decoding="async"
     />
   );

@@ -58,6 +58,9 @@ export const HomePage: React.FC = () => {
           <p className="about-studio-text">
             {t('home.about.description2')}
           </p>
+          <p className="about-studio-text">
+            {t('home.about.description3')}
+          </p>
         </div>
       </section>
 

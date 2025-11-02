@@ -5,7 +5,7 @@ A modern, bilingual (HU/EN) photo studio booking system built with React, Node.j
 ## Features
 
 - **🎨 Modern UI**: Clean, elegant design with PrimeReact components
-- **📅 Smart Booking Grid**: Nordix-style grid showing rooms vs hours
+- **📅 Smart Booking Grid**: Grid showing rooms vs hours
 - **🛒 Shopping Cart**: Multi-hour selection across multiple rooms
 - **💳 Barion Payments**: Secure online payments with redirect flow
 - **📅 FullCalendar Integration**: Professional calendar interface with internal booking system

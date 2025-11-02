@@ -18,7 +18,7 @@ export const COMPANY_INFO = {
   contact: {
     phone: '+36309747362',
     phoneFormatted: '+36 30 974 7362',
-    email: 'info@atelierarchilles.com',
+    email: 'anna@archilles.hu',
   },
   coordinates: {
     latitude: 47.4797,

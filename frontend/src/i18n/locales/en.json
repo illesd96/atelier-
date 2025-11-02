@@ -406,12 +406,12 @@
           "Book your time slot through our online booking system with secure online card payment.",
           "You will receive a confirmation email with your booking details.",
           "Only confirmed bookings are considered valid - please check for the confirmation email.",
-          "If you don't receive the email, please contact us at info@atelierarchilles.com and we'll investigate the issue."
+          "If you don't receive the email, please contact us at anna@archilles.hu and we'll investigate the issue."
         ]
       },
       "modify": {
         "question": "How can I modify or cancel my booking?",
-        "answer": "You can modify or cancel your booking by referencing the booking code from your confirmation email. Send a written request to info@atelierarchilles.com. Please refer to our cancellation policy in the Terms and Conditions for details."
+        "answer": "You can modify or cancel your booking by referencing the booking code from your confirmation email. Send a written request to anna@archilles.hu. Please refer to our cancellation policy in the Terms and Conditions for details."
       },
       "refund": {
         "question": "Will I get a refund if I cancel my booking?",
@@ -524,7 +524,7 @@
       },
       "contact": {
         "title": "Contact Information",
-        "content": "For questions about these terms, please contact us at info@atelierarchilles.com"
+        "content": "For questions about these terms, please contact us at anna@archilles.hu"
       }
     },
     "privacy": {

@@ -134,7 +134,7 @@ VITE_BARION_PIXEL_ID=your_pixel_id_here
 - Footer displays location
 
 **Email**: ✅
-- info@atelierarchilles.com
+- anna@archilles.hu
 - Contact form available
 
 **Phone**: ✅
@@ -295,7 +295,7 @@ SZAMLAZZ_PASSWORD=your_password
 SZAMLAZZ_AGENT_KEY=your_agent_key
 
 # Company Information
-FROM_EMAIL=info@atelierarchilles.com
+FROM_EMAIL=anna@archilles.hu
 FROM_NAME=Atelier Archilles
 ```
 

@@ -124,7 +124,7 @@
 <h2>Get in Touch</h2>
 <p>
   <strong>Phone:</strong> <a href="tel:+36XXXXXXXXX">+36 XX XXX XXXX</a><br />
-  <strong>Email:</strong> <a href="mailto:info@atelierarchilles.com">info@atelierarchilles.com</a>
+  <strong>Email:</strong> <a href="mailto:anna@archilles.hu">anna@archilles.hu</a>
 </p>
 
 <h2>Studio Hours</h2>

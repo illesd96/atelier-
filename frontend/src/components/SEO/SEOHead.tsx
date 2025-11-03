@@ -56,9 +56,9 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       {/* Canonical URL */}
       <link rel="canonical" href={pageUrl} />
       
-      {/* Language Alternates */}
-      <link rel="alternate" hrefLang="hu" href={`${siteUrl}/hu${url || ''}`} />
-      <link rel="alternate" hrefLang="en" href={`${siteUrl}/en${url || ''}`} />
+      {/* Language Alternates - Same URL for all languages (language detection via i18n) */}
+      <link rel="alternate" hrefLang="hu" href={pageUrl} />
+      <link rel="alternate" hrefLang="en" href={pageUrl} />
       <link rel="alternate" hrefLang="x-default" href={pageUrl} />
       
       {/* Open Graph / Facebook */}

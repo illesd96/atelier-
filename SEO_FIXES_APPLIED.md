@@ -129,7 +129,7 @@ npm install react-helmet-async
 ```tsx
 <SEOHead
   title="Kapcsolat | Fotóstúdió Budapest 11. Kerület"
-  description="Atelier Archilles: Karinthy Frigyes út 19, Budapest 1111. Tel: +36 30 974 7362. Email: anna@archilles.hu. Móricz Zsigmond körtér közelében."
+  description="Atelier Archilles: Karinthy Frigyes út 19, Budapest 1111. Tel: +36 30 974 7362. Email: studio@archilles.hu. Móricz Zsigmond körtér közelében."
   keywords="fotóstúdió kapcsolat, atelier archilles cím, 11 kerület"
   url="/contact"
   structuredData={generatePlaceSchema()}

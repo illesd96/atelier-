@@ -16,7 +16,7 @@
 - **Registry:** 01 09 415029
 - **Address:** 1111 Budapest, Vak Bottyán utca 3. 6. emelet 1. ajtó
 - **Phone:** +36 30 974 7362
-- **Email:** anna@archilles.hu
+- **Email:** studio@archilles.hu
 
 ### ✅ 3. Barion Payment Description
 - **Status:** ✅ DONE

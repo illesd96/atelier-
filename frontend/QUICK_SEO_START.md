@@ -60,7 +60,7 @@ In **frontend/src/utils/structuredData.ts**, update:
   "longitude": "19.040235"  // UPDATE WITH YOUR COORDINATES
 },
 "telephone": "+36-XX-XXX-XXXX",  // UPDATE THIS
-"email": "anna@archilles.hu",
+"email": "studio@archilles.hu",
 "sameAs": [
   "https://www.facebook.com/YOUR-PAGE",  // UPDATE THIS
   "https://www.instagram.com/YOUR-PAGE",  // UPDATE THIS

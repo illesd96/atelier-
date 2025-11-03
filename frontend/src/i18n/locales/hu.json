@@ -142,7 +142,7 @@
       },
       "workshop": {
         "title": "Forgatás / Workshop",
-        "description": "A stúdió forgatásokra és workshopokra is bérelhető. Kisebb létszámú forgatás esetén a stúdió bérlést az online foglaló rendszeren keresztül is megteheted, megjegyzésben kérjük röviden írd meg a részleteket. Nagyobb forgatás vagy workshoppal / rendezvénnyel kapcsolatos foglalás esetén kérjük vedd fel velünk a kapcsolatot a kapcsolati form, vagy az anna@archilles.hu email címen keresztül."
+        "description": "A stúdió forgatásokra és workshopokra is bérelhető. Kisebb létszámú forgatás esetén a stúdió bérlést az online foglaló rendszeren keresztül is megteheted, megjegyzésben kérjük röviden írd meg a részleteket. Nagyobb forgatás vagy workshoppal / rendezvénnyel kapcsolatos foglalás esetén kérjük vedd fel velünk a kapcsolatot a kapcsolati form, vagy az studio@archilles.hu email címen keresztül."
       },
       "process": {
         "title": "Foglalás menete",
@@ -406,12 +406,12 @@
           "Időpontot foglalni az online foglaló rendszerünkön keresztül lehetséges, online bankkártyás előre fizetéssel.",
           "A foglalásról visszaigazoló e-mailt küldünk, amelyben a foglalás részleteid át lehet tekinteni.",
           "Kizárólag a visszaigazolt foglalást tudjuk érvényesnek tekinteni - kérjük minden esetben győződj meg a visszaigazoló email megérkezéséről.",
-          "Amennyiben valamilyen oknál fogva nem kaptad meg az e-mailt, kérjük írj az anna@archilles.hu e-mail címre és utána járunk a problémának."
+          "Amennyiben valamilyen oknál fogva nem kaptad meg az e-mailt, kérjük írj az studio@archilles.hu e-mail címre és utána járunk a problémának."
         ]
       },
       "modify": {
         "question": "Hogyan módosíthatom vagy mondhatom le a foglalásomat?",
-        "answer": "Foglalásodat a foglaláskor megkapott visszaigazoló e-mailben található azonosítóra hivatkozva, írásban tudod módosítani vagy lemondani, az anna@archilles.hu címre küldött e-mailen keresztül. A részletekért olvasd el foglalási- és lemondási szabályzatunkat az ÁSZF-ben."
+        "answer": "Foglalásodat a foglaláskor megkapott visszaigazoló e-mailben található azonosítóra hivatkozva, írásban tudod módosítani vagy lemondani, az studio@archilles.hu címre küldött e-mailen keresztül. A részletekért olvasd el foglalási- és lemondási szabályzatunkat az ÁSZF-ben."
       },
       "refund": {
         "question": "Kapok visszatérítést a lemondott foglalás esetén?",
@@ -524,7 +524,7 @@
       },
       "contact": {
         "title": "Kapcsolat",
-        "content": "A feltételekkel kapcsolatos kérdésekben vegye fel velünk a kapcsolatot: anna@archilles.hu"
+        "content": "A feltételekkel kapcsolatos kérdésekben vegye fel velünk a kapcsolatot: studio@archilles.hu"
       }
     },
     "privacy": {

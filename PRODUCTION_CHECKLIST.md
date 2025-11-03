@@ -35,7 +35,7 @@ NODE_ENV=production
 BARION_ENVIRONMENT=prod  # NOT 'test'!
 BARION_POS_KEY=your_production_pos_key  # NOT test key!
 BARION_PIXEL_ID=BP-xxxxx-xxxxx  # Your real Pixel ID
-BARION_PAYEE_EMAIL=anna@archilles.hu  # Real email
+BARION_PAYEE_EMAIL=studio@archilles.hu  # Real email
 
 # Szamlazz.hu (if enabled)
 SZAMLAZZ_ENABLED=true
@@ -44,7 +44,7 @@ SZAMLAZZ_PASSWORD=your_real_password
 
 # Email
 SMTP_USER=your_real_email@gmail.com
-FROM_EMAIL=anna@archilles.hu
+FROM_EMAIL=studio@archilles.hu
 
 # URLs
 FRONTEND_URL=https://yourdomain.com  # Your real domain
@@ -195,7 +195,7 @@ When submitting to Barion, provide:
 - Registry number: 01 09 415029
 - Address: 1111 Budapest, Vak Bottyán utca 3. 6. emelet 1. ajtó
 - Phone: +36 30 974 7362
-- Email: anna@archilles.hu
+- Email: studio@archilles.hu
 
 **Website Details:**
 - Production URL: [Your domain]

@@ -59,8 +59,8 @@ export const ContactPage: React.FC = () => {
                   <i className="pi pi-envelope"></i>
                 </div>
                 <h3>{t('contact.info.email.title')}</h3>
-                <a href="mailto:anna@archilles.hu" className="contact-link">
-                  anna@archilles.hu
+                <a href="mailto:studio@archilles.hu" className="contact-link">
+                  studio@archilles.hu
                 </a>
               </div>
 

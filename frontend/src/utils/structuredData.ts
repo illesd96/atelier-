@@ -13,7 +13,7 @@ export const businessInfo = {
   description: 'Professional photography studio rental in Budapest. 3 unique design studios (260 m²) designed by architect Anna Illés. Perfect for portrait, fashion, product and commercial photography.',
   url: SITE_URL,
   telephone: '+36309747362',
-  email: 'anna@archilles.hu',
+  email: 'studio@archilles.hu',
   address: {
     streetAddress: 'Karinthy Frigyes út 19',
     addressLocality: 'Budapest',

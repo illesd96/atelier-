@@ -19,7 +19,7 @@
 All accurate data integrated:
 - Address: Karinthy Frigyes út 19, Budapest 1111
 - Phone: +36 30 974 7362
-- Email: anna@archilles.hu
+- Email: studio@archilles.hu
 - GPS: 47.476205, 19.052146
 - Hours: 8:00-20:00 daily
 - 3 studios, 260 m² total

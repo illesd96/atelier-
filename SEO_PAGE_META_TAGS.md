@@ -83,7 +83,7 @@
 ```tsx
 <SEOHead
   title="Kapcsolat | Fotóstúdió Elérhetőség Budapest 11. kerület"
-  description="Lépj kapcsolatba velünk! Atelier Archilles stúdió: Karinthy Frigyes út 19, Budapest 1111. Tel: +36 30 974 7362. Email: anna@archilles.hu. Móricz Zsigmond körtér közelében."
+  description="Lépj kapcsolatba velünk! Atelier Archilles stúdió: Karinthy Frigyes út 19, Budapest 1111. Tel: +36 30 974 7362. Email: studio@archilles.hu. Móricz Zsigmond körtér közelében."
   keywords="fotóstúdió kapcsolat budapest, stúdió elérhetőség, atelier archilles cím, 11 kerület fotóstúdió, karinthy frigyes út stúdió"
   url="/contact"
   structuredData={generatePlaceSchema()}

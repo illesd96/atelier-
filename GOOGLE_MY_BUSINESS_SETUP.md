@@ -17,7 +17,7 @@ Google My Business (GMB) is **THE #1 most important thing** for local SEO in Bud
 
 1. Go to: https://business.google.com
 2. Click "Manage now" or "Add your business"
-3. Sign in with Google account (use anna@archilles.hu or create business account)
+3. Sign in with Google account (use studio@archilles.hu or create business account)
 
 ---
 
@@ -360,7 +360,7 @@ Köszönjük a csodálatos értékelést! 🙏⭐ Örülünk, hogy elégedett vo
 
 **Response Template (1-3 star):**
 ```
-Köszönjük a visszajelzést. Sajnáljuk, hogy nem feleltünk meg az elvárásaidnak. Kérjük, vedd fel velünk a kapcsolatot, hogy orvosolhassuk a problémát: anna@archilles.hu vagy +36 30 974 7362.
+Köszönjük a visszajelzést. Sajnáljuk, hogy nem feleltünk meg az elvárásaidnak. Kérjük, vedd fel velünk a kapcsolatot, hogy orvosolhassuk a problémát: studio@archilles.hu vagy +36 30 974 7362.
 ```
 
 ### 3. **Update Info Regularly**

@@ -94,7 +94,7 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
       <meta property="business:contact_data:locality" content="Budapest" />
       <meta property="business:contact_data:postal_code" content="1111" />
       <meta property="business:contact_data:country_name" content="Hungary" />
-      <meta property="business:contact_data:email" content="anna@archilles.hu" />
+      <meta property="business:contact_data:email" content="studio@archilles.hu" />
       <meta property="business:contact_data:phone_number" content="+36309747362" />
       
       {/* Place Details */}

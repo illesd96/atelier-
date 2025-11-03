@@ -69,7 +69,7 @@ FROM_NAME=Atelier Archilles
 |----------|-------|---------|
 | `SMTP_HOST` | `smtp.gmail.com` | smtp.gmail.com |
 | `SMTP_PORT` | `587` | 587 |
-| `SMTP_USER` | Your business email | anna@archilles.hu |
+| `SMTP_USER` | Your business email | studio@archilles.hu |
 | `SMTP_PASS` | App Password | abcd efgh ijkl mnop |
 | `FROM_EMAIL` | Sender email | noreply@atelierarchilles.com |
 | `FROM_NAME` | Display name | Atelier Archilles |

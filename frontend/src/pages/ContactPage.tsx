@@ -80,7 +80,9 @@ export const ContactPage: React.FC = () => {
                 </div>
                 <h3>{t('contact.info.hours.title')}</h3>
                 <p>{t('contact.info.hours.weekday')}</p>
-                <p>{t('contact.info.hours.weekend')}</p>
+                {t('contact.info.hours.weekend') && (
+                  <p>{t('contact.info.hours.weekend')}</p>
+                )}
               </div>
             </div>
 

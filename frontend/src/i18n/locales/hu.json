@@ -356,8 +356,8 @@
     "info": {
       "address": {
         "title": "Cím",
-        "line1": "1111 Budapest",
-        "line2": "Vak Bottyán utca 3. 6. emelet 1. ajtó"
+        "line1": "Karinthy Frigyes út 19",
+        "line2": "1111 Budapest, 11. kerület"
       },
       "email": {
         "title": "Email"
@@ -367,8 +367,8 @@
       },
       "hours": {
         "title": "Nyitvatartás",
-        "weekday": "Hétfő - Péntek: 9:00 - 20:00",
-        "weekend": "Szombat - Vasárnap: 10:00 - 18:00"
+        "weekday": "Hétfő - Vasárnap: 8:00 - 20:00",
+        "weekend": ""
       }
     },
     "form": {
@@ -391,7 +391,7 @@
       },
       "parking": {
         "title": "Parkolás",
-        "description": "Ingyenes parkolás elérhető az utcán kijelölt helyeken. A stúdió 2-3 perces sétával érhető el a parkolótól. Kérjük érkezz néhány perccel korábban, hogy legyen idő parkolni és elsétálni a stúdióig."
+        "description": "Fizetős parkolás elérhető a Karinthy Parkolóban (Karinthy Frigyes út 17a, 1117) 450 Ft/óra áron. Az utcán is van fizetős parkolás. Kérjük érkezz néhány perccel korábban, hogy legyen idő parkolni."
       },
       "public": {
         "title": "Tömegközlekedés",

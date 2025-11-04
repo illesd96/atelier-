@@ -67,12 +67,32 @@ const Header: React.FC = () => {
     <>
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
         <div className="header-content">
+          {/* Logo - Left Side */}
           <Link to="/" className="header-logo">
             <img src="/fav/favicon.svg" alt="Logo" className="logo-icon" />
             <span className="logo-text">ATELIER ARCHILLES</span>
           </Link>
 
+          {/* Desktop Navigation - Center/Right */}
+          <nav className="desktop-nav">
+            <ul className="nav-menu">
+              {menuItems.map((item) => (
+                <li key={item.href}>
+                  <Link
+                    to={item.href}
+                    className={`nav-link ${location.pathname === item.href ? 'active' : ''}`}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+
+          {/* Right Side Actions */}
           <div className="header-actions">
+            <LanguageSwitcher />
+            
             <Button
               label={t('navigation.booking')}
               onClick={handleBooking}
@@ -110,6 +130,7 @@ const Header: React.FC = () => {
               />
             )}
             
+            {/* Mobile Menu Toggle - Only visible on mobile */}
             <button
               className="menu-toggle"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -123,6 +144,7 @@ const Header: React.FC = () => {
         </div>
       </header>
 
+      {/* Mobile Menu - Only for mobile devices */}
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <ul>
           {menuItems.map((item) => (

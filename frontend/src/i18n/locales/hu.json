@@ -369,7 +369,7 @@
     },
     "form": {
       "title": "Írj Nekünk",
-      "description": "Van kérdésed a foglalással vagy a stúdióinkkal kapcsolatban? Írj nekünk és 24 órán belül válaszolunk!",
+      "description": "Kérdésed van a foglalással vagy a stúdióinkkal kapcsolatban? Írj nekünk és 24 órán belül válaszolunk!",
       "name": "Név",
       "email": "Email Cím",
       "subject": "Tárgy",

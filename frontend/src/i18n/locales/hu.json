@@ -82,6 +82,10 @@
       "sectionTitle": "A Fotóstúdió Termei"
     }
   },
+  "rooms": {
+    "otherRooms": "Többi Terem",
+    "people": "fő"
+  },
   "studios": {
     "bookStudio": "Stúdió Foglalása",
     "studioA": {

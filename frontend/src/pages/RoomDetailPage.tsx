@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
-import { getRoomById } from '../data/rooms';
+import { getRoomById, getOtherRooms } from '../data/rooms';
 import './RoomDetailPage.css';
 
 export const RoomDetailPage: React.FC = () => {
@@ -13,6 +13,7 @@ export const RoomDetailPage: React.FC = () => {
   const [displayCustom, setDisplayCustom] = useState<boolean>(false);
 
   const room = roomId ? getRoomById(roomId) : null;
+  const otherRooms = roomId ? getOtherRooms(roomId) : [];
   const currentLang = i18n.language as 'hu' | 'en';
 
   // Scroll to top when page loads
@@ -168,6 +169,54 @@ export const RoomDetailPage: React.FC = () => {
             />
             <div className="custom-lightbox-counter">
               {activeIndex + 1} / {room.galleryImages.length}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Other Rooms Section */}
+      {otherRooms.length > 0 && (
+        <div className="other-rooms-section">
+          <div className="container">
+            <h2 className="other-rooms-title">{t('rooms.otherRooms')}</h2>
+            <div className="other-rooms-grid">
+              {otherRooms.map((otherRoom) => (
+                <div 
+                  key={otherRoom.id}
+                  className="other-room-card"
+                  onClick={() => navigate(`/rooms/${otherRoom.id}`)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      navigate(`/rooms/${otherRoom.id}`);
+                    }
+                  }}
+                >
+                  <div className="other-room-image-wrapper">
+                    <img 
+                      src={otherRoom.galleryImages[0]} 
+                      alt={otherRoom.name}
+                      className="other-room-image"
+                    />
+                    <div className="other-room-overlay">
+                      <i className="pi pi-arrow-right"></i>
+                    </div>
+                  </div>
+                  <div className="other-room-info">
+                    <h3 className="other-room-name">{otherRoom.name}</h3>
+                    <p className="other-room-subtitle">{otherRoom.subtitle[currentLang]}</p>
+                    <div className="other-room-specs">
+                      <span className="spec-item">
+                        <i className="pi pi-home"></i> {otherRoom.specs.size}
+                      </span>
+                      <span className="spec-item">
+                        <i className="pi pi-users"></i> {otherRoom.specs.capacity} {t('rooms.people')}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>

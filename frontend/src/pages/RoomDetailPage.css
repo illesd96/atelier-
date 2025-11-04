@@ -196,6 +196,151 @@
   font-size: 2.5rem;
 }
 
+/* Other Rooms Section */
+.other-rooms-section {
+  padding: 4rem 2rem;
+  background: #f8f9fa;
+}
+
+.other-rooms-title {
+  font-family: var(--font-satoshi);
+  font-size: 2rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 3rem;
+  color: var(--text-color);
+}
+
+.other-rooms-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.other-room-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.other-room-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+}
+
+.other-room-card:focus {
+  outline: 2px solid var(--accent-color);
+  outline-offset: 2px;
+}
+
+.other-room-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 66.67%; /* 3:2 aspect ratio */
+  overflow: hidden;
+}
+
+.other-room-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.other-room-card:hover .other-room-image {
+  transform: scale(1.05);
+}
+
+.other-room-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(102, 126, 234, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.other-room-card:hover .other-room-overlay {
+  opacity: 1;
+}
+
+.other-room-overlay i {
+  font-size: 3rem;
+  color: white;
+}
+
+.other-room-info {
+  padding: 1.5rem;
+}
+
+.other-room-name {
+  font-family: var(--font-satoshi);
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color);
+}
+
+.other-room-subtitle {
+  font-size: 0.95rem;
+  color: #666;
+  margin: 0 0 1rem 0;
+  line-height: 1.4;
+}
+
+.other-room-specs {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.spec-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.spec-item i {
+  font-size: 1rem;
+  color: var(--accent-color);
+}
+
+/* Responsive for Other Rooms */
+@media (max-width: 768px) {
+  .other-rooms-section {
+    padding: 3rem 1rem;
+  }
+  
+  .other-rooms-title {
+    font-size: 1.75rem;
+    margin-bottom: 2rem;
+  }
+  
+  .other-rooms-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .other-room-name {
+    font-size: 1.3rem;
+  }
+}
+
 /* CTA Section */
 .room-cta-section-simple {
   padding: 4rem 2rem;

@@ -211,3 +211,7 @@ export const getRoomById = (id: string): RoomData | undefined => {
   return roomsData.find(room => room.id === id);
 };
 
+export const getOtherRooms = (currentRoomId: string): RoomData[] => {
+  return roomsData.filter(room => room.id !== currentRoomId);
+};
+

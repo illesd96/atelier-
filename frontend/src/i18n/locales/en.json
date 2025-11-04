@@ -82,6 +82,10 @@
       "sectionTitle": "Our Studio Rooms"
     }
   },
+  "rooms": {
+    "otherRooms": "Other Rooms",
+    "people": "people"
+  },
   "studios": {
     "bookStudio": "Book This Studio",
     "studioA": {

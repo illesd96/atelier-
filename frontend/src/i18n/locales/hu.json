@@ -91,23 +91,23 @@
     "studioA": {
       "title": "A Stúdió — A Portré Szentélye",
       "cardTitle": "Atelier",
-      "cardDescription": "Az Atelier terem a frissen hullott hó és a karácsonyi fenyők varázslatos hangulatát idézi. A hófedte lucfenyők, a puha hó és a finom fények meghitt, ünnepi atmoszférát teremtenek. Egy igazi téli álomvilág ",
-      "description1": "Zászlóshajó stúdiónk, intim portrémunkához és kreatív kísérletezéshez tervezve. Természetes fény árad be a túlméretezett ablakokból, míg a professzionális világítótechnika végtelen kontrollt kínál.",
-      "description2": "Tökéletes fejfotókhoz, divat-editorialokhoz és művészi portréképekhez, amelyek egyaránt igénylik a precizitást és a lelket."
+      "cardDescription": "Az Atelier tér a merészség manifesztuma. Ez a szoba a konvenciók elhagyásáról szól — modern, letisztult, mégis drámai.",
+      "description1": "A karácsonyi időszakban az Atelier egy immerzív havas fenyőerdővé alakul, ahol a valóság és mesevilág határai elmosódnak. Sétálj be az erdőbe, érezd, ahogy a talpad alatt szinte roppan a hó és felejtsd el, hogy valójából 4 fal vesz körbe. Farönkök, apró manók, szánkó és egy pad, ahol meg lehet pihenni — minden részlet egy téli álomvilágot idéz.",
+      "description2": "Az installáció nem csupán látványos, hanem egyedülálló Budapesten: tér maga válik élménnyé, egy fotózásokra, kampányokra és videós tartalmakra tervezett immerzív díszletté, ahol a kreativitás és az érzelmi hatás találkozik. Az Atelier most a merész álmodozók tere — ahol a tél is új értelmet kap."
     },
     "studioB": {
       "title": "B Stúdió — Termék Tökéletesség",
       "cardTitle": "Frigyes",
-      "cardDescription": "Modern minimalizmus a föld színeivel és japandi stílusjegyekkel. Tökéletes helyszíne a mind a branding, mind a családos fotózásoknak.",
-      "description1": "Tiszta, minimalista és végtelenül sokoldalú. A B Stúdió termékfotózásra és olyan kereskedelmi munkára készült, amely pixel-tökéletes eredményeket követel.",
-      "description2": "Professzionális háttérek, precíziós világítás és bőséges hely az összetett beállításokhoz. Termékei megérdemlik, hogy ragyogjanak."
+      "cardDescription": "A Frigyes egy meleg, barátságos és játékos világ, ahol természetes anyagok és modern formák találkoznak. Rusztikus textúrák, lágy tónusok és organikus részletek hozzák létre azt a hangulatot, ami egyszerre otthonos és inspiráló.",
+      "description1": "A karácsonyi időszakban a Frigyes egy klasszikus, mégis friss ünnepi enteriőrré alakul. A tér középpontjában egy piros bársony masnikkal és olivazöld, bézs, barna díszekkel ékesített karácsonyfa áll, mellette egy kerek étkezőasztal ünnepi terítékkel és felette lebegő koszorú dísz. A háttérben lágyan hullámzó függönyök és rusztikus falak keretezik a teret, egy modern bézs íves kanapé felett pedig csillagok lebegnek. A Frigyeshez tartozik egy kisebb szoba is — egy igazi gyerekvilág, ahol most egy sátor várja a kicsiket, hogy bekuckózhassanak, miközben piros-fehér csíkos cukorka lufik lebegnek körülöttük. Egy apró, édes univerzum, ahol minden részlet mosolyt hív elő.",
+      "description2": "A Frigyes tér ideális lifestyle fotózásokhoz, családi képekhez és hangulatos videós tartalmakhoz — egy hely, ahol a melegség, a játékosság és a meghittség tökéletes harmóniába kerül."
     },
     "studioC": {
       "title": "C Stúdió — Divat Előretör",
       "cardTitle": "Karinthy",
-      "cardDescription": "A Lost fiatalos, letisztult és lakásszerű berendezés jellemzi. A termet 3 óriási ablak tölti meg fénnyel és egy konyhával összekapcsolt nappali várja a vendégeit, rengeteg kiegészítővel.",
-      "description1": "Legnagyobb terünk, mozgásra, drámára és nagyszabású víziókra építve. Magas mennyezetek, tágas padlóterület és profi szintű felszerelés teszik ezt a tökéletes színpaddá divatfotózásokhoz és nagy produkciókhoz.",
-      "description2": "Kifutó-inspirált editorialoktól az avantgárd koncepciókig - itt kelnek életre a merész ötletek."
+      "cardDescription": "A Karinthy tér a klasszikus elegancia újragondolt formája. Díszlécekkel keretezett, olivazöld falai mélységet és kifinomultságot sugároznak, miközben a tér középpontjában egy kandalló teremti meg az otthonosság melegét.",
+      "description1": "A karácsonyi időszakban a Karinthy enteriőrje a zöld és arany párosára épül, amit fekete-fehér csíkos díszek és nagy méretű masnik egészítenek ki, modern csavart adva a klasszikus harmóniának. A stílusos kontrasztok, a fényes és matt felületek játéka, valamint a hangulatos világítás olyan atmoszférát teremt, ami egyszerre elegáns, időtlen és karakteres.",
+      "description2": "A Karinthy tér ideális portréfotózásokhoz, elegáns kampányokhoz és meghitt eseményekhez — egy hely, ahol a múlt bája és a jelen lendülete találkozik, és ahol minden részlet a történetmesélés szolgálatában áll."
     }
   },
   "booking": {

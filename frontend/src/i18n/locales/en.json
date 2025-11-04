@@ -91,23 +91,23 @@
     "studioA": {
       "title": "Studio A — The Portrait Sanctuary",
       "cardTitle": "RUSTIC ROOM",
-      "cardDescription": "The Rustic room provides a natural setting for photography with its rustic furnishing style and neutral colors. It is also the studio's largest room, totaling 120 square meters.",
-      "description1": "Our flagship studio, designed for intimate portrait work and creative experimentation. Natural light floods through oversized windows, while professional lighting rigs offer infinite control.",
-      "description2": "Perfect for headshots, fashion editorials, and artistic portraits that demand both precision and soul."
+      "cardDescription": "The Atelier space is a manifesto of boldness. This room is about abandoning conventions — modern, clean, yet dramatic.",
+      "description1": "During the Christmas season, the Atelier transforms into an immersive snowy pine forest, where the boundaries between reality and fairytale blur. Walk into the forest, feel the snow almost crunching beneath your feet, and forget that you're actually surrounded by four walls. Logs, tiny gnomes, a sled, and a bench to rest on — every detail evokes a winter dreamscape.",
+      "description2": "The installation is not only spectacular but unique in Budapest: the space itself becomes an experience, an immersive set designed for photo shoots, campaigns, and video content, where creativity and emotional impact meet. The Atelier is now a space for bold dreamers — where winter takes on new meaning."
     },
     "studioB": {
       "title": "Studio B — Product Perfection",
       "cardTitle": "CLAY ROOM",
-      "cardDescription": "Modern minimalism with earth tones and japandi style elements. Perfect location for both branding and family photo shoots.",
-      "description1": "Clean, minimal, and endlessly versatile. Studio B is engineered for product photography and commercial work that demands pixel-perfect results.",
-      "description2": "Professional seamless backdrops, precision lighting, and ample space for elaborate setups. Your products deserve to shine."
+      "cardDescription": "Frigyes is a warm, friendly, and playful world where natural materials and modern forms meet. Rustic textures, soft tones, and organic details create an atmosphere that is both homely and inspiring.",
+      "description1": "During the Christmas season, Frigyes transforms into a classic yet fresh festive interior. At the center of the space stands a Christmas tree decorated with a red velvet bow and olive green, beige, and brown ornaments, beside it a round dining table with festive settings and a floating wreath decoration above. In the background, softly flowing curtains and rustic walls frame the space, while stars float above a modern beige curved sofa. Frigyes also includes a smaller room — a true children's world, where a tent now awaits the little ones to cuddle up, while red-and-white striped candy balloons float around them. A tiny, sweet universe where every detail brings a smile.",
+      "description2": "The Frigyes space is ideal for lifestyle photography, family portraits, and cozy video content — a place where warmth, playfulness, and intimacy come into perfect harmony."
     },
     "studioC": {
       "title": "Studio C — Fashion Forward",
       "cardTitle": "LOST ROOM",
-      "cardDescription": "The Lost room features youthful, clean and apartment-like furnishings. The room is filled with light from 3 huge windows and a living room connected to a kitchen awaits guests with lots of accessories.",
-      "description1": "The largest of our spaces, built for movement, drama, and grand visions. High ceilings, expansive floor area, and professional-grade equipment make this the perfect stage for fashion shoots and large productions.",
-      "description2": "From runway-inspired editorials to avant-garde concepts - this is where bold ideas come to life."
+      "cardDescription": "The Karinthy space is a reimagined form of classic elegance. Its olive green walls, framed with decorative moldings, radiate depth and sophistication, while a fireplace at the center of the space creates the warmth of home.",
+      "description1": "During the Christmas season, Karinthy's interior is built on a pairing of green and gold, complemented by black-and-white striped decorations and large bows, giving a modern twist to classical harmony. Stylish contrasts, the interplay of glossy and matte surfaces, and ambient lighting create an atmosphere that is simultaneously elegant, timeless, and characterful.",
+      "description2": "The Karinthy space is ideal for portrait photography, elegant campaigns, and intimate events — a place where the charm of the past meets the momentum of the present, and where every detail serves the art of storytelling."
     }
   },
   "booking": {

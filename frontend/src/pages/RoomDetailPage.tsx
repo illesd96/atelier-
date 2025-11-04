@@ -174,6 +174,19 @@ export const RoomDetailPage: React.FC = () => {
         </div>
       )}
 
+      {/* CTA Section */}
+      <div className="room-cta-section-simple">
+        <div className="container text-center">
+          <Button
+            label={t('booking.title')}
+            icon="pi pi-calendar"
+            size="large"
+            onClick={() => navigate('/booking')}
+            className="cta-button-simple"
+          />
+        </div>
+      </div>
+
       {/* Other Rooms Section */}
       {otherRooms.length > 0 && (
         <div className="other-rooms-section">
@@ -222,18 +235,7 @@ export const RoomDetailPage: React.FC = () => {
         </div>
       )}
 
-      {/* CTA Section */}
-      <div className="room-cta-section-simple">
-        <div className="container text-center">
-          <Button
-            label={t('booking.title')}
-            icon="pi pi-calendar"
-            size="large"
-            onClick={() => navigate('/booking')}
-            className="cta-button-simple"
-          />
-        </div>
-      </div>
+
     </div>
   );
 };

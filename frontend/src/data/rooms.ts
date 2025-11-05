@@ -75,16 +75,17 @@ export const roomsData: RoomData[] = [
       availability: '9:00-20:00',
       price: '15,000'
     },
-    heroImage: 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&h=1080&fit=crop',
+    heroImage: '/images/atelier/title.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1618221469555-7f3ad97540d6?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1618220179428-22790b461013?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1618221565708-4b4b9cdc5f34?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616137466211-f939a420be84?w=800&h=600&fit=crop'
+      '/images/atelier/1.jpg',
+      '/images/atelier/2.jpg',
+      '/images/atelier/3.jpg',
+      '/images/atelier/4.jpg',
+      '/images/atelier/5.jpg',
+      '/images/atelier/6.jpg',
+      '/images/atelier/7.jpg',
+      '/images/atelier/8.jpg',
+      '/images/atelier/9.jpg'
     ]
   },
   {
@@ -134,16 +135,17 @@ export const roomsData: RoomData[] = [
       availability: '9:00-20:00',
       price: '17,000'
     },
-    heroImage: 'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1920&h=1080&fit=crop',
+    heroImage: '/images/frigyes/title.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616137466211-f939a420be84?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616137466211-f939a420be84?w=800&h=600&fit=crop'
+      '/images/frigyes/1.jpg',
+      '/images/frigyes/2.jpg',
+      '/images/frigyes/3.jpg',
+      '/images/frigyes/4.jpg',
+      '/images/frigyes/5.jpg',
+      '/images/frigyes/6.jpg',
+      '/images/frigyes/7.jpg',
+      '/images/frigyes/8.jpg',
+      '/images/frigyes/9.jpg'
     ]
   },
   {
@@ -193,16 +195,17 @@ export const roomsData: RoomData[] = [
       availability: '9:00-20:00',
       price: '15,000'
     },
-    heroImage: 'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=1920&h=1080&fit=crop',
+    heroImage: '/images/karinthy/title.png',
     galleryImages: [
-      'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616137466211-f939a420be84?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616047006789-b7af5afb8c20?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1615874959474-d609969a20ed?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616486029423-aaa4789e8c9a?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1616137466211-f939a420be84?w=800&h=600&fit=crop',
-      'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&h=600&fit=crop'
+      '/images/karinthy/1.jpg',
+      '/images/karinthy/2.jpg',
+      '/images/karinthy/3.jpg',
+      '/images/karinthy/4.jpg',
+      '/images/karinthy/5.jpg',
+      '/images/karinthy/6.jpg',
+      '/images/karinthy/7.jpg',
+      '/images/karinthy/8.jpg',
+      '/images/karinthy/9.jpg'
     ]
   }
 ];

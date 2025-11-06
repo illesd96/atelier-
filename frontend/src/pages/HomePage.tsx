@@ -150,36 +150,51 @@ export const HomePage: React.FC = () => {
         </div>
       </section>
 
-      {/* About Studio Section */}
+      {/* About Section - New Comprehensive */}
       <section className="about-studio-section">
         <div className="about-studio-content">
           <p className="about-studio-text">
-            {t('home.closing.text1')}
+            {t('home.newAbout.intro')}
           </p>
           <p className="about-studio-text">
-            <span className="about-studio-bold-text uppercase">{t('home.closing.text2')}</span>
+            {t('home.newAbout.intro2')}
           </p>
-          
-          {/* Secure Payment Badge */}
-          {/* <div className="payment-methods-section" style={{
-            marginTop: '3rem',
-            padding: '2rem',
-            background: 'linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%)',
-            borderRadius: '8px',
-            textAlign: 'center'
-          }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <i className="pi pi-shield" style={{ fontSize: '1.5rem', color: 'var(--primary-color)' }}></i>
-                <span style={{ fontSize: '1.1rem', fontWeight: '600' }}>{t('footer.securePayment')}</span>
-              </div>
-              <img 
-                src="/images/barion/barion-smart-payment-banner-EU/barion-banner-lightmode.svg" 
-                alt="Barion - Accepted Payment Methods" 
-                style={{ height: '50px', maxWidth: '100%' }} 
-              />
-            </div>
-          </div> */}
+          <p className="about-studio-text">
+            {t('home.newAbout.para1')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para2')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para3')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para4')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para5')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para6')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para7')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para8')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para9')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para10')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para11')}
+          </p>
+          <p className="about-studio-text">
+            {t('home.newAbout.para12')}
+          </p>
         </div>
       </section>
 

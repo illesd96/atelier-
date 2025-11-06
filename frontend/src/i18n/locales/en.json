@@ -74,9 +74,21 @@
       "description2": "Atelier Archilles is more than a photo studio — it's a vibrant showroom where our interior design world comes to life in inspiring, furnished interiors.",
       "description3": "Three rooms with different atmospheres await: Atelier – bold, characterful, modern | Frigyes – warm, playful, natural | Karinthy – classic, elegant, timeless. The spaces can be rented for photo shoots, workshops, and small events."
     },
-    "closing": {
-      "text1": "An inspirational place where every detail serves creativity.",
-      "text2": "This is Atelier Archilles."
+    "newAbout": {
+      "intro": "Atelier Archilles is a creative space imagined by Archilles Studio —",
+      "intro2": "a workshop of architects and interior designers who believe that space is not just function, but feeling too.",
+      "para1": "Atelier Archilles is not merely a studio, but a living space and an experiential space in one.",
+      "para2": "A place where architecture, design, and visual art speak a common language.",
+      "para3": "Where carefully composed details inspire, and each room tells its own story.",
+      "para4": "Our goal is to bring architecture closer to people —",
+      "para5": "so it's not a distant, abstract concept, but a tangible, experienceable experience.",
+      "para6": "We believe that space can impact, shape, evoke emotions, and open new perspectives for those who enter here.",
+      "para7": "One half of the space reflects the spirit of Archilles Studio — this is where concepts, plans, and spaces are born that go beyond the ordinary.",
+      "para8": "The other half functions as a photo studio, showroom, and event space, where design comes to life, and others can become part of this world too.",
+      "para9": "At Atelier Archilles, every detail serves creativity:",
+      "para10": "light, texture, silence, movement.",
+      "para11": "This is a place where creation is not work, but experience —",
+      "para12": "and where space is once again filled with soul."
     },
     "studios": {
       "sectionTitle": "Our Studio Rooms"

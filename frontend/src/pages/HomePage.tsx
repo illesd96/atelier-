@@ -41,9 +41,9 @@ export const HomePage: React.FC = () => {
             />
           </div>
         </div>
-        <ScrollingText 
+        {/* <ScrollingText 
           text="WHERE LIGHT MEETS ARTISTRY"
-        />
+        /> */}
       </section>
 
       {/* About Studio Section */}
@@ -53,7 +53,7 @@ export const HomePage: React.FC = () => {
             {t('home.about.heading')}
           </h1>
           <p className="about-studio-text">
-            <span className="about-studio-bold-text uppercase">Atelier Archilles</span> {t('home.about.description1')}
+             {t('home.about.description1')}
           </p>
           <p className="about-studio-text">
             {t('home.about.description2')}

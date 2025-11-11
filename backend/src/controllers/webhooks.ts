@@ -134,15 +134,16 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
             });
 
             // Prepare customer data
+            // Note: Szamlazz.hu requires at least city, so we provide defaults if not available
             const customerData = {
               name: order.customer_name,
               email: order.email,
               phone: order.phone || undefined,
               taxNumber: order.billing_tax_number || undefined,
               country: 'HU',
-              zip: order.billing_zip || undefined,
-              city: order.billing_city || undefined,
-              address: order.billing_address || undefined,
+              zip: order.billing_zip || '1111',  // Default postal code if not provided
+              city: order.billing_city || 'Budapest',  // Szamlazz.hu requires city
+              address: order.billing_address || 'N/A',  // Default if not provided
             };
 
             // Create invoice

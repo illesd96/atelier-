@@ -114,6 +114,17 @@ SZAMLAZZ_EMAIL_TEXT=Köszönjük a foglalást!
 **Cause**: `<sendEmail>` was placed after optional fields (`<telefonszam>`, `<adoszam>`), should come before them
 **Status**: ✅ Fixed - Correct order: email → sendEmail → adoszam → telefonszam
 
+### 5. Invoice Prefix Configuration - RESOLVED
+**Issue**: Error 202 - `"Ez a számlaszám előtag nem létezik vagy nincs engedélyezve: PHOTO"`
+**Cause**: Invoice prefix must be configured in Szamlazz.hu dashboard first
+**Solution**: Either configure prefix in Szamlazz.hu or remove `SZAMLAZZ_INVOICE_PREFIX` from `.env`
+**Status**: ✅ Configuration issue (not code)
+
+### 6. Missing Customer Address Data - FIXED
+**Issue**: Error 7 - `"Hiányzó adat: vevő címe (település)"` (Missing city)
+**Cause**: Customers without invoice request don't provide address, but Szamlazz.hu requires city
+**Status**: ✅ Fixed - Webhook now provides default values (Budapest, 1111) when address not provided
+
 ## 🧪 Testing
 
 ### Test in Szamlazz.hu Test Mode

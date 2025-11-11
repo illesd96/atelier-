@@ -70,13 +70,36 @@ export const createCheckout = async (req: Request, res: Response) => {
     // Get user ID if logged in
     const userId = req.user?.userId || null;
     
+    // Parse address components from the full address string
+    // Format: "Street, PostalCode City, Country"
+    let billingStreet = null;
+    let billingCity = null;
+    let billingZip = null;
+    let billingCountry = null;
+    
+    if (checkoutData.invoice?.address) {
+      const addressParts = checkoutData.invoice.address.split(',').map(part => part.trim());
+      billingStreet = addressParts[0] || null;
+      
+      // Parse "PostalCode City" from second part
+      if (addressParts[1]) {
+        const zipCityParts = addressParts[1].trim().split(' ');
+        billingZip = zipCityParts[0] || null;
+        billingCity = zipCityParts.slice(1).join(' ') || null;
+      }
+      
+      billingCountry = addressParts[2] || 'Hungary';
+    }
+    
     // Create order
     const orderResult = await client.query(`
       INSERT INTO orders (
         user_id, status, language, customer_name, email, phone, 
         total_amount, currency, invoice_required, invoice_company, 
-        invoice_tax_number, invoice_address, terms_accepted, privacy_accepted
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
+        invoice_tax_number, invoice_address, 
+        billing_street, billing_city, billing_zip, billing_country,
+        terms_accepted, privacy_accepted
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
       RETURNING id
     `, [
       userId,
@@ -91,6 +114,10 @@ export const createCheckout = async (req: Request, res: Response) => {
       checkoutData.invoice?.company || null,
       checkoutData.invoice?.tax_number || null,
       checkoutData.invoice?.address || null,
+      billingStreet,
+      billingCity,
+      billingZip,
+      billingCountry,
       checkoutData.terms_accepted,
       checkoutData.privacy_accepted,
     ]);

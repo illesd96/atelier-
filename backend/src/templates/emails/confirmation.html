@@ -163,27 +163,29 @@
                 <div class="booking-time">
                     🕒 {{formatted_time}}
                 </div>
-                <div class="booking-code" style="margin-top: 15px; padding: 15px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);">
-                    <div style="color: white; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
-                        {{#if ../isHungarian}}
-                            ✅ Rendelés Azonosító
-                        {{else}}
-                            ✅ Order ID
-                        {{/if}}
-                    </div>
-                    <div style="font-family: 'Courier New', monospace; color: white; font-size: 20px; font-weight: bold; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); word-break: break-all;">
-                        {{../orderId}}
-                    </div>
-                    <small style="color: rgba(255,255,255,0.9); font-size: 11px; display: block; margin-top: 8px;">
-                        {{#if ../isHungarian}}
-                            Mutassa fel ezt a kódot érkezéskor
-                        {{else}}
-                            Show this code when you arrive
-                        {{/if}}
-                    </small>
-                </div>
             </div>
             {{/each}}
+
+            <!-- Order ID shown once after all bookings -->
+            <div class="booking-code" style="margin-top: 20px; padding: 20px; background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); border-radius: 8px; text-align: center; box-shadow: 0 2px 8px rgba(34, 197, 94, 0.3);">
+                <div style="color: white; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px;">
+                    {{#if isHungarian}}
+                        ✅ Rendelés Azonosító
+                    {{else}}
+                        ✅ Order ID
+                    {{/if}}
+                </div>
+                <div style="font-family: 'Courier New', monospace; color: white; font-size: 20px; font-weight: bold; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.2); word-break: break-all;">
+                    {{orderId}}
+                </div>
+                <small style="color: rgba(255,255,255,0.9); font-size: 11px; display: block; margin-top: 8px;">
+                    {{#if isHungarian}}
+                        Mutassa fel ezt a kódot érkezéskor
+                    {{else}}
+                        Show this code when you arrive
+                    {{/if}}
+                </small>
+            </div>
         </div>
 
         <div class="total">

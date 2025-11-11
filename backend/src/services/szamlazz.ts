@@ -108,7 +108,7 @@ class SzamlazzService {
     <szamlaNyelve>${this.escapeXml(language)}</szamlaNyelve>
     ${comment ? `<megjegyzes>${this.escapeXml(comment)}</megjegyzes>` : ''}
     <rendelesSzam>${this.escapeXml(data.orderId)}</rendelesSzam>
-    ${config.szamlazz.invoice.invoicePrefix ? `<elolegszamla>${this.escapeXml(config.szamlazz.invoice.invoicePrefix)}</elolegszamla>` : ''}
+    ${config.szamlazz.invoice.invoicePrefix ? `<szamlaszamElotag>${this.escapeXml(config.szamlazz.invoice.invoicePrefix)}</szamlaszamElotag>` : ''}
     ${config.szamlazz.seller.bank ? `<bank>${this.escapeXml(config.szamlazz.seller.bank)}</bank>` : ''}
     ${config.szamlazz.seller.bankAccountNumber ? `<bankszamlaszam>${this.escapeXml(config.szamlazz.seller.bankAccountNumber)}</bankszamlaszam>` : ''}
   </fejlec>

@@ -48,6 +48,10 @@ export interface Order {
   invoice_company?: string;
   invoice_tax_number?: string;
   invoice_address?: string;
+  billing_street?: string;
+  billing_city?: string;
+  billing_zip?: string;
+  billing_country?: string;
   terms_accepted: boolean;
   privacy_accepted: boolean;
   created_at: Date;

@@ -152,12 +152,20 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
               name: order.customer_name,
               email: order.email,
               phone: order.phone || undefined,
-              taxNumber: order.billing_tax_number || undefined,
+              taxNumber: order.invoice_tax_number || undefined,
               country: order.billing_country || 'HU',
               zip: order.billing_zip || '',
               city: order.billing_city || '',
-              address: order.billing_address || '',
+              address: order.billing_street || '',
             };
+            
+            console.log('📍 Customer data for Szamlazz.hu:', {
+              name: customerData.name,
+              city: customerData.city,
+              zip: customerData.zip,
+              address: customerData.address,
+              country: customerData.country,
+            });
 
             // Create invoice
             const invoiceResponse = await szamlazzService.createInvoice({

@@ -104,6 +104,11 @@ SZAMLAZZ_EMAIL_TEXT=Köszönjük a foglalást!
 **Cause**: Bank details (`<bank>` and `<bankszamlaszam>`) were in `<fejlec>` section but belong in `<elado>` section
 **Status**: ✅ Fixed - Bank information moved to correct section
 
+### 3. Customer Address Fields Order - FIXED
+**Issue**: Error 57 - `Invalid content found starting with element 'email'. One of 'irsz' is expected`
+**Cause**: Address fields (`<irsz>`, `<telepules>`, `<cim>`) were conditionally omitted, breaking XML schema order
+**Status**: ✅ Fixed - All address fields now always present (with empty values if not provided)
+
 ## 🧪 Testing
 
 ### Test in Szamlazz.hu Test Mode

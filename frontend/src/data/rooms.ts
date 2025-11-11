@@ -40,39 +40,39 @@ export const roomsData: RoomData[] = [
       en: 'Rustic furnishings with natural colors'
     },
     description: {
-      hu: 'Az Atelier terem a frissen hullott hó és a karácsonyi fenyők varázslatos hangulatát idézi. A hófedte lucfenyők, a puha hó és a finom fények meghitt, ünnepi atmoszférát teremtenek. Egy igazi téli álomvilág!',
-      en: 'The Rustic room provides a natural environment for photography with its rustic furnishing style and neutral colors. It is also the largest room in the studio, totaling 120 square meters.'
+      hu: 'Az Atelier tér a merészség manifesztuma. Ez a szoba a konvenciók elhagyásáról szól - modern, letisztult, mégis drámai. A karácsonyi időszakban az Atelier egy immerzív havas fenyőerdővé alakul, ahol a valóság és mesevilág határai elmosódnak. Sétálj be az erdőbe, érezd, ahogy a talpad alatt szinte roppan a hó és felejtsd el, hogy valójából 4 fal vesz körbe. Farönkök, apró manók, szánkó és egy pad, ahol meg lehet pihenni, minden részlet egy téli álomvilágot idéz. Az installáció nem csupán látványos, hanem egyedülálló Budapesten: tér maga válik élménnyé, egy fotózásokra, kampányokra és videós tartalmakra tervezett immerzív díszletté, ahol a kreativitás és az érzelmi hatás találkozik. Az Atelier most a merész álmodozók tere, ahol a tél is új értelmet kap.',
+      en: 'The Atelier space is a manifesto of boldness. This room is about leaving conventions behind - modern, minimalist, yet dramatic. During the Christmas season, the Atelier transforms into an immersive snowy pine forest, where the boundaries between reality and fairy tale blur. Step into the forest, feel the snow crunching beneath your feet, and forget that you\'re actually surrounded by four walls. Tree logs, tiny gnomes, a sled, and a bench to rest on - every detail evokes a winter wonderland. The installation is not only spectacular but unique in Budapest: the space itself becomes an experience, an immersive set designed for photo shoots, campaigns, and video content, where creativity and emotional impact meet. The Atelier is now a space for bold dreamers, where winter takes on new meaning.'
     },
     features: {
       hu: [
-        'Minimalista, rusztikus design',
-        '120 m2',
+        'Modern, letisztult, mégis drámai',
+        '33 m2',
         'Természetes, neutrális színek',
         '3 órás ablak',
         'Északi tájolás, szórt fényekkel',
-        'Maximum létszám: 10 fő',
+        'Maximum létszám: 5 fő',
         'Fix 2 db állandó fényű LED lámpa',
-        'Opcionálisan kérhető 2 db vaku',
-        'Minden nap 9:00-tól, óránként foglalható',
+        'Opcionálisan kérhető vaku',
+        'Minden nap 8:00-tól, óránként foglalható',
         '15 000 Ft / 55 perc'
       ],
       en: [
-        'Minimalist, rustic design',
-        '120 m2',
+        'Modern, clean, yet dramatic',
+        '33 m2',
         'Natural, neutral colors',
         '3-hour window',
         'Northern exposure, diffused lights',
         'Maximum capacity: 10 people',
         'Fixed 2 continuous LED lights',
-        'Optionally available 2 flash units',
-        'Available daily from 9:00, hourly bookings',
+        'Optionally available flash unit',
+        'Available daily from 8:00, hourly bookings',
         '15,000 HUF / 55 minutes'
       ]
     },
     specs: {
-      size: '120 m2',
-      capacity: '10',
-      availability: '9:00-20:00',
+      size: '33 m2',
+      capacity: '5',
+      availability: '8:00-20:00',
       price: '15,000'
     },
     heroImage: '/images/atelier/title.png',
@@ -96,44 +96,44 @@ export const roomsData: RoomData[] = [
       en: 'Frigyes Room'
     },
     subtitle: {
-      hu: 'Modern minimalizmus, föld színekkel, japandi stílusjegyekkel',
-      en: 'Modern minimalism with earth tones and japandi style elements'
+      hu: 'Meleg, barátságos és játékos világ',
+      en: 'A warm, friendly and playful world'
     },
     description: {
-      hu: 'Modern minimalizmus, föld színekkel, japandi stílusjegyekkel. Tökéletes helyszíne a mind a branding, mind a családos fotózásoknak.',
-      en: 'Modern minimalism with earth tones and japandi style elements. Perfect location for both branding and family photo shoots.'
+      hu: 'A Frigyes egy meleg, barátságos és játékos világ, ahol természetes anyagok és modern formák találkoznak. Rusztikus textúrák, lágy tónusok és organikus részletek hozzák létre azt a hangulatot, ami egyszerre otthonos és inspiráló. A karácsonyi időszakban a Frigyes egy klasszikus, mégis friss ünnepi enteriőrré alakul. A tér középpontjában egy piros bársony masnikkal és olivazöld, bézs, barna díszekkel ékesített karácsonyfa áll, mellette egy kerek étkezőasztal ünnepi terítékkel és felette lebegő koszorú dísz. A háttérben lágyan hullámzó függönyök és rusztikus falak keretezik a teret, egy modern bézs íves kanapé felett pedig csillagok lebegnek. A Frigyeshez tartozik egy kisebb szoba is — egy igazi gyerekvilág, ahol most egy sátor várja a kicsiket, hogy bekuckózhassanak, miközben piros-fehér csíkos cukorka lufik lebegnek körülöttük. Egy apró, édes univerzum, ahol minden részlet mosolyt hív elő. A Frigyes tér ideális lifestyle fotózásokhoz, családi képekhez és hangulatos videós tartalmakhoz — egy hely, ahol a melegség, a játékosság és a meghittség tökéletes harmóniába kerül.',
+      en: 'Frigyes is a warm, friendly, and playful world where natural materials meet modern forms. Rustic textures, soft tones, and organic details create an atmosphere that is both homely and inspiring. During the Christmas season, Frigyes transforms into a classic yet fresh festive interior. At the center of the space stands a Christmas tree decorated with a red velvet bow and olive green, beige, and brown ornaments, next to a round dining table with festive table settings and a wreath hanging above. In the background, softly flowing curtains and rustic walls frame the space, while stars float above a modern beige curved sofa. Frigyes also includes a smaller room — a true children\'s world, where a tent now awaits little ones to cuddle up inside, surrounded by red and white striped candy cane balloons floating around them. A tiny, sweet universe where every detail brings a smile. The Frigyes space is ideal for lifestyle photography, family portraits, and atmospheric video content — a place where warmth, playfulness, and coziness come together in perfect harmony.'
     },
     features: {
       hu: [
         'Minimalista, modern design',
-        '65 m2',
-        '2025, október 25-től karácsonyi dekoráció!',
+        '34 + 16 m2',
+        '2025, november 15-től karácsonyi dekoráció!',
         '3 órás ablak',
         'Északi tájolás, szórt fényekkel',
-        'Maximum létszám: 8 fő',
-        'Fix 1 db állandó fényű LED lámpa',
-        'Opcionálisan kérhető 2 db vaku',
-        'Minden nap 9:00-tól, óránként foglalható',
-        '17 000 Ft / 55 perc'
+        'Maximum létszám: 6 fő',
+        'Fix 2 db állandó fényű LED lámpa',
+        'Opcionálisan kérhető vaku',
+        'Minden nap 8:00-tól, óránként foglalható',
+        '15 000 Ft / 55 perc'
       ],
       en: [
         'Minimalist, modern design',
-        '65 m2',
-        '2025, October 25-től karácsonyi dekoráció!',
+        '34 + 16 m2',
+        'Christmas decorations from November 15, 2025!',
         '3-hour window',
         'Northern exposure, diffused lights',
-        'Maximum capacity: 8 people',
-        'Fixed 1 continuous LED light',
-        'Optionally available 2 flash units',
-        'Available daily from 9:00, hourly bookings',
-        '17,000 HUF / 55 minutes'
+        'Maximum capacity: 6 people',
+        'Fixed 2 continuous LED light',
+        'Optionally available flash units',
+        'Available daily from 8:00, hourly bookings',
+        '15,000 HUF / 55 minutes'
       ]
     },
     specs: {
-      size: '65 m2',
-      capacity: '8',
-      availability: '9:00-20:00',
-      price: '17,000'
+      size: '50 m2',
+      capacity: '6',
+      availability: '8:00-20:00',
+      price: '15,000'
     },
     heroImage: '/images/frigyes/title.png',
     galleryImages: [
@@ -156,43 +156,43 @@ export const roomsData: RoomData[] = [
       en: 'Karinthy Room'
     },
     subtitle: {
-      hu: 'Fiatalos, letisztult és lakásszerű',
-      en: 'Youthful, clean and apartment-like'
+      hu: 'Klasszikus elegancia újragondolt formája',
+      en: 'Reimagined form of classic elegance'
     },
     description: {
-      hu: 'A Lost fiatalos, letisztult és lakásszerű berendezés jellemzi. A termet 3 óriási ablak tölti meg fénnyel és egy konyhával összekapcsolt nappali várja a vendégeit, rengeteg kiegészítővel.',
-      en: 'The Lost room is characterized by youthful, clean and apartment-like furnishings. The room is filled with light from 3 huge windows and a living room connected to a kitchen awaits guests, with lots of accessories.'
+      hu: 'A Karinthy tér a klasszikus elegancia újragondolt formája. Díszlécekkel keretezett, olivazöld falai mélységet és kifinomultságot sugároznak, miközben a tér középpontjában egy kandalló teremti meg az otthonosság melegét. A karácsonyi időszakban a Karinthy enteriőrje a zöld és arany párosára épül, amit fekete-fehér csíkos díszek és nagy méretű masnik egészítenek ki, modern csavart adva a klasszikus harmóniának. A stílusos kontrasztok, a fényes és matt felületek játéka, valamint a hangulatos világítás olyan atmoszférát teremt, ami egyszerre elegáns, időtlen és karakteres. A Karinthy tér ideális portréfotózásokhoz, elegáns kampányokhoz és meghitt eseményekhez — egy hely, ahol a múlt bája és a jelen lendülete találkozik, és ahol minden részlet a történetmesélés szolgálatában áll.',
+      en: 'The Karinthy space is a reimagined form of classic elegance. Its olive green walls, framed with moldings, radiate depth and sophistication, while a fireplace at the center of the space creates the warmth of homeliness. During the Christmas season, the Karinthy interior is built on a pairing of green and gold, complemented by black and white striped decorations and large bows, giving a modern twist to the classic harmony. The stylish contrasts, the interplay of glossy and matte surfaces, and the atmospheric lighting create an ambiance that is at once elegant, timeless, and characterful. The Karinthy space is ideal for portrait photography, elegant campaigns, and intimate events — a place where the charm of the past meets the momentum of the present, and where every detail serves the art of storytelling.'
     },
     features: {
       hu: [
-        'Fiatalos, modern design',
-        '85 m2',
-        '3 óriási ablak',
-        'Konyhával összekapcsolt nappali',
-        'Rengeteg kiegészítő',
-        'Maximum létszám: 10 fő',
-        'Fix 1 db állandó fényű LED lámpa',
-        'Opcionálisan kérhető 2 db vaku',
-        'Minden nap 9:00-tól, óránként foglalható',
+        'Klasszikus elegancia, modern csavarral',
+        '28 m2',
+        '2025, november 15-től karácsonyi dekoráció!',
+        'Olivazöld falak díszlécekkel',
+        'Kandalló a tér központjában',
+        'Maximum létszám: 5 fő',
+        'Fix 2 db állandó fényű LED lámpa',
+        'Opcionálisan kérhető vaku',
+        'Minden nap 8:00-tól, óránként foglalható',
         '15 000 Ft / 55 perc'
       ],
       en: [
-        'Youthful, modern design',
-        '85 m2',
-        '3 huge windows',
-        'Living room connected to kitchen',
-        'Lots of accessories',
-        'Maximum capacity: 10 people',
-        'Fixed 1 continuous LED light',
-        'Optionally available 2 flash units',
-        'Available daily from 9:00, hourly bookings',
+        'Classic elegance with a modern twist',
+        '28 m2',
+        'Christmas decorations from November 15, 2025!',
+        'Olive green walls with moldings',
+        'Fireplace at the center of the space',
+        'Maximum capacity: 5 people',
+        'Fixed 2 continuous LED lights',
+        'Optionally available flash units',
+        'Available daily from 8:00, hourly bookings',
         '15,000 HUF / 55 minutes'
       ]
     },
     specs: {
-      size: '85 m2',
+      size: '28 m2',
       capacity: '10',
-      availability: '9:00-20:00',
+      availability: '8:00-20:00',
       price: '15,000'
     },
     heroImage: '/images/karinthy/title.png',

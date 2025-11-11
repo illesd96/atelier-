@@ -106,6 +106,15 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
         
         console.log('✅ Successfully created bookings:', bookingResult.bookingIds);
         
+        // Reload order items to get booking_id values
+        const updatedItemsResult = await client.query(`
+          SELECT oi.*, r.name as room_name
+          FROM order_items oi
+          LEFT JOIN rooms r ON r.id = oi.room_id
+          WHERE oi.order_id = $1
+        `, [order.id]);
+        const updatedOrderItems = updatedItemsResult.rows;
+        
         // Generate invoice via Szamlazz.hu
         let invoiceId: string | null = null;
         let invoicePdf: Buffer | undefined;
@@ -113,37 +122,41 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
         if (szamlazzService.isEnabled()) {
           console.log('📄 Generating invoice via Szamlazz.hu...');
           try {
-            // Prepare invoice items
-            const invoiceItems = orderItems.map(item => {
-              const netPrice = order.total_amount / 1.27; // Assuming 27% VAT
-              const vatRate = 27;
-              const netUnitPrice = netPrice / orderItems.length;
-              const vatAmount = netUnitPrice * (vatRate / 100);
-              const grossAmount = netUnitPrice + vatAmount;
+            // Prepare invoice items (VAT-free)
+            const invoiceItems = updatedOrderItems.map(item => {
+              const itemPrice = item.price || (order.total_amount / updatedOrderItems.length);
+              
+              // Format booking date: Convert "2025-11-11" to "2025. Nov 11"
+              const bookingDate = new Date(item.booking_date);
+              const formattedDate = bookingDate.toLocaleDateString('hu-HU', { 
+                year: 'numeric', 
+                month: 'short', 
+                day: 'numeric' 
+              });
 
               return {
-                name: `${item.room_name || 'Studio'} foglalás - ${item.booking_date} ${item.start_time}-${item.end_time}`,
+                name: `${item.room_name || 'Studio'} foglalás - ${formattedDate} ${item.start_time}-${item.end_time}${item.booking_id ? ` (${item.booking_id})` : ''}`,
                 quantity: 1,
                 unit: 'óra',
-                netUnitPrice: Math.round(netUnitPrice),
-                vatRate: vatRate,
-                netPrice: Math.round(netUnitPrice),
-                vatAmount: Math.round(vatAmount),
-                grossAmount: Math.round(grossAmount),
+                netUnitPrice: Math.round(itemPrice),
+                vatRate: 0, // TAM - Tárgyi adó mentes
+                netPrice: Math.round(itemPrice),
+                vatAmount: 0,
+                grossAmount: Math.round(itemPrice),
               };
             });
 
             // Prepare customer data
-            // Note: Szamlazz.hu requires at least city, so we provide defaults if not available
+            // Note: Address fields are required from checkout form
             const customerData = {
               name: order.customer_name,
               email: order.email,
               phone: order.phone || undefined,
               taxNumber: order.billing_tax_number || undefined,
-              country: 'HU',
-              zip: order.billing_zip || '1111',  // Default postal code if not provided
-              city: order.billing_city || 'Budapest',  // Szamlazz.hu requires city
-              address: order.billing_address || 'N/A',  // Default if not provided
+              country: order.billing_country || 'HU',
+              zip: order.billing_zip || '',
+              city: order.billing_city || '',
+              address: order.billing_address || '',
             };
 
             // Create invoice

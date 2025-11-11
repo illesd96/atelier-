@@ -192,6 +192,7 @@
     "phoneOptional": "Telefonszám (opcionális)",
     "invoice": "Számlázási Adatok",
     "invoiceRequired": "Számlát kérek",
+    "businessInvoice": "Céges számlát kérek",
     "company": "Cégnév",
     "taxNumber": "Adószám",
     "address": "Számlázási Cím",

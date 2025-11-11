@@ -106,9 +106,10 @@ class SzamlazzService {
     <fizmod>${this.escapeXml(paymentMethod)}</fizmod>
     <penznem>${this.escapeXml(currency)}</penznem>
     <szamlaNyelve>${this.escapeXml(language)}</szamlaNyelve>
-    ${comment ? `<megjegyzes>${this.escapeXml(comment)}</megjegyzes>` : ''}
+    <megjegyzes>${this.escapeXml(comment || '')}</megjegyzes>
     <rendelesSzam>${this.escapeXml(data.orderId)}</rendelesSzam>
     ${config.szamlazz.invoice.invoicePrefix ? `<szamlaszamElotag>${this.escapeXml(config.szamlazz.invoice.invoicePrefix)}</szamlaszamElotag>` : ''}
+    <fizetve>true</fizetve>
   </fejlec>
   <elado>
     ${config.szamlazz.seller.bank ? `<bank>${this.escapeXml(config.szamlazz.seller.bank)}</bank>` : ''}
@@ -134,10 +135,10 @@ ${items.map(item => `    <tetel>
       <mennyiseg>${item.quantity}</mennyiseg>
       <mennyisegiEgyseg>${this.escapeXml(item.unit)}</mennyisegiEgyseg>
       <nettoEgysegar>${item.netUnitPrice}</nettoEgysegar>
-      <afakulcs>${item.vatRate}</afakulcs>
+      <afakulcs>TAM</afakulcs>
       <nettoErtek>${item.netPrice}</nettoErtek>
-      <afaErtek>${item.vatAmount}</afaErtek>
-      <bruttoErtek>${item.grossAmount}</bruttoErtek>
+      <afaErtek>0</afaErtek>
+      <bruttoErtek>${item.netPrice}</bruttoErtek>
     </tetel>`).join('\n')}
   </tetelek>
 </xmlszamla>`;

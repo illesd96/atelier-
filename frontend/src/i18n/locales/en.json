@@ -192,6 +192,7 @@
     "phoneOptional": "Phone Number (optional)",
     "invoice": "Invoice Details",
     "invoiceRequired": "I need an invoice",
+    "businessInvoice": "I need a business invoice",
     "company": "Company Name",
     "taxNumber": "Tax Number",
     "address": "Billing Address",

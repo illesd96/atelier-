@@ -25,22 +25,22 @@ const checkoutSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Please enter a valid email address'),
   phone: z.string().optional(),
-  invoiceRequired: z.boolean(),
+  street: z.string().min(1, 'Street address is required'),
+  city: z.string().min(1, 'City is required'),
+  postalCode: z.string().min(1, 'Postal code is required'),
+  country: z.string().min(1, 'Country is required'),
+  businessInvoice: z.boolean(),
   company: z.string().optional(),
   taxNumber: z.string().optional(),
-  street: z.string().optional(),
-  city: z.string().optional(),
-  postalCode: z.string().optional(),
-  country: z.string().optional(),
   termsAccepted: z.boolean().refine(val => val === true, 'You must accept the terms'),
   privacyAccepted: z.boolean().refine(val => val === true, 'You must accept the privacy policy'),
 }).refine((data) => {
-  if (data.invoiceRequired) {
-    return data.company && data.taxNumber && data.street && data.city && data.postalCode && data.country;
+  if (data.businessInvoice) {
+    return data.company && data.taxNumber;
   }
   return true;
 }, {
-  message: 'All address fields are required when requesting an invoice',
+  message: 'Company name and tax number are required for business invoices',
   path: ['company'],
 });
 
@@ -73,13 +73,13 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       name: '',
       email: '',
       phone: '',
-      invoiceRequired: false,
-      company: '',
-      taxNumber: '',
       street: '',
       city: '',
       postalCode: '',
       country: 'Hungary',
+      businessInvoice: false,
+      company: '',
+      taxNumber: '',
       termsAccepted: false,
       privacyAccepted: false,
     },
@@ -116,35 +116,39 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         name: user.name || '',
         email: user.email || '',
         phone: user.phone || '',
-        invoiceRequired: hasInvoiceData || false,
-        company: '',
-        taxNumber: '',
         street: '',
         city: '',
         postalCode: '',
         country: 'Hungary',
+        businessInvoice: hasInvoiceData || false,
+        company: '',
+        taxNumber: '',
         termsAccepted: false,
         privacyAccepted: false,
       };
 
-      if (hasInvoiceData && defaultAddress) {
+      if (defaultAddress) {
         // Parse the address string to extract components
         const addressParts = defaultAddress.address.split(',').map(part => part.trim());
         
-        // Add invoice data to form
-        formData.company = defaultAddress.company || '';
-        formData.taxNumber = defaultAddress.tax_number || '';
+        // Add address data to form
         formData.street = addressParts[0] || '';
         formData.postalCode = addressParts[1]?.split(' ')[0] || '';
         formData.city = addressParts[1]?.split(' ').slice(1).join(' ') || '';
         formData.country = addressParts[2] || 'Hungary';
+        
+        // Add business invoice data if available
+        if (hasInvoiceData) {
+          formData.company = defaultAddress.company || '';
+          formData.taxNumber = defaultAddress.tax_number || '';
+        }
       }
 
       reset(formData);
     }
   }, [user, savedAddresses, reset]);
 
-  const invoiceRequired = watch('invoiceRequired');
+  const businessInvoice = watch('businessInvoice');
   const total = getTotal();
 
   const onSubmit = async (data: CheckoutFormData) => {
@@ -173,26 +177,24 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         return;
       }
 
-      const address = data.invoiceRequired 
-        ? `${data.street}, ${data.postalCode} ${data.city}, ${data.country}`
-        : undefined;
+      const address = `${data.street}, ${data.postalCode} ${data.city}, ${data.country}`;
 
       // Save billing/invoice information for logged-in users BEFORE checkout
-      if (user && token && data.invoiceRequired && address) {
+      if (user && token) {
         try {
           console.log('=== SAVING ADDRESS ===');
           console.log('User:', user.email);
           console.log('Token exists:', !!token);
           console.log('Address data:', {
-            company: data.company,
-            tax_number: data.taxNumber,
+            company: data.businessInvoice ? data.company : undefined,
+            tax_number: data.businessInvoice ? data.taxNumber : undefined,
             address: address,
             is_default: savedAddresses.length === 0,
           });
           
           const saveResult = await userAPI.saveAddress(token, {
-            company: data.company,
-            tax_number: data.taxNumber,
+            company: data.businessInvoice ? data.company : undefined,
+            tax_number: data.businessInvoice ? data.taxNumber : undefined,
             address: address,
             is_default: savedAddresses.length === 0,
           });
@@ -218,12 +220,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
           email: data.email,
           phone: data.phone || undefined,
         },
-        invoice: data.invoiceRequired ? {
-          required: true,
-          company: data.company,
-          tax_number: data.taxNumber,
-          address: address,
-        } : { required: false },
+        invoice: {
+          required: true, // Always generate invoice
+          company: data.businessInvoice ? data.company : undefined,
+          tax_number: data.businessInvoice ? data.taxNumber : undefined,
+          address: address, // Always include address
+        },
         language: languageCode,
         terms_accepted: data.termsAccepted,
         privacy_accepted: data.privacyAccepted,
@@ -324,100 +326,19 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
             </div>
           </div>
 
-          {/* Invoice Section */}
+          {/* Address Section - Always shown */}
           <Divider />
           
-          <div className="field-group">
-            <Controller
-              name="invoiceRequired"
-              control={control}
-              render={({ field }) => (
-                <div className="flex align-items-center">
-                  <Checkbox
-                    inputId="invoiceRequired"
-                    checked={field.value}
-                    onChange={(e) => field.onChange(e.checked)}
-                    className="mr-2"
-                  />
-                  <label htmlFor="invoiceRequired" className="cursor-pointer">
-                    {t('checkout.invoiceRequired')}
-                  </label>
-                </div>
-              )}
-            />
-          </div>
-
-          {invoiceRequired && (
-            <>
-              <h3 style={{ 
-                fontWeight: '600', 
-                fontSize: '1rem', 
-                letterSpacing: '0.025em', 
-                textTransform: 'uppercase', 
-                color: '#000000',
-                margin: '1.5rem 0 1rem 0'
-              }}>
-                {t('checkout.invoice')}
-              </h3>
-
-              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <div style={{ flex: '1', minWidth: '250px' }}>
-                  <div className="field-group">
-                    <label htmlFor="company" className="block">
-                      {t('checkout.company')} *
-                    </label>
-                    <Controller
-                      name="company"
-                      control={control}
-                      render={({ field }) => (
-                        <InputText
-                          id="company"
-                          {...field}
-                          className={`w-full ${errors.company ? 'p-invalid' : ''}`}
-                          placeholder={t('checkout.company')}
-                        />
-                      )}
-                    />
-                    {errors.company && (
-                      <small className="p-error">{errors.company.message}</small>
-                    )}
-                  </div>
-                </div>
-
-                <div style={{ flex: '1', minWidth: '250px' }}>
-                  <div className="field-group">
-                    <label htmlFor="taxNumber" className="block">
-                      {t('checkout.taxNumber')} *
-                    </label>
-                    <Controller
-                      name="taxNumber"
-                      control={control}
-                      render={({ field }) => (
-                        <InputText
-                          id="taxNumber"
-                          {...field}
-                          className={`w-full ${errors.taxNumber ? 'p-invalid' : ''}`}
-                          placeholder={t('checkout.taxNumber')}
-                        />
-                      )}
-                    />
-                    {errors.taxNumber && (
-                      <small className="p-error">{errors.taxNumber.message}</small>
-                    )}
-                  </div>
-                </div>
-              </div>
-
-              <h3 style={{ 
-                fontWeight: '600', 
-                fontSize: '1rem', 
-                letterSpacing: '0.025em', 
-                textTransform: 'uppercase', 
-                color: '#000000',
-                margin: '1.5rem 0 1rem 0'
-              }}>
-                {t('checkout.address')}
-              </h3>
+          <h3 style={{ 
+            fontWeight: '600', 
+            fontSize: '1rem', 
+            letterSpacing: '0.025em', 
+            textTransform: 'uppercase', 
+            color: '#000000',
+            margin: '1.5rem 0 1rem 0'
+          }}>
+            {t('checkout.address')}
+          </h3>
 
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <div style={{ flex: '1', minWidth: '250px' }}>
@@ -510,6 +431,79 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                     />
                     {errors.country && (
                       <small className="p-error">{errors.country.message}</small>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+          {/* Business Invoice Section */}
+          <Divider />
+          
+          <div className="field-group">
+            <Controller
+              name="businessInvoice"
+              control={control}
+              render={({ field }) => (
+                <div className="flex align-items-center">
+                  <Checkbox
+                    inputId="businessInvoice"
+                    checked={field.value}
+                    onChange={(e) => field.onChange(e.checked)}
+                    className="mr-2"
+                  />
+                  <label htmlFor="businessInvoice" className="cursor-pointer">
+                    {t('checkout.businessInvoice')}
+                  </label>
+                </div>
+              )}
+            />
+          </div>
+
+          {businessInvoice && (
+            <>
+              <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="company" className="block">
+                      {t('checkout.company')} *
+                    </label>
+                    <Controller
+                      name="company"
+                      control={control}
+                      render={({ field }) => (
+                        <InputText
+                          id="company"
+                          {...field}
+                          className={`w-full ${errors.company ? 'p-invalid' : ''}`}
+                          placeholder={t('checkout.company')}
+                        />
+                      )}
+                    />
+                    {errors.company && (
+                      <small className="p-error">{errors.company.message}</small>
+                    )}
+                  </div>
+                </div>
+
+                <div style={{ flex: '1', minWidth: '250px' }}>
+                  <div className="field-group">
+                    <label htmlFor="taxNumber" className="block">
+                      {t('checkout.taxNumber')} *
+                    </label>
+                    <Controller
+                      name="taxNumber"
+                      control={control}
+                      render={({ field }) => (
+                        <InputText
+                          id="taxNumber"
+                          {...field}
+                          className={`w-full ${errors.taxNumber ? 'p-invalid' : ''}`}
+                          placeholder={t('checkout.taxNumber')}
+                        />
+                      )}
+                    />
+                    {errors.taxNumber && (
+                      <small className="p-error">{errors.taxNumber.message}</small>
                     )}
                   </div>
                 </div>

@@ -106,7 +106,7 @@ class SzamlazzService {
     <fizmod>${this.escapeXml(paymentMethod)}</fizmod>
     <penznem>${this.escapeXml(currency)}</penznem>
     <szamlaNyelve>${this.escapeXml(language)}</szamlaNyelve>
-    <megjegyzes>${this.escapeXml(comment || '')}</megjegyzes>
+    ${comment ? `<megjegyzes>${this.escapeXml(comment)}</megjegyzes>` : ''}
     <rendelesSzam>${this.escapeXml(data.orderId)}</rendelesSzam>
     ${config.szamlazz.invoice.invoicePrefix ? `<szamlaszamElotag>${this.escapeXml(config.szamlazz.invoice.invoicePrefix)}</szamlaszamElotag>` : ''}
     <fizetve>true</fizetve>

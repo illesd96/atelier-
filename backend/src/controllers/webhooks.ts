@@ -175,7 +175,7 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
               paymentMethod: config.szamlazz.invoice.paymentMethod,
               currency: config.szamlazz.invoice.currency,
               language: order.language || config.szamlazz.invoice.language,
-              comment: `Foglalási azonosító: ${order.id}`,
+              comment: undefined, // Booking IDs are now shown in each line item
             });
 
             if (invoiceResponse.success) {

@@ -119,10 +119,10 @@ class SzamlazzService {
   </elado>
   <vevo>
     <nev>${this.escapeXml(customer.name)}</nev>
-    ${customer.country ? `<orszag>${this.escapeXml(customer.country)}</orszag>` : '<orszag>HU</orszag>'}
-    ${customer.zip ? `<irsz>${this.escapeXml(customer.zip)}</irsz>` : ''}
-    ${customer.city ? `<telepules>${this.escapeXml(customer.city)}</telepules>` : ''}
-    ${customer.address ? `<cim>${this.escapeXml(customer.address)}</cim>` : ''}
+    <orszag>${customer.country ? this.escapeXml(customer.country) : 'HU'}</orszag>
+    <irsz>${customer.zip ? this.escapeXml(customer.zip) : ''}</irsz>
+    <telepules>${customer.city ? this.escapeXml(customer.city) : ''}</telepules>
+    <cim>${customer.address ? this.escapeXml(customer.address) : ''}</cim>
     <email>${this.escapeXml(customer.email)}</email>
     ${customer.phone ? `<telefonszam>${this.escapeXml(customer.phone)}</telefonszam>` : ''}
     ${customer.taxNumber ? `<adoszam>${this.escapeXml(customer.taxNumber)}</adoszam>` : ''}

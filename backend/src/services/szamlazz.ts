@@ -109,10 +109,10 @@ class SzamlazzService {
     ${comment ? `<megjegyzes>${this.escapeXml(comment)}</megjegyzes>` : ''}
     <rendelesSzam>${this.escapeXml(data.orderId)}</rendelesSzam>
     ${config.szamlazz.invoice.invoicePrefix ? `<szamlaszamElotag>${this.escapeXml(config.szamlazz.invoice.invoicePrefix)}</szamlaszamElotag>` : ''}
-    ${config.szamlazz.seller.bank ? `<bank>${this.escapeXml(config.szamlazz.seller.bank)}</bank>` : ''}
-    ${config.szamlazz.seller.bankAccountNumber ? `<bankszamlaszam>${this.escapeXml(config.szamlazz.seller.bankAccountNumber)}</bankszamlaszam>` : ''}
   </fejlec>
   <elado>
+    ${config.szamlazz.seller.bank ? `<bank>${this.escapeXml(config.szamlazz.seller.bank)}</bank>` : ''}
+    ${config.szamlazz.seller.bankAccountNumber ? `<bankszamlaszam>${this.escapeXml(config.szamlazz.seller.bankAccountNumber)}</bankszamlaszam>` : ''}
     ${config.szamlazz.seller.emailReplyTo ? `<emailReplyto>${this.escapeXml(config.szamlazz.seller.emailReplyTo)}</emailReplyto>` : ''}
     ${config.szamlazz.seller.emailSubject ? `<emailTargy>${this.escapeXml(config.szamlazz.seller.emailSubject)}</emailTargy>` : ''}
     ${config.szamlazz.seller.emailText ? `<emailSzoveg>${this.escapeXml(config.szamlazz.seller.emailText)}</emailSzoveg>` : ''}

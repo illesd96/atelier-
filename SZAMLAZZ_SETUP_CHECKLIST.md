@@ -94,10 +94,15 @@ SZAMLAZZ_EMAIL_TEXT=Köszönjük a foglalást!
 
 ## ✅ Recent Fixes
 
-### Invoice Prefix XML Error - FIXED
+### 1. Invoice Prefix XML Error - FIXED
 **Issue**: Error 57 - `'PHOTO' is not a valid value for 'boolean'`
 **Cause**: Invoice prefix was using wrong XML tag (`<elolegszamla>` instead of `<szamlaszamElotag>`)
 **Status**: ✅ Fixed - Invoice prefix now uses correct tag
+
+### 2. Bank Information XML Structure - FIXED
+**Issue**: Error 57 - `Invalid content was found starting with element 'bank'`
+**Cause**: Bank details (`<bank>` and `<bankszamlaszam>`) were in `<fejlec>` section but belong in `<elado>` section
+**Status**: ✅ Fixed - Bank information moved to correct section
 
 ## 🧪 Testing
 

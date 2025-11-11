@@ -109,6 +109,11 @@ SZAMLAZZ_EMAIL_TEXT=Köszönjük a foglalást!
 **Cause**: Address fields (`<irsz>`, `<telepules>`, `<cim>`) were conditionally omitted, breaking XML schema order
 **Status**: ✅ Fixed - All address fields now always present (with empty values if not provided)
 
+### 4. Customer Fields Sequence - FIXED
+**Issue**: Error 57 - `Invalid content found starting with element 'sendEmail'. One of 'megjegyzes' is expected`
+**Cause**: `<sendEmail>` was placed after optional fields (`<telefonszam>`, `<adoszam>`), should come before them
+**Status**: ✅ Fixed - Correct order: email → sendEmail → adoszam → telefonszam
+
 ## 🧪 Testing
 
 ### Test in Szamlazz.hu Test Mode

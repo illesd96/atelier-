@@ -124,9 +124,9 @@ class SzamlazzService {
     <telepules>${customer.city ? this.escapeXml(customer.city) : ''}</telepules>
     <cim>${customer.address ? this.escapeXml(customer.address) : ''}</cim>
     <email>${this.escapeXml(customer.email)}</email>
-    ${customer.phone ? `<telefonszam>${this.escapeXml(customer.phone)}</telefonszam>` : ''}
-    ${customer.taxNumber ? `<adoszam>${this.escapeXml(customer.taxNumber)}</adoszam>` : ''}
     <sendEmail>true</sendEmail>
+    ${customer.taxNumber ? `<adoszam>${this.escapeXml(customer.taxNumber)}</adoszam>` : ''}
+    ${customer.phone ? `<telefonszam>${this.escapeXml(customer.phone)}</telefonszam>` : ''}
   </vevo>
   <tetelek>
 ${items.map(item => `    <tetel>

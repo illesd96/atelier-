@@ -212,9 +212,12 @@ ${items.map(item => `    <tetel>
       
       if (responseText.includes('<?xml')) {
         // Error response
+        console.log('📄 Raw XML response:', responseText.substring(0, 500)); // Log first 500 chars
         const parsed = await this.parseResponse(responseText);
-        const errorCode = parsed.xmlszamlavalasz?.hibakod || 'unknown';
-        const errorMessage = parsed.xmlszamlavalasz?.hibauzenet || 'Unknown error';
+        console.log('🔍 Parsed XML:', JSON.stringify(parsed, null, 2));
+        
+        const errorCode = parsed.xmlszamlavalasz?.hibakod || parsed.xmlszamla?.hibakod || 'unknown';
+        const errorMessage = parsed.xmlszamlavalasz?.hibauzenet || parsed.xmlszamla?.hibauzenet || 'Unknown error';
         
         console.error('❌ Szamlazz.hu error:', { errorCode, errorMessage });
         

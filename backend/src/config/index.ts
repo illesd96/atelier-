@@ -49,7 +49,7 @@ export const config = {
       paymentMethod: 'Barion',
       currency: 'HUF',
       language: 'hu',
-      invoicePrefix: process.env.SZAMLAZZ_INVOICE_PREFIX || 'PHOTO',
+      invoicePrefix: process.env.SZAMLAZZ_INVOICE_PREFIX || '', // Empty string = use Szamlazz.hu default
     },
   },
   

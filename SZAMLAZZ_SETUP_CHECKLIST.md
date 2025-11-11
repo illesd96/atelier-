@@ -125,6 +125,16 @@ SZAMLAZZ_EMAIL_TEXT=Köszönjük a foglalást!
 **Cause**: Customers without invoice request don't provide address, but Szamlazz.hu requires city
 **Status**: ✅ Fixed - Webhook now provides default values (Budapest, 1111) when address not provided
 
+### 7. Unknown Error - ACCOUNT CONFIGURATION REQUIRED
+**Issue**: Error "unknown" - Generic unknown error
+**Cause**: **Company information not fully configured in Szamlazz.hu dashboard**
+**Required**: 
+- Company name, tax number, and address MUST be configured in Szamlazz.hu account
+- Address: **Karinthy Frigyes út 19, 1111 Budapest** must be in company profile
+- Számla Agent (API) must be enabled
+**Solution**: See `SZAMLAZZ_ACCOUNT_SETUP.md` for detailed setup guide
+**Status**: ⚠️ Requires Szamlazz.hu dashboard configuration
+
 ## 🧪 Testing
 
 ### Test in Szamlazz.hu Test Mode

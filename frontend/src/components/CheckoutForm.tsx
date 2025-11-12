@@ -120,7 +120,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
         city: '',
         postalCode: '',
         country: 'Hungary',
-        businessInvoice: hasInvoiceData || false,
+        businessInvoice: !!hasInvoiceData, // Convert to explicit boolean
         company: '',
         taxNumber: '',
         termsAccepted: false,

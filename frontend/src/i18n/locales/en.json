@@ -404,11 +404,11 @@
       },
       "parking": {
         "title": "Parking",
-        "description": "Paid parking is available at Karinthy Parking (Karinthy Frigyes út 17a, 1117) for 450 HUF/hour. Street parking is also available (paid). Please arrive a few minutes early to allow time for parking."
+        "description": "Parking is available right next to the studio. Street parking is free on weekends. On weekdays, paid parking is available at Karinthy Parking (Karinthy Frigyes út 17a, 1117) for 450 HUF/hour."
       },
       "public": {
         "title": "Public Transport",
-        "description": "Take metro line M4 to Móricz Zsigmond körtér or tram lines 47, 48, 49 to the same stop. The studio is just a short walk from the station."
+        "description": "Budafoki út / Karinthy Frigyes út (~2 min) – Buses: 133E, 212 • Móricz Zsigmond körtér M (~3 min) – Metro: M4; Trams: 6, 19, 41, 56A, 61; Buses: 7, 114, 212, 907, 960 • Budafoki út / Szerémi sor (~6 min) – Trams: 56, 6, 61 • Újbuda-központ M (~7 min) – Metro: M4; Trams: 4, 17, 41, 47, 48, 56"
       },
       "mapTitle": "Atelier Archilles Location Map"
     }

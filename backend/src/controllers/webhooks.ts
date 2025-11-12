@@ -149,7 +149,7 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
             // Prepare customer data
             // Note: Address fields are required from checkout form
             const customerData = {
-              name: order.customer_name,
+              name: order.invoice_company || order.customer_name, // Use company name if booking as company
               email: order.email,
               phone: order.phone || undefined,
               taxNumber: order.invoice_tax_number || undefined,

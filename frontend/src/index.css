@@ -242,7 +242,7 @@ a {
 /* Banner Section */
 .banner-section {
   padding: 0;
-  margin-top: 70px;
+  margin-top: 0;
   background: var(--bg-color);
 }
 
@@ -380,7 +380,7 @@ a {
 /* Responsive adjustments */
 @media (max-width: 1024px) {
   .banner-section {
-    margin-top: 60px;
+    margin-top: 0;
   }
   
   .banner-image {

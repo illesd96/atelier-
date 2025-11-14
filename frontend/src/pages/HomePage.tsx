@@ -155,22 +155,10 @@ export const HomePage: React.FC = () => {
         <h2 className="studios-section-title">{t('home.newAbout.title')}</h2>
         <div className="about-studio-content">
           <p className="about-studio-text">
-            {t('home.newAbout.intro')} {t('home.newAbout.intro2')}
+            {t('home.newAbout.intro')} {t('home.newAbout.intro2')} {t('home.newAbout.para1')} {t('home.newAbout.para2')} {t('home.newAbout.para3')}
           </p>
           <p className="about-studio-text">
-            {t('home.newAbout.para1')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para2')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para3')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para4')} {t('home.newAbout.para5')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para6')}
+            {t('home.newAbout.para4')} {t('home.newAbout.para5')} {t('home.newAbout.para6')}
           </p>
           <p className="about-studio-text">
             {t('home.newAbout.para7')}

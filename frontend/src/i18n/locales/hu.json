@@ -71,23 +71,23 @@
     "about": {
       "heading": "Az Atelier Archilles Budapest szívében egy olyan többfunkciós kreatív tér, ahol építészet, belsőépítészet és vizuális művészet találkozik.",
       "description1": "A stúdiót az Archilles Studio hozta létre, hogy megtestesítse mindazt, ami márkánkat jellemzi: poétikus bátorság, kifinomult részletek, emberi érzékenység.",
-      "description2": "Az Atelier Archilles több, mint fotóstúdió — ez egy élettel teli bemutatótér, ahol a belsőépítészeti világunk inspiráló, berendezett enteriőrökben kel életre.",
+      "description2": "Az Atelier Archilles több, mint fotóstúdió - ez egy élettel teli bemutatótér, ahol a belsőépítészeti világunk inspiráló, berendezett enteriőrökben kel életre.",
       "description3": "Három különböző hangulatú terem vár: Atelier – merész, karakteres, modern | Frigyes – meleg, játékos, természetes | Karinthy – klasszikus, elegáns, időtlen. A terek fotózásokra, workshopokra és kis rendezvényekre is bérelhetők."
     },
     "newAbout": {
-      "intro": "Az Atelier Archilles egy kreatív tér, amit az Archilles Studio álmodott meg —",
+      "intro": "Az Atelier Archilles egy kreatív tér, amit az Archilles Studio álmodott meg -",
       "intro2": "építészek és belsőépítészek műhelye, akik hisznek abban, hogy a tér nemcsak funkció, hanem érzés is.",
       "para1": "Az Atelier Archilles nem csupán stúdió, hanem élettér és élménytér egyben.",
       "para2": "Egy hely, ahol az építészet, a design és a vizuális művészet közös nyelvet beszélnek.",
       "para3": "Ahol a gondosan megkomponált részletek inspirációt keltenek, és minden szoba önálló történetet mesél.",
-      "para4": "Célunk, hogy az építészetet közelebb hozzuk az emberekhez —",
+      "para4": "Célunk, hogy az építészetet közelebb hozzuk az emberekhez -",
       "para5": "hogy ne távoli, elvont fogalom legyen, hanem megfogható, megtapasztalható élmény.",
       "para6": "Hisszük, hogy a tér képes hatni, formálni, érzelmeket kelteni, és új perspektívákat nyitni azok számára, akik belépnek ide.",
-      "para7": "A tér egyik fele az Archilles Studio szellemiségét tükrözi — itt születnek a koncepciók, tervek és terek, amelyek túlmutatnak a megszokotton.",
+      "para7": "A tér egyik fele az Archilles Studio szellemiségét tükrözi - itt születnek a koncepciók, tervek és terek, amelyek túlmutatnak a megszokotton.",
       "para8": "A másik fele fotóstúdióként, bemutatótérként és eseményhelyszínként működik, ahol a design életre kel, és mások is részévé válhatnak ennek a világnak.",
       "para9": "Az Atelier Archilles-ben minden részlet a kreativitást szolgálja:",
       "para10": "a fény, a textúra, a csend, a mozdulat.",
-      "para11": "Ez egy olyan hely, ahol az alkotás nem munka, hanem élmény —",
+      "para11": "Ez egy olyan hely, ahol az alkotás nem munka, hanem élmény -",
       "para12": "és ahol a tér újra megtelik lélekkel."
     },
     "studios": {
@@ -101,25 +101,25 @@
   "studios": {
     "bookStudio": "Stúdió Foglalása",
     "studioA": {
-      "title": "A Stúdió — A Portré Szentélye",
+      "title": "A Stúdió - A Portré Szentélye",
       "cardTitle": "Atelier",
-      "cardDescription": "Az Atelier tér a merészség manifesztuma. Ez a szoba a konvenciók elhagyásáról szól — modern, letisztult, mégis drámai.",
-      "description1": "A karácsonyi időszakban az Atelier egy immerzív havas fenyőerdővé alakul, ahol a valóság és mesevilág határai elmosódnak. Sétálj be az erdőbe, érezd, ahogy a talpad alatt szinte roppan a hó és felejtsd el, hogy valójából 4 fal vesz körbe. Farönkök, apró manók, szánkó és egy pad, ahol meg lehet pihenni — minden részlet egy téli álomvilágot idéz.",
-      "description2": "Az installáció nem csupán látványos, hanem egyedülálló Budapesten: tér maga válik élménnyé, egy fotózásokra, kampányokra és videós tartalmakra tervezett immerzív díszletté, ahol a kreativitás és az érzelmi hatás találkozik. Az Atelier most a merész álmodozók tere — ahol a tél is új értelmet kap."
+      "cardDescription": "Az Atelier tér a merészség manifesztuma. Ez a szoba a konvenciók elhagyásáról szól - modern, letisztult, mégis drámai.",
+      "description1": "A karácsonyi időszakban az Atelier egy immerzív havas fenyőerdővé alakul, ahol a valóság és mesevilág határai elmosódnak. Sétálj be az erdőbe, érezd, ahogy a talpad alatt szinte roppan a hó és felejtsd el, hogy valójából 4 fal vesz körbe. Farönkök, apró manók, szánkó és egy pad, ahol meg lehet pihenni - minden részlet egy téli álomvilágot idéz.",
+      "description2": "Az installáció nem csupán látványos, hanem egyedülálló Budapesten: tér maga válik élménnyé, egy fotózásokra, kampányokra és videós tartalmakra tervezett immerzív díszletté, ahol a kreativitás és az érzelmi hatás találkozik. Az Atelier most a merész álmodozók tere - ahol a tél is új értelmet kap."
     },
     "studioB": {
-      "title": "B Stúdió — Termék Tökéletesség",
+      "title": "B Stúdió - Termék Tökéletesség",
       "cardTitle": "Frigyes",
       "cardDescription": "A Frigyes egy meleg, barátságos és játékos világ, ahol természetes anyagok és modern formák találkoznak. Rusztikus textúrák, lágy tónusok és organikus részletek hozzák létre azt a hangulatot, ami egyszerre otthonos és inspiráló.",
-      "description1": "A karácsonyi időszakban a Frigyes egy klasszikus, mégis friss ünnepi enteriőrré alakul. A tér középpontjában egy piros bársony masnikkal és olivazöld, bézs, barna díszekkel ékesített karácsonyfa áll, mellette egy kerek étkezőasztal ünnepi terítékkel és felette lebegő koszorú dísz. A háttérben lágyan hullámzó függönyök és rusztikus falak keretezik a teret, egy modern bézs íves kanapé felett pedig csillagok lebegnek. A Frigyeshez tartozik egy kisebb szoba is — egy igazi gyerekvilág, ahol most egy sátor várja a kicsiket, hogy bekuckózhassanak, miközben piros-fehér csíkos cukorka lufik lebegnek körülöttük. Egy apró, édes univerzum, ahol minden részlet mosolyt hív elő.",
-      "description2": "A Frigyes tér ideális lifestyle fotózásokhoz, családi képekhez és hangulatos videós tartalmakhoz — egy hely, ahol a melegség, a játékosság és a meghittség tökéletes harmóniába kerül."
+      "description1": "A karácsonyi időszakban a Frigyes egy klasszikus, mégis friss ünnepi enteriőrré alakul. A tér középpontjában egy piros bársony masnikkal és olivazöld, bézs, barna díszekkel ékesített karácsonyfa áll, mellette egy kerek étkezőasztal ünnepi terítékkel és felette lebegő koszorú dísz. A háttérben lágyan hullámzó függönyök és rusztikus falak keretezik a teret, egy modern bézs íves kanapé felett pedig csillagok lebegnek. A Frigyeshez tartozik egy kisebb szoba is - egy igazi gyerekvilág, ahol most egy sátor várja a kicsiket, hogy bekuckózhassanak, miközben piros-fehér csíkos cukorka lufik lebegnek körülöttük. Egy apró, édes univerzum, ahol minden részlet mosolyt hív elő.",
+      "description2": "A Frigyes tér ideális lifestyle fotózásokhoz, családi képekhez és hangulatos videós tartalmakhoz - egy hely, ahol a melegség, a játékosság és a meghittség tökéletes harmóniába kerül."
     },
     "studioC": {
-      "title": "C Stúdió — Divat Előretör",
+      "title": "C Stúdió - Divat Előretör",
       "cardTitle": "Karinthy",
       "cardDescription": "A Karinthy tér a klasszikus elegancia újragondolt formája. Díszlécekkel keretezett, olivazöld falai mélységet és kifinomultságot sugároznak, miközben a tér középpontjában egy kandalló teremti meg az otthonosság melegét.",
       "description1": "A karácsonyi időszakban a Karinthy enteriőrje a zöld és arany párosára épül, amit fekete-fehér csíkos díszek és nagy méretű masnik egészítenek ki, modern csavart adva a klasszikus harmóniának. A stílusos kontrasztok, a fényes és matt felületek játéka, valamint a hangulatos világítás olyan atmoszférát teremt, ami egyszerre elegáns, időtlen és karakteres.",
-      "description2": "A Karinthy tér ideális portréfotózásokhoz, elegáns kampányokhoz és meghitt eseményekhez — egy hely, ahol a múlt bája és a jelen lendülete találkozik, és ahol minden részlet a történetmesélés szolgálatában áll."
+      "description2": "A Karinthy tér ideális portréfotózásokhoz, elegáns kampányokhoz és meghitt eseményekhez - egy hely, ahol a múlt bája és a jelen lendülete találkozik, és ahol minden részlet a történetmesélés szolgálatában áll."
     }
   },
   "booking": {

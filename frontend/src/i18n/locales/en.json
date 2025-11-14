@@ -71,23 +71,23 @@
     "about": {
       "heading": "Atelier Archilles is a multifunctional creative space in the heart of Budapest where architecture, interior design, and visual art converge.",
       "description1": "The studio was created by Archilles Studio to embody everything that defines our brand: poetic courage, refined details, human sensitivity.",
-      "description2": "Atelier Archilles is more than a photo studio — it's a vibrant showroom where our interior design world comes to life in inspiring, furnished interiors.",
+      "description2": "Atelier Archilles is more than a photo studio - it's a vibrant showroom where our interior design world comes to life in inspiring, furnished interiors.",
       "description3": "Three rooms with different atmospheres await: Atelier – bold, characterful, modern | Frigyes – warm, playful, natural | Karinthy – classic, elegant, timeless. The spaces can be rented for photo shoots, workshops, and small events."
     },
     "newAbout": {
-      "intro": "Atelier Archilles is a creative space imagined by Archilles Studio —",
+      "intro": "Atelier Archilles is a creative space imagined by Archilles Studio -",
       "intro2": "a workshop of architects and interior designers who believe that space is not just function, but feeling too.",
       "para1": "Atelier Archilles is not merely a studio, but a living space and an experiential space in one.",
       "para2": "A place where architecture, design, and visual art speak a common language.",
       "para3": "Where carefully composed details inspire, and each room tells its own story.",
-      "para4": "Our goal is to bring architecture closer to people —",
+      "para4": "Our goal is to bring architecture closer to people -",
       "para5": "so it's not a distant, abstract concept, but a tangible, experienceable experience.",
       "para6": "We believe that space can impact, shape, evoke emotions, and open new perspectives for those who enter here.",
-      "para7": "One half of the space reflects the spirit of Archilles Studio — this is where concepts, plans, and spaces are born that go beyond the ordinary.",
+      "para7": "One half of the space reflects the spirit of Archilles Studio - this is where concepts, plans, and spaces are born that go beyond the ordinary.",
       "para8": "The other half functions as a photo studio, showroom, and event space, where design comes to life, and others can become part of this world too.",
       "para9": "At Atelier Archilles, every detail serves creativity:",
       "para10": "light, texture, silence, movement.",
-      "para11": "This is a place where creation is not work, but experience —",
+      "para11": "This is a place where creation is not work, but experience -",
       "para12": "and where space is once again filled with soul."
     },
     "studios": {
@@ -101,25 +101,25 @@
   "studios": {
     "bookStudio": "Book This Studio",
     "studioA": {
-      "title": "Studio A — The Portrait Sanctuary",
+      "title": "Studio A - The Portrait Sanctuary",
       "cardTitle": "RUSTIC ROOM",
-      "cardDescription": "The Atelier space is a manifesto of boldness. This room is about abandoning conventions — modern, clean, yet dramatic.",
-      "description1": "During the Christmas season, the Atelier transforms into an immersive snowy pine forest, where the boundaries between reality and fairytale blur. Walk into the forest, feel the snow almost crunching beneath your feet, and forget that you're actually surrounded by four walls. Logs, tiny gnomes, a sled, and a bench to rest on — every detail evokes a winter dreamscape.",
-      "description2": "The installation is not only spectacular but unique in Budapest: the space itself becomes an experience, an immersive set designed for photo shoots, campaigns, and video content, where creativity and emotional impact meet. The Atelier is now a space for bold dreamers — where winter takes on new meaning."
+      "cardDescription": "The Atelier space is a manifesto of boldness. This room is about abandoning conventions - modern, clean, yet dramatic.",
+      "description1": "During the Christmas season, the Atelier transforms into an immersive snowy pine forest, where the boundaries between reality and fairytale blur. Walk into the forest, feel the snow almost crunching beneath your feet, and forget that you're actually surrounded by four walls. Logs, tiny gnomes, a sled, and a bench to rest on - every detail evokes a winter dreamscape.",
+      "description2": "The installation is not only spectacular but unique in Budapest: the space itself becomes an experience, an immersive set designed for photo shoots, campaigns, and video content, where creativity and emotional impact meet. The Atelier is now a space for bold dreamers - where winter takes on new meaning."
     },
     "studioB": {
-      "title": "Studio B — Product Perfection",
+      "title": "Studio B - Product Perfection",
       "cardTitle": "CLAY ROOM",
       "cardDescription": "Frigyes is a warm, friendly, and playful world where natural materials and modern forms meet. Rustic textures, soft tones, and organic details create an atmosphere that is both homely and inspiring.",
-      "description1": "During the Christmas season, Frigyes transforms into a classic yet fresh festive interior. At the center of the space stands a Christmas tree decorated with a red velvet bow and olive green, beige, and brown ornaments, beside it a round dining table with festive settings and a floating wreath decoration above. In the background, softly flowing curtains and rustic walls frame the space, while stars float above a modern beige curved sofa. Frigyes also includes a smaller room — a true children's world, where a tent now awaits the little ones to cuddle up, while red-and-white striped candy balloons float around them. A tiny, sweet universe where every detail brings a smile.",
-      "description2": "The Frigyes space is ideal for lifestyle photography, family portraits, and cozy video content — a place where warmth, playfulness, and intimacy come into perfect harmony."
+      "description1": "During the Christmas season, Frigyes transforms into a classic yet fresh festive interior. At the center of the space stands a Christmas tree decorated with a red velvet bow and olive green, beige, and brown ornaments, beside it a round dining table with festive settings and a floating wreath decoration above. In the background, softly flowing curtains and rustic walls frame the space, while stars float above a modern beige curved sofa. Frigyes also includes a smaller room - a true children's world, where a tent now awaits the little ones to cuddle up, while red-and-white striped candy balloons float around them. A tiny, sweet universe where every detail brings a smile.",
+      "description2": "The Frigyes space is ideal for lifestyle photography, family portraits, and cozy video content - a place where warmth, playfulness, and intimacy come into perfect harmony."
     },
     "studioC": {
-      "title": "Studio C — Fashion Forward",
+      "title": "Studio C - Fashion Forward",
       "cardTitle": "LOST ROOM",
       "cardDescription": "The Karinthy space is a reimagined form of classic elegance. Its olive green walls, framed with decorative moldings, radiate depth and sophistication, while a fireplace at the center of the space creates the warmth of home.",
       "description1": "During the Christmas season, Karinthy's interior is built on a pairing of green and gold, complemented by black-and-white striped decorations and large bows, giving a modern twist to classical harmony. Stylish contrasts, the interplay of glossy and matte surfaces, and ambient lighting create an atmosphere that is simultaneously elegant, timeless, and characterful.",
-      "description2": "The Karinthy space is ideal for portrait photography, elegant campaigns, and intimate events — a place where the charm of the past meets the momentum of the present, and where every detail serves the art of storytelling."
+      "description2": "The Karinthy space is ideal for portrait photography, elegant campaigns, and intimate events - a place where the charm of the past meets the momentum of the present, and where every detail serves the art of storytelling."
     }
   },
   "booking": {

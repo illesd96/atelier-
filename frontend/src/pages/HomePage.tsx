@@ -152,12 +152,10 @@ export const HomePage: React.FC = () => {
 
       {/* About Section - New Comprehensive */}
       <section className="about-studio-section">
+        <h2 className="studios-section-title">{t('home.newAbout.title')}</h2>
         <div className="about-studio-content">
           <p className="about-studio-text">
-            {t('home.newAbout.intro')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.intro2')}
+            {t('home.newAbout.intro')} {t('home.newAbout.intro2')}
           </p>
           <p className="about-studio-text">
             {t('home.newAbout.para1')}
@@ -169,10 +167,7 @@ export const HomePage: React.FC = () => {
             {t('home.newAbout.para3')}
           </p>
           <p className="about-studio-text">
-            {t('home.newAbout.para4')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para5')}
+            {t('home.newAbout.para4')} {t('home.newAbout.para5')}
           </p>
           <p className="about-studio-text">
             {t('home.newAbout.para6')}
@@ -184,16 +179,10 @@ export const HomePage: React.FC = () => {
             {t('home.newAbout.para8')}
           </p>
           <p className="about-studio-text">
-            {t('home.newAbout.para9')}
+            {t('home.newAbout.para9')} {t('home.newAbout.para10')}
           </p>
           <p className="about-studio-text">
-            {t('home.newAbout.para10')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para11')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para12')}
+            {t('home.newAbout.para11')} {t('home.newAbout.para12')}
           </p>
         </div>
       </section>

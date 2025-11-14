@@ -75,7 +75,7 @@ export const roomsData: RoomData[] = [
       availability: '8:00-20:00',
       price: '15,000'
     },
-    heroImage: '/images/atelier/title.png',
+    heroImage: '/images/atelier/title.jpg',
     galleryImages: [
       '/images/atelier/1.jpg',
       '/images/atelier/2.jpg',

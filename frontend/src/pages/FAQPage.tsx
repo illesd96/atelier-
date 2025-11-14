@@ -79,18 +79,18 @@ export const FAQPage: React.FC = () => {
       question: t('faq.questions.usage.question'),
       answer: t('faq.questions.usage.answer', { returnObjects: true }) as string[],
     },
-    {
-      question: t('faq.questions.pets.question'),
-      answer: t('faq.questions.pets.answer', { returnObjects: true }) as string[],
-    },
+    // {
+    //   question: t('faq.questions.pets.question'),
+    //   answer: t('faq.questions.pets.answer', { returnObjects: true }) as string[],
+    // },
     {
       question: t('faq.questions.steamer.question'),
       answer: t('faq.questions.steamer.answer'),
     },
-    {
-      question: t('faq.questions.changing.question'),
-      answer: t('faq.questions.changing.answer'),
-    },
+    // {
+    //   question: t('faq.questions.changing.question'),
+    //   answer: t('faq.questions.changing.answer'),
+    // },
   ];
 
   const toggleFAQ = (index: number) => {

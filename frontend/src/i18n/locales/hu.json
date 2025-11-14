@@ -452,13 +452,12 @@
         "question": "Milyen fénytechnikai eszközök állnak rendelkezésre?",
         "answer": [
           "Stúdiónkban vakukat és állandófényű lámpákat is használhatsz a fotózásokhoz:",
-          "A Stúdió: 2 db állandó fényű LED lámpa + softbox",
-          "B Stúdió: 1 db állandó fényű LED lámpa + softbox",
-          "C Stúdió: 1 db állandó fényű LED lámpa + oktobox",
+          "Atelier Stúdió: 2 db állandó fényű LED lámpa + softbox",
+          "Frigyes Stúdió: 2 db állandó fényű LED lámpa + softbox",
+          "Karinthy Stúdió: 2 db állandó fényű LED lámpa + softbox",
           "Ezeken kívül rendelkezésre áll még:",
           "Professzionális vaku egységek",
-          "Derítőlapok különböző méretekben",
-          "Beauty dish és méhsejtrácsok"
+          "Derítőlapok különböző méretekben"
         ]
       },
       "leaving": {

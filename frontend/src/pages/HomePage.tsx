@@ -161,10 +161,7 @@ export const HomePage: React.FC = () => {
             {t('home.newAbout.para4')} {t('home.newAbout.para5')} {t('home.newAbout.para6')}
           </p>
           <p className="about-studio-text">
-            {t('home.newAbout.para7')}
-          </p>
-          <p className="about-studio-text">
-            {t('home.newAbout.para8')}
+            {t('home.newAbout.para7')} {t('home.newAbout.para8')}
           </p>
           <p className="about-studio-text">
             {t('home.newAbout.para9')} {t('home.newAbout.para10')}

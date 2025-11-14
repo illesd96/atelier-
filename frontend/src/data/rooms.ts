@@ -105,10 +105,10 @@ export const roomsData: RoomData[] = [
     },
     features: {
       hu: [
-        'Minimalista, modern design',
+        'Meleg, barátságos, rusztikus dizájn ',
         '34 + 16 m2',
         '2025, november 15-től karácsonyi dekoráció!',
-        'Északi tájolás, szórt fényekkel',
+        'Nyugati tájolás, szórt fényekkel',
         'Maximum létszám: 6 fő',
         'Fix 2 db állandó fényű LED lámpa',
         'Opcionálisan kérhető vaku',

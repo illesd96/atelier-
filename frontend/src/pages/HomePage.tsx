@@ -73,7 +73,7 @@ export const HomePage: React.FC = () => {
             <div className="studio-card" onClick={() => navigate('/rooms/studio-a')}>
               <div className="studio-card-image">
                 <OptimizedImage
-                  src="/images/atelier/title.png"
+                  src="/images/atelier/title.jpg"
                   alt="Atelier stúdió - rusztikus fotóstúdió bérlés Budapest"
                   width={600}
                   height={800}

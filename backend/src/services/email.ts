@@ -274,6 +274,17 @@ class EmailService {
    * Generate iCalendar file content for booking
    */
   generateCalendarFile(order: Order, items: OrderItem[]): string {
+    const now = new Date();
+    const formatDateStamp = (date: Date) => {
+      const year = date.getUTCFullYear();
+      const month = String(date.getUTCMonth() + 1).padStart(2, '0');
+      const day = String(date.getUTCDate()).padStart(2, '0');
+      const hours = String(date.getUTCHours()).padStart(2, '0');
+      const minutes = String(date.getUTCMinutes()).padStart(2, '0');
+      const seconds = String(date.getUTCSeconds()).padStart(2, '0');
+      return `${year}${month}${day}T${hours}${minutes}${seconds}Z`;
+    };
+
     const events = items.map(item => {
       // Parse booking_date (format: YYYY-MM-DD)
       const bookingDate: any = item.booking_date;
@@ -292,35 +303,60 @@ class EmailService {
         ? endTime
         : (endTime instanceof Date ? endTime.toTimeString().slice(0, 5) : String(endTime));
       
-      // Create local datetime strings for Europe/Budapest timezone
-      const startDate = new Date(`${dateStr}T${startTimeStr}:00`);
-      const endDate = new Date(`${dateStr}T${endTimeStr}:00`);
-      
-      const formatDate = (date: Date) => {
-        // Format: YYYYMMDDTHHmmss (local time, no Z for local)
-        const year = date.getFullYear();
-        const month = String(date.getMonth() + 1).padStart(2, '0');
-        const day = String(date.getDate()).padStart(2, '0');
-        const hours = String(date.getHours()).padStart(2, '0');
-        const minutes = String(date.getMinutes()).padStart(2, '0');
-        const seconds = String(date.getSeconds()).padStart(2, '0');
-        return `${year}${month}${day}T${hours}${minutes}${seconds}`;
+      // Create date strings in format YYYYMMDD and time strings in format HHMMSS
+      const formatDate = (dateString: string, timeString: string) => {
+        const [year, month, day] = dateString.split('-');
+        const [hours, minutes] = timeString.split(':');
+        return `${year}${month}${day}T${hours}${minutes}00`;
       };
 
+      const startDateTime = formatDate(dateStr, startTimeStr);
+      const endDateTime = formatDate(dateStr, endTimeStr);
+      const roomName = this.getRoomName(item.room_id, order.language === 'hu');
+      const isHungarian = order.language === 'hu';
+      
+      // Escape special characters in description
+      const description = isHungarian
+        ? `Fotostudio foglalás - ${order.customer_name}\\nFoglalási kód: ${order.id.slice(-8).toUpperCase()}\\nTerem: ${roomName}`
+        : `Photo Studio Booking - ${order.customer_name}\\nBooking Code: ${order.id.slice(-8).toUpperCase()}\\nRoom: ${roomName}`;
+
       return `BEGIN:VEVENT
-UID:${item.id}@photostudio.com
-DTSTART:${formatDate(startDate)}
-DTEND:${formatDate(endDate)}
-SUMMARY:Photo Studio Booking - ${this.getRoomName(item.room_id, order.language === 'hu')}
-DESCRIPTION:Booking confirmation for ${order.customer_name}\\nBooking Code: ${order.id.slice(-8).toUpperCase()}
-LOCATION:Photo Studio
+UID:${item.id}@atelierarchilles.hu
+DTSTAMP:${formatDateStamp(now)}
+DTSTART;TZID=Europe/Budapest:${startDateTime}
+DTEND;TZID=Europe/Budapest:${endDateTime}
+SUMMARY:${isHungarian ? 'Atelier Archilles - ' : 'Atelier Archilles - '}${roomName}
+DESCRIPTION:${description}
+LOCATION:Atelier Archilles\\, Budapest\\, Hungary
+ORGANIZER;CN=Atelier Archilles:MAILTO:studio@archilles.hu
 STATUS:CONFIRMED
+SEQUENCE:0
+TRANSP:OPAQUE
 END:VEVENT`;
-    }).join('\n');
+    }).join('\r\n');
 
     return `BEGIN:VCALENDAR
 VERSION:2.0
-PRODID:-//Photo Studio//Booking System//EN
+PRODID:-//Atelier Archilles//Booking System//EN
+CALSCALE:GREGORIAN
+METHOD:REQUEST
+BEGIN:VTIMEZONE
+TZID:Europe/Budapest
+BEGIN:DAYLIGHT
+TZOFFSETFROM:+0100
+TZOFFSETTO:+0200
+TZNAME:CEST
+DTSTART:19700329T020000
+RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+END:DAYLIGHT
+BEGIN:STANDARD
+TZOFFSETFROM:+0200
+TZOFFSETTO:+0100
+TZNAME:CET
+DTSTART:19701025T030000
+RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+END:STANDARD
+END:VTIMEZONE
 ${events}
 END:VCALENDAR`;
   }

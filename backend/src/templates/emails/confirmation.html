@@ -83,23 +83,6 @@
             font-size: 24px;
             font-weight: bold;
         }
-        .actions {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .button {
-            display: inline-block;
-            padding: 12px 24px;
-            margin: 0 10px;
-            background: #3b82f6;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: 500;
-        }
-        .button.secondary {
-            background: #6b7280;
-        }
         .footer {
             margin-top: 40px;
             padding-top: 20px;
@@ -199,23 +182,6 @@
             <div class="total-amount">{{total}} {{currency}}</div>
         </div>
 
-        <div class="actions">
-            <a href="{{cancelUrl}}" class="button secondary">
-                {{#if isHungarian}}
-                    Foglalás lemondása
-                {{else}}
-                    Cancel Booking
-                {{/if}}
-            </a>
-            <a href="{{rescheduleUrl}}" class="button">
-                {{#if isHungarian}}
-                    Átfoglalás
-                {{else}}
-                    Reschedule
-                {{/if}}
-            </a>
-        </div>
-
         <div class="contact-info">
             <h4>
                 {{#if isHungarian}}
@@ -234,10 +200,10 @@
         <div class="footer">
             <p>
                 {{#if isHungarian}}
-                    Ingyenes lemondás a foglalás előtt 24 órával.<br>
-                    Ha bármilyen kérdése van, kérjük, vegye fel velünk a kapcsolatot.
+                    A foglalás lemondásához vagy módosításához kérjük, hívja ügyfélszolgálatunkat.<br>
+                    Ha bármilyen kérdése van, ne habozzon kapcsolatba lépni velünk.
                 {{else}}
-                    Free cancellation up to 24 hours before your booking.<br>
+                    To cancel or modify your booking, please call our customer service.<br>
                     If you have any questions, please don't hesitate to contact us.
                 {{/if}}
             </p>

@@ -408,12 +408,12 @@ a {
   }
   
   .about-studio-section {
-    padding: 4rem 0;
+    padding: 4rem 1.5rem;
   }
   
   .about-studio-content {
-    max-width: 100vw;
-    padding: 0 1rem;
+    max-width: 100%;
+    padding: 0;
   }
   
   .about-studio-text {

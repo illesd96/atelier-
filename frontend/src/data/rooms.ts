@@ -133,7 +133,7 @@ export const roomsData: RoomData[] = [
       availability: '8:00-20:00',
       price: '15,000'
     },
-    heroImage: '/images/frigyes/title.png',
+    heroImage: '/images/frigyes/title.jpg',
     galleryImages: [
       '/images/frigyes/1.jpg',
       '/images/frigyes/2.jpg',
@@ -143,7 +143,20 @@ export const roomsData: RoomData[] = [
       '/images/frigyes/6.jpg',
       '/images/frigyes/7.jpg',
       '/images/frigyes/8.jpg',
-      '/images/frigyes/9.jpg'
+      '/images/frigyes/9.jpg',
+      '/images/frigyes/10.jpg',
+      '/images/frigyes/11.jpg',
+      '/images/frigyes/12.jpg',
+      '/images/frigyes/13.jpg',
+      '/images/frigyes/14.jpg',
+      '/images/frigyes/15.jpg',
+      '/images/frigyes/16.jpg',
+      '/images/frigyes/17.jpg',
+      '/images/frigyes/18.jpg',
+      '/images/frigyes/19.jpg',
+      '/images/frigyes/20.jpg',
+      '/images/frigyes/21.jpg',
+      '/images/frigyes/22.jpg'
     ]
   },
   {
@@ -193,7 +206,7 @@ export const roomsData: RoomData[] = [
       availability: '8:00-20:00',
       price: '15,000'
     },
-    heroImage: '/images/karinthy/title.png',
+    heroImage: '/images/karinthy/title.jpg',
     galleryImages: [
       '/images/karinthy/1.jpg',
       '/images/karinthy/2.jpg',
@@ -203,7 +216,10 @@ export const roomsData: RoomData[] = [
       '/images/karinthy/6.jpg',
       '/images/karinthy/7.jpg',
       '/images/karinthy/8.jpg',
-      '/images/karinthy/9.jpg'
+      '/images/karinthy/9.jpg',
+      '/images/karinthy/10.jpg',
+      '/images/karinthy/11.jpg',
+      '/images/karinthy/12.jpg'
     ]
   }
 ];

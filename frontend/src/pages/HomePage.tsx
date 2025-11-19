@@ -99,7 +99,7 @@ export const HomePage: React.FC = () => {
             <div className="studio-card" onClick={() => navigate('/rooms/studio-b')}>
               <div className="studio-card-image">
                 <OptimizedImage
-                  src="/images/frigyes/title.png"
+                  src="/images/frigyes/title.jpg"
                   alt="Frigyes stúdió - modern fotóstúdió bérlés Budapest"
                   width={600}
                   height={800}
@@ -125,7 +125,7 @@ export const HomePage: React.FC = () => {
             <div className="studio-card" onClick={() => navigate('/rooms/studio-c')}>
               <div className="studio-card-image">
                 <OptimizedImage
-                  src="/images/karinthy/title.png"
+                  src="/images/karinthy/title.jpg"
                   alt="Karinthy stúdió - tágas fotóstúdió bérlés Budapest"
                   width={600}
                   height={800}

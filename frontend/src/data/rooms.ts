@@ -208,7 +208,7 @@ export const roomsData: RoomData[] = [
     },
     heroImage: '/images/karinthy/title.jpg',
     galleryImages: [
-      '/images/karinthy/1.jpg',
+      // '/images/karinthy/1.jpg',
       '/images/karinthy/2.jpg',
       '/images/karinthy/3.jpg',
       '/images/karinthy/4.jpg',

@@ -193,14 +193,12 @@
                 {{#if isHungarian}}
                     <li>Kérjük, érkezzen 5-10 perccel a foglalás kezdete előtt</li>
                     <li>Hozzon magával váltócipőt (utcai cipő nem megengedett a termekben)</li>
-                    <li>A stúdió címe: Budapest, [Your Address]</li>
-                    <li>Ingyenes lemondás a foglalás előtt 24 órával</li>
+                    <li>A stúdió címe: Karinthy Frigyes út 19, 1111 Budapest, 11. kerület</li>
                     <li>Foglalási kód: <strong>{{bookingCode}}</strong></li>
                 {{else}}
                     <li>Please arrive 5-10 minutes before your booking starts</li>
                     <li>Bring indoor shoes (street shoes not allowed in studios)</li>
-                    <li>Studio address: Budapest, [Your Address]</li>
-                    <li>Free cancellation up to 24 hours before booking</li>
+                    <li>Studio address: Karinthy Frigyes út 19, 1111 Budapest, District 11</li>
                     <li>Booking code: <strong>{{bookingCode}}</strong></li>
                 {{/if}}
             </ul>
@@ -232,18 +230,19 @@
                 {{/if}}
             </h4>
             <p>
+                📍 {{#if isHungarian}}Karinthy Frigyes út 19, 1111 Budapest, 11. kerület{{else}}Karinthy Frigyes út 19, 1111 Budapest, District 11{{/if}}<br>
                 📧 studio@archilles.hu<br>
-                📞 +36 1 234 5678<br>
-                📍 Budapest, Hungary
+                📞 +36 30 974 7362<br>
+                🕐 {{#if isHungarian}}Hétfő - Vasárnap: 8:00 - 20:00{{else}}Monday - Sunday: 8:00 - 20:00{{/if}}
             </p>
         </div>
 
         <div class="footer">
             <p>
                 {{#if isHungarian}}
-                    Ha módosítani vagy lemondani szeretné foglalását, kérjük, tegye meg legalább 24 órával előre.
+                    Ha módosítani vagy lemondani szeretné foglalását, kérjük, vegye fel velünk a kapcsolatot.
                 {{else}}
-                    If you need to modify or cancel your booking, please do so at least 24 hours in advance.
+                    If you need to modify or cancel your booking, please contact us.
                 {{/if}}
             </p>
             <p>

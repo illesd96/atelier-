@@ -65,7 +65,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Studios Section */}
-      <section className="studios-section">
+      <section id="studios" className="studios-section">
         <div className="container">
           <h2 className="studios-section-title">{t('home.studios.sectionTitle')}</h2>
           <div className="studios-grid">

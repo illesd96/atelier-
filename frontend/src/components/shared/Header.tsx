@@ -16,6 +16,7 @@ const Header: React.FC = () => {
 
   const menuItems = [
     { label: t('navigation.home'), href: '/' },
+    { label: t('navigation.rooms'), href: '/#studios', scrollTo: 'studios' },
     // { label: t('navigation.blog'), href: '/blog' },
     { label: t('navigation.faq'), href: '/faq' },
     { label: t('navigation.contact'), href: '/contact' },
@@ -63,6 +64,31 @@ const Header: React.FC = () => {
     setIsMenuOpen(false);
   };
 
+  const handleNavClick = (e: React.MouseEvent, item: { label: string; href: string; scrollTo?: string }) => {
+    if (item.scrollTo) {
+      e.preventDefault();
+      
+      // If not on homepage, navigate there first
+      if (location.pathname !== '/') {
+        navigate('/');
+        // Wait for navigation to complete, then scroll
+        setTimeout(() => {
+          const element = document.getElementById(item.scrollTo!);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }, 100);
+      } else {
+        // Already on homepage, just scroll
+        const element = document.getElementById(item.scrollTo);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+      setIsMenuOpen(false);
+    }
+  };
+
   return (
     <>
       <header className={`header ${isScrolled ? 'scrolled' : ''}`}>
@@ -81,6 +107,7 @@ const Header: React.FC = () => {
                   <Link
                     to={item.href}
                     className={`nav-link ${location.pathname === item.href ? 'active' : ''}`}
+                    onClick={(e) => item.scrollTo && handleNavClick(e, item)}
                   >
                     {item.label}
                   </Link>
@@ -152,7 +179,7 @@ const Header: React.FC = () => {
               <Link
                 to={item.href}
                 className={location.pathname === item.href ? 'active' : ''}
-                onClick={() => setIsMenuOpen(false)}
+                onClick={(e) => item.scrollTo ? handleNavClick(e, item) : setIsMenuOpen(false)}
               >
                 {item.label}
               </Link>

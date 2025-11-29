@@ -30,6 +30,7 @@
   },
   "navigation": {
     "home": "Home",
+    "rooms": "Rooms",
     "booking": "Booking",
     "about": "About",
     "contact": "Contact",

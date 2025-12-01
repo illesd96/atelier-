@@ -1,7 +1,7 @@
 .special-event-booking-page {
   min-height: 100vh;
   padding: 2rem 0;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: #ffffff;
 }
 
 .special-event-booking-page .container {
@@ -52,22 +52,39 @@
 }
 
 .detail-item i {
-  color: #667eea;
+  color: #c49c5f;
   font-size: 1.2rem;
 }
 
 /* Date Selection */
 .date-selection-card {
   margin-bottom: 2rem;
+  background: white;
+  border: 1px solid #e5e7eb;
 }
 
 .date-selection-card h2 {
-  margin: 0 0 1rem 0;
+  margin: 0 0 1.5rem 0;
   color: #1f2937;
+  font-size: 1.5rem;
 }
 
 .date-selection-card .p-calendar {
   width: 100%;
+}
+
+.date-selection-card .p-datepicker {
+  border: none;
+}
+
+.date-selection-card .p-datepicker table td {
+  padding: 0.5rem;
+}
+
+.date-selection-card .p-datepicker table td > span {
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
 }
 
 /* Time Slots Section */
@@ -101,7 +118,7 @@
 }
 
 .total-price {
-  color: #667eea;
+  color: #c49c5f;
   font-size: 1.2rem;
   font-weight: 600;
 }
@@ -138,7 +155,7 @@
 }
 
 .column-header i {
-  color: #667eea;
+  color: #c49c5f;
 }
 
 .slots-list {
@@ -161,14 +178,14 @@
 }
 
 .time-slot:hover:not(.unavailable) {
-  border-color: #667eea;
+  border-color: #c49c5f;
   transform: translateY(-2px);
-  box-shadow: 0 4px 6px rgba(102, 126, 234, 0.1);
+  box-shadow: 0 4px 6px rgba(196, 156, 95, 0.1);
 }
 
 .time-slot.selected {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-color: #667eea;
+  background: #c49c5f;
+  border-color: #c49c5f;
   color: white;
 }
 

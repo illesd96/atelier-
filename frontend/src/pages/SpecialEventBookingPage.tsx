@@ -125,7 +125,7 @@ export const SpecialEventBookingPage: React.FC = () => {
           date: dateStr,
           start_time: slot.start_time.substring(0, 5),
           end_time: slot.end_time.substring(0, 5),
-          price: event.price_per_slot,
+          price: parseFloat(event.price_per_slot.toString()),
           special_event_id: event.id,
           special_event_name: event.name
         });
@@ -235,6 +235,10 @@ export const SpecialEventBookingPage: React.FC = () => {
             minDate={dates?.minDate}
             maxDate={dates?.maxDate}
             dateFormat="yy.mm.dd"
+            showButtonBar={false}
+            monthNavigator
+            yearNavigator
+            yearRange="2024:2026"
           />
         </Card>
 

@@ -14,6 +14,8 @@ const checkoutSchema = z.object({
     start_time: z.string().regex(/^\d{2}:\d{2}$/),
     end_time: z.string().regex(/^\d{2}:\d{2}$/),
     price: z.number().positive(),
+    special_event_id: z.string().optional(),
+    special_event_name: z.string().optional(),
   })).min(1),
   customer: z.object({
     name: z.string().min(2),
@@ -41,16 +43,55 @@ export const createCheckout = async (req: Request, res: Response) => {
     const unavailableItems: string[] = [];
     
     for (const item of checkoutData.items) {
-      const isAvailable = await bookingService.isSlotAvailable(
-        item.room_id, 
-        item.date, 
-        item.start_time
-      );
+      const itemWithEvent = item as any;
       
-      if (!isAvailable) {
-        unavailableItems.push(
-          `${item.room_name} on ${item.date} at ${item.start_time}`
+      // Check if this is a special event booking
+      if (itemWithEvent.special_event_id) {
+        // Validate special event availability
+        const eventCheck = await client.query(
+          `SELECT * FROM special_events WHERE id = $1 AND active = true`,
+          [itemWithEvent.special_event_id]
         );
+        
+        if (eventCheck.rows.length === 0) {
+          unavailableItems.push(
+            `${item.room_name} on ${item.date} at ${item.start_time}`
+          );
+          continue;
+        }
+        
+        // Check if this specific time slot is already booked
+        const bookedCheck = await client.query(
+          `SELECT COUNT(*) as count
+          FROM order_items oi
+          JOIN special_event_bookings seb ON seb.order_item_id = oi.id
+          JOIN orders o ON o.id = oi.order_id
+          WHERE seb.special_event_id = $1
+          AND oi.booking_date = $2
+          AND oi.start_time = $3
+          AND oi.status IN ('pending', 'booked')
+          AND o.status IN ('pending', 'paid')`,
+          [itemWithEvent.special_event_id, item.date, `${item.start_time}:00`]
+        );
+        
+        if (parseInt(bookedCheck.rows[0].count) > 0) {
+          unavailableItems.push(
+            `${item.room_name} on ${item.date} at ${item.start_time}`
+          );
+        }
+      } else {
+        // Normal booking validation
+        const isAvailable = await bookingService.isSlotAvailable(
+          item.room_id, 
+          item.date, 
+          item.start_time
+        );
+        
+        if (!isAvailable) {
+          unavailableItems.push(
+            `${item.room_name} on ${item.date} at ${item.start_time}`
+          );
+        }
       }
     }
     

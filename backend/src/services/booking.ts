@@ -45,7 +45,45 @@ class BookingService {
           
           bookedSlots = bookedSlotsResult.rows;
           
-          console.log(`Found ${bookedSlots.length} booked/pending slots for ${date}`);
+          // Also block time slots that are part of active special events
+          // Special events block the entire time range from normal bookings
+          const specialEventsCheck = await client.query(`
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name = 'special_events'
+          `);
+          
+          if (specialEventsCheck.rows.length > 0) {
+            const specialEventsResult = await client.query(`
+              SELECT 
+                room_id,
+                start_time,
+                end_time,
+                slot_duration_minutes
+              FROM special_events
+              WHERE active = true
+              AND $1 BETWEEN start_date AND end_date
+            `, [date]);
+            
+            // For each special event, block all hourly slots in that range
+            for (const event of specialEventsResult.rows) {
+              const startHour = parseInt(event.start_time.split(':')[0]);
+              const endHour = parseInt(event.end_time.split(':')[0]);
+              
+              for (let hour = startHour; hour < endHour; hour++) {
+                const timeStr = `${hour.toString().padStart(2, '0')}:00`;
+                bookedSlots.push({
+                  room_id: event.room_id,
+                  start_time: timeStr,
+                  end_time: `${(hour + 1).toString().padStart(2, '0')}:00`,
+                  status: 'special_event'
+                });
+              }
+            }
+          }
+          
+          console.log(`Found ${bookedSlots.length} booked/pending/special event slots for ${date}`);
         }
       } catch (dbError) {
         console.warn('Database tables not ready, showing all slots as available:', dbError);
@@ -294,6 +332,7 @@ class BookingService {
         `);
         
         if (tablesResult.rows.length === 2) {
+          // Check for existing bookings
           const result = await client.query(`
             SELECT COUNT(*) as count
             FROM order_items oi
@@ -305,7 +344,36 @@ class BookingService {
             AND o.status IN ('paid', 'pending')
           `, [studioId, date, startTime]);
           
-          return parseInt(result.rows[0].count) === 0;
+          if (parseInt(result.rows[0].count) > 0) {
+            return false;
+          }
+          
+          // Check if this slot is blocked by a special event
+          const specialEventsCheck = await client.query(`
+            SELECT table_name 
+            FROM information_schema.tables 
+            WHERE table_schema = 'public' 
+            AND table_name = 'special_events'
+          `);
+          
+          if (specialEventsCheck.rows.length > 0) {
+            const hour = parseInt(startTime.split(':')[0]);
+            const specialEventResult = await client.query(`
+              SELECT COUNT(*) as count
+              FROM special_events
+              WHERE active = true
+              AND room_id = $1
+              AND $2 BETWEEN start_date AND end_date
+              AND $3 >= EXTRACT(HOUR FROM start_time)
+              AND $3 < EXTRACT(HOUR FROM end_time)
+            `, [studioId, date, hour]);
+            
+            if (parseInt(specialEventResult.rows[0].count) > 0) {
+              return false; // Blocked by special event
+            }
+          }
+          
+          return true;
         }
         
         // If tables don't exist, all slots are available

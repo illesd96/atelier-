@@ -139,7 +139,14 @@
 
             {{#each items}}
             <div class="booking-item">
-                <div class="room-name">{{room_name}}</div>
+                <div class="room-name">
+                    {{room_name}}
+                    {{#if special_event_name}}
+                    <span style="display: block; color: #667eea; font-size: 0.9rem; margin-top: 4px;">
+                        ⭐ {{special_event_name}}
+                    </span>
+                    {{/if}}
+                </div>
                 <div class="booking-time">
                     📅 {{formatted_date}}
                 </div>

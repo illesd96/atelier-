@@ -27,6 +27,8 @@ import { EmailVerificationPage } from './pages/EmailVerificationPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminBookingsPage } from './pages/AdminBookingsPage';
 import { AdminSchedulePage } from './pages/AdminSchedulePage';
+import { SpecialEventsPage } from './pages/Admin/SpecialEventsPage';
+import { SpecialEventBookingPage } from './pages/SpecialEventBookingPage';
 import { RoomDetailPage } from './pages/RoomDetailPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { CookieConsent } from './components/CookieConsent';
@@ -45,6 +47,7 @@ function App() {
                     <Route index element={<HomePage />} />
                     <Route path="rooms/:roomId" element={<RoomDetailPage />} />
                     <Route path="booking" element={<BookingPage />} />
+                    <Route path="special-events/:eventId" element={<SpecialEventBookingPage />} />
                     <Route path="checkout" element={<CheckoutPage />} />
                     <Route path="payment/result" element={<PaymentResultPage />} />
                     <Route path="login" element={<LoginPage />} />
@@ -53,6 +56,7 @@ function App() {
                     <Route path="profile" element={<ProfilePage />} />
                     <Route path="admin/bookings" element={<AdminBookingsPage />} />
                     <Route path="admin/schedule" element={<AdminSchedulePage />} />
+                    <Route path="admin/special-events" element={<SpecialEventsPage />} />
                     <Route path="terms" element={<TermsPage />} />
                     <Route path="privacy" element={<PrivacyPage />} />
                     <Route path="faq" element={<FAQPage />} />

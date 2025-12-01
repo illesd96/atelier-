@@ -403,12 +403,20 @@ export const AdminBookingsPage: React.FC = () => {
       <div className="container">
         <div className="flex justify-content-between align-items-center mb-4">
           <h1 className="m-0">Admin - Bookings Management</h1>
-          <Button
-            label="Schedule View"
-            icon="pi pi-calendar"
-            onClick={() => navigate('/admin/schedule')}
-            outlined
-          />
+          <div className="flex gap-2">
+            <Button
+              label="Schedule View"
+              icon="pi pi-calendar"
+              onClick={() => navigate('/admin/schedule')}
+              outlined
+            />
+            <Button
+              label="Special Events"
+              icon="pi pi-star"
+              onClick={() => navigate('/admin/special-events')}
+              outlined
+            />
+          </div>
         </div>
         
         {/* Statistics Cards */}

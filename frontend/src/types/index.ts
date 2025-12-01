@@ -21,6 +21,8 @@ export interface CartItem {
   start_time: string; // HH:MM
   end_time: string; // HH:MM
   price: number;
+  special_event_id?: string;
+  special_event_name?: string;
 }
 
 export interface Customer {

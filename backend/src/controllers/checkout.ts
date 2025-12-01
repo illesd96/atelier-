@@ -126,10 +126,11 @@ export const createCheckout = async (req: Request, res: Response) => {
     
     // Create order items
     for (const item of checkoutData.items) {
-      await client.query(`
+      const orderItemResult = await client.query(`
         INSERT INTO order_items (
           order_id, room_id, booking_date, start_time, end_time, status
         ) VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING id
       `, [
         orderId,
         item.room_id,
@@ -138,6 +139,15 @@ export const createCheckout = async (req: Request, res: Response) => {
         item.end_time,
         'pending',
       ]);
+      
+      // If this is a special event booking, link it
+      if ((item as any).special_event_id) {
+        const orderItemId = orderItemResult.rows[0].id;
+        await client.query(`
+          INSERT INTO special_event_bookings (special_event_id, order_item_id)
+          VALUES ($1, $2)
+        `, [(item as any).special_event_id, orderItemId]);
+      }
     }
     
     // Create Barion payment

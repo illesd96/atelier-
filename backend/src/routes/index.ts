@@ -26,6 +26,14 @@ import {
   getInvoiceById, 
   adminDownloadInvoicePdf 
 } from '../controllers/invoices';
+import {
+  getAllSpecialEvents,
+  getSpecialEventById,
+  createSpecialEvent,
+  updateSpecialEvent,
+  deleteSpecialEvent,
+  getSpecialEventAvailability
+} from '../controllers/specialEvents';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
@@ -97,6 +105,14 @@ router.put('/admin/bookings/:bookingItemId/modify', adminAuth, modifyBookingItem
 router.get('/admin/invoices', adminAuth, getAllInvoices);
 router.get('/admin/invoices/:invoiceId', adminAuth, getInvoiceById);
 router.get('/admin/invoices/:invoiceId/download', adminAuth, adminDownloadInvoicePdf);
+
+// Special Events endpoints (public read, admin write)
+router.get('/special-events', getAllSpecialEvents);
+router.get('/special-events/:id', getSpecialEventById);
+router.get('/special-events/:id/availability', getSpecialEventAvailability);
+router.post('/admin/special-events', adminAuth, createSpecialEvent);
+router.put('/admin/special-events/:id', adminAuth, updateSpecialEvent);
+router.delete('/admin/special-events/:id', adminAuth, deleteSpecialEvent);
 
 // Cron endpoints (for Vercel Cron or external cron services)
 router.get('/cron/send-reminders', async (req, res) => {

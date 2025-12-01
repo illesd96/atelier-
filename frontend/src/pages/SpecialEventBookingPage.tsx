@@ -36,7 +36,7 @@ interface TimeSlot {
 export const SpecialEventBookingPage: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
-  const { addItem, items, isInCart } = useCart();
+  const { addItem, removeItem, items, isInCart } = useCart();
   const toast = React.useRef<Toast>(null);
 
   const [event, setEvent] = useState<SpecialEvent | null>(null);
@@ -134,57 +134,38 @@ export const SpecialEventBookingPage: React.FC = () => {
     if (!event || !selectedDate) return;
     
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
-    const slotKey = slot.start_time;
+    const startTime = slot.start_time.substring(0, 5);
     
-    // Check if already in cart
-    if (isInCart(event.room_id, dateStr, slot.start_time.substring(0, 5))) {
-      // Already in cart, would need to remove - for now just show message
+    // Check if already in cart - if yes, remove it
+    if (isInCart(event.room_id, dateStr, startTime)) {
+      removeItem(event.room_id, dateStr, startTime);
       toast.current?.show({
         severity: 'info',
-        summary: 'Info',
-        detail: 'Ez az időpont már a kosárban van'
+        summary: 'Eltávolítva',
+        detail: 'Időpont eltávolítva a kosárból'
       });
       return;
     }
     
-    // Toggle selection
-    if (selectedSlots.includes(slotKey)) {
-      setSelectedSlots(selectedSlots.filter(s => s !== slotKey));
-    } else {
-      setSelectedSlots([...selectedSlots, slotKey]);
-    }
-  };
-
-  const handleAddToCart = () => {
-    if (!event || !selectedDate || selectedSlots.length === 0) return;
-    
-    const dateStr = format(selectedDate, 'yyyy-MM-dd');
-    
-    selectedSlots.forEach(slotTime => {
-      const slot = availableSlots.find(s => s.start_time === slotTime);
-      if (slot) {
-        addItem({
-          room_id: event.room_id,
-          room_name: event.room_name || event.room_id,
-          date: dateStr,
-          start_time: slot.start_time.substring(0, 5),
-          end_time: slot.end_time.substring(0, 5),
-          price: parseFloat(event.price_per_slot.toString()),
-          special_event_id: event.id,
-          special_event_name: event.name
-        });
-      }
+    // Add to cart immediately
+    addItem({
+      room_id: event.room_id,
+      room_name: event.room_name || event.room_id,
+      date: dateStr,
+      start_time: startTime,
+      end_time: slot.end_time.substring(0, 5),
+      price: parseFloat(event.price_per_slot.toString()),
+      special_event_id: event.id,
+      special_event_name: event.name
     });
     
     toast.current?.show({
       severity: 'success',
-      summary: 'Sikerült!',
-      detail: `${selectedSlots.length} időpont hozzáadva a kosárhoz`
+      summary: 'Hozzáadva',
+      detail: 'Időpont hozzáadva a kosárhoz'
     });
-    
-    setSelectedSlots([]);
-    setCartVisible(true); // Open cart instead of navigating
   };
+
 
   const getAvailableDates = (): { minDate: Date; maxDate: Date } | null => {
     if (!event) return null;
@@ -446,17 +427,6 @@ export const SpecialEventBookingPage: React.FC = () => {
           </div>
         )}
 
-        {/* Floating Add to Cart Button */}
-        {selectedSlots.length > 0 && (
-          <div className="floating-add-button">
-            <Button
-              label={`Kosárba (${selectedSlots.length})`}
-              icon="pi pi-shopping-cart"
-              onClick={handleAddToCart}
-              size="large"
-            />
-          </div>
-        )}
       </div>
 
       {/* Floating Cart Button */}

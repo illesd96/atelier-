@@ -13,6 +13,7 @@ import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { format, parseISO } from 'date-fns';
 import axios from 'axios';
+import { useAuth } from '../../contexts/AuthContext';
 import './SpecialEventsPage.css';
 
 interface SpecialEvent {
@@ -44,6 +45,7 @@ export const SpecialEventsPage: React.FC = () => {
   const [dialogVisible, setDialogVisible] = useState(false);
   const [editingEvent, setEditingEvent] = useState<SpecialEvent | null>(null);
   const toast = React.useRef<Toast>(null);
+  const { token } = useAuth();
 
   // Form state
   const [formData, setFormData] = useState({
@@ -125,6 +127,15 @@ export const SpecialEventsPage: React.FC = () => {
   };
 
   const handleSave = async () => {
+    if (!token) {
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Hiba',
+        detail: 'Nincs bejelentkezve'
+      });
+      return;
+    }
+
     try {
       const payload = {
         ...formData,
@@ -132,15 +143,19 @@ export const SpecialEventsPage: React.FC = () => {
         end_date: formData.end_date ? format(formData.end_date, 'yyyy-MM-dd') : null
       };
 
+      const headers = {
+        Authorization: `Bearer ${token}`
+      };
+
       if (editingEvent) {
-        await axios.put(`/api/admin/special-events/${editingEvent.id}`, payload);
+        await axios.put(`/api/admin/special-events/${editingEvent.id}`, payload, { headers });
         toast.current?.show({
           severity: 'success',
           summary: 'Sikeres',
           detail: 'Különleges esemény frissítve'
         });
       } else {
-        await axios.post('/api/admin/special-events', payload);
+        await axios.post('/api/admin/special-events', payload, { headers });
         toast.current?.show({
           severity: 'success',
           summary: 'Sikeres',
@@ -161,6 +176,15 @@ export const SpecialEventsPage: React.FC = () => {
   };
 
   const handleDelete = (event: SpecialEvent) => {
+    if (!token) {
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Hiba',
+        detail: 'Nincs bejelentkezve'
+      });
+      return;
+    }
+
     confirmDialog({
       message: `Biztosan törölni szeretnéd ezt az eseményt: ${event.name}?`,
       header: 'Törlés megerősítése',
@@ -169,7 +193,10 @@ export const SpecialEventsPage: React.FC = () => {
       rejectLabel: 'Nem',
       accept: async () => {
         try {
-          await axios.delete(`/api/admin/special-events/${event.id}`);
+          const headers = {
+            Authorization: `Bearer ${token}`
+          };
+          await axios.delete(`/api/admin/special-events/${event.id}`, { headers });
           toast.current?.show({
             severity: 'success',
             summary: 'Sikeres',

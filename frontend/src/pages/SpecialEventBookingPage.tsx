@@ -234,7 +234,6 @@ export const SpecialEventBookingPage: React.FC = () => {
             inline
             minDate={dates?.minDate}
             maxDate={dates?.maxDate}
-            locale="hu"
             dateFormat="yy.mm.dd"
           />
         </Card>

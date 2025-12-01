@@ -98,9 +98,13 @@ export const getOrderStatus = async (req: Request, res: Response) => {
         oi.status,
         oi.created_at,
         oi.updated_at,
-        r.name as room_name
+        r.name as room_name,
+        se.name as special_event_name,
+        se.id as special_event_id
       FROM order_items oi
       LEFT JOIN rooms r ON r.id = oi.room_id
+      LEFT JOIN special_event_bookings seb ON seb.order_item_id = oi.id
+      LEFT JOIN special_events se ON se.id = seb.special_event_id
       WHERE oi.order_id = $1
       ORDER BY oi.booking_date, oi.start_time
     `, [orderId]);

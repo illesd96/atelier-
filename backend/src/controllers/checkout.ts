@@ -151,12 +151,16 @@ export const createCheckout = async (req: Request, res: Response) => {
     }
     
     // Create Barion payment
-    const barionItems = checkoutData.items.map(item => ({
-      name: `${item.room_name} - ${item.date} ${item.start_time}-${item.end_time}`,
-      description: `Photo studio booking`,
-      quantity: 1,
-      unitPrice: item.price,
-    }));
+    const barionItems = checkoutData.items.map(item => {
+      const itemWithEvent = item as any;
+      const eventName = itemWithEvent.special_event_name ? ` - ${itemWithEvent.special_event_name}` : '';
+      return {
+        name: `${item.room_name}${eventName} - ${item.date} ${item.start_time}-${item.end_time}`,
+        description: itemWithEvent.special_event_id ? 'Special event booking' : 'Photo studio booking',
+        quantity: 1,
+        unitPrice: item.price,
+      };
+    });
     
     const paymentRequest = barionService.createPaymentRequest(
       orderId,

@@ -90,14 +90,19 @@ class EmailService {
       const html = template({
         customerName: order.customer_name,
         orderId: order.id,
-        items: items.map(item => ({
-          ...item,
-          booking_id: item.booking_id,
-          checkin_code: item.checkin_code,
-          room_name: this.getRoomName(item.room_id, isHungarian),
-          formatted_date: this.formatDate(item.booking_date, isHungarian),
-          formatted_time: `${item.start_time} - ${item.end_time}`,
-        })),
+        items: items.map(item => {
+          const itemWithEvent = item as any;
+          const roomName = this.getRoomName(item.room_id, isHungarian);
+          const eventName = itemWithEvent.special_event_name ? ` - ${itemWithEvent.special_event_name}` : '';
+          return {
+            ...item,
+            booking_id: item.booking_id,
+            checkin_code: item.checkin_code,
+            room_name: `${roomName}${eventName}`,
+            formatted_date: this.formatDate(item.booking_date, isHungarian),
+            formatted_time: `${item.start_time} - ${item.end_time}`,
+          };
+        }),
         total: order.total_amount.toLocaleString(),
         currency: isHungarian ? 'Ft' : 'HUF',
         cancelUrl: `${config.frontendUrl}/booking/cancel?code=${order.id}`,
@@ -315,17 +320,24 @@ class EmailService {
       const roomName = this.getRoomName(item.room_id, order.language === 'hu');
       const isHungarian = order.language === 'hu';
       
+      // Check if this is a special event
+      const itemWithEvent = item as any;
+      const eventName = itemWithEvent.special_event_name ? ` - ${itemWithEvent.special_event_name}` : '';
+      const eventInfo = itemWithEvent.special_event_name 
+        ? `\\nEsemény: ${itemWithEvent.special_event_name}`
+        : '';
+      
       // Escape special characters in description
       const description = isHungarian
-        ? `Fotostudio foglalás - ${order.customer_name}\\nFoglalási kód: ${order.id.slice(-8).toUpperCase()}\\nTerem: ${roomName}`
-        : `Photo Studio Booking - ${order.customer_name}\\nBooking Code: ${order.id.slice(-8).toUpperCase()}\\nRoom: ${roomName}`;
+        ? `Fotostudio foglalás - ${order.customer_name}\\nFoglalási kód: ${order.id.slice(-8).toUpperCase()}\\nTerem: ${roomName}${eventInfo}`
+        : `Photo Studio Booking - ${order.customer_name}\\nBooking Code: ${order.id.slice(-8).toUpperCase()}\\nRoom: ${roomName}${eventInfo}`;
 
       return `BEGIN:VEVENT
 UID:${item.id}@atelierarchilles.hu
 DTSTAMP:${formatDateStamp(now)}
 DTSTART;TZID=Europe/Budapest:${startDateTime}
 DTEND;TZID=Europe/Budapest:${endDateTime}
-SUMMARY:${isHungarian ? 'Atelier Archilles - ' : 'Atelier Archilles - '}${roomName}
+SUMMARY:${isHungarian ? 'Atelier Archilles - ' : 'Atelier Archilles - '}${roomName}${eventName}
 DESCRIPTION:${description}
 LOCATION:Atelier Archilles\\, Budapest\\, Hungary
 ORGANIZER;CN=Atelier Archilles:MAILTO:studio@archilles.hu

@@ -80,9 +80,11 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
     
     // Get order items (needed for both success and failure cases)
     const itemsResult = await client.query(`
-      SELECT oi.*, r.name as room_name
+      SELECT oi.*, r.name as room_name, se.name as special_event_name, se.id as special_event_id
       FROM order_items oi
       LEFT JOIN rooms r ON r.id = oi.room_id
+      LEFT JOIN special_event_bookings seb ON seb.order_item_id = oi.id
+      LEFT JOIN special_events se ON se.id = seb.special_event_id
       WHERE oi.order_id = $1
     `, [order.id]);
     
@@ -106,11 +108,13 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
         
         console.log('✅ Successfully created bookings:', bookingResult.bookingIds);
         
-        // Reload order items to get booking_id values
+        // Reload order items to get booking_id values and special event info
         const updatedItemsResult = await client.query(`
-          SELECT oi.*, r.name as room_name
+          SELECT oi.*, r.name as room_name, se.name as special_event_name, se.id as special_event_id
           FROM order_items oi
           LEFT JOIN rooms r ON r.id = oi.room_id
+          LEFT JOIN special_event_bookings seb ON seb.order_item_id = oi.id
+          LEFT JOIN special_events se ON se.id = seb.special_event_id
           WHERE oi.order_id = $1
         `, [order.id]);
         const updatedOrderItems = updatedItemsResult.rows;
@@ -123,7 +127,7 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
           console.log('📄 Generating invoice via Szamlazz.hu...');
           try {
             // Prepare invoice items (VAT-free)
-            const invoiceItems = updatedOrderItems.map(item => {
+            const invoiceItems = updatedOrderItems.map((item: any) => {
               const itemPrice = item.price || (order.total_amount / updatedOrderItems.length);
               
               // Format booking date: Convert "2025-11-11" to "2025. Nov 11"
@@ -134,10 +138,11 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
                 day: 'numeric' 
               });
 
+              const eventName = item.special_event_name ? ` - ${item.special_event_name}` : '';
               return {
-                name: `${item.room_name || 'Studio'} foglalás - ${formattedDate} ${item.start_time}-${item.end_time}${item.booking_id ? ` (${item.booking_id})` : ''}`,
+                name: `${item.room_name || 'Studio'}${eventName} foglalás - ${formattedDate} ${item.start_time}-${item.end_time}${item.booking_id ? ` (${item.booking_id})` : ''}`,
                 quantity: 1,
-                unit: 'óra',
+                unit: item.special_event_id ? 'alkalom' : 'óra',
                 netUnitPrice: Math.round(itemPrice),
                 vatRate: 0, // TAM - Tárgyi adó mentes
                 netPrice: Math.round(itemPrice),

@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import pool from '../database/connection';
-import { format } from 'date-fns';
 
 /**
  * Get all special events (admin and public)

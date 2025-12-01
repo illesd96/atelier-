@@ -20,7 +20,7 @@ const Header: React.FC = () => {
   // 2. Create your Santa event (Mikulás Fotózás)
   // 3. Copy the event ID from the table
   // 4. Replace 'YOUR-EVENT-ID-HERE' below with the actual ID
-  const SANTA_EVENT_ID = 'YOUR-EVENT-ID-HERE'; // Update this with actual event ID
+  const SANTA_EVENT_ID = '03748123-6228-4fbf-bd25-61ce9272e994'; // Update this with actual event ID
   
   const menuItems = [
     { label: t('navigation.home'), href: '/' },

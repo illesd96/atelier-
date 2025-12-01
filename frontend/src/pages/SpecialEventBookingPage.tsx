@@ -5,7 +5,7 @@ import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
-import { format, parseISO, startOfDay, endOfDay, isWithinInterval, addDays } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { hu } from 'date-fns/locale';
 import axios from 'axios';
 import { useCart } from '../contexts/CartContext';
@@ -34,7 +34,7 @@ interface TimeSlot {
 export const SpecialEventBookingPage: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
-  const { addToCart } = useCart();
+  const { addItem } = useCart();
   const toast = React.useRef<Toast>(null);
 
   const [event, setEvent] = useState<SpecialEvent | null>(null);
@@ -119,7 +119,7 @@ export const SpecialEventBookingPage: React.FC = () => {
     selectedSlots.forEach(slotTime => {
       const slot = availableSlots.find(s => s.start_time === slotTime);
       if (slot) {
-        addToCart({
+        addItem({
           room_id: event.room_id,
           room_name: event.room_name || event.room_id,
           date: dateStr,
@@ -142,8 +142,8 @@ export const SpecialEventBookingPage: React.FC = () => {
     navigate('/checkout');
   };
 
-  const getAvailableDates = () => {
-    if (!event) return [];
+  const getAvailableDates = (): { minDate: Date; maxDate: Date } | null => {
+    if (!event) return null;
     
     const startDate = parseISO(event.start_date);
     const endDate = parseISO(event.end_date);
@@ -232,8 +232,8 @@ export const SpecialEventBookingPage: React.FC = () => {
             value={selectedDate}
             onChange={(e) => setSelectedDate(e.value as Date)}
             inline
-            minDate={dates.minDate}
-            maxDate={dates.maxDate}
+            minDate={dates?.minDate}
+            maxDate={dates?.maxDate}
             locale="hu"
             dateFormat="yy.mm.dd"
           />

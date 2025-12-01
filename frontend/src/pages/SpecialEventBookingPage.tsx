@@ -3,12 +3,14 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { Calendar } from 'primereact/calendar';
 import { Button } from 'primereact/button';
 import { Card } from 'primereact/card';
+import { Badge } from 'primereact/badge';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { Toast } from 'primereact/toast';
-import { format, parseISO } from 'date-fns';
+import { format, parseISO, addDays, subDays, isToday, isTomorrow } from 'date-fns';
 import { hu } from 'date-fns/locale';
 import axios from 'axios';
 import { useCart } from '../contexts/CartContext';
+import { CartDrawer } from '../components/CartDrawer';
 import './SpecialEventBookingPage.css';
 
 interface SpecialEvent {
@@ -34,7 +36,7 @@ interface TimeSlot {
 export const SpecialEventBookingPage: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
-  const { addItem } = useCart();
+  const { addItem, items, isInCart } = useCart();
   const toast = React.useRef<Toast>(null);
 
   const [event, setEvent] = useState<SpecialEvent | null>(null);
@@ -43,6 +45,7 @@ export const SpecialEventBookingPage: React.FC = () => {
   const [availableSlots, setAvailableSlots] = useState<TimeSlot[]>([]);
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [loadingAvailability, setLoadingAvailability] = useState(false);
+  const [cartVisible, setCartVisible] = useState(false);
 
   useEffect(() => {
     if (eventId) {
@@ -53,17 +56,27 @@ export const SpecialEventBookingPage: React.FC = () => {
   useEffect(() => {
     if (selectedDate && event) {
       fetchAvailability(selectedDate);
+      updateSelectedSlotsFromCart();
     }
   }, [selectedDate, event]);
+
+  // Update selected slots when cart changes
+  useEffect(() => {
+    updateSelectedSlotsFromCart();
+  }, [items]);
 
   const fetchEvent = async () => {
     try {
       const response = await axios.get(`/api/special-events/${eventId}`);
-      setEvent(response.data.event);
+      const eventData = response.data.event;
+      setEvent(eventData);
       
-      // Set default date to start date of event
-      const startDate = parseISO(response.data.event.start_date);
+      // Set default date: event start or today (whichever is later)
+      const startDate = parseISO(eventData.start_date);
       const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      startDate.setHours(0, 0, 0, 0);
+      
       const defaultDate = startDate > today ? startDate : today;
       setSelectedDate(defaultDate);
     } catch (error) {
@@ -100,10 +113,41 @@ export const SpecialEventBookingPage: React.FC = () => {
     }
   };
 
+  // Update selected slots based on cart items for current date
+  const updateSelectedSlotsFromCart = () => {
+    if (!event || !selectedDate) return;
+    
+    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    const slotsInCart = items
+      .filter(item => 
+        item.special_event_id === event.id && 
+        item.date === dateStr
+      )
+      .map(item => `${item.start_time}:00`);
+    
+    setSelectedSlots(slotsInCart);
+  };
+
   const handleSlotClick = (slot: TimeSlot) => {
     if (!slot.available) return;
     
-    const slotKey = `${slot.start_time}`;
+    if (!event || !selectedDate) return;
+    
+    const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    const slotKey = slot.start_time;
+    
+    // Check if already in cart
+    if (isInCart(event.room_id, dateStr, slot.start_time.substring(0, 5))) {
+      // Already in cart, would need to remove - for now just show message
+      toast.current?.show({
+        severity: 'info',
+        summary: 'Info',
+        detail: 'Ez az időpont már a kosárban van'
+      });
+      return;
+    }
+    
+    // Toggle selection
     if (selectedSlots.includes(slotKey)) {
       setSelectedSlots(selectedSlots.filter(s => s !== slotKey));
     } else {
@@ -139,7 +183,7 @@ export const SpecialEventBookingPage: React.FC = () => {
     });
     
     setSelectedSlots([]);
-    navigate('/checkout');
+    setCartVisible(true); // Open cart instead of navigating
   };
 
   const getAvailableDates = (): { minDate: Date; maxDate: Date } | null => {
@@ -148,11 +192,54 @@ export const SpecialEventBookingPage: React.FC = () => {
     const startDate = parseISO(event.start_date);
     const endDate = parseISO(event.end_date);
     const today = new Date();
+    today.setHours(0, 0, 0, 0);
     
     return { 
       minDate: startDate > today ? startDate : today,
       maxDate: endDate
     };
+  };
+
+  const goToPreviousDay = () => {
+    if (!selectedDate) return;
+    const dates = getAvailableDates();
+    const newDate = subDays(selectedDate, 1);
+    if (dates && newDate >= dates.minDate) {
+      setSelectedDate(newDate);
+    }
+  };
+
+  const goToNextDay = () => {
+    if (!selectedDate) return;
+    const dates = getAvailableDates();
+    const newDate = addDays(selectedDate, 1);
+    if (dates && newDate <= dates.maxDate) {
+      setSelectedDate(newDate);
+    }
+  };
+
+  const goToToday = () => {
+    if (!event) return;
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const startDate = parseISO(event.start_date);
+    startDate.setHours(0, 0, 0, 0);
+    setSelectedDate(startDate > today ? startDate : today);
+  };
+
+  const formatDateHeader = (date: Date) => {
+    if (isToday(date)) {
+      return 'Ma';
+    }
+    if (isTomorrow(date)) {
+      return 'Holnap';
+    }
+    return format(date, 'EEEE, MMMM d', { locale: hu });
+  };
+
+  const handleCheckout = () => {
+    setCartVisible(false);
+    navigate('/checkout');
   };
 
   const formatTimeSlot = (startTime: string, endTime: string) => {
@@ -225,22 +312,46 @@ export const SpecialEventBookingPage: React.FC = () => {
           </div>
         </div>
 
-        {/* Date Selection */}
-        <Card className="date-selection-card">
-          <h2>Válassz dátumot</h2>
-          <Calendar
-            value={selectedDate}
-            onChange={(e) => setSelectedDate(e.value as Date)}
-            inline
-            minDate={dates?.minDate}
-            maxDate={dates?.maxDate}
-            dateFormat="yy.mm.dd"
-            showButtonBar={false}
-            monthNavigator
-            yearNavigator
-            yearRange="2024:2026"
-          />
-        </Card>
+        {/* Date Navigation */}
+        <div className="date-navigation-section">
+          <div className="date-nav-left">
+            <Button 
+              icon="pi pi-chevron-left" 
+              onClick={goToPreviousDay}
+              className="date-nav-button"
+              outlined
+            />
+            <h2 className="date-header">
+              {selectedDate && formatDateHeader(selectedDate)}
+            </h2>
+            <Button 
+              icon="pi pi-chevron-right" 
+              onClick={goToNextDay}
+              className="date-nav-button"
+              outlined
+            />
+          </div>
+          
+          <div className="date-nav-right">
+            <Button 
+              label="Ma"
+              onClick={goToToday}
+              className="today-button"
+              outlined
+              disabled={selectedDate ? isToday(selectedDate) : false}
+            />
+            <Calendar
+              value={selectedDate}
+              onChange={(e) => setSelectedDate(e.value as Date)}
+              showIcon
+              icon="pi pi-calendar"
+              dateFormat="yy-mm-dd"
+              minDate={dates?.minDate}
+              maxDate={dates?.maxDate}
+              className="date-picker-with-icon"
+            />
+          </div>
+        </div>
 
         {/* Time Slots - Two Column Layout */}
         {selectedDate && (
@@ -335,25 +446,43 @@ export const SpecialEventBookingPage: React.FC = () => {
           </div>
         )}
 
-        {/* Action Buttons */}
+        {/* Floating Add to Cart Button */}
         {selectedSlots.length > 0 && (
-          <div className="action-buttons">
+          <div className="floating-add-button">
             <Button
-              label="Kiválasztás törlése"
-              icon="pi pi-times"
-              onClick={() => setSelectedSlots([])}
-              className="p-button-secondary"
-              outlined
-            />
-            <Button
-              label={`Tovább a fizetéshez (${selectedSlots.length} időpont)`}
+              label={`Kosárba (${selectedSlots.length})`}
               icon="pi pi-shopping-cart"
               onClick={handleAddToCart}
-              className="p-button-success"
+              size="large"
             />
           </div>
         )}
       </div>
+
+      {/* Floating Cart Button */}
+      <Button
+        icon="pi pi-shopping-cart"
+        onClick={() => setCartVisible(true)}
+        className="floating-cart-button"
+        severity="secondary"
+        rounded
+        size="large"
+        aria-label={`Kosár (${items.length})`}
+      >
+        {items.length > 0 && (
+          <Badge 
+            value={items.length} 
+            severity="danger" 
+            className="floating-cart-badge"
+          />
+        )}
+      </Button>
+
+      <CartDrawer
+        visible={cartVisible}
+        onHide={() => setCartVisible(false)}
+        onCheckout={handleCheckout}
+      />
     </div>
   );
 };

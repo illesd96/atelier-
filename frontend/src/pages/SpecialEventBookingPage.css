@@ -100,6 +100,14 @@
   border-color: #b08c4f !important;
 }
 
+.date-nav-button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  background: #e5e5e5 !important;
+  border-color: #cccccc !important;
+  color: #999999 !important;
+}
+
 .today-button {
   background: #c49c5f !important;
   border-color: #c49c5f !important;

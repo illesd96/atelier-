@@ -171,7 +171,9 @@ export const SpecialEventBookingPage: React.FC = () => {
     if (!event) return null;
     
     const startDate = parseISO(event.start_date);
+    startDate.setHours(0, 0, 0, 0);
     const endDate = parseISO(event.end_date);
+    endDate.setHours(0, 0, 0, 0);
     const today = new Date();
     today.setHours(0, 0, 0, 0);
     
@@ -184,8 +186,13 @@ export const SpecialEventBookingPage: React.FC = () => {
   const goToPreviousDay = () => {
     if (!selectedDate) return;
     const dates = getAvailableDates();
+    if (!dates) return;
+    
     const newDate = subDays(selectedDate, 1);
-    if (dates && newDate >= dates.minDate) {
+    newDate.setHours(0, 0, 0, 0);
+    
+    // Compare using getTime() for accurate date comparison
+    if (newDate.getTime() >= dates.minDate.getTime()) {
       setSelectedDate(newDate);
     }
   };
@@ -193,8 +200,13 @@ export const SpecialEventBookingPage: React.FC = () => {
   const goToNextDay = () => {
     if (!selectedDate) return;
     const dates = getAvailableDates();
+    if (!dates) return;
+    
     const newDate = addDays(selectedDate, 1);
-    if (dates && newDate <= dates.maxDate) {
+    newDate.setHours(0, 0, 0, 0);
+    
+    // Compare using getTime() for accurate date comparison
+    if (newDate.getTime() <= dates.maxDate.getTime()) {
       setSelectedDate(newDate);
     }
   };
@@ -301,6 +313,7 @@ export const SpecialEventBookingPage: React.FC = () => {
               onClick={goToPreviousDay}
               className="date-nav-button"
               outlined
+              disabled={selectedDate && dates ? selectedDate.getTime() <= dates.minDate.getTime() : false}
             />
             <h2 className="date-header">
               {selectedDate && formatDateHeader(selectedDate)}
@@ -310,6 +323,7 @@ export const SpecialEventBookingPage: React.FC = () => {
               onClick={goToNextDay}
               className="date-nav-button"
               outlined
+              disabled={selectedDate && dates ? selectedDate.getTime() >= dates.maxDate.getTime() : false}
             />
           </div>
           

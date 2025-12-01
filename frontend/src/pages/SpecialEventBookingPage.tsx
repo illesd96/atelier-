@@ -300,7 +300,11 @@ export const SpecialEventBookingPage: React.FC = () => {
             </div>
             <div className="detail-item">
               <i className="pi pi-money-bill"></i>
-              <span>{event.price_per_slot.toLocaleString()} Ft / időpont</span>
+              <span>{Math.round(event.price_per_slot).toLocaleString()} Ft</span>
+            </div>
+            <div className="detail-item">
+              <i className="pi pi-images"></i>
+              <span>5 db szerkesztett kép</span>
             </div>
           </div>
         </div>
@@ -357,7 +361,7 @@ export const SpecialEventBookingPage: React.FC = () => {
                 <div className="selected-info">
                   <span>{selectedSlots.length} időpont kiválasztva</span>
                   <span className="total-price">
-                    Összesen: {(selectedSlots.length * event.price_per_slot).toLocaleString()} Ft
+                    Összesen: {Math.round(selectedSlots.length * event.price_per_slot).toLocaleString()} Ft
                   </span>
                 </div>
               )}

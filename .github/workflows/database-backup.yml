@@ -1,0 +1,91 @@
+name: Database Backup
+
+# This workflow creates daily database backups
+# Runs every day at 2 AM UTC
+# Can also be triggered manually
+
+on:
+  schedule:
+    # Runs at 2:00 AM UTC every day
+    - cron: '0 2 * * *'
+  workflow_dispatch:  # Allows manual trigger from GitHub Actions UI
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+
+      - name: Create backup
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          # Create backups directory
+          mkdir -p backups
+          
+          # Generate timestamp
+          TIMESTAMP=$(date +%Y-%m-%d_%H-%M-%S)
+          BACKUP_FILE="backups/backup_${TIMESTAMP}.sql"
+          
+          echo "📦 Creating database backup..."
+          echo "📝 Backup file: ${BACKUP_FILE}"
+          
+          # Create backup using pg_dump
+          pg_dump "${DATABASE_URL}" --no-owner --no-acl -f "${BACKUP_FILE}"
+          
+          # Check backup size
+          SIZE=$(du -h "${BACKUP_FILE}" | cut -f1)
+          echo "✅ Backup completed successfully"
+          echo "📊 Backup size: ${SIZE}"
+          
+          # Compress backup
+          gzip "${BACKUP_FILE}"
+          echo "🗜️ Backup compressed: ${BACKUP_FILE}.gz"
+
+      - name: Upload backup artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: database-backup-${{ github.run_number }}
+          path: backups/*.sql.gz
+          retention-days: 30  # Keep backups for 30 days
+
+      # Optional: Upload to cloud storage
+      # Uncomment and configure based on your cloud provider
+      
+      # - name: Upload to AWS S3
+      #   if: success()
+      #   env:
+      #     AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      #     AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+      #     AWS_REGION: ${{ secrets.AWS_REGION }}
+      #   run: |
+      #     aws s3 cp backups/*.sql.gz s3://your-bucket-name/database-backups/ --recursive
+
+      # - name: Upload to Google Cloud Storage
+      #   if: success()
+      #   uses: google-github-actions/upload-cloud-storage@v1
+      #   with:
+      #     credentials: ${{ secrets.GCP_CREDENTIALS }}
+      #     path: backups
+      #     destination: your-bucket-name/database-backups
+
+      - name: Notify on failure
+        if: failure()
+        run: |
+          echo "❌ Database backup failed!"
+          echo "Please check the logs and fix the issue."
+          # You can add notification here (email, Slack, etc.)
+
+      - name: Cleanup
+        if: always()
+        run: |
+          echo "🧹 Cleaning up temporary files..."
+          rm -rf backups
+

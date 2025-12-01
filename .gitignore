@@ -121,6 +121,9 @@ Thumbs.db
 # Backup files
 *.backup
 *.bak
+backups/
+*.sql
+*.sql.gz
 
 # Test files
 test-results/

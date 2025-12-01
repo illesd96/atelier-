@@ -30,6 +30,7 @@ import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
 import { sendReminders } from '../scripts/send-reminders';
+import { createBackup } from '../scripts/backup-database';
 import config from '../config';
 
 const router = Router();
@@ -122,6 +123,44 @@ router.get('/cron/send-reminders', async (req, res) => {
     res.status(500).json({ 
       success: false, 
       error: 'Failed to send reminders',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    });
+  }
+});
+
+router.post('/cron/backup', async (req, res) => {
+  try {
+    // Verify authorization
+    const cronSecret = req.headers['x-cron-secret'] || req.query.secret;
+    const expectedSecret = process.env.CRON_SECRET || config.webhookSecret;
+    
+    if (cronSecret !== expectedSecret) {
+      console.warn('⚠️  Unauthorized backup attempt from:', req.ip);
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+    
+    console.log('💾 Cron job triggered: database backup');
+    const result = await createBackup();
+    
+    if (result.success) {
+      res.json({ 
+        success: true, 
+        message: 'Backup completed successfully',
+        filename: result.filename,
+        size: result.size,
+        timestamp: new Date().toISOString()
+      });
+    } else {
+      res.status(500).json({
+        success: false,
+        error: result.error || 'Backup failed'
+      });
+    }
+  } catch (error) {
+    console.error('❌ Backup cron job failed:', error);
+    res.status(500).json({ 
+      success: false, 
+      error: 'Failed to create backup',
       message: error instanceof Error ? error.message : 'Unknown error'
     });
   }

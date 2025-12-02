@@ -323,9 +323,13 @@ export const SpecialEventsPage: React.FC = () => {
             <InputTextarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              rows={3}
-              placeholder="Esemény leírása..."
+              rows={5}
+              placeholder="Esemény leírása...&#10;(használj Enter-t új sorhoz)"
+              style={{ minHeight: '120px' }}
             />
+            <small style={{ color: '#6b7280', marginTop: '0.25rem', display: 'block' }}>
+              Tipp: Nyomj Enter-t új sor létrehozásához
+            </small>
           </div>
 
           <div className="form-field">

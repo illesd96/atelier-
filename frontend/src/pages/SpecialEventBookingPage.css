@@ -36,6 +36,8 @@
   color: #6b7280;
   margin-bottom: 1.5rem;
   font-size: 1.1rem;
+  white-space: pre-line; /* Preserve line breaks from database */
+  line-height: 1.6;
 }
 
 .event-details {

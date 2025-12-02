@@ -2,17 +2,22 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Button } from 'primereact/button';
+import { Badge } from 'primereact/badge';
 import { LanguageSwitcher } from '../LanguageSwitcher';
 import { useAuth } from '../../contexts/AuthContext';
+import { useCart } from '../../contexts/CartContext';
+import { CartDrawer } from '../CartDrawer';
 import './Header.css';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [cartVisible, setCartVisible] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
   const { t } = useTranslation();
   const { isAuthenticated, user } = useAuth();
+  const { items } = useCart();
 
   // Santa event slug - uses friendly URL instead of UUID
   const SANTA_EVENT_SLUG = 'mikulas';
@@ -130,6 +135,35 @@ const Header: React.FC = () => {
               className="booking-button"
               size="small"
             />
+
+            {/* Shopping Cart Icon */}
+            <div style={{ position: 'relative' }}>
+              <Button
+                icon="pi pi-shopping-cart"
+                onClick={() => setCartVisible(true)}
+                className="cart-icon-button"
+                size="small"
+                text
+                tooltip={t('booking.cart')}
+                tooltipOptions={{ position: 'bottom' }}
+                aria-label={`${t('booking.cart')} (${items.length})`}
+              />
+              {items.length > 0 && (
+                <Badge 
+                  value={items.length} 
+                  severity="danger"
+                  style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    right: '-4px',
+                    minWidth: '18px',
+                    height: '18px',
+                    fontSize: '0.7rem',
+                    padding: '0 4px'
+                  }}
+                />
+              )}
+            </div>
             
             {user?.is_admin && (
               <Button
@@ -202,6 +236,16 @@ const Header: React.FC = () => {
           </li>
         </ul>
       </div>
+
+      {/* Cart Drawer */}
+      <CartDrawer
+        visible={cartVisible}
+        onHide={() => setCartVisible(false)}
+        onCheckout={() => {
+          setCartVisible(false);
+          navigate('/checkout');
+        }}
+      />
     </>
   );
 };

@@ -315,9 +315,12 @@ export const getSpecialEventAvailability = async (req: Request, res: Response) =
       });
     }
     
+    // Check if it's a UUID format or a slug
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
+    
     // Get special event details
     const eventResult = await pool.query(
-      'SELECT * FROM special_events WHERE id = $1 AND active = true',
+      `SELECT * FROM special_events WHERE ${isUUID ? 'id = $1' : 'slug = $1'} AND active = true`,
       [id]
     );
     

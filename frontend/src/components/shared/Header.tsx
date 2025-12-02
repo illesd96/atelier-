@@ -14,18 +14,13 @@ const Header: React.FC = () => {
   const { t } = useTranslation();
   const { isAuthenticated, user } = useAuth();
 
-  // TODO: Update SANTA_EVENT_ID after creating the Santa event in admin panel
-  // Steps:
-  // 1. Go to /admin/special-events
-  // 2. Create your Santa event (Mikulás Fotózás)
-  // 3. Copy the event ID from the table
-  // 4. Replace 'YOUR-EVENT-ID-HERE' below with the actual ID
-  const SANTA_EVENT_ID = '03748123-6228-4fbf-bd25-61ce9272e994'; // Update this with actual event ID
+  // Santa event slug - uses friendly URL instead of UUID
+  const SANTA_EVENT_SLUG = 'mikulas';
   
   const menuItems = [
     { label: t('navigation.home'), href: '/' },
     { label: t('navigation.rooms'), href: '/#studios', scrollTo: 'studios' },
-    { label: t('navigation.santa'), href: `/special-events/${SANTA_EVENT_ID}` },
+    { label: t('navigation.santa'), href: `/special-events/${SANTA_EVENT_SLUG}` },
     // { label: t('navigation.blog'), href: '/blog' },
     { label: t('navigation.faq'), href: '/faq' },
     { label: t('navigation.contact'), href: '/contact' },

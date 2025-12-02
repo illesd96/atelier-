@@ -20,6 +20,7 @@ interface SpecialEvent {
   id: string;
   name: string;
   description?: string;
+  slug?: string;
   room_id: string;
   room_name: string;
   start_date: string;
@@ -51,6 +52,7 @@ export const SpecialEventsPage: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     description: '',
+    slug: '',
     room_id: '',
     start_date: null as Date | null,
     end_date: null as Date | null,
@@ -97,6 +99,7 @@ export const SpecialEventsPage: React.FC = () => {
     setFormData({
       name: '',
       description: '',
+      slug: '',
       room_id: '',
       start_date: null,
       end_date: null,
@@ -114,6 +117,7 @@ export const SpecialEventsPage: React.FC = () => {
     setFormData({
       name: event.name,
       description: event.description || '',
+      slug: event.slug || '',
       room_id: event.room_id,
       start_date: parseISO(event.start_date),
       end_date: parseISO(event.end_date),
@@ -329,6 +333,21 @@ export const SpecialEventsPage: React.FC = () => {
             />
             <small style={{ color: '#6b7280', marginTop: '0.25rem', display: 'block' }}>
               Tipp: Nyomj Enter-t új sor létrehozásához
+            </small>
+          </div>
+
+          <div className="form-field">
+            <label>URL Slug (opcionális)</label>
+            <InputText
+              value={formData.slug}
+              onChange={(e) => {
+                const slug = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '-').replace(/-+/g, '-');
+                setFormData({ ...formData, slug });
+              }}
+              placeholder="mikulas (csak kisbetűk, számok és kötőjel)"
+            />
+            <small style={{ color: '#6b7280', marginTop: '0.25rem', display: 'block' }}>
+              URL: /special-events/{formData.slug || 'auto-generated'}
             </small>
           </div>
 

@@ -47,11 +47,14 @@ export const getAllSpecialEvents = async (req: Request, res: Response) => {
 };
 
 /**
- * Get a single special event by ID
+ * Get a single special event by ID or slug
  */
 export const getSpecialEventById = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
+    
+    // Check if it's a UUID format (contains hyphens and is 36 chars) or a slug
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
     
     const result = await pool.query(
       `SELECT 
@@ -59,7 +62,7 @@ export const getSpecialEventById = async (req: Request, res: Response) => {
         r.name as room_name
       FROM special_events se
       JOIN rooms r ON r.id = se.room_id
-      WHERE se.id = $1`,
+      WHERE ${isUUID ? 'se.id = $1' : 'se.slug = $1'}`,
       [id]
     );
     
@@ -98,7 +101,8 @@ export const createSpecialEvent = async (req: Request, res: Response) => {
       end_time,
       slot_duration_minutes,
       price_per_slot,
-      active
+      active,
+      slug
     } = req.body;
     
     // Validation
@@ -109,11 +113,19 @@ export const createSpecialEvent = async (req: Request, res: Response) => {
       });
     }
     
+    // Validate slug format if provided
+    if (slug && !/^[a-z0-9-]+$/.test(slug)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Slug must contain only lowercase letters, numbers, and hyphens'
+      });
+    }
+    
     const result = await pool.query(
       `INSERT INTO special_events (
         name, description, room_id, start_date, end_date,
-        start_time, end_time, slot_duration_minutes, price_per_slot, active
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        start_time, end_time, slot_duration_minutes, price_per_slot, active, slug
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
       RETURNING *`,
       [
         name,
@@ -125,7 +137,8 @@ export const createSpecialEvent = async (req: Request, res: Response) => {
         end_time || '20:00:00',
         slot_duration_minutes,
         price_per_slot,
-        active !== false
+        active !== false,
+        slug || null
       ]
     );
     
@@ -134,8 +147,17 @@ export const createSpecialEvent = async (req: Request, res: Response) => {
       event: result.rows[0],
       message: 'Special event created successfully'
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error creating special event:', error);
+    
+    // Check for unique constraint violation
+    if (error.code === '23505' && error.constraint === 'special_events_slug_key') {
+      return res.status(400).json({
+        success: false,
+        error: 'This URL slug is already in use. Please choose a different one.'
+      });
+    }
+    
     res.status(500).json({
       success: false,
       error: 'Failed to create special event'
@@ -159,8 +181,17 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
       end_time,
       slot_duration_minutes,
       price_per_slot,
-      active
+      active,
+      slug
     } = req.body;
+    
+    // Validate slug format if provided
+    if (slug && !/^[a-z0-9-]+$/.test(slug)) {
+      return res.status(400).json({
+        success: false,
+        error: 'Slug must contain only lowercase letters, numbers, and hyphens'
+      });
+    }
     
     const result = await pool.query(
       `UPDATE special_events
@@ -174,8 +205,9 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
         end_time = COALESCE($7, end_time),
         slot_duration_minutes = COALESCE($8, slot_duration_minutes),
         price_per_slot = COALESCE($9, price_per_slot),
-        active = COALESCE($10, active)
-      WHERE id = $11
+        active = COALESCE($10, active),
+        slug = COALESCE($11, slug)
+      WHERE id = $12
       RETURNING *`,
       [
         name,
@@ -188,6 +220,7 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
         slot_duration_minutes,
         price_per_slot,
         active,
+        slug,
         id
       ]
     );
@@ -204,8 +237,17 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
       event: result.rows[0],
       message: 'Special event updated successfully'
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error updating special event:', error);
+    
+    // Check for unique constraint violation
+    if (error.code === '23505' && error.constraint === 'special_events_slug_key') {
+      return res.status(400).json({
+        success: false,
+        error: 'This URL slug is already in use. Please choose a different one.'
+      });
+    }
+    
     res.status(500).json({
       success: false,
       error: 'Failed to update special event'

@@ -17,6 +17,7 @@ interface SpecialEvent {
   id: string;
   name: string;
   description?: string;
+  slug?: string;
   room_id: string;
   room_name?: string;
   start_date: string;

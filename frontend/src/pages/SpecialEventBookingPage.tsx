@@ -129,7 +129,8 @@ export const SpecialEventBookingPage: React.FC = () => {
     setLoadingAvailability(true);
     try {
       const dateStr = format(date, 'yyyy-MM-dd');
-      const response = await axios.get(`/api/special-events/${eventId}/availability`, {
+      // Use event.id (UUID) instead of eventId (slug/UUID from URL) for reliability
+      const response = await axios.get(`/api/special-events/${event.id}/availability`, {
         params: { date: dateStr }
       });
       setAvailableSlots(response.data.availableSlots || []);

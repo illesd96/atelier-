@@ -319,10 +319,24 @@ export const getSpecialEventAvailability = async (req: Request, res: Response) =
     const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(id);
     
     // Get special event details
-    const eventResult = await pool.query(
-      `SELECT * FROM special_events WHERE ${isUUID ? 'id = $1' : 'slug = $1'} AND active = true`,
-      [id]
-    );
+    let eventResult;
+    try {
+      eventResult = await pool.query(
+        `SELECT * FROM special_events WHERE ${isUUID ? 'id = $1' : 'slug = $1'} AND active = true`,
+        [id]
+      );
+    } catch (dbError: any) {
+      // If slug column doesn't exist yet, fall back to ID only
+      if (dbError.code === '42703') { // undefined_column
+        console.log('Slug column not found, falling back to UUID lookup');
+        eventResult = await pool.query(
+          'SELECT * FROM special_events WHERE id = $1 AND active = true',
+          [id]
+        );
+      } else {
+        throw dbError;
+      }
+    }
     
     if (eventResult.rows.length === 0) {
       return res.status(404).json({

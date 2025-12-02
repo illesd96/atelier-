@@ -46,6 +46,16 @@ export const SpecialEventBookingPage: React.FC = () => {
   const [selectedSlots, setSelectedSlots] = useState<string[]>([]);
   const [loadingAvailability, setLoadingAvailability] = useState(false);
   const [cartVisible, setCartVisible] = useState(false);
+  const [galleryActiveIndex, setGalleryActiveIndex] = useState<number>(0);
+  const [displayGallery, setDisplayGallery] = useState<boolean>(false);
+
+  // Gallery images for special event
+  const galleryImages = [
+    '/images/special/1.jpg',
+    '/images/special/2.jpg',
+    '/images/special/3.jpg',
+    '/images/special/4.jpg'
+  ];
 
   useEffect(() => {
     if (eventId) {
@@ -64,6 +74,27 @@ export const SpecialEventBookingPage: React.FC = () => {
   useEffect(() => {
     updateSelectedSlotsFromCart();
   }, [items]);
+
+  // Gallery navigation handlers
+  const handlePrevImage = () => {
+    setGalleryActiveIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
+  };
+
+  const handleNextImage = () => {
+    setGalleryActiveIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
+  };
+
+  const handleGalleryKeyDown = (e: KeyboardEvent) => {
+    if (!displayGallery) return;
+    if (e.key === 'Escape') setDisplayGallery(false);
+    if (e.key === 'ArrowLeft') handlePrevImage();
+    if (e.key === 'ArrowRight') handleNextImage();
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleGalleryKeyDown);
+    return () => window.removeEventListener('keydown', handleGalleryKeyDown);
+  }, [displayGallery, galleryActiveIndex]);
 
   const fetchEvent = async () => {
     try {
@@ -309,6 +340,38 @@ export const SpecialEventBookingPage: React.FC = () => {
           </div>
         </div>
 
+        {/* Gallery Section */}
+        <div className="special-event-gallery-section">
+          <h2>Galéria</h2>
+          <div className="special-event-gallery-grid">
+            {galleryImages.map((image, index) => (
+              <div 
+                key={index} 
+                className="special-gallery-item"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setGalleryActiveIndex(index);
+                  setDisplayGallery(true);
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setGalleryActiveIndex(index);
+                    setDisplayGallery(true);
+                  }
+                }}
+              >
+                <img src={image} alt={`${event.name} ${index + 1}`} />
+                <div className="special-gallery-item-overlay">
+                  <i className="pi pi-search-plus"></i>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Date Navigation */}
         <div className="date-navigation-section">
           <div className="date-nav-left">
@@ -471,6 +534,56 @@ export const SpecialEventBookingPage: React.FC = () => {
         onHide={() => setCartVisible(false)}
         onCheckout={handleCheckout}
       />
+
+      {/* Gallery Lightbox */}
+      {displayGallery && (
+        <div className="custom-lightbox">
+          {/* Background overlay */}
+          <div 
+            className="custom-lightbox-overlay"
+            onClick={() => setDisplayGallery(false)}
+          />
+          
+          {/* Close button */}
+          <button 
+            className="custom-lightbox-close"
+            onClick={() => setDisplayGallery(false)}
+            aria-label="Close"
+          >
+            <i className="pi pi-times"></i>
+          </button>
+          
+          {/* Previous button */}
+          <button 
+            className="custom-lightbox-prev"
+            onClick={handlePrevImage}
+            aria-label="Previous"
+          >
+            <i className="pi pi-chevron-left"></i>
+          </button>
+          
+          {/* Next button */}
+          <button 
+            className="custom-lightbox-next"
+            onClick={handleNextImage}
+            aria-label="Next"
+          >
+            <i className="pi pi-chevron-right"></i>
+          </button>
+          
+          {/* Image container */}
+          <div className="custom-lightbox-content">
+            <img 
+              src={galleryImages[galleryActiveIndex]} 
+              alt={`${event.name} ${galleryActiveIndex + 1}`}
+              className="custom-lightbox-image"
+            />
+            <div className="custom-lightbox-counter">
+              {galleryActiveIndex + 1} / {galleryImages.length}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

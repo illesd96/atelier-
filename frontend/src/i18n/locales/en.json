@@ -62,9 +62,14 @@
   },
   "home": {
     "title": "Atelier Archilles",
-    "subtitle": "Where Light Meets Artistry",
+    "subtitle": "Photo Studio",
     "description": "Premier photography studio offering world-class facilities for photographers, artists, and creatives.",
-    "cta": "Book Your Session",
+    "cta": "Book Now",
+    "hero": {
+      "title": "Atelier Archilles",
+      "subtitle": "Photo Studio",
+      "bookNow": "Book Now"
+    },
     "features": {
       "professional": "Professional Equipment",
       "flexible": "Flexible Booking",

@@ -19,13 +19,9 @@ const Header: React.FC = () => {
   const { isAuthenticated, user } = useAuth();
   const { items } = useCart();
 
-  // Santa event slug - uses friendly URL instead of UUID
-  const SANTA_EVENT_SLUG = 'mikulas';
-  
   const menuItems = [
     { label: t('navigation.home'), href: '/' },
     { label: t('navigation.rooms'), href: '/#studios', scrollTo: 'studios' },
-    { label: t('navigation.santa'), href: `/special-events/${SANTA_EVENT_SLUG}` },
     // { label: t('navigation.blog'), href: '/blog' },
     { label: t('navigation.faq'), href: '/faq' },
     { label: t('navigation.contact'), href: '/contact' },

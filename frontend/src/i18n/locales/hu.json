@@ -62,9 +62,14 @@
   },
   "home": {
     "title": "Atelier Archilles",
-    "subtitle": "Ahol a Fény Művészetté Válik",
+    "subtitle": "Fotóstúdió",
     "description": "Vezető fotóstúdió világszínvonalú felszereltséggel fotósok, művészek és kreatívok számára.",
-    "cta": "Foglaljon Most",
+    "cta": "Foglalj Most",
+    "hero": {
+      "title": "Atelier Archilles",
+      "subtitle": "Fotóstúdió",
+      "bookNow": "Foglalj Most"
+    },
     "features": {
       "professional": "Professzionális Felszerelés",
       "flexible": "Rugalmas Foglalás",

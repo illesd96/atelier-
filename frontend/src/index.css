@@ -1,4 +1,15 @@
+/* Satoshi Font with font-display for better loading */
 @import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,600,700,800,900&display=swap');
+
+/* Fallback font if Satoshi fails to load */
+@font-face {
+  font-family: 'Satoshi-Fallback';
+  src: local('system-ui'), local('-apple-system'), local('BlinkMacSystemFont');
+  ascent-override: 100%;
+  descent-override: 20%;
+  line-gap-override: 10%;
+  size-adjust: 100%;
+}
 
 :root {
   /* Fonts */

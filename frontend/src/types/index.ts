@@ -78,6 +78,7 @@ export interface OrderItem {
   booking_id?: string;
   checkin_code?: string;
   status: 'pending' | 'booked' | 'cancelled' | 'failed';
+  price?: number;
 }
 
 export interface ApiError {

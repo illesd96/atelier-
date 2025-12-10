@@ -22,30 +22,63 @@ interface CheckoutFormProps {
   onError: (error: string) => void;
 }
 
-const checkoutSchema = z.object({
-  name: z.string().min(2, 'Name must be at least 2 characters'),
-  email: z.string().email('Please enter a valid email address'),
+// Helper function to create translated schema
+const createCheckoutSchema = (t: any) => {
+  const schema = z.object({
+    name: z.string().min(2, t('validation.minLength', { min: 2 })),
+    email: z.string().email(t('checkout.errors.emailInvalid')),
+    phone: z.string().optional(),
+    street: z.string().min(1, t('checkout.errors.addressRequired')),
+    city: z.string().min(1, t('validation.required')),
+    postalCode: z.string().min(1, t('validation.required')),
+    country: z.string().min(1, t('validation.required')),
+    businessInvoice: z.boolean(),
+    company: z.string().optional(),
+    taxNumber: z.string().optional(),
+    termsAccepted: z.boolean().refine(val => val === true, {
+      message: t('checkout.errors.termsRequired')
+    }),
+    privacyAccepted: z.boolean().refine(val => val === true, {
+      message: t('checkout.errors.privacyRequired')
+    }),
+  }).refine((data) => {
+    if (data.businessInvoice) {
+      return !!(data.company && data.company.trim() && data.taxNumber && data.taxNumber.trim());
+    }
+    return true;
+  }, {
+    message: t('checkout.errors.companyRequired'),
+    path: ['company'],
+  }).refine((data) => {
+    if (data.businessInvoice) {
+      return !!(data.taxNumber && data.taxNumber.trim());
+    }
+    return true;
+  }, {
+    message: t('checkout.errors.taxNumberRequired'),
+    path: ['taxNumber'],
+  });
+  
+  return schema;
+};
+
+// Use a dummy schema for type inference only
+const dummySchema = z.object({
+  name: z.string(),
+  email: z.string(),
   phone: z.string().optional(),
-  street: z.string().min(1, 'Street address is required'),
-  city: z.string().min(1, 'City is required'),
-  postalCode: z.string().min(1, 'Postal code is required'),
-  country: z.string().min(1, 'Country is required'),
+  street: z.string(),
+  city: z.string(),
+  postalCode: z.string(),
+  country: z.string(),
   businessInvoice: z.boolean(),
   company: z.string().optional(),
   taxNumber: z.string().optional(),
-  termsAccepted: z.boolean().refine(val => val === true, 'You must accept the terms'),
-  privacyAccepted: z.boolean().refine(val => val === true, 'You must accept the privacy policy'),
-}).refine((data) => {
-  if (data.businessInvoice) {
-    return data.company && data.taxNumber;
-  }
-  return true;
-}, {
-  message: 'Company name and tax number are required for business invoices',
-  path: ['company'],
+  termsAccepted: z.boolean(),
+  privacyAccepted: z.boolean(),
 });
 
-type CheckoutFormData = z.infer<typeof checkoutSchema>;
+type CheckoutFormData = z.infer<typeof dummySchema>;
 
 interface SavedAddress {
   id: string;
@@ -61,6 +94,9 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
   const { user, token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+
+  // Create the schema with current translations
+  const checkoutSchema = React.useMemo(() => createCheckoutSchema(t), [t]);
 
   const {
     control,

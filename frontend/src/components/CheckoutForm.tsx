@@ -458,14 +458,17 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
               name="businessInvoice"
               control={control}
               render={({ field }) => (
-                <div className="flex align-items-center">
+                <div 
+                  className="checkbox-wrapper" 
+                  onClick={() => field.onChange(!field.value)}
+                  style={{ alignItems: 'center' }}
+                >
                   <Checkbox
                     inputId="businessInvoice"
                     checked={field.value}
                     onChange={(e) => field.onChange(e.checked)}
-                    className="mr-2"
                   />
-                  <label htmlFor="businessInvoice" className="cursor-pointer">
+                  <label htmlFor="businessInvoice" style={{ flex: 1, cursor: 'pointer', userSelect: 'none' }}>
                     {t('checkout.businessInvoice')}
                   </label>
                 </div>
@@ -534,15 +537,29 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                 name="termsAccepted"
                 control={control}
                 render={({ field }) => (
-                  <div className="flex align-items-start">
+                  <div className="checkbox-wrapper" onClick={(e) => {
+                    // Only toggle if not clicking the link
+                    if ((e.target as HTMLElement).tagName !== 'A') {
+                      field.onChange(!field.value);
+                    }
+                  }}>
                     <Checkbox
                       inputId="termsAccepted"
                       checked={field.value}
                       onChange={(e) => field.onChange(e.checked)}
-                      className={`mr-2 ${errors.termsAccepted ? 'p-invalid' : ''}`}
+                      className={errors.termsAccepted ? 'p-invalid' : ''}
                     />
-                    <label htmlFor="termsAccepted" className="cursor-pointer">
-                      {t('checkout.acceptTerms')} * <a href="/terms" target="_blank" style={{ textDecoration: 'underline' }}>{t('navigation.terms')}</a>
+                    <label htmlFor="termsAccepted" style={{ flex: 1, cursor: 'pointer', userSelect: 'none' }}>
+                      <span>{t('checkout.acceptTerms')} * </span>
+                      <a 
+                        href="/terms" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: 'underline' }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {t('navigation.terms')}
+                      </a>
                     </label>
                   </div>
                 )}
@@ -557,15 +574,29 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                 name="privacyAccepted"
                 control={control}
                 render={({ field }) => (
-                  <div className="flex align-items-start">
+                  <div className="checkbox-wrapper" onClick={(e) => {
+                    // Only toggle if not clicking the link
+                    if ((e.target as HTMLElement).tagName !== 'A') {
+                      field.onChange(!field.value);
+                    }
+                  }}>
                     <Checkbox
                       inputId="privacyAccepted"
                       checked={field.value}
                       onChange={(e) => field.onChange(e.checked)}
-                      className={`mr-2 ${errors.privacyAccepted ? 'p-invalid' : ''}`}
+                      className={errors.privacyAccepted ? 'p-invalid' : ''}
                     />
-                    <label htmlFor="privacyAccepted" className="cursor-pointer">
-                      {t('checkout.acceptPrivacy')} * <a href="/privacy" target="_blank" style={{ textDecoration: 'underline' }}>{t('navigation.privacy')}</a>
+                    <label htmlFor="privacyAccepted" style={{ flex: 1, cursor: 'pointer', userSelect: 'none' }}>
+                      <span>{t('checkout.acceptPrivacy')} * </span>
+                      <a 
+                        href="/privacy" 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        style={{ textDecoration: 'underline' }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {t('navigation.privacy')}
+                      </a>
                     </label>
                   </div>
                 )}

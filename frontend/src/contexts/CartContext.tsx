@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, ReactNode } from 'react';
 import { CartItem } from '../types';
+import { metaPixel } from '../utils/metaPixel';
 
 const CART_STORAGE_KEY = 'photo-studio-cart';
 
@@ -66,6 +67,14 @@ export const CartProvider: React.FC<CartProviderProps> = ({ children }) => {
         // Item already exists, don't add duplicate
         return currentItems;
       }
+
+      // Track AddToCart with Meta Pixel
+      metaPixel.trackAddToCart([{
+        id: item.room_id,
+        name: item.room_name,
+        quantity: 1,
+        price: item.price,
+      }]);
 
       return [...currentItems, item];
     });

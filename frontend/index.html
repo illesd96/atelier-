@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preload" as="image" href="/images/studio-hero.jpg" fetchpriority="high" />
     <link rel="dns-prefetch" href="https://pixel.barion.com" />
+    <link rel="dns-prefetch" href="https://connect.facebook.net" />
     
     <!-- SEO Meta Tags (Base - will be overridden by SEOHead component) -->
     <meta name="description" content="Professzionális stúdió bérlés Budapest 11. kerület. 3 design fotóstúdió 260 m²-en. Portré, divat, termék fotózás. Foglalj online!" />
@@ -95,6 +96,25 @@
           bp('init', 'addBarionPixelId', window['barion_pixel_id']);
         }
     </script>
+
+    <!-- Meta Pixel Code -->
+    <script>
+      // Skip Meta Pixel in local development
+      if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        
+        // Initialize Meta Pixel - Replace YOUR_PIXEL_ID with actual pixel ID
+        fbq('init', 'YOUR_PIXEL_ID');
+        fbq('track', 'PageView');
+      }
+    </script>
   </head>
 
   <body>
@@ -111,6 +131,11 @@
 
     <noscript>
       <img height="1" width="1" style="display:none" alt="Barion Pixel" src="https://pixel.barion.com/a.gif?ba_pixel_id='BP-qlDXPMh1fn-83'&ev=contentView&noscript=1">
+    </noscript>
+
+    <!-- Meta Pixel NoScript Fallback - Replace YOUR_PIXEL_ID with actual pixel ID -->
+    <noscript>
+      <img height="1" width="1" style="display:none" alt="Meta Pixel" src="https://www.facebook.com/tr?id=YOUR_PIXEL_ID&ev=PageView&noscript=1" />
     </noscript>
 
     <div id="root">

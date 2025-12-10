@@ -14,6 +14,7 @@ import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
 import api, { userAPI } from '../services/api';
 import { CheckoutRequest } from '../types';
+import { metaPixel } from '../utils/metaPixel';
 import './CheckoutForm.css';
 
 interface CheckoutFormProps {
@@ -84,6 +85,19 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       privacyAccepted: false,
     },
   });
+
+  // Track InitiateCheckout on mount
+  useEffect(() => {
+    if (items.length > 0) {
+      const trackingItems = items.map(item => ({
+        id: item.room_id,
+        name: item.room_name,
+        quantity: 1,
+        price: item.price,
+      }));
+      metaPixel.trackInitiateCheckout(trackingItems, getTotal());
+    }
+  }, []); // Only track once on mount
 
   // Load saved addresses for logged-in users
   useEffect(() => {

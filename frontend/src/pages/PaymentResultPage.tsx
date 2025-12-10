@@ -8,6 +8,7 @@ import { useCart } from '../hooks/useCart';
 import { OrderItem } from '../types';
 import api from '../services/api';
 import { format } from 'date-fns';
+import { metaPixel } from '../utils/metaPixel';
 
 export const PaymentResultPage: React.FC = () => {
   const { t } = useTranslation();
@@ -58,6 +59,19 @@ export const PaymentResultPage: React.FC = () => {
               if (status === 'paid') {
                 setResult('success');
                 clearCart();
+                
+                // Track purchase with Meta Pixel
+                if (response.items && response.items.length > 0 && orderId) {
+                  const trackingItems = response.items.map((item: OrderItem) => ({
+                    id: item.room_id?.toString() || item.id,
+                    name: item.room_name || 'Studio Booking',
+                    quantity: 1,
+                    price: item.price || 0,
+                  }));
+                  const total = response.items.reduce((sum: number, item: OrderItem) => sum + (item.price || 0), 0);
+                  metaPixel.trackPurchase(orderId, trackingItems, total);
+                }
+                
                 setLoading(false);
               } else if (status === 'failed') {
                 setResult('failed');

@@ -39,11 +39,21 @@ export const HomePage: React.FC = () => {
               fetchPriority="high"
               style={{ width: '100%', height: '100%', objectFit: 'cover' }}
             />
+            {/* Hero Overlay with CTA */}
+            <div className="hero-overlay">
+              <div className="hero-content">
+                <h2 className="hero-title">{t('home.hero.title')}</h2>
+                <p className="hero-subtitle">{t('home.hero.subtitle')}</p>
+                <Button
+                  label={t('home.hero.bookNow')}
+                  icon="pi pi-calendar"
+                  className="hero-cta-button"
+                  onClick={() => navigate('/booking')}
+                />
+              </div>
+            </div>
           </div>
         </div>
-        {/* <ScrollingText 
-          text="WHERE LIGHT MEETS ARTISTRY"
-        /> */}
       </section>
 
       {/* About Studio Section */}

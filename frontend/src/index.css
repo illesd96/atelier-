@@ -266,6 +266,98 @@ a {
   height: 100%;
 }
 
+/* Hero Overlay */
+.hero-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  top: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 8vh;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.5) 0%,
+    rgba(0, 0, 0, 0.2) 30%,
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+.hero-content {
+  text-align: center;
+  color: white;
+  pointer-events: auto;
+  max-width: 800px;
+  padding: 0 2rem;
+}
+
+.hero-title {
+  font-family: var(--font-satoshi);
+  font-size: 3.5rem;
+  font-weight: 300;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: white;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+  line-height: 1.2;
+}
+
+.hero-subtitle {
+  font-family: var(--font-satoshi);
+  font-size: 1.25rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
+  margin-bottom: 2rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+.hero-cta-button {
+  background: white !important;
+  color: var(--text-color) !important;
+  border: 2px solid white !important;
+  padding: 1rem 2.5rem !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase !important;
+  transition: all 0.3s ease !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.hero-cta-button:hover {
+  background: transparent !important;
+  color: white !important;
+  border-color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+}
+
+.hero-cta-button .p-button-icon {
+  margin-right: 0.5rem;
+}
+
+/* Mobile: hide text, show only button */
+@media (max-width: 768px) {
+  .hero-overlay {
+    padding-bottom: 6vh;
+  }
+  
+  .hero-title,
+  .hero-subtitle {
+    display: none;
+  }
+  
+  .hero-cta-button {
+    padding: 1rem 2rem !important;
+    font-size: 0.9rem !important;
+  }
+}
+
 /* Scrolling Text */
 .scrolling-text-container {
   overflow: hidden;

@@ -44,3 +44,11 @@
   background: var(--gray-light) !important;
 }
 
+/* Hide language switcher on mobile to save space - cart is more important */
+@media (max-width: 900px) {
+  .header-actions .language-switcher-compact,
+  .header-actions > .p-dropdown {
+    display: none !important;
+  }
+}
+

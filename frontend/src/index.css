@@ -355,7 +355,9 @@ a {
 /* Mobile: hide text, show only button */
 @media (max-width: 768px) {
   .hero-overlay {
-    padding-bottom: 6vh;
+    /* Move button higher so it's visible on iOS Safari with address bar */
+    padding-bottom: 20vh;
+    align-items: center;
   }
   
   .hero-title,
@@ -366,6 +368,13 @@ a {
   .hero-cta-button {
     padding: 1rem 2rem !important;
     font-size: 0.9rem !important;
+  }
+}
+
+/* Extra adjustment for smaller mobile screens */
+@media (max-width: 480px) {
+  .hero-overlay {
+    padding-bottom: 25vh;
   }
 }
 

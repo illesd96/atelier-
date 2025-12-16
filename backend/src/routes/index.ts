@@ -34,6 +34,7 @@ import {
   deleteSpecialEvent,
   getSpecialEventAvailability
 } from '../controllers/specialEvents';
+import { trackCheckoutFailure, getCheckoutFailureStats } from '../controllers/analytics';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
@@ -113,6 +114,10 @@ router.get('/special-events/:id/availability', getSpecialEventAvailability);
 router.post('/admin/special-events', adminAuth, createSpecialEvent);
 router.put('/admin/special-events/:id', adminAuth, updateSpecialEvent);
 router.delete('/admin/special-events/:id', adminAuth, deleteSpecialEvent);
+
+// Analytics endpoints
+router.post('/analytics/checkout-failure', trackCheckoutFailure); // Public - silent tracking
+router.get('/admin/analytics/checkout-failures', adminAuth, getCheckoutFailureStats); // Admin only
 
 // Cron endpoints (for Vercel Cron or external cron services)
 router.get('/cron/send-reminders', async (req, res) => {

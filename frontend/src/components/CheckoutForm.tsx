@@ -12,10 +12,20 @@ import { Divider } from 'primereact/divider';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import api, { userAPI } from '../services/api';
+import api, { userAPI, analyticsAPI } from '../services/api';
 import { CheckoutRequest } from '../types';
 import { metaPixel } from '../utils/metaPixel';
 import './CheckoutForm.css';
+
+// Generate or get session ID for tracking
+const getSessionId = (): string => {
+  let sessionId = sessionStorage.getItem('checkout_session_id');
+  if (!sessionId) {
+    sessionId = `sess_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+    sessionStorage.setItem('checkout_session_id', sessionId);
+  }
+  return sessionId;
+};
 
 interface CheckoutFormProps {
   onSuccess: (redirectUrl: string) => void;
@@ -201,6 +211,54 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
   const businessInvoice = watch('businessInvoice');
   const total = getTotal();
 
+  // Track validation failures for analytics (silent - no user feedback)
+  const onInvalid = (errors: any) => {
+    // Convert errors to a simple object
+    const validationErrors: Record<string, string> = {};
+    Object.keys(errors).forEach((key) => {
+      if (errors[key]?.message) {
+        validationErrors[key] = errors[key].message;
+      }
+    });
+
+    // Get current form values using watch
+    const formValues = {
+      name: watch('name'),
+      email: watch('email'),
+      phone: watch('phone'),
+      street: watch('street'),
+      city: watch('city'),
+      postalCode: watch('postalCode'),
+      country: watch('country'),
+      businessInvoice: watch('businessInvoice'),
+      company: watch('company'),
+      taxNumber: watch('taxNumber'),
+      termsAccepted: watch('termsAccepted'),
+      privacyAccepted: watch('privacyAccepted'),
+    };
+
+    // Track the failure silently
+    analyticsAPI.trackCheckoutFailure({
+      formData: formValues,
+      validationErrors,
+      cartItems: items.map(item => ({
+        room_id: item.room_id,
+        room_name: item.room_name,
+        date: item.date,
+        start_time: item.start_time,
+        end_time: item.end_time,
+        price: item.price,
+      })),
+      cartTotal: total,
+      deviceInfo: {
+        screenWidth: window.innerWidth,
+        screenHeight: window.innerHeight,
+      },
+      sessionId: getSessionId(),
+      language: i18n.language,
+    });
+  };
+
   const onSubmit = async (data: CheckoutFormData) => {
     console.log('=== CHECKOUT FORM SUBMITTED ===');
     console.log('Form data:', data);
@@ -306,7 +364,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
   return (
     <div className="checkout-form-container">
       <Card title={t('checkout.customerInfo')}>
-        <form onSubmit={handleSubmit(onSubmit)} className="checkout-form">
+        <form onSubmit={handleSubmit(onSubmit, onInvalid)} className="checkout-form">
           {/* Customer Information */}
           <div className="field-group">
             <label htmlFor="name" className="block">

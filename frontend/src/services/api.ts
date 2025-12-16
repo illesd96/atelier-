@@ -244,6 +244,43 @@ export const userAPI = {
   },
 };
 
+// Analytics API (for internal tracking)
+export const analyticsAPI = {
+  /**
+   * Track a checkout validation failure (silent - no user feedback)
+   * This is for internal analytics only
+   */
+  async trackCheckoutFailure(data: {
+    formData: Record<string, any>;
+    validationErrors: Record<string, string>;
+    cartItems?: Array<{
+      room_id: string;
+      room_name: string;
+      date: string;
+      start_time: string;
+      end_time: string;
+      price: number;
+    }>;
+    cartTotal?: number;
+    deviceInfo?: {
+      screenWidth?: number;
+      screenHeight?: number;
+    };
+    sessionId?: string;
+    language?: string;
+  }) {
+    try {
+      // Fire and forget - don't await or handle errors
+      // We don't want this to affect user experience
+      apiClient.post('/analytics/checkout-failure', data).catch(() => {
+        // Silently ignore any errors
+      });
+    } catch {
+      // Silently ignore any errors
+    }
+  },
+};
+
 // Admin API
 export const adminAPI = {
   // Get all bookings

@@ -67,5 +67,40 @@
     <priority>0.3</priority>
   </url>
 
+  <!-- Studio Rooms (Individual Studio Pages) -->
+  
+  <!-- Studio A - Atelier -->
+  <url>
+    <loc>https://www.atelier-archilles.hu/rooms/studio-a</loc>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://www.atelier-archilles.hu/rooms/studio-a" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.atelier-archilles.hu/rooms/studio-a" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.atelier-archilles.hu/rooms/studio-a" />
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Studio B - Frigyes -->
+  <url>
+    <loc>https://www.atelier-archilles.hu/rooms/studio-b</loc>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://www.atelier-archilles.hu/rooms/studio-b" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.atelier-archilles.hu/rooms/studio-b" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.atelier-archilles.hu/rooms/studio-b" />
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Studio C - Karinthy -->
+  <url>
+    <loc>https://www.atelier-archilles.hu/rooms/studio-c</loc>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://www.atelier-archilles.hu/rooms/studio-c" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.atelier-archilles.hu/rooms/studio-c" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.atelier-archilles.hu/rooms/studio-c" />
+    <lastmod>2025-11-03</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
 </urlset>
 

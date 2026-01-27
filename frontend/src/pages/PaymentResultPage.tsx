@@ -9,6 +9,7 @@ import { OrderItem } from '../types';
 import api from '../services/api';
 import { format } from 'date-fns';
 import { metaPixel } from '../utils/metaPixel';
+import { trackPurchase } from '../utils/gtm';
 
 export const PaymentResultPage: React.FC = () => {
   const { t } = useTranslation();
@@ -60,7 +61,7 @@ export const PaymentResultPage: React.FC = () => {
                 setResult('success');
                 clearCart();
                 
-                // Track purchase with Meta Pixel
+                // Track purchase with Meta Pixel and GTM
                 if (response.items && response.items.length > 0 && orderId) {
                   const trackingItems = response.items.map((item: OrderItem) => ({
                     id: item.room_id?.toString() || item.id,
@@ -69,7 +70,17 @@ export const PaymentResultPage: React.FC = () => {
                     price: item.price || 0,
                   }));
                   const total = response.items.reduce((sum: number, item: OrderItem) => sum + (item.price || 0), 0);
+                  
+                  // Meta Pixel tracking
                   metaPixel.trackPurchase(orderId, trackingItems, total);
+                  
+                  // Google Tag Manager tracking
+                  trackPurchase(orderId, total, trackingItems.map(item => ({
+                    item_id: item.id,
+                    item_name: item.name,
+                    price: item.price,
+                    quantity: item.quantity
+                  })));
                 }
                 
                 setLoading(false);

@@ -32,6 +32,7 @@ import { SpecialEventBookingPage } from './pages/SpecialEventBookingPage';
 import { RoomDetailPage } from './pages/RoomDetailPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { CookieConsent } from './components/CookieConsent';
+import { GTMPageTracker } from './components/GTMPageTracker';
 
 function App() {
   return (
@@ -41,6 +42,7 @@ function App() {
           <AuthProvider>
             <CartProvider>
               <Router>
+                <GTMPageTracker />
                 <div className="App">
                   <Routes>
                   <Route path="/" element={<Layout />}>

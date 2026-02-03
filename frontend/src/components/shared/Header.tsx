@@ -132,6 +132,19 @@ const Header: React.FC = () => {
               size="small"
             />
 
+            {/* Valentine's Day Special Event */}
+            <Button
+              icon="pi pi-heart"
+              onClick={() => navigate('/special-events/valentinnap')}
+              className="valentine-button"
+              size="small"
+              text
+              tooltip="Valentin-napi fotózás"
+              tooltipOptions={{ position: 'bottom' }}
+              aria-label="Valentin-napi különleges esemény"
+              style={{ color: '#e91e63' }}
+            />
+
             {/* Shopping Cart Icon */}
             <div style={{ position: 'relative' }}>
               <Button
@@ -225,6 +238,19 @@ const Header: React.FC = () => {
               onClick={handleBooking}
             >
               {t('navigation.booking')}
+            </button>
+          </li>
+          <li>
+            <button
+              className="menu-booking-button"
+              onClick={() => {
+                navigate('/special-events/valentinnap');
+                setIsMenuOpen(false);
+              }}
+              style={{ background: 'linear-gradient(135deg, #e91e63 0%, #f06292 100%)', display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
+            >
+              <i className="pi pi-heart" style={{ fontSize: '1rem' }}></i>
+              Valentin-nap
             </button>
           </li>
           <li className="menu-language-item">

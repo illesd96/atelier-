@@ -77,15 +77,13 @@ export const roomsData: RoomData[] = [
     },
     heroImage: '/images/atelier/title.jpg',
     galleryImages: [
-      '/images/atelier/1.jpg',
-      '/images/atelier/2.jpg',
-      '/images/atelier/3.jpg',
-      '/images/atelier/4.jpg',
-      '/images/atelier/5.jpg',
-      '/images/atelier/6.jpg',
-      '/images/atelier/7.jpg',
-      '/images/atelier/8.jpg',
-      '/images/atelier/9.jpg'
+      '/images/atelier/01.JPG',
+      '/images/atelier/02.JPG',
+      '/images/atelier/03.JPG',
+      '/images/atelier/04.JPG',
+      '/images/atelier/05.JPG',
+      '/images/atelier/06.JPG',
+      '/images/atelier/07.JPG'
     ]
   },
   {
@@ -135,28 +133,20 @@ export const roomsData: RoomData[] = [
     },
     heroImage: '/images/frigyes/title.jpg',
     galleryImages: [
-      '/images/frigyes/1.jpg',
-      '/images/frigyes/2.jpg',
-      '/images/frigyes/3.jpg',
-      '/images/frigyes/4.jpg',
-      '/images/frigyes/5.jpg',
-      '/images/frigyes/6.jpg',
-      '/images/frigyes/7.jpg',
-      '/images/frigyes/8.jpg',
-      '/images/frigyes/9.jpg',
-      '/images/frigyes/10.jpg',
-      '/images/frigyes/11.jpg',
-      '/images/frigyes/12.jpg',
-      '/images/frigyes/13.jpg',
-      '/images/frigyes/14.jpg',
-      '/images/frigyes/15.jpg',
-      '/images/frigyes/16.jpg',
-      '/images/frigyes/17.jpg',
-      '/images/frigyes/18.jpg',
-      '/images/frigyes/19.jpg',
-      '/images/frigyes/20.jpg',
-      '/images/frigyes/21.jpg',
-      '/images/frigyes/22.jpg'
+      '/images/frigyes/01.JPG',
+      '/images/frigyes/02.JPG',
+      '/images/frigyes/03.JPG',
+      '/images/frigyes/04.JPG',
+      '/images/frigyes/05.JPG',
+      '/images/frigyes/06.JPG',
+      '/images/frigyes/07.JPG',
+      '/images/frigyes/08.JPG',
+      '/images/frigyes/09.JPG',
+      '/images/frigyes/10.JPG',
+      '/images/frigyes/11.JPG',
+      '/images/frigyes/12.JPG',
+      '/images/frigyes/13.JPG',
+      '/images/frigyes/14.JPG'
     ]
   },
   {
@@ -208,18 +198,17 @@ export const roomsData: RoomData[] = [
     },
     heroImage: '/images/karinthy/title.jpg',
     galleryImages: [
-      // '/images/karinthy/1.jpg',
-      '/images/karinthy/2.jpg',
-      '/images/karinthy/3.jpg',
-      '/images/karinthy/4.jpg',
-      '/images/karinthy/5.jpg',
-      '/images/karinthy/6.jpg',
-      '/images/karinthy/7.jpg',
-      '/images/karinthy/8.jpg',
-      '/images/karinthy/9.jpg',
-      '/images/karinthy/10.jpg',
-      '/images/karinthy/11.jpg',
-      '/images/karinthy/12.jpg'
+      '/images/karinthy/00.JPG',
+      '/images/karinthy/01.JPG',
+      '/images/karinthy/02.JPG',
+      '/images/karinthy/03.JPG',
+      '/images/karinthy/04.JPG',
+      '/images/karinthy/05.JPG',
+      '/images/karinthy/06.JPG',
+      '/images/karinthy/07.JPG',
+      '/images/karinthy/08.JPG',
+      '/images/karinthy/09.JPG',
+      '/images/karinthy/10.JPG'
     ]
   }
 ];

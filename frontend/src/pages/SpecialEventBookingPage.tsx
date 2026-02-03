@@ -64,7 +64,6 @@ export const SpecialEventBookingPage: React.FC = () => {
     '/images/special/06.JPG',
     '/images/special/07.JPG',
     '/images/special/08.JPG',
-    '/images/special/09.JPG',
     '/images/special/10.JPG',
     '/images/special/11.JPG',
     '/images/special/12.JPG',

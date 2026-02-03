@@ -107,7 +107,7 @@ const Header: React.FC = () => {
           {/* Desktop Navigation - Center/Right */}
           <nav className="desktop-nav">
             <ul className="nav-menu">
-              {menuItems.map((item, index) => (
+              {menuItems.map((item) => (
                 <React.Fragment key={item.href}>
                   <li>
                     <Link
@@ -126,12 +126,13 @@ const Header: React.FC = () => {
                         className="nav-link valentine-heart-link"
                         style={{ 
                           color: '#dc2626',
-                          fontSize: '1.3rem',
-                          padding: '0.5rem 0.75rem'
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: '0.5rem'
                         }}
                         title="Valentin-napi fotózás"
                       >
-                        <i className="pi pi-heart-fill"></i>
+                        Valentin-napi fotózás <i className="pi pi-heart-fill"></i>
                       </Link>
                     </li>
                   )}
@@ -240,19 +241,20 @@ const Header: React.FC = () => {
               </li>
               {/* Valentine's Heart Icon between Szobák and GYIK */}
               {item.label === t('navigation.rooms') && (
-                <li style={{ textAlign: 'center', padding: '0.5rem 0' }}>
+                <li>
                   <Link
                     to="/special-events/valentinnap"
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
                       color: '#dc2626',
-                      fontSize: '1.5rem',
-                      display: 'inline-flex',
-                      alignItems: 'center'
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '0.5rem',
+                      justifyContent: 'center'
                     }}
                     title="Valentin-napi fotózás"
                   >
-                    <i className="pi pi-heart-fill"></i>
+                    Valentin-napi fotózás <i className="pi pi-heart-fill"></i>
                   </Link>
                 </li>
               )}

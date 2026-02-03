@@ -116,6 +116,22 @@ const Header: React.FC = () => {
                   >
                     {item.label}
                   </Link>
+                  {/* Valentine's Heart Icon after Szobák */}
+                  {item.label === t('navigation.rooms') && (
+                    <Link
+                      to="/special-events/valentinnap"
+                      className="nav-link valentine-heart-link"
+                      style={{ 
+                        color: '#dc2626',
+                        fontSize: '1.2rem',
+                        marginLeft: '0.5rem',
+                        padding: '0 0.25rem'
+                      }}
+                      title="Valentin-napi fotózás"
+                    >
+                      <i className="pi pi-heart-fill"></i>
+                    </Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -130,19 +146,6 @@ const Header: React.FC = () => {
               onClick={handleBooking}
               className="booking-button"
               size="small"
-            />
-
-            {/* Valentine's Day Special Event */}
-            <Button
-              icon="pi pi-heart"
-              onClick={() => navigate('/special-events/valentinnap')}
-              className="valentine-button"
-              size="small"
-              text
-              tooltip="Valentin-napi fotózás"
-              tooltipOptions={{ position: 'bottom' }}
-              aria-label="Valentin-napi különleges esemény"
-              style={{ color: '#e91e63' }}
             />
 
             {/* Shopping Cart Icon */}
@@ -222,7 +225,7 @@ const Header: React.FC = () => {
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <ul>
           {menuItems.map((item) => (
-            <li key={item.href}>
+            <li key={item.href} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
               <Link
                 to={item.href}
                 className={location.pathname === item.href ? 'active' : ''}
@@ -230,6 +233,22 @@ const Header: React.FC = () => {
               >
                 {item.label}
               </Link>
+              {/* Valentine's Heart Icon after Szobák */}
+              {item.label === t('navigation.rooms') && (
+                <Link
+                  to="/special-events/valentinnap"
+                  onClick={() => setIsMenuOpen(false)}
+                  style={{ 
+                    color: '#dc2626',
+                    fontSize: '1.2rem',
+                    display: 'flex',
+                    alignItems: 'center'
+                  }}
+                  title="Valentin-napi fotózás"
+                >
+                  <i className="pi pi-heart-fill"></i>
+                </Link>
+              )}
             </li>
           ))}
           <li>
@@ -238,19 +257,6 @@ const Header: React.FC = () => {
               onClick={handleBooking}
             >
               {t('navigation.booking')}
-            </button>
-          </li>
-          <li>
-            <button
-              className="menu-booking-button"
-              onClick={() => {
-                navigate('/special-events/valentinnap');
-                setIsMenuOpen(false);
-              }}
-              style={{ background: 'linear-gradient(135deg, #e91e63 0%, #f06292 100%)', display: 'flex', alignItems: 'center', gap: '0.5rem', justifyContent: 'center' }}
-            >
-              <i className="pi pi-heart" style={{ fontSize: '1rem' }}></i>
-              Valentin-nap
             </button>
           </li>
           <li className="menu-language-item">

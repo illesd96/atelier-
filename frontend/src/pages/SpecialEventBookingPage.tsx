@@ -202,12 +202,13 @@ export const SpecialEventBookingPage: React.FC = () => {
       item.start_time === startTime
     ).length;
     
-    // If clicking on a slot that's already fully booked in cart, remove the last one
+    // remaining_capacity from server already accounts for other bookings
+    // We can only add to cart up to what's remaining on the server
     const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
-    const totalAvailableForThisSlot = remainingSpots + bookingsInCart;
     
-    if (bookingsInCart >= totalAvailableForThisSlot) {
-      // Cart is full for this slot, remove the most recent booking
+    // If we've already added all available spots to cart, remove the last one
+    if (bookingsInCart >= remainingSpots) {
+      // Cart has all available spots, remove the most recent booking
       const lastBooking = items.filter(item => 
         item.special_event_id === event.id && 
         item.date === dateStr && 
@@ -242,7 +243,7 @@ export const SpecialEventBookingPage: React.FC = () => {
     toast.current?.show({
       severity: 'success',
       summary: 'Hozzáadva',
-      detail: `Időpont hozzáadva (${bookingsInCart + 1}/${totalAvailableForThisSlot})`
+      detail: `Időpont hozzáadva (${bookingsInCart + 1}/${remainingSpots})`
     });
   };
 
@@ -508,8 +509,7 @@ export const SpecialEventBookingPage: React.FC = () => {
                         
                         const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
                         const isSelected = bookingsInCart > 0;
-                        const totalAvailable = remainingSpots + bookingsInCart;
-                        const canAddMore = bookingsInCart < totalAvailable;
+                        const canAddMore = bookingsInCart < remainingSpots;
                         
                         return (
                           <button
@@ -525,7 +525,7 @@ export const SpecialEventBookingPage: React.FC = () => {
                             </span>
                             <span className="slot-status">
                               {bookingsInCart > 0 ? (
-                                `✓ ${bookingsInCart} kosárban ${canAddMore ? `(+${totalAvailable - bookingsInCart} hely)` : ''}`
+                                `✓ ${bookingsInCart} kosárban ${canAddMore ? `(+${remainingSpots - bookingsInCart} hely)` : ''}`
                               ) : !slot.available ? (
                                 'Betelt'
                               ) : maxCapacityPerSlot > 1 ? (
@@ -564,8 +564,7 @@ export const SpecialEventBookingPage: React.FC = () => {
                         
                         const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
                         const isSelected = bookingsInCart > 0;
-                        const totalAvailable = remainingSpots + bookingsInCart;
-                        const canAddMore = bookingsInCart < totalAvailable;
+                        const canAddMore = bookingsInCart < remainingSpots;
                         
                         return (
                           <button
@@ -581,7 +580,7 @@ export const SpecialEventBookingPage: React.FC = () => {
                             </span>
                             <span className="slot-status">
                               {bookingsInCart > 0 ? (
-                                `✓ ${bookingsInCart} kosárban ${canAddMore ? `(+${totalAvailable - bookingsInCart} hely)` : ''}`
+                                `✓ ${bookingsInCart} kosárban ${canAddMore ? `(+${remainingSpots - bookingsInCart} hely)` : ''}`
                               ) : !slot.available ? (
                                 'Betelt'
                               ) : maxCapacityPerSlot > 1 ? (

@@ -290,9 +290,11 @@ a {
   padding-bottom: 8vh;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.5) 0%,
-    rgba(0, 0, 0, 0.2) 30%,
-    transparent 60%
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.5) 30%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(0, 0, 0, 0.15) 70%,
+    transparent 90%
   );
   pointer-events: none;
 }

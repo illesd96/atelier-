@@ -107,32 +107,35 @@ const Header: React.FC = () => {
           {/* Desktop Navigation - Center/Right */}
           <nav className="desktop-nav">
             <ul className="nav-menu">
-              {menuItems.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    to={item.href}
-                    className={`nav-link ${location.pathname === item.href ? 'active' : ''}`}
-                    onClick={(e) => item.scrollTo && handleNavClick(e, item)}
-                  >
-                    {item.label}
-                  </Link>
-                  {/* Valentine's Heart Icon after Szobák */}
-                  {item.label === t('navigation.rooms') && (
+              {menuItems.map((item, index) => (
+                <React.Fragment key={item.href}>
+                  <li>
                     <Link
-                      to="/special-events/valentinnap"
-                      className="nav-link valentine-heart-link"
-                      style={{ 
-                        color: '#dc2626',
-                        fontSize: '1.2rem',
-                        marginLeft: '0.5rem',
-                        padding: '0 0.25rem'
-                      }}
-                      title="Valentin-napi fotózás"
+                      to={item.href}
+                      className={`nav-link ${location.pathname === item.href ? 'active' : ''}`}
+                      onClick={(e) => item.scrollTo && handleNavClick(e, item)}
                     >
-                      <i className="pi pi-heart-fill"></i>
+                      {item.label}
                     </Link>
+                  </li>
+                  {/* Valentine's Heart Icon between Szobák and GYIK */}
+                  {item.label === t('navigation.rooms') && (
+                    <li>
+                      <Link
+                        to="/special-events/valentinnap"
+                        className="nav-link valentine-heart-link"
+                        style={{ 
+                          color: '#dc2626',
+                          fontSize: '1.3rem',
+                          padding: '0.5rem 0.75rem'
+                        }}
+                        title="Valentin-napi fotózás"
+                      >
+                        <i className="pi pi-heart-fill"></i>
+                      </Link>
+                    </li>
                   )}
-                </li>
+                </React.Fragment>
               ))}
             </ul>
           </nav>
@@ -225,31 +228,35 @@ const Header: React.FC = () => {
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <ul>
           {menuItems.map((item) => (
-            <li key={item.href} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <Link
-                to={item.href}
-                className={location.pathname === item.href ? 'active' : ''}
-                onClick={(e) => item.scrollTo ? handleNavClick(e, item) : setIsMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-              {/* Valentine's Heart Icon after Szobák */}
-              {item.label === t('navigation.rooms') && (
+            <React.Fragment key={item.href}>
+              <li>
                 <Link
-                  to="/special-events/valentinnap"
-                  onClick={() => setIsMenuOpen(false)}
-                  style={{ 
-                    color: '#dc2626',
-                    fontSize: '1.2rem',
-                    display: 'flex',
-                    alignItems: 'center'
-                  }}
-                  title="Valentin-napi fotózás"
+                  to={item.href}
+                  className={location.pathname === item.href ? 'active' : ''}
+                  onClick={(e) => item.scrollTo ? handleNavClick(e, item) : setIsMenuOpen(false)}
                 >
-                  <i className="pi pi-heart-fill"></i>
+                  {item.label}
                 </Link>
+              </li>
+              {/* Valentine's Heart Icon between Szobák and GYIK */}
+              {item.label === t('navigation.rooms') && (
+                <li style={{ textAlign: 'center', padding: '0.5rem 0' }}>
+                  <Link
+                    to="/special-events/valentinnap"
+                    onClick={() => setIsMenuOpen(false)}
+                    style={{ 
+                      color: '#dc2626',
+                      fontSize: '1.5rem',
+                      display: 'inline-flex',
+                      alignItems: 'center'
+                    }}
+                    title="Valentin-napi fotózás"
+                  >
+                    <i className="pi pi-heart-fill"></i>
+                  </Link>
+                </li>
               )}
-            </li>
+            </React.Fragment>
           ))}
           <li>
             <button

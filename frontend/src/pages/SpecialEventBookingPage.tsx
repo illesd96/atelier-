@@ -156,7 +156,6 @@ export const SpecialEventBookingPage: React.FC = () => {
     if (!event || !selectedDate) return;
     
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
-    const roomIdForCart = event.room_id || `special-event-${event.id}`;
     const slotsInCart = items
       .filter(item => 
         item.special_event_id === event.id && 

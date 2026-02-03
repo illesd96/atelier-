@@ -40,7 +40,7 @@ interface TimeSlot {
 export const SpecialEventBookingPage: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
-  const { addItem, removeItem, items, isInCart } = useCart();
+  const { addItem, removeItem, items } = useCart();
   const toast = React.useRef<Toast>(null);
 
   const [event, setEvent] = useState<SpecialEvent | null>(null);
@@ -239,7 +239,6 @@ export const SpecialEventBookingPage: React.FC = () => {
       special_event_name: event.name
     });
     
-    const remaining = totalAvailableForThisSlot - bookingsInCart - 1;
     toast.current?.show({
       severity: 'success',
       summary: 'Hozzáadva',

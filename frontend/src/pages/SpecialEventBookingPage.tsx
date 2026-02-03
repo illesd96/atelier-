@@ -491,7 +491,7 @@ export const SpecialEventBookingPage: React.FC = () => {
                 <div className="time-column">
                   <h3 className="column-header">
                     <i className="pi pi-sun"></i>
-                    Délelőtt (8:00 - 12:00)
+                    Délelőtt
                   </h3>
                   <div className="slots-list">
                     {morningSlots.length > 0 ? (
@@ -546,7 +546,7 @@ export const SpecialEventBookingPage: React.FC = () => {
                 <div className="time-column">
                   <h3 className="column-header">
                     <i className="pi pi-moon"></i>
-                    Délután (12:00 - 20:00)
+                    Délután 
                   </h3>
                   <div className="slots-list">
                     {afternoonSlots.length > 0 ? (

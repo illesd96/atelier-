@@ -18,20 +18,23 @@ interface SpecialEvent {
   name: string;
   description?: string;
   slug?: string;
-  room_id: string;
-  room_name?: string;
+  room_id: string | null;
+  room_name?: string | null;
   start_date: string;
   end_date: string;
   start_time: string;
   end_time: string;
   slot_duration_minutes: number;
   price_per_slot: number;
+  use_custom_slots?: boolean;
+  custom_slots?: Array<{ start: string; end: string }>;
 }
 
 interface TimeSlot {
   start_time: string;
   end_time: string;
   available: boolean;
+  remaining_capacity?: number;
 }
 
 export const SpecialEventBookingPage: React.FC = () => {
@@ -49,6 +52,7 @@ export const SpecialEventBookingPage: React.FC = () => {
   const [cartVisible, setCartVisible] = useState(false);
   const [galleryActiveIndex, setGalleryActiveIndex] = useState<number>(0);
   const [displayGallery, setDisplayGallery] = useState<boolean>(false);
+  const [maxCapacityPerSlot, setMaxCapacityPerSlot] = useState<number>(1);
 
   // Gallery images for special event
   const galleryImages = [
@@ -134,6 +138,7 @@ export const SpecialEventBookingPage: React.FC = () => {
         params: { date: dateStr }
       });
       setAvailableSlots(response.data.availableSlots || []);
+      setMaxCapacityPerSlot(response.data.maxCapacityPerSlot || 1);
     } catch (error) {
       console.error('Error fetching availability:', error);
       toast.current?.show({
@@ -151,6 +156,7 @@ export const SpecialEventBookingPage: React.FC = () => {
     if (!event || !selectedDate) return;
     
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
+    const roomIdForCart = event.room_id || `special-event-${event.id}`;
     const slotsInCart = items
       .filter(item => 
         item.special_event_id === event.id && 
@@ -169,9 +175,12 @@ export const SpecialEventBookingPage: React.FC = () => {
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
     const startTime = slot.start_time.substring(0, 5);
     
+    // Use a placeholder room_id if event doesn't have one
+    const roomIdForCart = event.room_id || `special-event-${event.id}`;
+    
     // Check if already in cart - if yes, remove it
-    if (isInCart(event.room_id, dateStr, startTime)) {
-      removeItem(event.room_id, dateStr, startTime);
+    if (isInCart(roomIdForCart, dateStr, startTime)) {
+      removeItem(roomIdForCart, dateStr, startTime);
       toast.current?.show({
         severity: 'info',
         summary: 'Eltávolítva',
@@ -182,8 +191,8 @@ export const SpecialEventBookingPage: React.FC = () => {
     
     // Add to cart immediately
     addItem({
-      room_id: event.room_id,
-      room_name: event.room_name || event.room_id,
+      room_id: roomIdForCart,
+      room_name: event.room_name || event.name,
       date: dateStr,
       start_time: startTime,
       end_time: slot.end_time.substring(0, 5),
@@ -323,13 +332,15 @@ export const SpecialEventBookingPage: React.FC = () => {
             <p className="event-description">{event.description}</p>
           )}
           <div className="event-details">
-            <div className="detail-item">
-              <i className="pi pi-home"></i>
-              <span>{event.room_name || event.room_id}</span>
-            </div>
+            {event.room_name && (
+              <div className="detail-item">
+                <i className="pi pi-home"></i>
+                <span>{event.room_name}</span>
+              </div>
+            )}
             <div className="detail-item">
               <i className="pi pi-clock"></i>
-              <span>{event.slot_duration_minutes} perc / időpont</span>
+              <span>{event.use_custom_slots ? 'Egyedi időpontok' : `${event.slot_duration_minutes} perc / időpont`}</span>
             </div>
             <div className="detail-item">
               <i className="pi pi-money-bill"></i>
@@ -446,26 +457,36 @@ export const SpecialEventBookingPage: React.FC = () => {
                   </h3>
                   <div className="slots-list">
                     {morningSlots.length > 0 ? (
-                      morningSlots.map((slot, index) => (
-                        <button
-                          key={index}
-                          className={`time-slot ${!slot.available ? 'unavailable' : ''} ${
-                            selectedSlots.includes(slot.start_time) ? 'selected' : ''
-                          }`}
-                          onClick={() => handleSlotClick(slot)}
-                          disabled={!slot.available}
-                        >
-                          <span className="slot-time">
-                            {formatTimeSlot(slot.start_time, slot.end_time)}
-                          </span>
-                          <span className="slot-status">
-                            {slot.available ? 
-                              (selectedSlots.includes(slot.start_time) ? '✓ Kiválasztva' : 'Elérhető') : 
-                              'Foglalt'
-                            }
-                          </span>
-                        </button>
-                      ))
+                      morningSlots.map((slot, index) => {
+                        const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
+                        const isSelected = selectedSlots.includes(slot.start_time);
+                        
+                        return (
+                          <button
+                            key={index}
+                            className={`time-slot ${!slot.available ? 'unavailable' : ''} ${
+                              isSelected ? 'selected' : ''
+                            }`}
+                            onClick={() => handleSlotClick(slot)}
+                            disabled={!slot.available}
+                          >
+                            <span className="slot-time">
+                              {formatTimeSlot(slot.start_time, slot.end_time)}
+                            </span>
+                            <span className="slot-status">
+                              {!slot.available ? (
+                                'Betelt'
+                              ) : isSelected ? (
+                                '✓ Kiválasztva'
+                              ) : maxCapacityPerSlot > 1 ? (
+                                `${remainingSpots} hely maradt`
+                              ) : (
+                                'Elérhető'
+                              )}
+                            </span>
+                          </button>
+                        );
+                      })
                     ) : (
                       <p className="no-slots">Nincs elérhető időpont</p>
                     )}
@@ -480,26 +501,36 @@ export const SpecialEventBookingPage: React.FC = () => {
                   </h3>
                   <div className="slots-list">
                     {afternoonSlots.length > 0 ? (
-                      afternoonSlots.map((slot, index) => (
-                        <button
-                          key={index}
-                          className={`time-slot ${!slot.available ? 'unavailable' : ''} ${
-                            selectedSlots.includes(slot.start_time) ? 'selected' : ''
-                          }`}
-                          onClick={() => handleSlotClick(slot)}
-                          disabled={!slot.available}
-                        >
-                          <span className="slot-time">
-                            {formatTimeSlot(slot.start_time, slot.end_time)}
-                          </span>
-                          <span className="slot-status">
-                            {slot.available ? 
-                              (selectedSlots.includes(slot.start_time) ? '✓ Kiválasztva' : 'Elérhető') : 
-                              'Foglalt'
-                            }
-                          </span>
-                        </button>
-                      ))
+                      afternoonSlots.map((slot, index) => {
+                        const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
+                        const isSelected = selectedSlots.includes(slot.start_time);
+                        
+                        return (
+                          <button
+                            key={index}
+                            className={`time-slot ${!slot.available ? 'unavailable' : ''} ${
+                              isSelected ? 'selected' : ''
+                            }`}
+                            onClick={() => handleSlotClick(slot)}
+                            disabled={!slot.available}
+                          >
+                            <span className="slot-time">
+                              {formatTimeSlot(slot.start_time, slot.end_time)}
+                            </span>
+                            <span className="slot-status">
+                              {!slot.available ? (
+                                'Betelt'
+                              ) : isSelected ? (
+                                '✓ Kiválasztva'
+                              ) : maxCapacityPerSlot > 1 ? (
+                                `${remainingSpots} hely maradt`
+                              ) : (
+                                'Elérhető'
+                              )}
+                            </span>
+                          </button>
+                        );
+                      })
                     ) : (
                       <p className="no-slots">Nincs elérhető időpont</p>
                     )}

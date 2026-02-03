@@ -20,7 +20,7 @@ export const getAllSpecialEvents = async (req: Request, res: Response) => {
           AND oi.status = 'booked'
         ) as total_bookings
       FROM special_events se
-      JOIN rooms r ON r.id = se.room_id
+      LEFT JOIN rooms r ON r.id = se.room_id
     `;
     
     const params: any[] = [];
@@ -61,7 +61,7 @@ export const getSpecialEventById = async (req: Request, res: Response) => {
         se.*,
         r.name as room_name
       FROM special_events se
-      JOIN rooms r ON r.id = se.room_id
+      LEFT JOIN rooms r ON r.id = se.room_id
       WHERE ${isUUID ? 'se.id = $1' : 'se.slug = $1'}`,
       [id]
     );
@@ -102,15 +102,54 @@ export const createSpecialEvent = async (req: Request, res: Response) => {
       slot_duration_minutes,
       price_per_slot,
       active,
-      slug
+      slug,
+      use_custom_slots,
+      custom_slots
     } = req.body;
     
     // Validation
-    if (!name || !room_id || !start_date || !end_date || !slot_duration_minutes || !price_per_slot) {
+    if (!name || !start_date || !end_date || !price_per_slot) {
       return res.status(400).json({
         success: false,
-        error: 'Missing required fields'
+        error: 'Missing required fields (name, start_date, end_date, price_per_slot)'
       });
+    }
+    
+    // Validate max_capacity_per_slot if provided
+    const max_capacity = req.body.max_capacity_per_slot;
+    if (max_capacity !== undefined && (max_capacity < 1 || !Number.isInteger(max_capacity))) {
+      return res.status(400).json({
+        success: false,
+        error: 'max_capacity_per_slot must be a positive integer (minimum 1)'
+      });
+    }
+    
+    // If not using custom slots, slot_duration_minutes is required
+    if (!use_custom_slots && !slot_duration_minutes) {
+      return res.status(400).json({
+        success: false,
+        error: 'slot_duration_minutes is required when not using custom slots'
+      });
+    }
+    
+    // If using custom slots, validate custom_slots format
+    if (use_custom_slots) {
+      if (!custom_slots || !Array.isArray(custom_slots) || custom_slots.length === 0) {
+        return res.status(400).json({
+          success: false,
+          error: 'custom_slots must be a non-empty array when use_custom_slots is true'
+        });
+      }
+      
+      // Validate each slot has start and end
+      for (const slot of custom_slots) {
+        if (!slot.start || !slot.end) {
+          return res.status(400).json({
+            success: false,
+            error: 'Each custom slot must have start and end times'
+          });
+        }
+      }
     }
     
     // Validate slug format if provided
@@ -124,21 +163,25 @@ export const createSpecialEvent = async (req: Request, res: Response) => {
     const result = await pool.query(
       `INSERT INTO special_events (
         name, description, room_id, start_date, end_date,
-        start_time, end_time, slot_duration_minutes, price_per_slot, active, slug
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        start_time, end_time, slot_duration_minutes, price_per_slot, active, slug,
+        use_custom_slots, custom_slots, max_capacity_per_slot
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
       RETURNING *`,
       [
         name,
         description || null,
-        room_id,
+        room_id || null, // Now nullable
         start_date,
         end_date,
         start_time || '08:00:00',
         end_time || '20:00:00',
-        slot_duration_minutes,
+        slot_duration_minutes || 120, // Default to 120 minutes if using custom slots
         price_per_slot,
         active !== false,
-        slug || null
+        slug || null,
+        use_custom_slots || false,
+        custom_slots ? JSON.stringify(custom_slots) : null,
+        max_capacity || 1 // Default to 1 if not specified
       ]
     );
     
@@ -182,7 +225,9 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
       slot_duration_minutes,
       price_per_slot,
       active,
-      slug
+      slug,
+      use_custom_slots,
+      custom_slots
     } = req.body;
     
     // Validate slug format if provided
@@ -193,12 +238,34 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
       });
     }
     
+    // If using custom slots, validate custom_slots format
+    if (use_custom_slots !== undefined && use_custom_slots) {
+      if (custom_slots && Array.isArray(custom_slots)) {
+        for (const slot of custom_slots) {
+          if (!slot.start || !slot.end) {
+            return res.status(400).json({
+              success: false,
+              error: 'Each custom slot must have start and end times'
+            });
+          }
+        }
+      }
+    }
+    
+    const max_capacity = req.body.max_capacity_per_slot;
+    if (max_capacity !== undefined && (max_capacity < 1 || !Number.isInteger(max_capacity))) {
+      return res.status(400).json({
+        success: false,
+        error: 'max_capacity_per_slot must be a positive integer (minimum 1)'
+      });
+    }
+    
     const result = await pool.query(
       `UPDATE special_events
       SET 
         name = COALESCE($1, name),
         description = COALESCE($2, description),
-        room_id = COALESCE($3, room_id),
+        room_id = CASE WHEN $3::varchar IS NULL THEN NULL ELSE COALESCE($3, room_id) END,
         start_date = COALESCE($4, start_date),
         end_date = COALESCE($5, end_date),
         start_time = COALESCE($6, start_time),
@@ -206,8 +273,14 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
         slot_duration_minutes = COALESCE($8, slot_duration_minutes),
         price_per_slot = COALESCE($9, price_per_slot),
         active = COALESCE($10, active),
-        slug = COALESCE($11, slug)
-      WHERE id = $12
+        slug = COALESCE($11, slug),
+        use_custom_slots = COALESCE($12, use_custom_slots),
+        custom_slots = CASE 
+          WHEN $13::jsonb IS NULL THEN custom_slots 
+          ELSE $13 
+        END,
+        max_capacity_per_slot = COALESCE($14, max_capacity_per_slot)
+      WHERE id = $15
       RETURNING *`,
       [
         name,
@@ -221,6 +294,9 @@ export const updateSpecialEvent = async (req: Request, res: Response) => {
         price_per_slot,
         active,
         slug,
+        use_custom_slots,
+        custom_slots ? JSON.stringify(custom_slots) : null,
+        max_capacity,
         id
       ]
     );
@@ -356,53 +432,74 @@ export const getSpecialEventAvailability = async (req: Request, res: Response) =
       });
     }
     
-    // Generate all possible time slots based on slot_duration_minutes
-    const startHour = parseInt(event.start_time.split(':')[0]);
-    const startMinute = parseInt(event.start_time.split(':')[1]);
-    const endHour = parseInt(event.end_time.split(':')[0]);
-    const endMinute = parseInt(event.end_time.split(':')[1]);
-    
-    const startTimeMinutes = startHour * 60 + startMinute;
-    const endTimeMinutes = endHour * 60 + endMinute;
-    
+    // Generate time slots based on custom_slots or slot_duration_minutes
     const allSlots: Array<{ start_time: string; end_time: string; available: boolean }> = [];
     
-    for (let time = startTimeMinutes; time < endTimeMinutes; time += event.slot_duration_minutes) {
-      const slotStartHour = Math.floor(time / 60);
-      const slotStartMinute = time % 60;
-      const slotEndTime = time + event.slot_duration_minutes;
-      const slotEndHour = Math.floor(slotEndTime / 60);
-      const slotEndMinute = slotEndTime % 60;
+    if (event.use_custom_slots && event.custom_slots) {
+      // Use custom predefined slots
+      const customSlots = event.custom_slots;
+      for (const slot of customSlots) {
+        // Ensure time format has seconds (HH:MM:SS)
+        const startTime = slot.start.includes(':00:') ? slot.start : `${slot.start}:00`;
+        const endTime = slot.end.includes(':00:') ? slot.end : `${slot.end}:00`;
+        
+        allSlots.push({
+          start_time: startTime,
+          end_time: endTime,
+          available: true
+        });
+      }
+    } else {
+      // Generate slots based on slot_duration_minutes
+      const startHour = parseInt(event.start_time.split(':')[0]);
+      const startMinute = parseInt(event.start_time.split(':')[1]);
+      const endHour = parseInt(event.end_time.split(':')[0]);
+      const endMinute = parseInt(event.end_time.split(':')[1]);
       
-      const startTime = `${String(slotStartHour).padStart(2, '0')}:${String(slotStartMinute).padStart(2, '0')}:00`;
-      const endTime = `${String(slotEndHour).padStart(2, '0')}:${String(slotEndMinute).padStart(2, '0')}:00`;
+      const startTimeMinutes = startHour * 60 + startMinute;
+      const endTimeMinutes = endHour * 60 + endMinute;
       
-      allSlots.push({
-        start_time: startTime,
-        end_time: endTime,
-        available: true
-      });
+      for (let time = startTimeMinutes; time < endTimeMinutes; time += event.slot_duration_minutes) {
+        const slotStartHour = Math.floor(time / 60);
+        const slotStartMinute = time % 60;
+        const slotEndTime = time + event.slot_duration_minutes;
+        const slotEndHour = Math.floor(slotEndTime / 60);
+        const slotEndMinute = slotEndTime % 60;
+        
+        const startTime = `${String(slotStartHour).padStart(2, '0')}:${String(slotStartMinute).padStart(2, '0')}:00`;
+        const endTime = `${String(slotEndHour).padStart(2, '0')}:${String(slotEndMinute).padStart(2, '0')}:00`;
+        
+        allSlots.push({
+          start_time: startTime,
+          end_time: endTime,
+          available: true
+        });
+      }
     }
     
-    // Check which slots are already booked
+    // Count bookings per slot to check against capacity
     const bookedSlotsResult = await pool.query(
-      `SELECT oi.start_time, oi.end_time
+      `SELECT oi.start_time, COUNT(*) as booking_count
       FROM order_items oi
       JOIN special_event_bookings seb ON seb.order_item_id = oi.id
       WHERE seb.special_event_id = $1
       AND oi.booking_date = $2
-      AND oi.status IN ('pending', 'booked')`,
-      [id, date]
+      AND oi.status IN ('pending', 'booked')
+      GROUP BY oi.start_time`,
+      [event.id, date]
     );
     
-    const bookedSlots = bookedSlotsResult.rows;
+    const bookedSlotCounts = bookedSlotsResult.rows.reduce((acc: any, row: any) => {
+      acc[row.start_time] = parseInt(row.booking_count);
+      return acc;
+    }, {});
     
-    // Mark booked slots as unavailable
+    // Mark slots as unavailable if they've reached max capacity
+    const maxCapacity = event.max_capacity_per_slot || 1;
     allSlots.forEach(slot => {
-      const isBooked = bookedSlots.some(
-        booked => booked.start_time === slot.start_time
-      );
-      slot.available = !isBooked;
+      const currentBookings = bookedSlotCounts[slot.start_time] || 0;
+      slot.available = currentBookings < maxCapacity;
+      (slot as any).remaining_capacity = maxCapacity - currentBookings;
     });
     
     res.json({
@@ -411,7 +508,8 @@ export const getSpecialEventAvailability = async (req: Request, res: Response) =
       date,
       availableSlots: allSlots,
       slotDuration: event.slot_duration_minutes,
-      pricePerSlot: parseFloat(event.price_per_slot)
+      pricePerSlot: parseFloat(event.price_per_slot),
+      maxCapacityPerSlot: event.max_capacity_per_slot || 1
     });
   } catch (error) {
     console.error('Error fetching special event availability:', error);

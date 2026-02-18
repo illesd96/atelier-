@@ -5,6 +5,7 @@ import barionService from '../services/barion';
 import bookingService from '../services/booking';
 import config from '../config';
 import { CheckoutRequest, CartItem } from '../types';
+import { validateCouponInternal } from './coupons';
 
 const checkoutSchema = z.object({
   items: z.array(z.object({
@@ -31,6 +32,7 @@ const checkoutSchema = z.object({
   language: z.enum(['hu', 'en']),
   terms_accepted: z.boolean().refine(val => val === true, 'Terms must be accepted'),
   privacy_accepted: z.boolean().refine(val => val === true, 'Privacy policy must be accepted'),
+  coupon_code: z.string().optional(),
 });
 
 export const createCheckout = async (req: Request, res: Response) => {
@@ -106,10 +108,30 @@ export const createCheckout = async (req: Request, res: Response) => {
     await client.query('BEGIN');
     
     // Calculate total
-    const totalAmount = checkoutData.items.reduce((sum, item) => sum + item.price, 0);
+    const originalAmount = checkoutData.items.reduce((sum, item) => sum + item.price, 0);
     
     // Get user ID if logged in
     const userId = req.user?.userId || null;
+    
+    // Validate and apply coupon if provided
+    let couponId: string | null = null;
+    let discountAmount = 0;
+    const couponCode = (req.body as any).coupon_code;
+    
+    if (couponCode) {
+      const couponResult = await validateCouponInternal(couponCode, originalAmount, userId, client);
+      if (!couponResult.valid) {
+        await client.query('ROLLBACK');
+        return res.status(400).json({
+          error: 'Coupon validation failed',
+          message: couponResult.error,
+        });
+      }
+      couponId = couponResult.coupon.id;
+      discountAmount = couponResult.discount_amount!;
+    }
+    
+    const totalAmount = originalAmount - discountAmount;
     
     // Parse address components from the full address string
     // Format: "Street, PostalCode City, Country"
@@ -139,8 +161,9 @@ export const createCheckout = async (req: Request, res: Response) => {
         total_amount, currency, invoice_required, invoice_company, 
         invoice_tax_number, invoice_address, 
         billing_street, billing_city, billing_zip, billing_country,
-        terms_accepted, privacy_accepted
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18)
+        terms_accepted, privacy_accepted,
+        coupon_id, discount_amount, original_amount
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21)
       RETURNING id
     `, [
       userId,
@@ -161,6 +184,9 @@ export const createCheckout = async (req: Request, res: Response) => {
       billingCountry,
       checkoutData.terms_accepted,
       checkoutData.privacy_accepted,
+      couponId,
+      discountAmount,
+      discountAmount > 0 ? originalAmount : null,
     ]);
     
     const orderId = orderResult.rows[0].id;
@@ -191,6 +217,19 @@ export const createCheckout = async (req: Request, res: Response) => {
       }
     }
     
+    // Record coupon usage and increment counter
+    if (couponId) {
+      await client.query(
+        `INSERT INTO coupon_usages (coupon_id, order_id, user_id, discount_amount)
+         VALUES ($1, $2, $3, $4)`,
+        [couponId, orderId, userId, discountAmount]
+      );
+      await client.query(
+        `UPDATE coupons SET current_uses = current_uses + 1 WHERE id = $1`,
+        [couponId]
+      );
+    }
+    
     // Create Barion payment
     const barionItems = checkoutData.items.map(item => {
       const itemWithEvent = item as any;
@@ -202,6 +241,15 @@ export const createCheckout = async (req: Request, res: Response) => {
         unitPrice: item.price,
       };
     });
+    
+    if (discountAmount > 0) {
+      barionItems.push({
+        name: `Kupon kedvezmény (${couponCode})`,
+        description: 'Coupon discount',
+        quantity: 1,
+        unitPrice: -discountAmount,
+      });
+    }
     
     const paymentRequest = barionService.createPaymentRequest(
       orderId,
@@ -237,6 +285,9 @@ export const createCheckout = async (req: Request, res: Response) => {
       paymentId: barionResponse.PaymentId,
       redirectUrl: barionResponse.GatewayUrl,
       total: totalAmount,
+      original_total: discountAmount > 0 ? originalAmount : undefined,
+      discount: discountAmount > 0 ? discountAmount : undefined,
+      coupon_code: discountAmount > 0 ? couponCode : undefined,
       currency: config.business.currency,
     });
     

@@ -12,7 +12,7 @@ import { Divider } from 'primereact/divider';
 import { ProgressSpinner } from 'primereact/progressspinner';
 import { useCart } from '../contexts/CartContext';
 import { useAuth } from '../contexts/AuthContext';
-import api, { userAPI, analyticsAPI } from '../services/api';
+import api, { userAPI, analyticsAPI, apiClient } from '../services/api';
 import { CheckoutRequest } from '../types';
 import { metaPixel } from '../utils/metaPixel';
 import './CheckoutForm.css';
@@ -98,12 +98,27 @@ interface SavedAddress {
   is_default: boolean;
 }
 
+interface AppliedCoupon {
+  code: string;
+  discount_amount: number;
+  discount_type: 'percentage' | 'fixed';
+  discount_value: number;
+  max_discount_amount: number | null;
+  description: string | null;
+}
+
 export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }) => {
   const { t, i18n } = useTranslation();
   const { items, getTotal } = useCart();
   const { user, token } = useAuth();
   const [loading, setLoading] = useState(false);
   const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+  
+  const [couponCode, setCouponCode] = useState('');
+  const [couponLoading, setCouponLoading] = useState(false);
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
+  const [couponError, setCouponError] = useState('');
+  const [couponHint, setCouponHint] = useState('');
 
   // Create the schema with current translations
   const checkoutSchema = React.useMemo(() => createCheckoutSchema(t), [t]);
@@ -210,6 +225,48 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
 
   const businessInvoice = watch('businessInvoice');
   const total = getTotal();
+  const finalTotal = appliedCoupon ? total - appliedCoupon.discount_amount : total;
+
+  const handleApplyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    
+    setCouponLoading(true);
+    setCouponError('');
+    setCouponHint('');
+    
+    try {
+      const headers = token ? { Authorization: `Bearer ${token}` } : {};
+      const response = await apiClient.post('/coupons/validate', {
+        code: couponCode.trim(),
+        cart_total: total,
+      }, { headers });
+      
+      setAppliedCoupon({
+        code: response.data.coupon_code,
+        discount_amount: response.data.discount_amount,
+        discount_type: response.data.discount_type,
+        discount_value: response.data.discount_value,
+        max_discount_amount: response.data.max_discount_amount,
+        description: response.data.description,
+      });
+      setCouponError('');
+      setCouponHint('');
+    } catch (error: any) {
+      const data = error.response?.data;
+      setCouponError(data?.error || 'Érvénytelen kuponkód');
+      setCouponHint(data?.hint || '');
+      setAppliedCoupon(null);
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode('');
+    setCouponError('');
+    setCouponHint('');
+  };
 
   // Track validation failures for analytics (silent - no user feedback)
   const onInvalid = (errors: any) => {
@@ -329,14 +386,15 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
           phone: data.phone || undefined,
         },
         invoice: {
-          required: true, // Always generate invoice
+          required: true,
           company: data.businessInvoice ? data.company : undefined,
           tax_number: data.businessInvoice ? data.taxNumber : undefined,
-          address: address, // Always include address
+          address: address,
         },
         language: languageCode,
         terms_accepted: data.termsAccepted,
         privacy_accepted: data.privacyAccepted,
+        coupon_code: appliedCoupon?.code || undefined,
       };
 
       const response = await api.createCheckout(checkoutRequest, token || undefined);
@@ -725,11 +783,99 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
               </div>
             ))}
 
+            {/* Coupon Code Section */}
+            <div className="coupon-section" style={{ margin: '1.5rem 0', padding: '1rem', background: '#f8f9fa', borderRadius: '8px' }}>
+              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>
+                <i className="pi pi-tag" style={{ marginRight: '0.5rem' }}></i>
+                Kuponkód / Coupon Code
+              </label>
+              
+              {appliedCoupon ? (
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', background: '#e8f5e9', borderRadius: '6px', border: '1px solid #a5d6a7' }}>
+                  <div>
+                    <span style={{ fontFamily: 'monospace', fontWeight: 'bold', fontSize: '1.1rem', color: '#2e7d32' }}>
+                      {appliedCoupon.code}
+                    </span>
+                    <span style={{ marginLeft: '0.75rem', color: '#2e7d32', fontSize: '0.9rem' }}>
+                      -{appliedCoupon.discount_amount.toLocaleString()} {t('common.currency')}
+                      {appliedCoupon.discount_type === 'percentage' && ` (${appliedCoupon.discount_value}%)`}
+                    </span>
+                  </div>
+                  <Button
+                    type="button"
+                    icon="pi pi-times"
+                    className="p-button-text p-button-sm p-button-danger"
+                    onClick={handleRemoveCoupon}
+                    tooltip="Kupon eltávolítása"
+                    style={{ padding: '0.25rem 0.5rem' }}
+                  />
+                </div>
+              ) : (
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <InputText
+                    value={couponCode}
+                    onChange={(e) => {
+                      setCouponCode(e.target.value.toUpperCase());
+                      if (couponError) setCouponError('');
+                      if (couponHint) setCouponHint('');
+                    }}
+                    placeholder="pl. WELCOME-ABCD1234"
+                    style={{ flex: 1, textTransform: 'uppercase', fontFamily: 'monospace' }}
+                    className={couponError ? 'p-invalid' : ''}
+                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleApplyCoupon(); } }}
+                  />
+                  <Button
+                    type="button"
+                    label={couponLoading ? '' : 'Beváltás'}
+                    icon={couponLoading ? 'pi pi-spinner pi-spin' : 'pi pi-check'}
+                    onClick={handleApplyCoupon}
+                    disabled={couponLoading || !couponCode.trim()}
+                    className="p-button-outlined"
+                    style={{ whiteSpace: 'nowrap' }}
+                  />
+                </div>
+              )}
+              
+              {couponError && (
+                <small style={{ display: 'block', marginTop: '0.5rem', color: '#d32f2f' }}>
+                  <i className="pi pi-exclamation-circle" style={{ marginRight: '0.25rem' }}></i>
+                  {couponError}
+                </small>
+              )}
+              {couponHint && (
+                <small style={{ display: 'block', marginTop: '0.25rem', color: '#f57c00' }}>
+                  <i className="pi pi-info-circle" style={{ marginRight: '0.25rem' }}></i>
+                  {couponHint}
+                </small>
+              )}
+            </div>
+
             <div className="order-total">
+              {appliedCoupon && (
+                <>
+                  <div className="flex justify-content-between align-items-center" style={{ marginBottom: '0.5rem', color: '#666' }}>
+                    <span>{t('checkout.total')}:</span>
+                    <span style={{ textDecoration: 'line-through' }}>
+                      {total.toLocaleString()} {t('common.currency')}
+                    </span>
+                  </div>
+                  <div className="flex justify-content-between align-items-center" style={{ marginBottom: '0.5rem', color: '#2e7d32' }}>
+                    <span>
+                      <i className="pi pi-tag" style={{ marginRight: '0.25rem' }}></i>
+                      Kedvezmény:
+                    </span>
+                    <span style={{ fontWeight: 600 }}>
+                      -{appliedCoupon.discount_amount.toLocaleString()} {t('common.currency')}
+                    </span>
+                  </div>
+                </>
+              )}
               <div className="flex justify-content-between align-items-center">
-                <span className="text-lg font-semibold">{t('checkout.total')}:</span>
+                <span className="text-lg font-semibold">
+                  {appliedCoupon ? 'Fizetendő:' : `${t('checkout.total')}:`}
+                </span>
                 <span className="text-xl font-bold">
-                  {total.toLocaleString()} {t('common.currency')}
+                  {finalTotal.toLocaleString()} {t('common.currency')}
                 </span>
               </div>
             </div>

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { z } from 'zod';
+import { generateRegistrationCoupon } from './coupons';
 import {
   createUser,
   authenticateUser,
@@ -58,19 +59,28 @@ export async function register(req: Request, res: Response) {
       } as AuthResponse);
     }
 
-    // Send verification email
+    // Generate registration coupon
+    let couponCode: string | undefined;
+    try {
+      couponCode = await generateRegistrationCoupon(user.id, user.name);
+      console.log(`Registration coupon ${couponCode} created for user ${user.email}`);
+    } catch (couponError) {
+      console.error('Failed to generate registration coupon:', couponError);
+    }
+
+    // Send verification email (with coupon code if generated)
     try {
       if (user.verification_token) {
         await emailService.sendEmailVerification(
           user.email,
           user.name,
           user.verification_token,
-          req.body.language || 'en'
+          req.body.language || 'en',
+          couponCode
         );
       }
     } catch (emailError) {
       console.error('Failed to send verification email:', emailError);
-      // Continue with registration even if email fails
     }
 
     // Don't generate token on registration - require email verification first

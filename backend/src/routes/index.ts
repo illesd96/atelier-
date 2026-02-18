@@ -34,6 +34,14 @@ import {
   deleteSpecialEvent,
   getSpecialEventAvailability
 } from '../controllers/specialEvents';
+import {
+  validateCoupon,
+  getAllCoupons,
+  getCouponById,
+  createCoupon,
+  updateCoupon,
+  deleteCoupon
+} from '../controllers/coupons';
 import { trackCheckoutFailure, getCheckoutFailureStats } from '../controllers/analytics';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
@@ -114,6 +122,14 @@ router.get('/special-events/:id/availability', getSpecialEventAvailability);
 router.post('/admin/special-events', adminAuth, createSpecialEvent);
 router.put('/admin/special-events/:id', adminAuth, updateSpecialEvent);
 router.delete('/admin/special-events/:id', adminAuth, deleteSpecialEvent);
+
+// Coupon endpoints (public validate, admin CRUD)
+router.post('/coupons/validate', optionalAuth, validateCoupon);
+router.get('/admin/coupons', adminAuth, getAllCoupons);
+router.get('/admin/coupons/:id', adminAuth, getCouponById);
+router.post('/admin/coupons', adminAuth, createCoupon);
+router.put('/admin/coupons/:id', adminAuth, updateCoupon);
+router.delete('/admin/coupons/:id', adminAuth, deleteCoupon);
 
 // Analytics endpoints
 router.post('/analytics/checkout-failure', trackCheckoutFailure); // Public - silent tracking

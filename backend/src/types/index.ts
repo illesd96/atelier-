@@ -126,6 +126,7 @@ export interface CheckoutRequest {
   language: 'hu' | 'en';
   terms_accepted: boolean;
   privacy_accepted: boolean;
+  coupon_code?: string;
 }
 
 export interface RegisterRequest {

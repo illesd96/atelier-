@@ -514,7 +514,8 @@ END:VCALENDAR`;
     email: string,
     name: string,
     verificationToken: string,
-    language: string = 'en'
+    language: string = 'en',
+    couponCode?: string
   ): Promise<void> {
     try {
       const template = this.templates['verification'];
@@ -530,6 +531,8 @@ END:VCALENDAR`;
         verificationUrl,
         language,
         isHungarian,
+        couponCode,
+        hasCoupon: !!couponCode,
       });
 
       await this.transporter.sendMail({

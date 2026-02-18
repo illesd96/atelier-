@@ -164,6 +164,25 @@
           <a href="{{verificationUrl}}">{{verificationUrl}}</a>
         </div>
 
+        {{#if hasCoupon}}
+        <div style="margin-top: 30px; padding: 20px; background-color: #fff3e0; border-radius: 8px; border-left: 4px solid #f57c00; text-align: center;">
+          <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #e65100;">
+            🎁 Ajándék kupon az első rendeléshez!
+          </p>
+          <p style="margin: 0 0 15px 0; font-size: 14px; color: #666;">
+            Használja az alábbi kuponkódot 10% kedvezményhez az első foglalásánál:
+          </p>
+          <div style="background-color: #ffffff; border: 2px dashed #f57c00; border-radius: 8px; padding: 15px; display: inline-block;">
+            <span style="font-family: monospace; font-size: 24px; font-weight: bold; letter-spacing: 3px; color: #e65100;">
+              {{couponCode}}
+            </span>
+          </div>
+          <p style="margin: 15px 0 0 0; font-size: 12px; color: #999;">
+            90 napig érvényes • Csak bejelentkezés után használható
+          </p>
+        </div>
+        {{/if}}
+
         <p style="margin-top: 30px; font-size: 14px; color: #666;">
           Ha nem Ön regisztrált nálunk, kérjük, hagyja figyelmen kívül ezt az emailt.
         </p>
@@ -199,6 +218,25 @@
           </p>
           <a href="{{verificationUrl}}">{{verificationUrl}}</a>
         </div>
+
+        {{#if hasCoupon}}
+        <div style="margin-top: 30px; padding: 20px; background-color: #fff3e0; border-radius: 8px; border-left: 4px solid #f57c00; text-align: center;">
+          <p style="margin: 0 0 10px 0; font-size: 16px; font-weight: 600; color: #e65100;">
+            🎁 Welcome coupon for your first order!
+          </p>
+          <p style="margin: 0 0 15px 0; font-size: 14px; color: #666;">
+            Use the coupon code below for 10% off your first booking:
+          </p>
+          <div style="background-color: #ffffff; border: 2px dashed #f57c00; border-radius: 8px; padding: 15px; display: inline-block;">
+            <span style="font-family: monospace; font-size: 24px; font-weight: bold; letter-spacing: 3px; color: #e65100;">
+              {{couponCode}}
+            </span>
+          </div>
+          <p style="margin: 15px 0 0 0; font-size: 12px; color: #999;">
+            Valid for 90 days &bull; Login required to use
+          </p>
+        </div>
+        {{/if}}
 
         <p style="margin-top: 30px; font-size: 14px; color: #666;">
           If you didn't create an account with us, please ignore this email.

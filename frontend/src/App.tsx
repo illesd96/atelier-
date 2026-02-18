@@ -28,6 +28,7 @@ import { ProfilePage } from './pages/ProfilePage';
 import { AdminBookingsPage } from './pages/AdminBookingsPage';
 import { AdminSchedulePage } from './pages/AdminSchedulePage';
 import { SpecialEventsPage } from './pages/Admin/SpecialEventsPage';
+import { CouponsPage } from './pages/Admin/CouponsPage';
 import { SpecialEventBookingPage } from './pages/SpecialEventBookingPage';
 import { RoomDetailPage } from './pages/RoomDetailPage';
 import { NotFoundPage } from './pages/NotFoundPage';
@@ -59,6 +60,7 @@ function App() {
                     <Route path="admin/bookings" element={<AdminBookingsPage />} />
                     <Route path="admin/schedule" element={<AdminSchedulePage />} />
                     <Route path="admin/special-events" element={<SpecialEventsPage />} />
+                    <Route path="admin/coupons" element={<CouponsPage />} />
                     <Route path="terms" element={<TermsPage />} />
                     <Route path="privacy" element={<PrivacyPage />} />
                     <Route path="faq" element={<FAQPage />} />

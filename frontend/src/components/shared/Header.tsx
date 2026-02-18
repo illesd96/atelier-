@@ -118,11 +118,10 @@ const Header: React.FC = () => {
                       {item.label}
                     </Link>
                   </li>
-                  {/* Valentine's Heart Icon between Szobák and GYIK */}
                   {item.label === t('navigation.rooms') && (
                     <li>
                       <Link
-                        to="/special-events/valentinnap"
+                        to="/special-events/nonap"
                         className="nav-link valentine-heart-link"
                         style={{ 
                           color: '#dc2626',
@@ -130,9 +129,9 @@ const Header: React.FC = () => {
                           alignItems: 'center',
                           gap: '0.5rem'
                         }}
-                        title="Valentin-napi fotózás"
+                        title="Nőnap"
                       >
-                        Valentin-napi fotózás <i className="pi pi-heart-fill"></i>
+                        Nőnap <i className="pi pi-heart-fill"></i>
                       </Link>
                     </li>
                   )}
@@ -239,11 +238,10 @@ const Header: React.FC = () => {
                   {item.label}
                 </Link>
               </li>
-              {/* Valentine's Heart Icon between Szobák and GYIK */}
               {item.label === t('navigation.rooms') && (
                 <li>
                   <Link
-                    to="/special-events/valentinnap"
+                    to="/special-events/nonap"
                     onClick={() => setIsMenuOpen(false)}
                     style={{ 
                       color: '#dc2626',
@@ -252,9 +250,9 @@ const Header: React.FC = () => {
                       gap: '0.5rem',
                       justifyContent: 'center'
                     }}
-                    title="Valentin-napi fotózás"
+                    title="Nőnap"
                   >
-                    Valentin-napi fotózás <i className="pi pi-heart-fill"></i>
+                    Nőnap <i className="pi pi-heart-fill"></i>
                   </Link>
                 </li>
               )}

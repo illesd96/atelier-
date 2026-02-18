@@ -282,6 +282,7 @@ export const CouponsPage: React.FC = () => {
         onHide={() => setDialogVisible(false)}
         header={editingId ? 'Kupon szerkesztése' : 'Új kupon létrehozása'}
         style={{ width: '640px' }}
+        contentStyle={{ padding: '1.5rem 2rem' }}
         modal
       >
         <div className="coupon-form">
@@ -307,114 +308,102 @@ export const CouponsPage: React.FC = () => {
             />
           </div>
 
-          <div className="form-section">
-            <span className="form-section-title">Kedvezmény</span>
-            <div className="form-row">
-              <div className="form-field">
-                <label>Típus *</label>
-                <Dropdown
-                  value={formData.discount_type}
-                  options={discountTypeOptions}
-                  onChange={(e) => setFormData({ ...formData, discount_type: e.value })}
-                />
-              </div>
-              <div className="form-field">
-                <label>
-                  Érték * {formData.discount_type === 'percentage' ? '(%)' : '(Ft)'}
-                </label>
-                <InputNumber
-                  value={formData.discount_value}
-                  onValueChange={(e) => setFormData({ ...formData, discount_value: e.value ?? null })}
-                  min={1}
-                  max={formData.discount_type === 'percentage' ? 100 : undefined}
-                  suffix={formData.discount_type === 'percentage' ? ' %' : ' Ft'}
-                />
-              </div>
+          <div className="form-row">
+            <div className="form-field">
+              <label>Kedvezmény típusa *</label>
+              <Dropdown
+                value={formData.discount_type}
+                options={discountTypeOptions}
+                onChange={(e) => setFormData({ ...formData, discount_type: e.value })}
+              />
             </div>
-
-            {formData.discount_type === 'percentage' && (
-              <div className="form-field">
-                <label>
-                  Maximum kedvezmény összeg (Ft) <small>opcionális</small>
-                </label>
-                <InputNumber
-                  value={formData.max_discount_amount}
-                  onValueChange={(e) => setFormData({ ...formData, max_discount_amount: e.value ?? null })}
-                  suffix=" Ft"
-                  placeholder="pl. 10000"
-                />
-              </div>
-            )}
-          </div>
-
-          <div className="form-section">
-            <span className="form-section-title">Rendelési korlátok</span>
-            <div className="form-row">
-              <div className="form-field">
-                <label>Minimum rendelés (Ft) <small>opcionális</small></label>
-                <InputNumber
-                  value={formData.min_order_amount}
-                  onValueChange={(e) => setFormData({ ...formData, min_order_amount: e.value ?? null })}
-                  suffix=" Ft"
-                />
-              </div>
-              <div className="form-field">
-                <label>Maximum rendelés (Ft) <small>opcionális</small></label>
-                <InputNumber
-                  value={formData.max_order_amount}
-                  onValueChange={(e) => setFormData({ ...formData, max_order_amount: e.value ?? null })}
-                  suffix=" Ft"
-                />
-              </div>
+            <div className="form-field">
+              <label>
+                Kedvezmény értéke * {formData.discount_type === 'percentage' ? '(%)' : '(Ft)'}
+              </label>
+              <InputNumber
+                value={formData.discount_value}
+                onValueChange={(e) => setFormData({ ...formData, discount_value: e.value ?? null })}
+                min={1}
+                max={formData.discount_type === 'percentage' ? 100 : undefined}
+                suffix={formData.discount_type === 'percentage' ? ' %' : ' Ft'}
+              />
             </div>
           </div>
 
-          <div className="form-section">
-            <span className="form-section-title">Felhasználási korlátok</span>
-            <div className="form-row">
-              <div className="form-field">
-                <label>Max. összes felhasználás <small>üres = korlátlan</small></label>
-                <InputNumber
-                  value={formData.max_total_uses}
-                  onValueChange={(e) => setFormData({ ...formData, max_total_uses: e.value ?? null })}
-                  min={1}
-                />
-              </div>
-              <div className="form-field">
-                <label>Max. felhasználás / felhasználó</label>
-                <InputNumber
-                  value={formData.max_uses_per_user}
-                  onValueChange={(e) => setFormData({ ...formData, max_uses_per_user: e.value ?? 1 })}
-                  min={1}
-                />
-              </div>
+          {formData.discount_type === 'percentage' && (
+            <div className="form-field">
+              <label>
+                Maximum kedvezmény összeg (Ft) <small>opcionális</small>
+              </label>
+              <InputNumber
+                value={formData.max_discount_amount}
+                onValueChange={(e) => setFormData({ ...formData, max_discount_amount: e.value ?? null })}
+                suffix=" Ft"
+                placeholder="pl. 10000"
+              />
+            </div>
+          )}
+
+          <div className="form-row">
+            <div className="form-field">
+              <label>Minimum rendelés (Ft) <small>opcionális</small></label>
+              <InputNumber
+                value={formData.min_order_amount}
+                onValueChange={(e) => setFormData({ ...formData, min_order_amount: e.value ?? null })}
+                suffix=" Ft"
+              />
+            </div>
+            <div className="form-field">
+              <label>Maximum rendelés (Ft) <small>opcionális</small></label>
+              <InputNumber
+                value={formData.max_order_amount}
+                onValueChange={(e) => setFormData({ ...formData, max_order_amount: e.value ?? null })}
+                suffix=" Ft"
+              />
             </div>
           </div>
 
-          <div className="form-section">
-            <span className="form-section-title">Érvényesség</span>
-            <div className="form-row">
-              <div className="form-field">
-                <label>Érvényes ettől</label>
-                <Calendar
-                  value={formData.valid_from}
-                  onChange={(e) => setFormData({ ...formData, valid_from: e.value as Date })}
-                  dateFormat="yy.mm.dd"
-                  showTime
-                  hourFormat="24"
-                />
-              </div>
-              <div className="form-field">
-                <label>Lejárat <small>üres = nincs lejárat</small></label>
-                <Calendar
-                  value={formData.valid_until}
-                  onChange={(e) => setFormData({ ...formData, valid_until: e.value as Date })}
-                  dateFormat="yy.mm.dd"
-                  showTime
-                  hourFormat="24"
-                  showButtonBar
-                />
-              </div>
+          <div className="form-row">
+            <div className="form-field">
+              <label>Max. összes felhasználás <small>üres = korlátlan</small></label>
+              <InputNumber
+                value={formData.max_total_uses}
+                onValueChange={(e) => setFormData({ ...formData, max_total_uses: e.value ?? null })}
+                min={1}
+              />
+            </div>
+            <div className="form-field">
+              <label>Max. felhasználás / felhasználó</label>
+              <InputNumber
+                value={formData.max_uses_per_user}
+                onValueChange={(e) => setFormData({ ...formData, max_uses_per_user: e.value ?? 1 })}
+                min={1}
+              />
+            </div>
+          </div>
+
+          <div className="form-row">
+            <div className="form-field">
+              <label>Érvényes ettől</label>
+              <Calendar
+                value={formData.valid_from}
+                onChange={(e) => setFormData({ ...formData, valid_from: e.value as Date })}
+                dateFormat="yy.mm.dd"
+                showTime
+                hourFormat="24"
+              />
+            </div>
+            <div className="form-field">
+              <label>Lejárat <small>üres = nincs lejárat</small></label>
+              <Calendar
+                value={formData.valid_until}
+                onChange={(e) => setFormData({ ...formData, valid_until: e.value as Date })}
+                dateFormat="yy.mm.dd"
+                showTime
+                hourFormat="24"
+                showButtonBar
+              />
             </div>
           </div>
 

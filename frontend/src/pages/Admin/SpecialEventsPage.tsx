@@ -344,6 +344,7 @@ export const SpecialEventsPage: React.FC = () => {
         header={editingEvent ? 'Esemény Szerkesztése' : 'Új Esemény'}
         visible={dialogVisible}
         style={{ width: '640px' }}
+        contentStyle={{ padding: '1.5rem 2rem' }}
         onHide={() => setDialogVisible(false)}
         footer={
           <div>
@@ -414,27 +415,24 @@ export const SpecialEventsPage: React.FC = () => {
             </div>
           )}
 
-          <div className="form-section">
-            <span className="form-section-title">Időszak</span>
-            <div className="form-row">
-              <div className="form-field">
-                <label>Kezdő dátum *</label>
-                <Calendar
-                  value={formData.start_date}
-                  onChange={(e) => setFormData({ ...formData, start_date: e.value as Date })}
-                  dateFormat="yy.mm.dd"
-                  showIcon
-                />
-              </div>
-              <div className="form-field">
-                <label>Befejező dátum *</label>
-                <Calendar
-                  value={formData.end_date}
-                  onChange={(e) => setFormData({ ...formData, end_date: e.value as Date })}
-                  dateFormat="yy.mm.dd"
-                  showIcon
-                />
-              </div>
+          <div className="form-row">
+            <div className="form-field">
+              <label>Kezdő dátum *</label>
+              <Calendar
+                value={formData.start_date}
+                onChange={(e) => setFormData({ ...formData, start_date: e.value as Date })}
+                dateFormat="yy.mm.dd"
+                showIcon
+              />
+            </div>
+            <div className="form-field">
+              <label>Befejező dátum *</label>
+              <Calendar
+                value={formData.end_date}
+                onChange={(e) => setFormData({ ...formData, end_date: e.value as Date })}
+                dateFormat="yy.mm.dd"
+                showIcon
+              />
             </div>
           </div>
 
@@ -447,129 +445,123 @@ export const SpecialEventsPage: React.FC = () => {
             <label htmlFor="use_custom_slots">Egyedi időpontok használata (fix időpontok beállítása)</label>
           </div>
 
-          <div className="form-section">
-            <span className="form-section-title">Időpontok</span>
-            {!formData.use_custom_slots ? (
-              <>
-                <div className="form-row">
-                  <div className="form-field">
-                    <label>Kezdés idő</label>
-                    <InputText
-                      type="time"
-                      value={formData.start_time.substring(0, 5)}
-                      onChange={(e) => setFormData({ ...formData, start_time: e.target.value + ':00' })}
-                    />
-                  </div>
-                  <div className="form-field">
-                    <label>Befejezés idő</label>
-                    <InputText
-                      type="time"
-                      value={formData.end_time.substring(0, 5)}
-                      onChange={(e) => setFormData({ ...formData, end_time: e.target.value + ':00' })}
-                    />
-                  </div>
+          {!formData.use_custom_slots ? (
+            <>
+              <div className="form-row">
+                <div className="form-field">
+                  <label>Kezdés idő</label>
+                  <InputText
+                    type="time"
+                    value={formData.start_time.substring(0, 5)}
+                    onChange={(e) => setFormData({ ...formData, start_time: e.target.value + ':00' })}
+                  />
                 </div>
                 <div className="form-field">
-                  <label>Időköz (perc) *</label>
-                  <InputNumber
-                    value={formData.slot_duration_minutes}
-                    onValueChange={(e) => setFormData({ ...formData, slot_duration_minutes: e.value || 15 })}
-                    min={5}
-                    max={240}
-                    step={5}
+                  <label>Befejezés idő</label>
+                  <InputText
+                    type="time"
+                    value={formData.end_time.substring(0, 5)}
+                    onChange={(e) => setFormData({ ...formData, end_time: e.target.value + ':00' })}
                   />
-                  <small style={{ color: '#6b7280', display: 'block' }}>
-                    Automatikus időpontok generálása X perces időközökkel
-                  </small>
                 </div>
-              </>
-            ) : (
+              </div>
               <div className="form-field">
-                <label>Egyedi időpontok *</label>
-                {formData.custom_slots.map((slot, index) => (
-                  <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center' }}>
-                    <InputText
-                      type="time"
-                      value={slot.start}
-                      onChange={(e) => {
-                        const newSlots = [...formData.custom_slots];
-                        newSlots[index].start = e.target.value;
-                        setFormData({ ...formData, custom_slots: newSlots });
-                      }}
-                      placeholder="Kezdés"
-                    />
-                    <span>-</span>
-                    <InputText
-                      type="time"
-                      value={slot.end}
-                      onChange={(e) => {
-                        const newSlots = [...formData.custom_slots];
-                        newSlots[index].end = e.target.value;
-                        setFormData({ ...formData, custom_slots: newSlots });
-                      }}
-                      placeholder="Befejezés"
-                    />
-                    <Button
-                      icon="pi pi-trash"
-                      className="p-button-danger p-button-text p-button-sm"
-                      onClick={() => {
-                        const newSlots = formData.custom_slots.filter((_, i) => i !== index);
-                        setFormData({ ...formData, custom_slots: newSlots });
-                      }}
-                      disabled={formData.custom_slots.length <= 1}
-                    />
-                  </div>
-                ))}
-                <Button
-                  label="Új időpont hozzáadása"
-                  icon="pi pi-plus"
-                  className="p-button-sm p-button-text"
-                  onClick={() => {
-                    setFormData({
-                      ...formData,
-                      custom_slots: [...formData.custom_slots, { start: '10:00', end: '12:00' }]
-                    });
-                  }}
+                <label>Időköz (perc) *</label>
+                <InputNumber
+                  value={formData.slot_duration_minutes}
+                  onValueChange={(e) => setFormData({ ...formData, slot_duration_minutes: e.value || 15 })}
+                  min={5}
+                  max={240}
+                  step={5}
                 />
                 <small style={{ color: '#6b7280', display: 'block' }}>
-                  Pl. 10:00-12:00, 11:30-13:30 (átfedések lehetségesek)
+                  Automatikus időpontok generálása X perces időközökkel
                 </small>
               </div>
-            )}
-          </div>
+            </>
+          ) : (
+            <div className="form-field">
+              <label>Egyedi időpontok *</label>
+              {formData.custom_slots.map((slot, index) => (
+                <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center' }}>
+                  <InputText
+                    type="time"
+                    value={slot.start}
+                    onChange={(e) => {
+                      const newSlots = [...formData.custom_slots];
+                      newSlots[index].start = e.target.value;
+                      setFormData({ ...formData, custom_slots: newSlots });
+                    }}
+                    placeholder="Kezdés"
+                  />
+                  <span>-</span>
+                  <InputText
+                    type="time"
+                    value={slot.end}
+                    onChange={(e) => {
+                      const newSlots = [...formData.custom_slots];
+                      newSlots[index].end = e.target.value;
+                      setFormData({ ...formData, custom_slots: newSlots });
+                    }}
+                    placeholder="Befejezés"
+                  />
+                  <Button
+                    icon="pi pi-trash"
+                    className="p-button-danger p-button-text p-button-sm"
+                    onClick={() => {
+                      const newSlots = formData.custom_slots.filter((_, i) => i !== index);
+                      setFormData({ ...formData, custom_slots: newSlots });
+                    }}
+                    disabled={formData.custom_slots.length <= 1}
+                  />
+                </div>
+              ))}
+              <Button
+                label="Új időpont hozzáadása"
+                icon="pi pi-plus"
+                className="p-button-sm p-button-text"
+                onClick={() => {
+                  setFormData({
+                    ...formData,
+                    custom_slots: [...formData.custom_slots, { start: '10:00', end: '12:00' }]
+                  });
+                }}
+              />
+              <small style={{ color: '#6b7280', display: 'block' }}>
+                Pl. 10:00-12:00, 11:30-13:30 (átfedések lehetségesek)
+              </small>
+            </div>
+          )}
 
-          <div className="form-section">
-            <span className="form-section-title">Árazás & kapacitás</span>
-            <div className="form-row">
-              <div className="form-field">
-                <label>Ár/Időpont (Ft) *</label>
-                <InputNumber
-                  value={formData.price_per_slot}
-                  onValueChange={(e) => setFormData({ ...formData, price_per_slot: e.value || 0 })}
-                  mode="currency"
-                  currency="HUF"
-                  locale="hu-HU"
-                />
-              </div>
-              <div className="form-field">
-                <label>Max. foglalások/időpont *</label>
-                <InputNumber
-                  value={formData.max_capacity_per_slot}
-                  onValueChange={(e) => setFormData({ ...formData, max_capacity_per_slot: e.value || 1 })}
-                  min={1}
-                  max={10}
-                  showButtons
-                  buttonLayout="horizontal"
-                  step={1}
-                  decrementButtonClassName="p-button-secondary"
-                  incrementButtonClassName="p-button-secondary"
-                  incrementButtonIcon="pi pi-plus"
-                  decrementButtonIcon="pi pi-minus"
-                />
-                <small style={{ color: '#6b7280', display: 'block' }}>
-                  Hány ember foglalhatja ugyanazt az időpontot egyidejűleg
-                </small>
-              </div>
+          <div className="form-row">
+            <div className="form-field">
+              <label>Ár/Időpont (Ft) *</label>
+              <InputNumber
+                value={formData.price_per_slot}
+                onValueChange={(e) => setFormData({ ...formData, price_per_slot: e.value || 0 })}
+                mode="currency"
+                currency="HUF"
+                locale="hu-HU"
+              />
+            </div>
+            <div className="form-field">
+              <label>Max. foglalások/időpont *</label>
+              <InputNumber
+                value={formData.max_capacity_per_slot}
+                onValueChange={(e) => setFormData({ ...formData, max_capacity_per_slot: e.value || 1 })}
+                min={1}
+                max={10}
+                showButtons
+                buttonLayout="horizontal"
+                step={1}
+                decrementButtonClassName="p-button-secondary"
+                incrementButtonClassName="p-button-secondary"
+                incrementButtonIcon="pi pi-plus"
+                decrementButtonIcon="pi pi-minus"
+              />
+              <small style={{ color: '#6b7280', display: 'block' }}>
+                Hány ember foglalhatja ugyanazt az időpontot egyidejűleg
+              </small>
             </div>
           </div>
 

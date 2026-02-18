@@ -253,7 +253,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       setCouponHint('');
     } catch (error: any) {
       const data = error.response?.data;
-      setCouponError(data?.error || 'Érvénytelen kuponkód');
+      setCouponError(data?.error || t('checkout.couponInvalid'));
       setCouponHint(data?.hint || '');
       setAppliedCoupon(null);
     } finally {
@@ -784,19 +784,19 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
             ))}
 
             {/* Coupon Code Section */}
-            <div className="coupon-section" style={{ margin: '1.5rem 0', padding: '1rem', background: '#f8f9fa', borderRadius: '8px' }}>
-              <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: 600, fontSize: '0.9rem' }}>
-                <i className="pi pi-tag" style={{ marginRight: '0.5rem' }}></i>
-                Kuponkód / Coupon Code
+            <div className="coupon-section">
+              <label className="coupon-section-label">
+                <i className="pi pi-tag"></i>
+                {t('checkout.couponCode')}
               </label>
               
               {appliedCoupon ? (
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '0.75rem 1rem', background: '#e8f5e9', borderRadius: '6px', border: '1px solid #a5d6a7' }}>
+                <div className="coupon-applied">
                   <div>
-                    <span style={{ fontFamily: 'monospace', fontWeight: 'bold', fontSize: '1.1rem', color: '#2e7d32' }}>
+                    <span className="coupon-applied-code">
                       {appliedCoupon.code}
                     </span>
-                    <span style={{ marginLeft: '0.75rem', color: '#2e7d32', fontSize: '0.9rem' }}>
+                    <span className="coupon-applied-discount">
                       -{appliedCoupon.discount_amount.toLocaleString()} {t('common.currency')}
                       {appliedCoupon.discount_type === 'percentage' && ` (${appliedCoupon.discount_value}%)`}
                     </span>
@@ -806,12 +806,12 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                     icon="pi pi-times"
                     className="p-button-text p-button-sm p-button-danger"
                     onClick={handleRemoveCoupon}
-                    tooltip="Kupon eltávolítása"
+                    tooltip={t('checkout.couponRemove')}
                     style={{ padding: '0.25rem 0.5rem' }}
                   />
                 </div>
               ) : (
-                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <div className="coupon-input-row">
                   <InputText
                     value={couponCode}
                     onChange={(e) => {
@@ -819,14 +819,13 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
                       if (couponError) setCouponError('');
                       if (couponHint) setCouponHint('');
                     }}
-                    placeholder="pl. WELCOME-ABCD1234"
-                    style={{ flex: 1, textTransform: 'uppercase', fontFamily: 'monospace' }}
+                    placeholder={t('checkout.couponPlaceholder')}
                     className={couponError ? 'p-invalid' : ''}
                     onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleApplyCoupon(); } }}
                   />
                   <Button
                     type="button"
-                    label={couponLoading ? '' : 'Beváltás'}
+                    label={couponLoading ? '' : t('checkout.couponApply')}
                     icon={couponLoading ? 'pi pi-spinner pi-spin' : 'pi pi-check'}
                     onClick={handleApplyCoupon}
                     disabled={couponLoading || !couponCode.trim()}
@@ -837,14 +836,14 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
               )}
               
               {couponError && (
-                <small style={{ display: 'block', marginTop: '0.5rem', color: '#d32f2f' }}>
-                  <i className="pi pi-exclamation-circle" style={{ marginRight: '0.25rem' }}></i>
+                <small className="coupon-error">
+                  <i className="pi pi-exclamation-circle"></i>
                   {couponError}
                 </small>
               )}
               {couponHint && (
-                <small style={{ display: 'block', marginTop: '0.25rem', color: '#f57c00' }}>
-                  <i className="pi pi-info-circle" style={{ marginRight: '0.25rem' }}></i>
+                <small className="coupon-hint">
+                  <i className="pi pi-info-circle"></i>
                   {couponHint}
                 </small>
               )}
@@ -853,18 +852,18 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
             <div className="order-total">
               {appliedCoupon && (
                 <>
-                  <div className="flex justify-content-between align-items-center" style={{ marginBottom: '0.5rem', color: '#666' }}>
+                  <div className="flex justify-content-between align-items-center order-total-original">
                     <span>{t('checkout.total')}:</span>
-                    <span style={{ textDecoration: 'line-through' }}>
+                    <span>
                       {total.toLocaleString()} {t('common.currency')}
                     </span>
                   </div>
-                  <div className="flex justify-content-between align-items-center" style={{ marginBottom: '0.5rem', color: '#2e7d32' }}>
+                  <div className="flex justify-content-between align-items-center order-total-discount">
                     <span>
-                      <i className="pi pi-tag" style={{ marginRight: '0.25rem' }}></i>
-                      Kedvezmény:
+                      <i className="pi pi-tag"></i>
+                      {t('checkout.discount')}:
                     </span>
-                    <span style={{ fontWeight: 600 }}>
+                    <span>
                       -{appliedCoupon.discount_amount.toLocaleString()} {t('common.currency')}
                     </span>
                   </div>
@@ -872,7 +871,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
               )}
               <div className="flex justify-content-between align-items-center">
                 <span className="text-lg font-semibold">
-                  {appliedCoupon ? 'Fizetendő:' : `${t('checkout.total')}:`}
+                  {appliedCoupon ? `${t('checkout.totalToPay')}:` : `${t('checkout.total')}:`}
                 </span>
                 <span className="text-xl font-bold">
                   {finalTotal.toLocaleString()} {t('common.currency')}

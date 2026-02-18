@@ -216,6 +216,13 @@
     "total": "Összesen",
     "proceedToPayment": "Tovább a Fizetéshez",
     "processing": "Feldolgozás...",
+    "couponCode": "Kuponkód",
+    "couponApply": "Beváltás",
+    "couponPlaceholder": "pl. WELCOME-ABCD1234",
+    "couponRemove": "Kupon eltávolítása",
+    "couponInvalid": "Érvénytelen kuponkód",
+    "discount": "Kedvezmény",
+    "totalToPay": "Fizetendő",
     "errors": {
       "nameRequired": "A név megadása kötelező",
       "emailRequired": "Az email cím megadása kötelező",

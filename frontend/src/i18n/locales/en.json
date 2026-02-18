@@ -216,6 +216,13 @@
     "total": "Total",
     "proceedToPayment": "Proceed to Payment",
     "processing": "Processing...",
+    "couponCode": "Coupon Code",
+    "couponApply": "Apply",
+    "couponPlaceholder": "e.g. WELCOME-ABCD1234",
+    "couponRemove": "Remove coupon",
+    "couponInvalid": "Invalid coupon code",
+    "discount": "Discount",
+    "totalToPay": "Total to pay",
     "errors": {
       "nameRequired": "Name is required",
       "emailRequired": "Email is required",

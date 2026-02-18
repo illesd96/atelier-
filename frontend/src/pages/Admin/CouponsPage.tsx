@@ -15,6 +15,7 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { format } from 'date-fns';
 import axios from 'axios';
 import { useAuth } from '../../contexts/AuthContext';
+import './CouponsPage.css';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';
 
@@ -77,7 +78,7 @@ const defaultFormData: FormData = {
 };
 
 export const CouponsPage: React.FC = () => {
-  const { token } = useAuth();
+  const { token, isLoading: authLoading } = useAuth();
   const toast = React.useRef<Toast>(null);
   const [coupons, setCoupons] = useState<Coupon[]>([]);
   const [loading, setLoading] = useState(true);
@@ -85,12 +86,13 @@ export const CouponsPage: React.FC = () => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>(defaultFormData);
 
-  const headers = { Authorization: `Bearer ${token}` };
+  const getHeaders = () => ({ Authorization: `Bearer ${token}` });
 
   const fetchCoupons = async () => {
+    if (!token) return;
     setLoading(true);
     try {
-      const response = await axios.get(`${API_URL}/admin/coupons`, { headers });
+      const response = await axios.get(`${API_URL}/admin/coupons`, { headers: getHeaders() });
       setCoupons(response.data);
     } catch (error) {
       toast.current?.show({ severity: 'error', summary: 'Hiba', detail: 'Nem sikerült betölteni a kuponokat' });
@@ -99,7 +101,11 @@ export const CouponsPage: React.FC = () => {
     }
   };
 
-  useEffect(() => { fetchCoupons(); }, []);
+  useEffect(() => {
+    if (!authLoading && token) {
+      fetchCoupons();
+    }
+  }, [authLoading, token]);
 
   const openCreateDialog = () => {
     setEditingId(null);
@@ -153,10 +159,10 @@ export const CouponsPage: React.FC = () => {
       };
 
       if (editingId) {
-        await axios.put(`${API_URL}/admin/coupons/${editingId}`, payload, { headers });
+        await axios.put(`${API_URL}/admin/coupons/${editingId}`, payload, { headers: getHeaders() });
         toast.current?.show({ severity: 'success', summary: 'Siker', detail: 'Kupon frissítve' });
       } else {
-        await axios.post(`${API_URL}/admin/coupons`, payload, { headers });
+        await axios.post(`${API_URL}/admin/coupons`, payload, { headers: getHeaders() });
         toast.current?.show({ severity: 'success', summary: 'Siker', detail: 'Kupon létrehozva' });
       }
 
@@ -177,7 +183,7 @@ export const CouponsPage: React.FC = () => {
       rejectLabel: 'Nem',
       accept: async () => {
         try {
-          const response = await axios.delete(`${API_URL}/admin/coupons/${coupon.id}`, { headers });
+          const response = await axios.delete(`${API_URL}/admin/coupons/${coupon.id}`, { headers: getHeaders() });
           const detail = response.data.deactivated ? 'Kupon deaktiválva (már használták)' : 'Kupon törölve';
           toast.current?.show({ severity: 'success', summary: 'Siker', detail });
           fetchCoupons();
@@ -241,12 +247,12 @@ export const CouponsPage: React.FC = () => {
   );
 
   return (
-    <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
+    <div className="coupons-page">
       <Toast ref={toast} />
       <ConfirmDialog />
 
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h1 style={{ margin: 0 }}>Kuponok kezelése</h1>
+      <div className="page-header">
+        <h1>Kuponok kezelése</h1>
         <Button label="Új kupon" icon="pi pi-plus" onClick={openCreateDialog} />
       </div>
 
@@ -275,161 +281,145 @@ export const CouponsPage: React.FC = () => {
         visible={dialogVisible}
         onHide={() => setDialogVisible(false)}
         header={editingId ? 'Kupon szerkesztése' : 'Új kupon létrehozása'}
-        style={{ width: '600px' }}
+        style={{ width: '640px' }}
         modal
       >
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          {/* Code */}
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-              Kuponkód {!editingId && <small style={{ fontWeight: 400, color: '#888' }}>(üresen hagyva automatikus)</small>}
+        <div className="coupon-form">
+          <div className="form-field">
+            <label>
+              Kuponkód {!editingId && <small>(üresen hagyva automatikus)</small>}
             </label>
             <InputText
               value={formData.code}
               onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
               placeholder="pl. SUMMER20"
-              style={{ width: '100%', textTransform: 'uppercase', fontFamily: 'monospace' }}
+              style={{ textTransform: 'uppercase', fontFamily: 'monospace' }}
             />
           </div>
 
-          {/* Description */}
-          <div>
-            <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>Leírás</label>
+          <div className="form-field">
+            <label>Leírás</label>
             <InputTextarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={2}
-              style={{ width: '100%' }}
               placeholder="pl. Nyári akció - 20% kedvezmény"
             />
           </div>
 
-          {/* Discount Type & Value */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>Kedvezmény típusa *</label>
-              <Dropdown
-                value={formData.discount_type}
-                options={discountTypeOptions}
-                onChange={(e) => setFormData({ ...formData, discount_type: e.value })}
-                style={{ width: '100%' }}
-              />
+          <div className="form-section">
+            <span className="form-section-title">Kedvezmény</span>
+            <div className="form-row">
+              <div className="form-field">
+                <label>Típus *</label>
+                <Dropdown
+                  value={formData.discount_type}
+                  options={discountTypeOptions}
+                  onChange={(e) => setFormData({ ...formData, discount_type: e.value })}
+                />
+              </div>
+              <div className="form-field">
+                <label>
+                  Érték * {formData.discount_type === 'percentage' ? '(%)' : '(Ft)'}
+                </label>
+                <InputNumber
+                  value={formData.discount_value}
+                  onValueChange={(e) => setFormData({ ...formData, discount_value: e.value ?? null })}
+                  min={1}
+                  max={formData.discount_type === 'percentage' ? 100 : undefined}
+                  suffix={formData.discount_type === 'percentage' ? ' %' : ' Ft'}
+                />
+              </div>
             </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-                Kedvezmény értéke * {formData.discount_type === 'percentage' ? '(%)' : '(Ft)'}
-              </label>
-              <InputNumber
-                value={formData.discount_value}
-                onValueChange={(e) => setFormData({ ...formData, discount_value: e.value ?? null })}
-                min={formData.discount_type === 'percentage' ? 1 : 1}
-                max={formData.discount_type === 'percentage' ? 100 : undefined}
-                suffix={formData.discount_type === 'percentage' ? ' %' : ' Ft'}
-                style={{ width: '100%' }}
-              />
+
+            {formData.discount_type === 'percentage' && (
+              <div className="form-field">
+                <label>
+                  Maximum kedvezmény összeg (Ft) <small>opcionális</small>
+                </label>
+                <InputNumber
+                  value={formData.max_discount_amount}
+                  onValueChange={(e) => setFormData({ ...formData, max_discount_amount: e.value ?? null })}
+                  suffix=" Ft"
+                  placeholder="pl. 10000"
+                />
+              </div>
+            )}
+          </div>
+
+          <div className="form-section">
+            <span className="form-section-title">Rendelési korlátok</span>
+            <div className="form-row">
+              <div className="form-field">
+                <label>Minimum rendelés (Ft) <small>opcionális</small></label>
+                <InputNumber
+                  value={formData.min_order_amount}
+                  onValueChange={(e) => setFormData({ ...formData, min_order_amount: e.value ?? null })}
+                  suffix=" Ft"
+                />
+              </div>
+              <div className="form-field">
+                <label>Maximum rendelés (Ft) <small>opcionális</small></label>
+                <InputNumber
+                  value={formData.max_order_amount}
+                  onValueChange={(e) => setFormData({ ...formData, max_order_amount: e.value ?? null })}
+                  suffix=" Ft"
+                />
+              </div>
             </div>
           </div>
 
-          {/* Max Discount (for percentage) */}
-          {formData.discount_type === 'percentage' && (
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-                Maximum kedvezmény összeg (Ft) <small style={{ fontWeight: 400, color: '#888' }}>opcionális</small>
-              </label>
-              <InputNumber
-                value={formData.max_discount_amount}
-                onValueChange={(e) => setFormData({ ...formData, max_discount_amount: e.value ?? null })}
-                suffix=" Ft"
-                style={{ width: '100%' }}
-                placeholder="pl. 10000"
-              />
-            </div>
-          )}
-
-          {/* Min / Max Order Amount */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-                Minimum rendelés (Ft) <small style={{ fontWeight: 400, color: '#888' }}>opcionális</small>
-              </label>
-              <InputNumber
-                value={formData.min_order_amount}
-                onValueChange={(e) => setFormData({ ...formData, min_order_amount: e.value ?? null })}
-                suffix=" Ft"
-                style={{ width: '100%' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-                Maximum rendelés (Ft) <small style={{ fontWeight: 400, color: '#888' }}>opcionális</small>
-              </label>
-              <InputNumber
-                value={formData.max_order_amount}
-                onValueChange={(e) => setFormData({ ...formData, max_order_amount: e.value ?? null })}
-                suffix=" Ft"
-                style={{ width: '100%' }}
-              />
+          <div className="form-section">
+            <span className="form-section-title">Felhasználási korlátok</span>
+            <div className="form-row">
+              <div className="form-field">
+                <label>Max. összes felhasználás <small>üres = korlátlan</small></label>
+                <InputNumber
+                  value={formData.max_total_uses}
+                  onValueChange={(e) => setFormData({ ...formData, max_total_uses: e.value ?? null })}
+                  min={1}
+                />
+              </div>
+              <div className="form-field">
+                <label>Max. felhasználás / felhasználó</label>
+                <InputNumber
+                  value={formData.max_uses_per_user}
+                  onValueChange={(e) => setFormData({ ...formData, max_uses_per_user: e.value ?? 1 })}
+                  min={1}
+                />
+              </div>
             </div>
           </div>
 
-          {/* Usage Limits */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-                Max. összes felhasználás <small style={{ fontWeight: 400, color: '#888' }}>üres = korlátlan</small>
-              </label>
-              <InputNumber
-                value={formData.max_total_uses}
-                onValueChange={(e) => setFormData({ ...formData, max_total_uses: e.value ?? null })}
-                min={1}
-                style={{ width: '100%' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-                Max. felhasználás / felhasználó
-              </label>
-              <InputNumber
-                value={formData.max_uses_per_user}
-                onValueChange={(e) => setFormData({ ...formData, max_uses_per_user: e.value ?? 1 })}
-                min={1}
-                style={{ width: '100%' }}
-              />
-            </div>
-          </div>
-
-          {/* Validity Dates */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>Érvényes ettől</label>
-              <Calendar
-                value={formData.valid_from}
-                onChange={(e) => setFormData({ ...formData, valid_from: e.value as Date })}
-                dateFormat="yy.mm.dd"
-                showTime
-                hourFormat="24"
-                style={{ width: '100%' }}
-              />
-            </div>
-            <div>
-              <label style={{ display: 'block', marginBottom: '0.25rem', fontWeight: 600 }}>
-                Lejárat <small style={{ fontWeight: 400, color: '#888' }}>üres = nincs lejárat</small>
-              </label>
-              <Calendar
-                value={formData.valid_until}
-                onChange={(e) => setFormData({ ...formData, valid_until: e.value as Date })}
-                dateFormat="yy.mm.dd"
-                showTime
-                hourFormat="24"
-                style={{ width: '100%' }}
-                showButtonBar
-              />
+          <div className="form-section">
+            <span className="form-section-title">Érvényesség</span>
+            <div className="form-row">
+              <div className="form-field">
+                <label>Érvényes ettől</label>
+                <Calendar
+                  value={formData.valid_from}
+                  onChange={(e) => setFormData({ ...formData, valid_from: e.value as Date })}
+                  dateFormat="yy.mm.dd"
+                  showTime
+                  hourFormat="24"
+                />
+              </div>
+              <div className="form-field">
+                <label>Lejárat <small>üres = nincs lejárat</small></label>
+                <Calendar
+                  value={formData.valid_until}
+                  onChange={(e) => setFormData({ ...formData, valid_until: e.value as Date })}
+                  dateFormat="yy.mm.dd"
+                  showTime
+                  hourFormat="24"
+                  showButtonBar
+                />
+              </div>
             </div>
           </div>
 
-          {/* Checkboxes */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', padding: '1rem', background: '#f8f9fa', borderRadius: '8px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div className="checkbox-group">
+            <div className="checkbox-item">
               <Checkbox
                 inputId="requires_login"
                 checked={formData.requires_login}
@@ -437,7 +427,7 @@ export const CouponsPage: React.FC = () => {
               />
               <label htmlFor="requires_login">Bejelentkezés szükséges</label>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="checkbox-item">
               <Checkbox
                 inputId="first_order_only"
                 checked={formData.first_order_only}
@@ -445,7 +435,7 @@ export const CouponsPage: React.FC = () => {
               />
               <label htmlFor="first_order_only">Csak első rendeléshez</label>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <div className="checkbox-item">
               <Checkbox
                 inputId="active"
                 checked={formData.active}
@@ -455,8 +445,7 @@ export const CouponsPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Save Button */}
-          <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.5rem', marginTop: '0.5rem' }}>
+          <div className="form-actions">
             <Button label="Mégse" className="p-button-text" onClick={() => setDialogVisible(false)} />
             <Button label={editingId ? 'Mentés' : 'Létrehozás'} icon="pi pi-check" onClick={handleSave} />
           </div>

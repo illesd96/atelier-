@@ -1,84 +1,63 @@
-.special-events-page {
+/* Coupons Admin Page */
+.coupons-page {
   padding: 2rem;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-.page-header {
+.coupons-page .page-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 2rem;
 }
 
-.page-header h1 {
+.coupons-page .page-header h1 {
   margin: 0;
   font-size: 2rem;
   color: #1f2937;
 }
 
-.special-events-table {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.status-badge {
-  padding: 0.25rem 0.75rem;
-  border-radius: 12px;
-  font-size: 0.875rem;
-  font-weight: 500;
-}
-
-.status-badge.active {
-  background: #d1fae5;
-  color: #065f46;
-}
-
-.status-badge.inactive {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-.event-form {
+/* Dialog Form */
+.coupon-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
   padding: 0.5rem 0;
 }
 
-.event-form .form-field {
+.coupon-form .form-field {
   display: flex;
   flex-direction: column;
   gap: 0.4rem;
 }
 
-.event-form .form-field > label {
+.coupon-form .form-field > label {
   font-weight: 600;
   color: #374151;
   font-size: 0.875rem;
 }
 
-.event-form .form-field .p-inputtext,
-.event-form .form-field .p-dropdown,
-.event-form .form-field .p-calendar,
-.event-form .form-field .p-inputtextarea,
-.event-form .form-field .p-inputnumber {
+.coupon-form .form-field > label small {
+  font-weight: 400;
+  color: #9ca3af;
+}
+
+.coupon-form .form-field .p-inputtext,
+.coupon-form .form-field .p-dropdown,
+.coupon-form .form-field .p-calendar,
+.coupon-form .form-field .p-inputtextarea,
+.coupon-form .form-field .p-inputnumber {
   width: 100%;
 }
 
-.event-form .form-row {
+.coupon-form .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1.25rem;
 }
 
-.event-form .form-section {
+.coupon-form .form-section {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
@@ -88,7 +67,7 @@
   border: 1px solid #f3f4f6;
 }
 
-.event-form .form-section-title {
+.coupon-form .form-section-title {
   font-size: 0.8rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -97,34 +76,49 @@
   margin: 0;
 }
 
-.event-form .checkbox-field {
-  flex-direction: row;
-  align-items: center;
+.coupon-form .checkbox-group {
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
-  padding: 0.75rem 1.25rem;
+  padding: 1rem 1.25rem;
   background: #f9fafb;
   border-radius: 10px;
   border: 1px solid #f3f4f6;
 }
 
-.event-form .checkbox-field label {
-  margin: 0;
+.coupon-form .checkbox-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.coupon-form .checkbox-item label {
   cursor: pointer;
+  font-size: 0.9rem;
+  color: #374151;
+}
+
+.coupon-form .form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 0.25rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #f3f4f6;
 }
 
 @media (max-width: 768px) {
-  .special-events-page {
+  .coupons-page {
     padding: 1rem;
   }
 
-  .page-header {
+  .coupons-page .page-header {
     flex-direction: column;
     align-items: flex-start;
     gap: 1rem;
   }
 
-  .form-row {
+  .coupon-form .form-row {
     grid-template-columns: 1fr;
   }
 }
-

@@ -119,6 +119,7 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
   const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
   const [couponError, setCouponError] = useState('');
   const [couponHint, setCouponHint] = useState('');
+  const [couponExpanded, setCouponExpanded] = useState(false);
 
   // Create the schema with current translations
   const checkoutSchema = React.useMemo(() => createCheckoutSchema(t), [t]);
@@ -784,69 +785,84 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
             ))}
 
             {/* Coupon Code Section */}
-            <div className="coupon-section">
-              <label className="coupon-section-label">
-                <i className="pi pi-tag"></i>
-                {t('checkout.couponCode')}
-              </label>
-              
-              {appliedCoupon ? (
-                <div className="coupon-applied">
-                  <div>
-                    <span className="coupon-applied-code">
-                      {appliedCoupon.code}
-                    </span>
-                    <span className="coupon-applied-discount">
-                      -{appliedCoupon.discount_amount.toLocaleString()} {t('common.currency')}
-                      {appliedCoupon.discount_type === 'percentage' && ` (${appliedCoupon.discount_value}%)`}
-                    </span>
+            <div className={`coupon-section ${couponExpanded || appliedCoupon ? 'coupon-section--expanded' : ''}`}>
+              <div
+                className="coupon-section-header"
+                onClick={() => { if (!appliedCoupon) setCouponExpanded(!couponExpanded); }}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); if (!appliedCoupon) setCouponExpanded(!couponExpanded); } }}
+              >
+                <label className="coupon-section-label">
+                  <i className="pi pi-tag"></i>
+                  {t('checkout.couponCode')}
+                </label>
+                {!appliedCoupon && (
+                  <i className={`pi ${couponExpanded ? 'pi-chevron-up' : 'pi-chevron-down'} coupon-section-chevron`}></i>
+                )}
+              </div>
+
+              <div className="coupon-section-body">
+                {appliedCoupon ? (
+                  <div className="coupon-applied">
+                    <div>
+                      <span className="coupon-applied-code">
+                        {appliedCoupon.code}
+                      </span>
+                      <span className="coupon-applied-discount">
+                        -{appliedCoupon.discount_amount.toLocaleString()} {t('common.currency')}
+                        {appliedCoupon.discount_type === 'percentage' && ` (${appliedCoupon.discount_value}%)`}
+                      </span>
+                    </div>
+                    <Button
+                      type="button"
+                      icon="pi pi-times"
+                      className="p-button-text p-button-sm p-button-danger"
+                      onClick={handleRemoveCoupon}
+                      tooltip={t('checkout.couponRemove')}
+                      style={{ padding: '0.25rem 0.5rem' }}
+                    />
                   </div>
-                  <Button
-                    type="button"
-                    icon="pi pi-times"
-                    className="p-button-text p-button-sm p-button-danger"
-                    onClick={handleRemoveCoupon}
-                    tooltip={t('checkout.couponRemove')}
-                    style={{ padding: '0.25rem 0.5rem' }}
-                  />
-                </div>
-              ) : (
-                <div className="coupon-input-row">
-                  <InputText
-                    value={couponCode}
-                    onChange={(e) => {
-                      setCouponCode(e.target.value.toUpperCase());
-                      if (couponError) setCouponError('');
-                      if (couponHint) setCouponHint('');
-                    }}
-                    placeholder={t('checkout.couponPlaceholder')}
-                    className={couponError ? 'p-invalid' : ''}
-                    onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleApplyCoupon(); } }}
-                  />
-                  <Button
-                    type="button"
-                    label={couponLoading ? '' : t('checkout.couponApply')}
-                    icon={couponLoading ? 'pi pi-spinner pi-spin' : 'pi pi-check'}
-                    onClick={handleApplyCoupon}
-                    disabled={couponLoading || !couponCode.trim()}
-                    className="p-button-outlined"
-                    style={{ whiteSpace: 'nowrap' }}
-                  />
-                </div>
-              )}
-              
-              {couponError && (
-                <small className="coupon-error">
-                  <i className="pi pi-exclamation-circle"></i>
-                  {couponError}
-                </small>
-              )}
-              {couponHint && (
-                <small className="coupon-hint">
-                  <i className="pi pi-info-circle"></i>
-                  {couponHint}
-                </small>
-              )}
+                ) : (
+                  <>
+                    <div className="coupon-input-row">
+                      <InputText
+                        value={couponCode}
+                        onChange={(e) => {
+                          setCouponCode(e.target.value.toUpperCase());
+                          if (couponError) setCouponError('');
+                          if (couponHint) setCouponHint('');
+                        }}
+                        placeholder={t('checkout.couponPlaceholder')}
+                        className={couponError ? 'p-invalid' : ''}
+                        onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); handleApplyCoupon(); } }}
+                      />
+                      <Button
+                        type="button"
+                        label={couponLoading ? '' : t('checkout.couponApply')}
+                        icon={couponLoading ? 'pi pi-spinner pi-spin' : 'pi pi-check'}
+                        onClick={handleApplyCoupon}
+                        disabled={couponLoading || !couponCode.trim()}
+                        className="p-button-outlined"
+                        style={{ whiteSpace: 'nowrap' }}
+                      />
+                    </div>
+
+                    {couponError && (
+                      <small className="coupon-error">
+                        <i className="pi pi-exclamation-circle"></i>
+                        {couponError}
+                      </small>
+                    )}
+                    {couponHint && (
+                      <small className="coupon-hint">
+                        <i className="pi pi-info-circle"></i>
+                        {couponHint}
+                      </small>
+                    )}
+                  </>
+                )}
+              </div>
             </div>
 
             <div className="order-total">

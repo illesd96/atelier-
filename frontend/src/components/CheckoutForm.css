@@ -43,20 +43,64 @@ textarea::placeholder {
 /* Coupon Section */
 .coupon-section {
   margin: 1.5rem 0;
-  padding: 1rem;
+  padding: 0.75rem 1rem;
   background: #f8f9fa;
   border-radius: 8px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease;
+}
+
+.coupon-section:hover {
+  border-color: #dee2e6;
+}
+
+.coupon-section--expanded {
+  border-color: #dee2e6;
+}
+
+.coupon-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  user-select: none;
 }
 
 .coupon-section-label {
-  display: block;
-  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  margin: 0;
   font-weight: 600;
   font-size: 0.9rem;
+  pointer-events: none;
 }
 
 .coupon-section-label i {
   margin-right: 0.5rem;
+}
+
+.coupon-section-chevron {
+  font-size: 0.85rem;
+  color: #6b7280;
+  transition: transform 0.2s ease;
+}
+
+.coupon-section-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.25s ease;
+}
+
+.coupon-section--expanded .coupon-section-body {
+  grid-template-rows: 1fr;
+}
+
+.coupon-section-body > * {
+  overflow: hidden;
+}
+
+.coupon-section--expanded .coupon-section-body > * {
+  padding-top: 0.75rem;
 }
 
 .coupon-applied {

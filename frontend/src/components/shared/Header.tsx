@@ -121,17 +121,11 @@ const Header: React.FC = () => {
                   {item.label === t('navigation.rooms') && (
                     <li>
                       <Link
-                        to="/special-events/nonap"
-                        className="nav-link valentine-heart-link"
-                        style={{ 
-                          color: '#dc2626',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '0.5rem'
-                        }}
-                        title="Nőnap"
+                        to="/special-events/nyiltnap"
+                        className="nav-link"
+                        title="Nyíltnap"
                       >
-                        Nőnap <i className="pi pi-heart-fill"></i>
+                        Nyíltnap
                       </Link>
                     </li>
                   )}
@@ -241,18 +235,11 @@ const Header: React.FC = () => {
               {item.label === t('navigation.rooms') && (
                 <li>
                   <Link
-                    to="/special-events/nonap"
+                    to="/special-events/nyiltnap"
                     onClick={() => setIsMenuOpen(false)}
-                    style={{ 
-                      color: '#dc2626',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '0.5rem',
-                      justifyContent: 'center'
-                    }}
-                    title="Nőnap"
+                    title="Nyíltnap"
                   >
-                    Nőnap <i className="pi pi-heart-fill"></i>
+                    Nyíltnap
                   </Link>
                 </li>
               )}

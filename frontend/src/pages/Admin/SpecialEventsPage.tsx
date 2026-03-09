@@ -31,7 +31,7 @@ interface SpecialEvent {
   price_per_slot: number;
   active: boolean;
   use_custom_slots?: boolean;
-  custom_slots?: Array<{ start: string; end: string }>;
+  custom_slots?: Array<{ start: string; end: string; price?: number; max_capacity?: number }>;
   max_capacity_per_slot?: number;
   total_bookings?: number;
   created_at: string;
@@ -68,11 +68,11 @@ export const SpecialEventsPage: React.FC = () => {
     active: true,
     use_custom_slots: false,
     custom_slots: [
-      { start: '10:00', end: '12:00' },
-      { start: '11:30', end: '13:30' },
-      { start: '13:00', end: '15:00' },
-      { start: '14:30', end: '16:30' }
-    ]
+      { start: '10:00', end: '12:00', price: 15000, max_capacity: 10 },
+      { start: '11:30', end: '13:30', price: 15000, max_capacity: 10 },
+      { start: '13:00', end: '15:00', price: 15000, max_capacity: 10 },
+      { start: '14:30', end: '16:30', price: 15000, max_capacity: 10 }
+    ] as Array<{ start: string; end: string; price?: number; max_capacity?: number }>
   });
 
   useEffect(() => {
@@ -124,10 +124,10 @@ export const SpecialEventsPage: React.FC = () => {
       active: true,
       use_custom_slots: false,
       custom_slots: [
-        { start: '10:00', end: '12:00' },
-        { start: '11:30', end: '13:30' },
-        { start: '13:00', end: '15:00' },
-        { start: '14:30', end: '16:30' }
+        { start: '10:00', end: '12:00', price: 15000, max_capacity: 10 },
+        { start: '11:30', end: '13:30', price: 15000, max_capacity: 10 },
+        { start: '13:00', end: '15:00', price: 15000, max_capacity: 10 },
+        { start: '14:30', end: '16:30', price: 15000, max_capacity: 10 }
       ]
     });
     setDialogVisible(true);
@@ -151,10 +151,10 @@ export const SpecialEventsPage: React.FC = () => {
       active: event.active,
       use_custom_slots: event.use_custom_slots || false,
       custom_slots: event.custom_slots || [
-        { start: '10:00', end: '12:00' },
-        { start: '11:30', end: '13:30' },
-        { start: '13:00', end: '15:00' },
-        { start: '14:30', end: '16:30' }
+        { start: '10:00', end: '12:00', price: 15000, max_capacity: 10 },
+        { start: '11:30', end: '13:30', price: 15000, max_capacity: 10 },
+        { start: '13:00', end: '15:00', price: 15000, max_capacity: 10 },
+        { start: '14:30', end: '16:30', price: 15000, max_capacity: 10 }
       ]
     });
     setDialogVisible(true);
@@ -343,7 +343,7 @@ export const SpecialEventsPage: React.FC = () => {
       <Dialog
         header={editingEvent ? 'Esemény Szerkesztése' : 'Új Esemény'}
         visible={dialogVisible}
-        style={{ width: '640px' }}
+        style={{ width: '750px' }}
         contentStyle={{ padding: '1.5rem 2rem' }}
         onHide={() => setDialogVisible(false)}
         footer={
@@ -483,16 +483,17 @@ export const SpecialEventsPage: React.FC = () => {
             <div className="form-field">
               <label>Egyedi időpontok *</label>
               {formData.custom_slots.map((slot, index) => (
-                <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center' }}>
+                <div key={index} style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
                   <InputText
                     type="time"
                     value={slot.start}
                     onChange={(e) => {
                       const newSlots = [...formData.custom_slots];
-                      newSlots[index].start = e.target.value;
+                      newSlots[index] = { ...newSlots[index], start: e.target.value };
                       setFormData({ ...formData, custom_slots: newSlots });
                     }}
                     placeholder="Kezdés"
+                    style={{ width: '110px' }}
                   />
                   <span>-</span>
                   <InputText
@@ -500,11 +501,38 @@ export const SpecialEventsPage: React.FC = () => {
                     value={slot.end}
                     onChange={(e) => {
                       const newSlots = [...formData.custom_slots];
-                      newSlots[index].end = e.target.value;
+                      newSlots[index] = { ...newSlots[index], end: e.target.value };
                       setFormData({ ...formData, custom_slots: newSlots });
                     }}
                     placeholder="Befejezés"
+                    style={{ width: '110px' }}
                   />
+                  <InputNumber
+                    value={slot.price !== undefined ? slot.price : formData.price_per_slot}
+                    onValueChange={(e) => {
+                      const newSlots = [...formData.custom_slots];
+                      newSlots[index] = { ...newSlots[index], price: e.value || 0 };
+                      setFormData({ ...formData, custom_slots: newSlots });
+                    }}
+                    suffix=" Ft"
+                    placeholder="Ár"
+                    style={{ width: '130px' }}
+                  />
+                  <InputNumber
+                    value={slot.max_capacity !== undefined ? slot.max_capacity : formData.max_capacity_per_slot}
+                    onValueChange={(e) => {
+                      const newSlots = [...formData.custom_slots];
+                      newSlots[index] = { ...newSlots[index], max_capacity: e.value || 1 };
+                      setFormData({ ...formData, custom_slots: newSlots });
+                    }}
+                    min={1}
+                    max={100}
+                    placeholder="Fő"
+                    style={{ width: '70px' }}
+                    tooltip="Max. foglalások"
+                    tooltipOptions={{ position: 'top' }}
+                  />
+                  <span style={{ fontSize: '0.85rem', color: '#6b7280' }}>fő</span>
                   <Button
                     icon="pi pi-trash"
                     className="p-button-danger p-button-text p-button-sm"
@@ -523,12 +551,12 @@ export const SpecialEventsPage: React.FC = () => {
                 onClick={() => {
                   setFormData({
                     ...formData,
-                    custom_slots: [...formData.custom_slots, { start: '10:00', end: '12:00' }]
+                    custom_slots: [...formData.custom_slots, { start: '10:00', end: '12:00', price: formData.price_per_slot, max_capacity: formData.max_capacity_per_slot }]
                   });
                 }}
               />
               <small style={{ color: '#6b7280', display: 'block' }}>
-                Pl. 10:00-12:00, 11:30-13:30 (átfedések lehetségesek)
+                Minden időpontnak saját ára és kapacitása lehet. 0 Ft = ingyenes.
               </small>
             </div>
           )}

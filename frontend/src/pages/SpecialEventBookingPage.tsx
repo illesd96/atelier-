@@ -27,7 +27,7 @@ interface SpecialEvent {
   slot_duration_minutes: number;
   price_per_slot: number;
   use_custom_slots?: boolean;
-  custom_slots?: Array<{ start: string; end: string }>;
+  custom_slots?: Array<{ start: string; end: string; price?: number; max_capacity?: number }>;
 }
 
 interface TimeSlot {
@@ -35,6 +35,8 @@ interface TimeSlot {
   end_time: string;
   available: boolean;
   remaining_capacity?: number;
+  max_capacity?: number;
+  price?: number;
 }
 
 export const SpecialEventBookingPage: React.FC = () => {
@@ -203,7 +205,8 @@ export const SpecialEventBookingPage: React.FC = () => {
     
     // remaining_capacity from server already accounts for other bookings
     // We can only add to cart up to what's remaining on the server
-    const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
+    const slotMaxCapacity = slot.max_capacity || maxCapacityPerSlot;
+    const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : slotMaxCapacity;
     
     // If we've already added all available spots to cart, remove the last one
     if (bookingsInCart >= remainingSpots) {
@@ -228,13 +231,16 @@ export const SpecialEventBookingPage: React.FC = () => {
     // Add to cart with unique room_id (append booking number)
     const uniqueRoomId = `${baseRoomId}-booking-${bookingsInCart + 1}`;
     
+    // Use per-slot price if available, otherwise event-level price
+    const slotPrice = slot.price !== undefined ? slot.price : parseFloat(event.price_per_slot.toString());
+
     addItem({
       room_id: uniqueRoomId,
       room_name: event.room_name || event.name,
       date: dateStr,
       start_time: startTime,
       end_time: slot.end_time.substring(0, 5),
-      price: parseFloat(event.price_per_slot.toString()),
+      price: slotPrice,
       special_event_id: event.id,
       special_event_name: event.name
     });
@@ -382,7 +388,20 @@ export const SpecialEventBookingPage: React.FC = () => {
             </div>
             <div className="detail-item">
               <i className="pi pi-money-bill"></i>
-              <span>{Math.round(event.price_per_slot).toLocaleString()} Ft</span>
+              <span>
+                {event.use_custom_slots && event.custom_slots && event.custom_slots.some(s => s.price !== undefined) ? (
+                  (() => {
+                    const prices = event.custom_slots!.map(s => s.price !== undefined ? s.price : event.price_per_slot);
+                    const minPrice = Math.min(...prices);
+                    const maxPrice = Math.max(...prices);
+                    if (minPrice === maxPrice) return `${Math.round(minPrice).toLocaleString()} Ft`;
+                    if (minPrice === 0) return `Ingyenes - ${Math.round(maxPrice).toLocaleString()} Ft`;
+                    return `${Math.round(minPrice).toLocaleString()} - ${Math.round(maxPrice).toLocaleString()} Ft`;
+                  })()
+                ) : (
+                  `${Math.round(event.price_per_slot).toLocaleString()} Ft`
+                )}
+              </span>
             </div>
             <div className="detail-item">
               <i className="pi pi-images"></i>
@@ -475,7 +494,13 @@ export const SpecialEventBookingPage: React.FC = () => {
                 <div className="selected-info">
                   <span>{selectedSlots.length} időpont kiválasztva</span>
                   <span className="total-price">
-                    Összesen: {Math.round(selectedSlots.length * event.price_per_slot).toLocaleString()} Ft
+                    Összesen: {(() => {
+                      const dateStr = selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '';
+                      const total = items
+                        .filter(item => item.special_event_id === event.id && item.date === dateStr)
+                        .reduce((sum, item) => sum + item.price, 0);
+                      return Math.round(total).toLocaleString();
+                    })()} Ft
                   </span>
                 </div>
               )}
@@ -498,18 +523,20 @@ export const SpecialEventBookingPage: React.FC = () => {
                       morningSlots.map((slot, index) => {
                         const dateStr = selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '';
                         const startTime = slot.start_time.substring(0, 5);
-                        
+
                         // Count bookings in cart for this specific slot
-                        const bookingsInCart = items.filter(item => 
-                          item.special_event_id === event?.id && 
-                          item.date === dateStr && 
+                        const bookingsInCart = items.filter(item =>
+                          item.special_event_id === event?.id &&
+                          item.date === dateStr &&
                           item.start_time === startTime
                         ).length;
-                        
-                        const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
+
+                        const slotMaxCapacity = slot.max_capacity || maxCapacityPerSlot;
+                        const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : slotMaxCapacity;
                         const isSelected = bookingsInCart > 0;
                         const canAddMore = bookingsInCart < remainingSpots;
-                        
+                        const slotPrice = slot.price !== undefined ? slot.price : event.price_per_slot;
+
                         return (
                           <button
                             key={index}
@@ -522,12 +549,15 @@ export const SpecialEventBookingPage: React.FC = () => {
                             <span className="slot-time">
                               {formatTimeSlot(slot.start_time, slot.end_time)}
                             </span>
+                            <span className="slot-price">
+                              {slotPrice === 0 ? 'Ingyenes' : `${Math.round(slotPrice).toLocaleString()} Ft`}
+                            </span>
                             <span className="slot-status">
                               {bookingsInCart > 0 ? (
                                 `✓ ${bookingsInCart} kosárban ${canAddMore ? `(+${remainingSpots - bookingsInCart} hely)` : ''}`
                               ) : !slot.available ? (
                                 'Betelt'
-                              ) : maxCapacityPerSlot > 1 ? (
+                              ) : slotMaxCapacity > 1 ? (
                                 `${remainingSpots} hely maradt`
                               ) : (
                                 'Elérhető'
@@ -553,18 +583,20 @@ export const SpecialEventBookingPage: React.FC = () => {
                       afternoonSlots.map((slot, index) => {
                         const dateStr = selectedDate ? format(selectedDate, 'yyyy-MM-dd') : '';
                         const startTime = slot.start_time.substring(0, 5);
-                        
+
                         // Count bookings in cart for this specific slot
-                        const bookingsInCart = items.filter(item => 
-                          item.special_event_id === event?.id && 
-                          item.date === dateStr && 
+                        const bookingsInCart = items.filter(item =>
+                          item.special_event_id === event?.id &&
+                          item.date === dateStr &&
                           item.start_time === startTime
                         ).length;
-                        
-                        const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : maxCapacityPerSlot;
+
+                        const slotMaxCapacity = slot.max_capacity || maxCapacityPerSlot;
+                        const remainingSpots = slot.remaining_capacity !== undefined ? slot.remaining_capacity : slotMaxCapacity;
                         const isSelected = bookingsInCart > 0;
                         const canAddMore = bookingsInCart < remainingSpots;
-                        
+                        const slotPrice = slot.price !== undefined ? slot.price : event.price_per_slot;
+
                         return (
                           <button
                             key={index}
@@ -577,12 +609,15 @@ export const SpecialEventBookingPage: React.FC = () => {
                             <span className="slot-time">
                               {formatTimeSlot(slot.start_time, slot.end_time)}
                             </span>
+                            <span className="slot-price">
+                              {slotPrice === 0 ? 'Ingyenes' : `${Math.round(slotPrice).toLocaleString()} Ft`}
+                            </span>
                             <span className="slot-status">
                               {bookingsInCart > 0 ? (
                                 `✓ ${bookingsInCart} kosárban ${canAddMore ? `(+${remainingSpots - bookingsInCart} hely)` : ''}`
                               ) : !slot.available ? (
                                 'Betelt'
-                              ) : maxCapacityPerSlot > 1 ? (
+                              ) : slotMaxCapacity > 1 ? (
                                 `${remainingSpots} hely maradt`
                               ) : (
                                 'Elérhető'

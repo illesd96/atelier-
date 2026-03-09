@@ -426,6 +426,12 @@
   font-weight: 600;
 }
 
+.slot-price {
+  font-size: 0.85rem;
+  font-weight: 500;
+  opacity: 0.85;
+}
+
 .slot-status {
   font-size: 0.875rem;
   opacity: 0.9;

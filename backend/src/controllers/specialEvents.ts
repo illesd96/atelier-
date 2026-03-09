@@ -108,7 +108,7 @@ export const createSpecialEvent = async (req: Request, res: Response) => {
     } = req.body;
     
     // Validation
-    if (!name || !start_date || !end_date || !price_per_slot) {
+    if (!name || !start_date || !end_date || (price_per_slot === undefined || price_per_slot === null)) {
       return res.status(400).json({
         success: false,
         error: 'Missing required fields (name, start_date, end_date, price_per_slot)'
@@ -442,12 +442,15 @@ export const getSpecialEventAvailability = async (req: Request, res: Response) =
         // Ensure time format has seconds (HH:MM:SS)
         const startTime = slot.start.includes(':00:') ? slot.start : `${slot.start}:00`;
         const endTime = slot.end.includes(':00:') ? slot.end : `${slot.end}:00`;
-        
+
         allSlots.push({
           start_time: startTime,
           end_time: endTime,
-          available: true
-        });
+          available: true,
+          // Per-slot overrides (fall back to event-level defaults)
+          price: slot.price !== undefined ? parseFloat(slot.price) : parseFloat(event.price_per_slot),
+          max_capacity: slot.max_capacity !== undefined ? parseInt(slot.max_capacity) : (event.max_capacity_per_slot || 1)
+        } as any);
       }
     } else {
       // Generate slots based on slot_duration_minutes
@@ -495,13 +498,19 @@ export const getSpecialEventAvailability = async (req: Request, res: Response) =
     }, {});
     
     // Mark slots as unavailable if they've reached max capacity
-    const maxCapacity = event.max_capacity_per_slot || 1;
+    const defaultMaxCapacity = event.max_capacity_per_slot || 1;
     allSlots.forEach(slot => {
+      const slotMaxCapacity = (slot as any).max_capacity || defaultMaxCapacity;
       const currentBookings = bookedSlotCounts[slot.start_time] || 0;
-      slot.available = currentBookings < maxCapacity;
-      (slot as any).remaining_capacity = maxCapacity - currentBookings;
+      slot.available = currentBookings < slotMaxCapacity;
+      (slot as any).remaining_capacity = slotMaxCapacity - currentBookings;
+      (slot as any).max_capacity = slotMaxCapacity;
+      // Ensure price is set (for auto-generated slots, use event-level price)
+      if ((slot as any).price === undefined) {
+        (slot as any).price = parseFloat(event.price_per_slot);
+      }
     });
-    
+
     res.json({
       success: true,
       event,

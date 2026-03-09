@@ -403,46 +403,11 @@ export const SpecialEventBookingPage: React.FC = () => {
                 )}
               </span>
             </div>
-            <div className="detail-item">
-              <i className="pi pi-images"></i>
-              <span>5 db szerkesztett kép</span>
-            </div>
           </div>
         </div>
 
-        {/* Gallery Section */}
-        <div className="special-event-gallery-section">
-          <h2>Galéria</h2>
-          <div className="special-event-gallery-grid">
-            {galleryImages.map((image, index) => (
-              <div 
-                key={index} 
-                className="special-gallery-item"
-                onClick={(e) => {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  setGalleryActiveIndex(index);
-                  setDisplayGallery(true);
-                }}
-                role="button"
-                tabIndex={0}
-                onKeyPress={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    setGalleryActiveIndex(index);
-                    setDisplayGallery(true);
-                  }
-                }}
-              >
-                <img src={image} alt={`${event.name} ${index + 1}`} />
-                <div className="special-gallery-item-overlay">
-                  <i className="pi pi-search-plus"></i>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Date Navigation */}
+        {/* Date Navigation - hidden when single day event */}
+        {dates && dates.minDate.getTime() !== dates.maxDate.getTime() && (
         <div className="date-navigation-section">
           <div className="date-nav-left">
             <Button 
@@ -484,6 +449,7 @@ export const SpecialEventBookingPage: React.FC = () => {
             />
           </div>
         </div>
+        )}
 
         {/* Time Slots - Two Column Layout */}
         {selectedDate && (
@@ -635,6 +601,38 @@ export const SpecialEventBookingPage: React.FC = () => {
             )}
           </div>
         )}
+
+        {/* Gallery Section */}
+        <div className="special-event-gallery-section">
+          <h2>Galéria</h2>
+          <div className="special-event-gallery-grid">
+            {galleryImages.map((image, index) => (
+              <div
+                key={index}
+                className="special-gallery-item"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setGalleryActiveIndex(index);
+                  setDisplayGallery(true);
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setGalleryActiveIndex(index);
+                    setDisplayGallery(true);
+                  }
+                }}
+              >
+                <img src={image} alt={`${event.name} ${index + 1}`} />
+                <div className="special-gallery-item-overlay">
+                  <i className="pi pi-search-plus"></i>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
 
       </div>
 

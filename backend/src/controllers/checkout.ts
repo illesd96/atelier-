@@ -3,6 +3,7 @@ import { z } from 'zod';
 import pool from '../database/connection';
 import barionService from '../services/barion';
 import bookingService from '../services/booking';
+import emailService from '../services/email';
 import config from '../config';
 import { CheckoutRequest, CartItem } from '../types';
 import { validateCouponInternal } from './coupons';
@@ -14,7 +15,7 @@ const checkoutSchema = z.object({
     date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
     start_time: z.string().regex(/^\d{2}:\d{2}$/),
     end_time: z.string().regex(/^\d{2}:\d{2}$/),
-    price: z.number().positive(),
+    price: z.number().min(0),
     special_event_id: z.string().optional(),
     special_event_name: z.string().optional(),
   })).min(1),
@@ -230,7 +231,67 @@ export const createCheckout = async (req: Request, res: Response) => {
       );
     }
     
-    // Create Barion payment
+    if (totalAmount <= 0) {
+      // Free order - skip payment, confirm directly
+      const bookingResult = await bookingService.createBookings(orderId);
+      if (!bookingResult.success) {
+        throw new Error('Failed to create bookings for free order');
+      }
+
+      await client.query(
+        `UPDATE orders SET status = 'paid', updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
+        [orderId]
+      );
+
+      await client.query('COMMIT');
+
+      // Send confirmation email (non-blocking)
+      try {
+        const orderForEmail = {
+          id: orderId,
+          status: 'paid' as const,
+          language: checkoutData.language,
+          customer_name: checkoutData.customer.name,
+          email: checkoutData.customer.email,
+          phone: checkoutData.customer.phone || undefined,
+          total_amount: 0,
+          currency: config.business.currency,
+          invoice_required: checkoutData.invoice?.required || false,
+          invoice_company: checkoutData.invoice?.company,
+          invoice_tax_number: checkoutData.invoice?.tax_number,
+          invoice_address: checkoutData.invoice?.address,
+          terms_accepted: true,
+          privacy_accepted: true,
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+
+        const itemsForEmail = checkoutData.items.map(item => ({
+          room_name: item.room_name,
+          booking_date: item.date,
+          start_time: item.start_time,
+          end_time: item.end_time,
+          special_event_name: (item as any).special_event_name || null,
+        })) as any[];
+
+        const calendarFile = Buffer.from(
+          emailService.generateCalendarFile(orderForEmail as any, itemsForEmail),
+          'utf-8'
+        );
+        await emailService.sendBookingConfirmation(orderForEmail as any, itemsForEmail, calendarFile);
+      } catch (emailError) {
+        console.error('Error sending confirmation email for free order:', emailError);
+      }
+
+      return res.json({
+        orderId,
+        total: 0,
+        currency: config.business.currency,
+        free: true,
+      });
+    }
+
+    // Paid order - create Barion payment
     const barionItems = checkoutData.items.map(item => {
       const itemWithEvent = item as any;
       const eventName = itemWithEvent.special_event_name ? ` - ${itemWithEvent.special_event_name}` : '';
@@ -257,7 +318,7 @@ export const createCheckout = async (req: Request, res: Response) => {
       totalAmount,
       config.business.currency,
       checkoutData.language === 'hu' ? 'hu-HU' : 'en-US',
-      checkoutData.customer.email // Pass customer email for payment notifications
+      checkoutData.customer.email
     );
     
     const barionResponse = await barionService.createPayment(paymentRequest);

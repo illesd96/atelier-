@@ -50,10 +50,11 @@ export interface CheckoutRequest {
 
 export interface CheckoutResponse {
   orderId: string;
-  paymentId: string;
-  redirectUrl: string;
+  paymentId?: string;
+  redirectUrl?: string;
   total: number;
   currency: string;
+  free?: boolean;
 }
 
 export interface Order {

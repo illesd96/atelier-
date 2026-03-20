@@ -399,7 +399,11 @@ export const CheckoutForm: React.FC<CheckoutFormProps> = ({ onSuccess, onError }
       };
 
       const response = await api.createCheckout(checkoutRequest, token || undefined);
-      onSuccess(response.redirectUrl);
+      if (response.redirectUrl) {
+        onSuccess(response.redirectUrl);
+      } else {
+        window.location.href = `/payment/result?orderId=${response.orderId}&free=true`;
+      }
 
     } catch (error: any) {
       console.error('Checkout error:', error);

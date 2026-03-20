@@ -11,7 +11,7 @@ const cartItemSchema = z.object({
   date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
   start_time: z.string().regex(/^\d{2}:\d{2}$/),
   end_time: z.string().regex(/^\d{2}:\d{2}$/),
-  price: z.number().positive(),
+  price: z.number().min(0),
   special_event_id: z.string().optional(),
   special_event_name: z.string().optional(),
 });

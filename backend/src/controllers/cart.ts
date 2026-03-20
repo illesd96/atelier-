@@ -82,8 +82,16 @@ export const validateCart = async (req: Request, res: Response) => {
           continue;
         }
         
-        // Validate price against event price
-        if (item.price !== parseFloat(event.price_per_slot)) {
+        // Validate price against event price (check custom slot price first)
+        let expectedPrice = parseFloat(event.price_per_slot);
+        if (event.use_custom_slots && event.custom_slots) {
+          const slots = typeof event.custom_slots === 'string' ? JSON.parse(event.custom_slots) : event.custom_slots;
+          const matchingSlot = slots.find((s: any) => s.start === item.start_time || s.start === `${item.start_time}:00`);
+          if (matchingSlot && matchingSlot.price !== undefined) {
+            expectedPrice = parseFloat(matchingSlot.price);
+          }
+        }
+        if (item.price !== expectedPrice) {
           validationResults.push({
             item,
             valid: false,

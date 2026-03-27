@@ -59,7 +59,7 @@ export const validateCart = async (req: Request, res: Response) => {
           continue;
         }
         
-        // Check if this specific time slot is already booked
+        // Check if this specific time slot has capacity remaining
         const bookedCheck = await pool.query(
           `SELECT COUNT(*) as count
           FROM order_items oi
@@ -73,7 +73,16 @@ export const validateCart = async (req: Request, res: Response) => {
           [itemWithSpecialEvent.special_event_id, item.date, `${item.start_time}:00`]
         );
         
-        if (parseInt(bookedCheck.rows[0].count) > 0) {
+        let maxCapacity = event.max_capacity_per_slot || 1;
+        if (event.use_custom_slots && event.custom_slots) {
+          const slots = typeof event.custom_slots === 'string' ? JSON.parse(event.custom_slots) : event.custom_slots;
+          const matchingSlot = slots.find((s: any) => s.start === item.start_time || s.start === `${item.start_time}:00`);
+          if (matchingSlot?.max_capacity !== undefined) {
+            maxCapacity = matchingSlot.max_capacity;
+          }
+        }
+        
+        if (parseInt(bookedCheck.rows[0].count) >= maxCapacity) {
           validationResults.push({
             item,
             valid: false,

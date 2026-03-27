@@ -70,11 +70,12 @@ export const getOrderStatus = async (req: Request, res: Response) => {
               // Don't fail the whole request if booking creation fails
             }
           } else if (barionStatus.Status === 'Failed' || barionStatus.Status === 'Canceled') {
+            const dbStatus = barionStatus.Status === 'Canceled' ? 'cancelled' : 'failed';
             await pool.query(`
-              UPDATE orders 
+              UPDATE orders
               SET status = $1, updated_at = CURRENT_TIMESTAMP
               WHERE id = $2
-            `, [barionStatus.Status.toLowerCase(), orderId]);
+            `, [dbStatus, orderId]);
             
             order.status = barionStatus.Status.toLowerCase();
           }

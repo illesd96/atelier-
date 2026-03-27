@@ -205,70 +205,63 @@ ${items.map(item => `    <tetel>
         timeout: 30000,
       });
 
-      // Szamlazz.hu returns multipart response with XML and PDF
       const responseData = response.data;
-      
-      // Try to parse response as XML first (error responses are XML)
+      const headers = response.headers;
+
+      // With valaszVerzio=2, success data is in response headers
+      const invoiceNumber = headers['szlahu_szamlaszam'] || '';
+      const invoiceId = headers['szlahu_szamlaid'] || '';
+
+      if (invoiceNumber) {
+        // Success - headers contain invoice info, body contains PDF
+        console.log('✅ Invoice generated successfully:', invoiceNumber);
+
+        let pdfData: Buffer | undefined;
+        const pdfBuffer = Buffer.from(responseData);
+
+        // Check if the body contains PDF data
+        const pdfMarker = Buffer.from('%PDF');
+        const pdfIndex = pdfBuffer.indexOf(pdfMarker);
+        if (pdfIndex >= 0) {
+          pdfData = pdfBuffer.slice(pdfIndex);
+        } else if (pdfBuffer.length > 0) {
+          pdfData = pdfBuffer;
+        }
+
+        return {
+          success: true,
+          invoiceNumber,
+          invoiceId,
+          pdfData,
+          grossAmount: data.items.reduce((sum, item) => sum + item.grossAmount, 0),
+          netAmount: data.items.reduce((sum, item) => sum + item.netPrice, 0),
+        };
+      }
+
+      // No invoice number in headers - this is an error response (XML)
       const responseText = Buffer.from(responseData).toString('utf-8');
-      
+      console.log('📄 Raw XML response:', responseText.substring(0, 500));
+
       if (responseText.includes('<?xml')) {
-        // Error response
-        console.log('📄 Raw XML response:', responseText.substring(0, 500)); // Log first 500 chars
         const parsed = await this.parseResponse(responseText);
         console.log('🔍 Parsed XML:', JSON.stringify(parsed, null, 2));
-        
+
         const errorCode = parsed.xmlszamlavalasz?.hibakod || parsed.xmlszamla?.hibakod || 'unknown';
         const errorMessage = parsed.xmlszamlavalasz?.hibauzenet || parsed.xmlszamla?.hibauzenet || 'Unknown error';
-        
+
         console.error('❌ Szamlazz.hu error:', { errorCode, errorMessage });
-        
+
         return {
           success: false,
           errorMessage: `${errorCode}: ${errorMessage}`,
         };
       }
 
-      // Success response - contains PDF
-      console.log('✅ Invoice generated successfully');
-
-      // Parse response to extract invoice details
-      // The response format is: XML part + PDF part
-      const boundary = '--';
-      const parts = responseText.split(boundary);
-      
-      let invoiceNumber = '';
-      let invoiceId = '';
-      let pdfData: Buffer | undefined;
-
-      // Find XML part
-      for (const part of parts) {
-        if (part.includes('Content-Disposition: form-data; name="szamla_id"')) {
-          invoiceId = part.split('\r\n\r\n')[1]?.trim() || '';
-        } else if (part.includes('Content-Disposition: form-data; name="szamlaszam"')) {
-          invoiceNumber = part.split('\r\n\r\n')[1]?.trim() || '';
-        } else if (part.includes('Content-Type: application/pdf')) {
-          // Extract PDF binary data
-          const pdfStart = part.indexOf('\r\n\r\n') + 4;
-          if (pdfStart > 3) {
-            const pdfContent = part.substring(pdfStart);
-            pdfData = Buffer.from(pdfContent, 'binary');
-          }
-        }
-      }
-
-      // If we couldn't parse the multipart response, try to extract PDF directly
-      if (!pdfData && responseData.includes('%PDF')) {
-        const pdfStartIndex = responseData.indexOf('%PDF');
-        pdfData = Buffer.from(responseData.slice(pdfStartIndex));
-      }
-
+      // Unexpected response format
+      console.error('❌ Unexpected Szamlazz.hu response format');
       return {
-        success: true,
-        invoiceNumber,
-        invoiceId,
-        pdfData,
-        grossAmount: data.items.reduce((sum, item) => sum + item.grossAmount, 0),
-        netAmount: data.items.reduce((sum, item) => sum + item.netPrice, 0),
+        success: false,
+        errorMessage: 'Unexpected response format from Szamlazz.hu',
       };
 
     } catch (error: any) {

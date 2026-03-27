@@ -257,12 +257,12 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
         }
       }
     } else if (PaymentState === 'Failed' || PaymentState === 'Canceled') {
-      // Update order status
+      const dbStatus = PaymentState === 'Canceled' ? 'cancelled' : 'failed';
       await client.query(`
         UPDATE orders 
         SET status = $1, updated_at = CURRENT_TIMESTAMP
         WHERE id = $2
-      `, [PaymentState.toLowerCase(), order.id]);
+      `, [dbStatus, order.id]);
     }
     
     await client.query('COMMIT');

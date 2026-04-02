@@ -54,9 +54,21 @@ export const SpecialEventBookingPage: React.FC = () => {
   const [cartVisible, setCartVisible] = useState(false);
   const [galleryActiveIndex, setGalleryActiveIndex] = useState<number>(0);
   const [displayGallery, setDisplayGallery] = useState<boolean>(false);
+  const [modelGalleryActiveIndex, setModelGalleryActiveIndex] = useState<number>(0);
+  const [displayModelGallery, setDisplayModelGallery] = useState<boolean>(false);
   const [maxCapacityPerSlot, setMaxCapacityPerSlot] = useState<number>(1);
 
-  // Gallery images for special event (19 images total)
+  const modelGalleryImages = [
+    '/images/special/model/01.JPG',
+    '/images/special/model/02.jpg',
+    '/images/special/model/03.jpg',
+    '/images/special/model/04.jpg',
+    '/images/special/model/05.png',
+    '/images/special/model/06.JPG',
+    '/images/special/model/07.png',
+    '/images/special/model/08.png'
+  ];
+
   const galleryImages = [
     '/images/special/01.JPG',
     '/images/special/02.JPG',
@@ -96,7 +108,6 @@ export const SpecialEventBookingPage: React.FC = () => {
     updateSelectedSlotsFromCart();
   }, [items]);
 
-  // Gallery navigation handlers
   const handlePrevImage = () => {
     setGalleryActiveIndex((prev) => (prev === 0 ? galleryImages.length - 1 : prev - 1));
   };
@@ -105,7 +116,21 @@ export const SpecialEventBookingPage: React.FC = () => {
     setGalleryActiveIndex((prev) => (prev === galleryImages.length - 1 ? 0 : prev + 1));
   };
 
+  const handlePrevModelImage = () => {
+    setModelGalleryActiveIndex((prev) => (prev === 0 ? modelGalleryImages.length - 1 : prev - 1));
+  };
+
+  const handleNextModelImage = () => {
+    setModelGalleryActiveIndex((prev) => (prev === modelGalleryImages.length - 1 ? 0 : prev + 1));
+  };
+
   const handleGalleryKeyDown = (e: KeyboardEvent) => {
+    if (displayModelGallery) {
+      if (e.key === 'Escape') setDisplayModelGallery(false);
+      if (e.key === 'ArrowLeft') handlePrevModelImage();
+      if (e.key === 'ArrowRight') handleNextModelImage();
+      return;
+    }
     if (!displayGallery) return;
     if (e.key === 'Escape') setDisplayGallery(false);
     if (e.key === 'ArrowLeft') handlePrevImage();
@@ -115,7 +140,7 @@ export const SpecialEventBookingPage: React.FC = () => {
   useEffect(() => {
     window.addEventListener('keydown', handleGalleryKeyDown);
     return () => window.removeEventListener('keydown', handleGalleryKeyDown);
-  }, [displayGallery, galleryActiveIndex]);
+  }, [displayGallery, displayModelGallery, galleryActiveIndex, modelGalleryActiveIndex]);
 
   const fetchEvent = async () => {
     try {
@@ -602,6 +627,38 @@ export const SpecialEventBookingPage: React.FC = () => {
           </div>
         )}
 
+        {/* Model Gallery Section */}
+        <div className="special-event-gallery-section">
+          <h2>Models / Modellek</h2>
+          <div className="special-event-gallery-grid">
+            {modelGalleryImages.map((image, index) => (
+              <div
+                key={index}
+                className="special-gallery-item"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setModelGalleryActiveIndex(index);
+                  setDisplayModelGallery(true);
+                }}
+                role="button"
+                tabIndex={0}
+                onKeyPress={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    setModelGalleryActiveIndex(index);
+                    setDisplayModelGallery(true);
+                  }
+                }}
+              >
+                <img src={image} alt={`Model ${index + 1}`} />
+                <div className="special-gallery-item-overlay">
+                  <i className="pi pi-search-plus"></i>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         {/* Gallery Section */}
         <div className="special-event-gallery-section">
           <h2>Galéria</h2>
@@ -660,6 +717,47 @@ export const SpecialEventBookingPage: React.FC = () => {
         onHide={() => setCartVisible(false)}
         onCheckout={handleCheckout}
       />
+
+      {/* Model Gallery Lightbox */}
+      {displayModelGallery && (
+        <div className="custom-lightbox">
+          <div 
+            className="custom-lightbox-overlay"
+            onClick={() => setDisplayModelGallery(false)}
+          />
+          <button 
+            className="custom-lightbox-close"
+            onClick={() => setDisplayModelGallery(false)}
+            aria-label="Close"
+          >
+            <i className="pi pi-times"></i>
+          </button>
+          <button 
+            className="custom-lightbox-prev"
+            onClick={handlePrevModelImage}
+            aria-label="Previous"
+          >
+            <i className="pi pi-chevron-left"></i>
+          </button>
+          <button 
+            className="custom-lightbox-next"
+            onClick={handleNextModelImage}
+            aria-label="Next"
+          >
+            <i className="pi pi-chevron-right"></i>
+          </button>
+          <div className="custom-lightbox-content">
+            <img 
+              src={modelGalleryImages[modelGalleryActiveIndex]} 
+              alt={`Model ${modelGalleryActiveIndex + 1}`}
+              className="custom-lightbox-image"
+            />
+            <div className="custom-lightbox-counter">
+              {modelGalleryActiveIndex + 1} / {modelGalleryImages.length}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Gallery Lightbox */}
       {displayGallery && (

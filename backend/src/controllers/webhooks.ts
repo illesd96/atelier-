@@ -78,6 +78,13 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
     const order = orderResult.rows[0];
     console.log('📦 Order found:', { orderId: order.id, currentStatus: order.status });
     
+    // Idempotency guard: skip if order was already fully processed
+    if (order.status === 'paid') {
+      console.log('⚡ Order already paid, skipping duplicate webhook for:', order.id);
+      await client.query('COMMIT');
+      return res.status(200).json({ success: true, message: 'Already processed' });
+    }
+    
     // Get order items (needed for both success and failure cases)
     const itemsResult = await client.query(`
       SELECT oi.*, r.name as room_name, se.name as special_event_name, se.id as special_event_id
@@ -123,7 +130,12 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
         let invoiceId: string | null = null;
         let invoicePdf: Buffer | undefined;
         
-        if (szamlazzService.isEnabled()) {
+        const existingInvoice = await client.query(
+          'SELECT id FROM invoices WHERE order_id = $1 LIMIT 1',
+          [order.id]
+        );
+
+        if (szamlazzService.isEnabled() && existingInvoice.rows.length === 0) {
           console.log('📄 Generating invoice via Szamlazz.hu...');
           try {
             // Prepare invoice items (VAT-free)
@@ -203,6 +215,8 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
             console.error('Error generating invoice:', invoiceError);
             // Continue with booking process even if invoice fails
           }
+        } else if (existingInvoice.rows.length > 0) {
+          console.log('📄 Invoice already exists for order, skipping generation:', order.id);
         }
         
         // Send confirmation email

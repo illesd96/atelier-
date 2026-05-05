@@ -70,24 +70,24 @@ export const SpecialEventBookingPage: React.FC = () => {
   ];
 
   const galleryImages = [
-    '/images/special/01.JPG',
-    '/images/special/02.JPG',
-    '/images/special/03.JPG',
-    '/images/special/04.JPG',
-    '/images/special/05.JPG',
-    '/images/special/06.JPG',
-    '/images/special/07.JPG',
-    '/images/special/08.JPG',
-    '/images/special/10.JPG',
-    '/images/special/11.JPG',
-    '/images/special/12.JPG',
-    '/images/special/13.JPG',
-    '/images/special/14.JPG',
-    '/images/special/15.JPG',
-    '/images/special/16.JPG',
-    '/images/special/17.JPG',
-    '/images/special/18.JPG',
-    '/images/special/19.JPG'
+    '/images/special/01.jpg',
+    '/images/special/02.jpg',
+    '/images/special/03.jpg',
+    '/images/special/04.jpg',
+    '/images/special/05.jpg',
+    '/images/special/06.jpg',
+    '/images/special/07.jpg',
+    '/images/special/08.jpg',
+    '/images/special/10.jpg',
+    '/images/special/11.jpg',
+    '/images/special/12.jpg',
+    '/images/special/13.jpg',
+    '/images/special/14.jpg',
+    '/images/special/15.jpg',
+    '/images/special/16.jpg',
+    '/images/special/17.jpg',
+    '/images/special/18.jpg',
+    '/images/special/19.jpg'
   ];
 
   useEffect(() => {
@@ -628,7 +628,7 @@ export const SpecialEventBookingPage: React.FC = () => {
         )}
 
         {/* Model Gallery Section */}
-        <div className="special-event-gallery-section">
+        {/* <div className="special-event-gallery-section">
           <h2>Models / Modellek</h2>
           <div className="special-event-gallery-grid">
             {modelGalleryImages.map((image, index) => (
@@ -657,7 +657,7 @@ export const SpecialEventBookingPage: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         {/* Gallery Section */}
         <div className="special-event-gallery-section">

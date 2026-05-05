@@ -57,35 +57,27 @@ const FIXED_SLOTS: FixedSlot[] = [
 ];
 
 const MODEL_GALLERY_IMAGES = [
-  '/images/special/model/01.JPG',
-  '/images/special/model/02.jpg',
-  '/images/special/model/03.jpg',
-  '/images/special/model/04.jpg',
-  '/images/special/model/05.png',
-  '/images/special/model/06.JPG',
-  '/images/special/model/07.png',
-  '/images/special/model/08.png',
+  '/images/special/nyiltmodel/01.JPG',
+  '/images/special/nyiltmodel/02.jpg',
+  '/images/special/nyiltmodel/03.jpg',
+  '/images/special/nyiltmodel/04.jpg',
+  '/images/special/nyiltmodel/05.png',
+  '/images/special/nyiltmodel/06.JPG',
+  '/images/special/nyiltmodel/07.png',
+  '/images/special/nyiltmodel/08.png',
 ];
 
 const GALLERY_IMAGES = [
-  '/images/special/01.JPG',
-  '/images/special/02.JPG',
-  '/images/special/03.JPG',
-  '/images/special/04.JPG',
-  '/images/special/05.JPG',
-  '/images/special/06.JPG',
-  '/images/special/07.JPG',
-  '/images/special/08.JPG',
-  '/images/special/10.JPG',
-  '/images/special/11.JPG',
-  '/images/special/12.JPG',
-  '/images/special/13.JPG',
-  '/images/special/14.JPG',
-  '/images/special/15.JPG',
-  '/images/special/16.JPG',
-  '/images/special/17.JPG',
-  '/images/special/18.JPG',
-  '/images/special/19.JPG',
+  '/images/nyilt/01.jpg',
+  '/images/nyilt/02.jpg',
+  '/images/nyilt/03.jpg',
+  '/images/nyilt/04.jpg',
+  '/images/nyilt/05.jpg',
+  '/images/nyilt/06.jpg',
+  '/images/nyilt/07.jpg',
+  '/images/nyilt/08.jpg',
+  '/images/nyilt/10.jpg',
+  '/images/nyilt/11.jpg',
 ];
 
 interface ApiSlot {

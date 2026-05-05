@@ -119,15 +119,26 @@ const Header: React.FC = () => {
                     </Link>
                   </li>
                   {item.label === t('navigation.rooms') && (
-                    <li>
-                      <Link
-                        to="/special-events/nyiltnap"
-                        className="nav-link"
-                        title="Nyíltnap"
-                      >
-                        Nyíltnap
-                      </Link>
-                    </li>
+                    <>
+                      <li>
+                        <Link
+                          to="/special-events/nyiltnap"
+                          className="nav-link"
+                          title="Nyíltnap"
+                        >
+                          Nyíltnap
+                        </Link>
+                      </li>
+                      <li>
+                        <Link
+                          to="/special-events/business-day"
+                          className="nav-link"
+                          title="Business Day"
+                        >
+                          Business Day
+                        </Link>
+                      </li>
+                    </>
                   )}
                 </React.Fragment>
               ))}
@@ -233,15 +244,26 @@ const Header: React.FC = () => {
                 </Link>
               </li>
               {item.label === t('navigation.rooms') && (
-                <li>
-                  <Link
-                    to="/special-events/nyiltnap"
-                    onClick={() => setIsMenuOpen(false)}
-                    title="Nyíltnap"
-                  >
-                    Nyíltnap
-                  </Link>
-                </li>
+                <>
+                  <li>
+                    <Link
+                      to="/special-events/nyiltnap"
+                      onClick={() => setIsMenuOpen(false)}
+                      title="Nyíltnap"
+                    >
+                      Nyíltnap
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/special-events/business-day"
+                      onClick={() => setIsMenuOpen(false)}
+                      title="Business Day"
+                    >
+                      Business Day
+                    </Link>
+                  </li>
+                </>
               )}
             </React.Fragment>
           ))}

@@ -68,16 +68,16 @@ const MODEL_GALLERY_IMAGES = [
 ];
 
 const GALLERY_IMAGES = [
-  '/images/nyilt/01.jpg',
-  '/images/nyilt/02.jpg',
-  '/images/nyilt/03.jpg',
-  '/images/nyilt/04.jpg',
-  '/images/nyilt/05.jpg',
-  '/images/nyilt/06.jpg',
-  '/images/nyilt/07.jpg',
-  '/images/nyilt/08.jpg',
-  '/images/nyilt/10.jpg',
-  '/images/nyilt/11.jpg',
+  '/images/special/nyilt/01.jpg',
+  '/images/special/nyilt/02.jpg',
+  '/images/special/nyilt/03.jpg',
+  '/images/special/nyilt/04.jpg',
+  '/images/special/nyilt/05.jpg',
+  '/images/special/nyilt/06.jpg',
+  '/images/special/nyilt/07.jpg',
+  '/images/special/nyilt/08.jpg',
+  '/images/special/nyilt/10.jpg',
+  '/images/special/nyilt/11.jpg',
 ];
 
 interface ApiSlot {

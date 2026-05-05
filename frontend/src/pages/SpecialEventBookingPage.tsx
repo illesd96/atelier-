@@ -83,11 +83,6 @@ export const SpecialEventBookingPage: React.FC = () => {
     '/images/special/12.jpg',
     '/images/special/13.jpg',
     '/images/special/14.jpg',
-    '/images/special/15.jpg',
-    '/images/special/16.jpg',
-    '/images/special/17.jpg',
-    '/images/special/18.jpg',
-    '/images/special/19.jpg'
   ];
 
   useEffect(() => {
@@ -719,7 +714,7 @@ export const SpecialEventBookingPage: React.FC = () => {
       />
 
       {/* Model Gallery Lightbox */}
-      {displayModelGallery && (
+      {/* {displayModelGallery && (
         <div className="custom-lightbox">
           <div 
             className="custom-lightbox-overlay"
@@ -757,7 +752,7 @@ export const SpecialEventBookingPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {/* Gallery Lightbox */}
       {displayGallery && (

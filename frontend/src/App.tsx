@@ -30,6 +30,7 @@ import { AdminSchedulePage } from './pages/AdminSchedulePage';
 import { SpecialEventsPage } from './pages/Admin/SpecialEventsPage';
 import { CouponsPage } from './pages/Admin/CouponsPage';
 import { SpecialEventBookingPage } from './pages/SpecialEventBookingPage';
+import { NyiltNapPage } from './pages/NyiltNapPage';
 import { RoomDetailPage } from './pages/RoomDetailPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { CookieConsent } from './components/CookieConsent';
@@ -50,6 +51,7 @@ function App() {
                     <Route index element={<HomePage />} />
                     <Route path="rooms/:roomId" element={<RoomDetailPage />} />
                     <Route path="booking" element={<BookingPage />} />
+                    <Route path="special-events/nyiltnap" element={<NyiltNapPage />} />
                     <Route path="special-events/:eventId" element={<SpecialEventBookingPage />} />
                     <Route path="checkout" element={<CheckoutPage />} />
                     <Route path="payment/result" element={<PaymentResultPage />} />

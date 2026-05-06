@@ -52,9 +52,18 @@
 .room-hero-subtitle {
   font-size: 1.5rem;
   font-weight: 300;
-  margin: 0 0 2rem 0;
+  margin: 0 0 1.25rem 0;
   color: rgba(255, 255, 255, 0.9);
   line-height: 1.6;
+}
+
+.room-hero-price {
+  font-size: 2.25rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: white;
+  margin: 0 0 2rem 0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 
 .room-hero-button {
@@ -494,6 +503,10 @@
   .room-hero-subtitle {
     font-size: 1.2rem;
   }
+
+  .room-hero-price {
+    font-size: 1.75rem;
+  }
 }
 
 @media (max-width: 768px) {
@@ -512,6 +525,10 @@
 
   .room-hero-subtitle {
     font-size: 1.1rem;
+  }
+
+  .room-hero-price {
+    font-size: 1.5rem;
   }
 
   .room-hero-features {

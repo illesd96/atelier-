@@ -62,7 +62,12 @@ export const RoomDetailPage: React.FC = () => {
             <div className="room-hero-text">
               <h1 className="room-hero-title">{room.title[currentLang]}</h1>
               <p className="room-hero-subtitle">{room.subtitle[currentLang]}</p>
-              <Button 
+              <div className="room-hero-price">
+                {currentLang === 'hu'
+                  ? `${room.specs.price.replace(',', ' ')} Ft / 55 perc`
+                  : `${room.specs.price} HUF / 55 minutes`}
+              </div>
+              <Button
                 label={t('booking.title')}
                 icon="pi pi-calendar"
                 className="room-hero-button"

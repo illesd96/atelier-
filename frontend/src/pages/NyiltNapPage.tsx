@@ -418,7 +418,7 @@ export const NyiltNapPage: React.FC = () => {
           ) : null}
         </div>
 
-        <div className="special-event-gallery-section">
+        {/* <div className="special-event-gallery-section">
           <h2>Models / Modellek</h2>
           <div className="special-event-gallery-grid">
             {MODEL_GALLERY_IMAGES.map((image, index) => (
@@ -447,7 +447,7 @@ export const NyiltNapPage: React.FC = () => {
               </div>
             ))}
           </div>
-        </div>
+        </div> */}
 
         <div className="special-event-gallery-section">
           <h2>Galéria</h2>
@@ -501,7 +501,7 @@ export const NyiltNapPage: React.FC = () => {
         onCheckout={handleCheckout}
       />
 
-      {displayModelGallery && (
+      {/* {displayModelGallery && (
         <div className="custom-lightbox">
           <div className="custom-lightbox-overlay" onClick={() => setDisplayModelGallery(false)} />
           <button
@@ -536,7 +536,7 @@ export const NyiltNapPage: React.FC = () => {
             </div>
           </div>
         </div>
-      )}
+      )} */}
 
       {displayGallery && (
         <div className="custom-lightbox">

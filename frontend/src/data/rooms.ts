@@ -50,11 +50,9 @@ export const roomsData: RoomData[] = [
         'Természetes, neutrális színek',
         '3 óriás ablak',
         'Északi tájolás, szórt fényekkel',
-        'Maximum létszám: 5 fő',
         'Fix 2 db állandó fényű LED lámpa',
         'Opcionálisan kérhető vaku',
-        'Minden nap 8:00-tól, óránként foglalható',
-        '15 000 Ft / 55 perc'
+        'Minden nap 8:00-tól, óránként foglalható'
       ],
       en: [
         'Modern, clean, yet dramatic',
@@ -65,8 +63,7 @@ export const roomsData: RoomData[] = [
         'Maximum capacity: 10 people',
         'Fixed 2 continuous LED lights',
         'Optionally available flash unit',
-        'Available daily from 8:00, hourly bookings',
-        '15,000 HUF / 55 minutes'
+        'Available daily from 8:00, hourly bookings'
       ]
     },
     specs: {
@@ -107,11 +104,9 @@ export const roomsData: RoomData[] = [
         '34 + 16 m2',
         '2025, november 15-től karácsonyi dekoráció!',
         'Nyugati tájolás, szórt fényekkel',
-        'Maximum létszám: 6 fő',
         'Fix 2 db állandó fényű LED lámpa',
         'Opcionálisan kérhető vaku',
-        'Minden nap 8:00-tól, óránként foglalható',
-        '15 000 Ft / 55 perc'
+        'Minden nap 8:00-tól, óránként foglalható'
       ],
       en: [
         'Minimalist, modern design',
@@ -121,8 +116,7 @@ export const roomsData: RoomData[] = [
         'Maximum capacity: 6 people',
         'Fixed 2 continuous LED light',
         'Optionally available flash units',
-        'Available daily from 8:00, hourly bookings',
-        '15,000 HUF / 55 minutes'
+        'Available daily from 8:00, hourly bookings'
       ]
     },
     specs: {
@@ -171,11 +165,9 @@ export const roomsData: RoomData[] = [
         '2025, november 15-től karácsonyi dekoráció!',
         'Olivazöld falak díszlécekkel',
         'Kandalló a tér központjában',
-        'Maximum létszám: 5 fő',
         'Fix 2 db állandó fényű LED lámpa',
         'Opcionálisan kérhető vaku',
-        'Minden nap 8:00-tól, óránként foglalható',
-        '15 000 Ft / 55 perc'
+        'Minden nap 8:00-tól, óránként foglalható'
       ],
       en: [
         'Classic elegance with a modern twist',
@@ -186,8 +178,7 @@ export const roomsData: RoomData[] = [
         'Maximum capacity: 5 people',
         'Fixed 2 continuous LED lights',
         'Optionally available flash units',
-        'Available daily from 8:00, hourly bookings',
-        '15,000 HUF / 55 minutes'
+        'Available daily from 8:00, hourly bookings'
       ]
     },
     specs: {

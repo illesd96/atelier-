@@ -70,19 +70,19 @@ export const SpecialEventBookingPage: React.FC = () => {
   ];
 
   const galleryImages = [
-    '/images/special/01.jpg',
-    '/images/special/02.jpg',
-    '/images/special/03.jpg',
-    '/images/special/04.jpg',
-    '/images/special/05.jpg',
-    '/images/special/06.jpg',
-    '/images/special/07.jpg',
-    '/images/special/08.jpg',
-    '/images/special/10.jpg',
-    '/images/special/11.jpg',
-    '/images/special/12.jpg',
-    '/images/special/13.jpg',
-    '/images/special/14.jpg',
+    '/images/special/main/01.jpg',
+    '/images/special/main/02.jpg',
+    '/images/special/main/03.jpg',
+    '/images/special/main/04.jpg',
+    '/images/special/main/05.jpg',
+    '/images/special/main/06.jpg',
+    '/images/special/main/07.jpg',
+    '/images/special/main/08.jpg',
+    '/images/special/main/10.jpg',
+    '/images/special/main/11.jpg',
+    '/images/special/main/12.jpg',
+    '/images/special/main/13.jpg',
+    '/images/special/main/14.jpg',
   ];
 
   useEffect(() => {

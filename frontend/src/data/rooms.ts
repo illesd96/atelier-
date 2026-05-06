@@ -70,7 +70,7 @@ export const roomsData: RoomData[] = [
       size: '33 m2',
       capacity: '5',
       availability: '8:00-20:00',
-      price: '15,000'
+      price: '13,000'
     },
     heroImage: '/images/atelier/title.jpg',
     galleryImages: [
@@ -123,7 +123,7 @@ export const roomsData: RoomData[] = [
       size: '50 m2',
       capacity: '6',
       availability: '8:00-20:00',
-      price: '15,000'
+      price: '13,000'
     },
     heroImage: '/images/frigyes/title.jpg',
     galleryImages: [
@@ -185,7 +185,7 @@ export const roomsData: RoomData[] = [
       size: '28 m2',
       capacity: '10',
       availability: '8:00-20:00',
-      price: '15,000'
+      price: '13,000'
     },
     heroImage: '/images/karinthy/title.jpg',
     galleryImages: [

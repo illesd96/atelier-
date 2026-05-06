@@ -58,7 +58,7 @@
 }
 
 .room-hero-price {
-  font-size: 2.25rem;
+  font-size: 1.8rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: white;
@@ -505,7 +505,7 @@
   }
 
   .room-hero-price {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
   }
 }
 
@@ -528,7 +528,7 @@
   }
 
   .room-hero-price {
-    font-size: 1.5rem;
+    font-size: 1.15rem;
   }
 
   .room-hero-features {

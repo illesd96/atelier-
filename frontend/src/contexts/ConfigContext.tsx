@@ -33,7 +33,7 @@ export const ConfigProvider: React.FC<{ children: ReactNode }> = ({ children }) 
         setError(err instanceof Error ? err.message : 'Failed to load configuration');
         // Set default fallback config
         setConfig({
-          hourlyRate: 15000,
+          hourlyRate: 13000,
           currency: 'HUF',
           openingHours: { start: 8, end: 20 },
           studios: [

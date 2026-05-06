@@ -224,14 +224,6 @@ export const RoomDetailPage: React.FC = () => {
                   <div className="other-room-info">
                     <h3 className="other-room-name">{otherRoom.name}</h3>
                     <p className="other-room-subtitle">{otherRoom.subtitle[currentLang]}</p>
-                    <div className="other-room-specs">
-                      <span className="spec-item">
-                        <i className="pi pi-home"></i> {otherRoom.specs.size}
-                      </span>
-                      <span className="spec-item">
-                        <i className="pi pi-users"></i> {otherRoom.specs.capacity} {t('rooms.people')}
-                      </span>
-                    </div>
                   </div>
                 </div>
               ))}

@@ -78,7 +78,7 @@ export const BookingGrid: React.FC<BookingGridProps> = ({ onCartUpdate }) => {
       date: dateStr,
       start_time: slot.time,
       end_time: endTime,
-      price: config?.hourlyRate || 15000,
+      price: config?.hourlyRate || 13000,
     };
 
     if (isInCart(room.id, dateStr, slot.time)) {
@@ -260,7 +260,7 @@ export const BookingGrid: React.FC<BookingGridProps> = ({ onCartUpdate }) => {
                       </span>
                       <span className="slot-price">
                         {slot.status === 'available' && (
-                          <small>{(config?.hourlyRate || 15000).toLocaleString()} {t('common.currency')}</small>
+                          <small>{(config?.hourlyRate || 13000).toLocaleString()} {t('common.currency')}</small>
                         )}
                       </span>
                     </div>

@@ -66,7 +66,7 @@ export const config = {
   
   // Business settings
   business: {
-    hourlyRate: 15000, // HUF per hour
+    hourlyRate: 13000, // HUF per hour
     currency: 'HUF',
     timezone: 'Europe/Budapest',
     openingHours: {

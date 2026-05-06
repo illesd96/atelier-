@@ -96,7 +96,7 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
         date: dateStr,
         start_time: slot.time,
         end_time: endTime,
-        price: config?.hourlyRate || 15000,
+        price: config?.hourlyRate || 13000,
       };
       
       addItem(cartItem);
@@ -139,7 +139,7 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
       {availability && (
         <Card>
           <div className="studio-booking-grid">
-            <GridHeader studios={STUDIOS} hourlyRate={config?.hourlyRate || 15000} />
+            <GridHeader studios={STUDIOS} hourlyRate={config?.hourlyRate || 13000} />
             <GridBody
               availability={availability}
               studios={STUDIOS}

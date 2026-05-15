@@ -35,6 +35,7 @@ import { RoomDetailPage } from './pages/RoomDetailPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { CookieConsent } from './components/CookieConsent';
 import { GTMPageTracker } from './components/GTMPageTracker';
+import { MetaPixelPageTracker } from './components/MetaPixelPageTracker';
 
 function App() {
   return (
@@ -45,6 +46,7 @@ function App() {
             <CartProvider>
               <Router>
                 <GTMPageTracker />
+                <MetaPixelPageTracker />
                 <div className="App">
                   <Routes>
                   <Route path="/" element={<Layout />}>

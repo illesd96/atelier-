@@ -72,15 +72,22 @@ export const roomsData: RoomData[] = [
       availability: '8:00-20:00',
       price: '13,000'
     },
-    heroImage: '/images/atelier/title.jpg',
+    heroImage: '/images/atelier/atelier-01.jpg',
     galleryImages: [
-      '/images/atelier/01.JPG',
-      '/images/atelier/02.JPG',
-      '/images/atelier/03.JPG',
-      '/images/atelier/04.JPG',
-      '/images/atelier/05.JPG',
-      '/images/atelier/06.JPG',
-      '/images/atelier/07.JPG'
+      '/images/atelier/atelier-01.jpg',
+      '/images/atelier/atelier-02.jpg',
+      '/images/atelier/atelier-03.jpg',
+      '/images/atelier/atelier-04.jpg',
+      '/images/atelier/atelier-05.jpg',
+      '/images/atelier/atelier-06.jpg',
+      '/images/atelier/atelier-07.jpg',
+      '/images/atelier/atelier-08.jpg',
+      '/images/atelier/atelier-09.jpg',
+      '/images/atelier/atelier-10.jpg',
+      '/images/atelier/atelier-11.jpg',
+      '/images/atelier/atelier-12.jpg',
+      '/images/atelier/atelier-13.jpg',
+      '/images/atelier/atelier-14.jpg'
     ]
   },
   {
@@ -125,22 +132,18 @@ export const roomsData: RoomData[] = [
       availability: '8:00-20:00',
       price: '13,000'
     },
-    heroImage: '/images/frigyes/title.jpg',
+    heroImage: '/images/frigyes/frigyes-01.jpg',
     galleryImages: [
-      '/images/frigyes/01.JPG',
-      '/images/frigyes/02.JPG',
-      '/images/frigyes/03.JPG',
-      '/images/frigyes/04.JPG',
-      '/images/frigyes/05.JPG',
-      '/images/frigyes/06.JPG',
-      '/images/frigyes/07.JPG',
-      '/images/frigyes/08.JPG',
-      '/images/frigyes/09.JPG',
-      '/images/frigyes/10.JPG',
-      '/images/frigyes/11.JPG',
-      '/images/frigyes/12.JPG',
-      '/images/frigyes/13.JPG',
-      '/images/frigyes/14.JPG'
+      '/images/frigyes/frigyes-01.jpg',
+      '/images/frigyes/frigyes-02.jpg',
+      '/images/frigyes/frigyes-03.jpg',
+      '/images/frigyes/frigyes-04.jpg',
+      '/images/frigyes/frigyes-05.jpg',
+      '/images/frigyes/frigyes-06.jpg',
+      '/images/frigyes/frigyes-07.jpg',
+      '/images/frigyes/frigyes-08.jpg',
+      '/images/frigyes/frigyes-09.jpg',
+      '/images/frigyes/frigyes-10.jpg'
     ]
   },
   {
@@ -187,19 +190,17 @@ export const roomsData: RoomData[] = [
       availability: '8:00-20:00',
       price: '13,000'
     },
-    heroImage: '/images/karinthy/title.jpg',
+    heroImage: '/images/karinthy/karinthy-04.jpg',
     galleryImages: [
-      '/images/karinthy/00.JPG',
-      '/images/karinthy/01.JPG',
-      '/images/karinthy/02.JPG',
-      '/images/karinthy/03.JPG',
-      '/images/karinthy/04.JPG',
-      '/images/karinthy/05.JPG',
-      '/images/karinthy/06.JPG',
-      '/images/karinthy/07.JPG',
-      '/images/karinthy/08.JPG',
-      '/images/karinthy/09.JPG',
-      '/images/karinthy/10.JPG'
+      '/images/karinthy/karinthy-01.jpg',
+      '/images/karinthy/karinthy-02.jpg',
+      '/images/karinthy/karinthy-03.jpg',
+      '/images/karinthy/karinthy-04.jpg',
+      '/images/karinthy/karinthy-05.jpg',
+      '/images/karinthy/karinthy-06.jpg',
+      '/images/karinthy/karinthy-07.jpg',
+      '/images/karinthy/karinthy-08.jpg',
+      '/images/karinthy/karinthy-09.jpg'
     ]
   }
 ];

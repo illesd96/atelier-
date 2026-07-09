@@ -83,7 +83,7 @@ export const HomePage: React.FC = () => {
             <div className="studio-card" onClick={() => navigate('/rooms/studio-a')}>
               <div className="studio-card-image">
                 <OptimizedImage
-                  src="/images/atelier/title.jpg"
+                  src="/images/atelier/atelier-01.jpg"
                   alt="Atelier stúdió - rusztikus fotóstúdió bérlés Budapest"
                   width={600}
                   height={800}
@@ -109,7 +109,7 @@ export const HomePage: React.FC = () => {
             <div className="studio-card" onClick={() => navigate('/rooms/studio-b')}>
               <div className="studio-card-image">
                 <OptimizedImage
-                  src="/images/frigyes/title.jpg"
+                  src="/images/frigyes/frigyes-01.jpg"
                   alt="Frigyes stúdió - modern fotóstúdió bérlés Budapest"
                   width={600}
                   height={800}
@@ -135,7 +135,7 @@ export const HomePage: React.FC = () => {
             <div className="studio-card" onClick={() => navigate('/rooms/studio-c')}>
               <div className="studio-card-image">
                 <OptimizedImage
-                  src="/images/karinthy/title.jpg"
+                  src="/images/karinthy/karinthy-04.jpg"
                   alt="Karinthy stúdió - tágas fotóstúdió bérlés Budapest"
                   width={600}
                   height={800}

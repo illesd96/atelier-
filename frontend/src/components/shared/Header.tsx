@@ -108,39 +108,15 @@ const Header: React.FC = () => {
           <nav className="desktop-nav">
             <ul className="nav-menu">
               {menuItems.map((item) => (
-                <React.Fragment key={item.href}>
-                  <li>
-                    <Link
-                      to={item.href}
-                      className={`nav-link ${location.pathname === item.href ? 'active' : ''}`}
-                      onClick={(e) => item.scrollTo && handleNavClick(e, item)}
-                    >
-                      {item.label}
-                    </Link>
-                  </li>
-                  {item.label === t('navigation.rooms') && (
-                    <>
-                      <li>
-                        <Link
-                          to="/special-events/nyiltnap"
-                          className="nav-link"
-                          title="Nyíltnap"
-                        >
-                          Nyíltnap
-                        </Link>
-                      </li>
-                      <li>
-                        <Link
-                          to="/special-events/business-day"
-                          className="nav-link"
-                          title="Business Day"
-                        >
-                          Business Day
-                        </Link>
-                      </li>
-                    </>
-                  )}
-                </React.Fragment>
+                <li key={item.href}>
+                  <Link
+                    to={item.href}
+                    className={`nav-link ${location.pathname === item.href ? 'active' : ''}`}
+                    onClick={(e) => item.scrollTo && handleNavClick(e, item)}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
               ))}
             </ul>
           </nav>
@@ -233,39 +209,15 @@ const Header: React.FC = () => {
       <div className={`mobile-menu ${isMenuOpen ? 'open' : ''}`}>
         <ul>
           {menuItems.map((item) => (
-            <React.Fragment key={item.href}>
-              <li>
-                <Link
-                  to={item.href}
-                  className={location.pathname === item.href ? 'active' : ''}
-                  onClick={(e) => item.scrollTo ? handleNavClick(e, item) : setIsMenuOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              </li>
-              {item.label === t('navigation.rooms') && (
-                <>
-                  <li>
-                    <Link
-                      to="/special-events/nyiltnap"
-                      onClick={() => setIsMenuOpen(false)}
-                      title="Nyíltnap"
-                    >
-                      Nyíltnap
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      to="/special-events/business-day"
-                      onClick={() => setIsMenuOpen(false)}
-                      title="Business Day"
-                    >
-                      Business Day
-                    </Link>
-                  </li>
-                </>
-              )}
-            </React.Fragment>
+            <li key={item.href}>
+              <Link
+                to={item.href}
+                className={location.pathname === item.href ? 'active' : ''}
+                onClick={(e) => item.scrollTo ? handleNavClick(e, item) : setIsMenuOpen(false)}
+              >
+                {item.label}
+              </Link>
+            </li>
           ))}
           <li>
             <button

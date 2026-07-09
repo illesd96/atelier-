@@ -87,7 +87,17 @@ export const roomsData: RoomData[] = [
       '/images/atelier/atelier-11.jpg',
       '/images/atelier/atelier-12.jpg',
       '/images/atelier/atelier-13.jpg',
-      '/images/atelier/atelier-14.jpg'
+      '/images/atelier/atelier-14.jpg',
+      '/images/atelier/atelier-15.jpg',
+      '/images/atelier/atelier-16.jpg',
+      '/images/atelier/atelier-17.jpg',
+      '/images/atelier/atelier-18.jpg',
+      '/images/atelier/atelier-19.jpg',
+      '/images/atelier/atelier-20.jpg',
+      '/images/atelier/atelier-21.jpg',
+      '/images/atelier/atelier-22.jpg',
+      '/images/atelier/atelier-23.jpg',
+      '/images/atelier/atelier-24.jpg'
     ]
   },
   {
@@ -143,7 +153,12 @@ export const roomsData: RoomData[] = [
       '/images/frigyes/frigyes-07.jpg',
       '/images/frigyes/frigyes-08.jpg',
       '/images/frigyes/frigyes-09.jpg',
-      '/images/frigyes/frigyes-10.jpg'
+      '/images/frigyes/frigyes-10.jpg',
+      '/images/frigyes/frigyes-11.jpg',
+      '/images/frigyes/frigyes-12.jpg',
+      '/images/frigyes/frigyes-13.jpg',
+      '/images/frigyes/frigyes-14.jpg',
+      '/images/frigyes/frigyes-15.jpg'
     ]
   },
   {
@@ -200,7 +215,11 @@ export const roomsData: RoomData[] = [
       '/images/karinthy/karinthy-06.jpg',
       '/images/karinthy/karinthy-07.jpg',
       '/images/karinthy/karinthy-08.jpg',
-      '/images/karinthy/karinthy-09.jpg'
+      '/images/karinthy/karinthy-09.jpg',
+      '/images/karinthy/karinthy-10.jpg',
+      '/images/karinthy/karinthy-11.jpg',
+      '/images/karinthy/karinthy-12.jpg',
+      '/images/karinthy/karinthy-13.jpg'
     ]
   }
 ];

@@ -31,7 +31,7 @@ export const HomePage: React.FC = () => {
         <div className="banner-image-container">
           <div className="banner-image">
             <OptimizedImage
-              src="/images/main-background.jpg"
+              src="/images/atelier/atelier-01.jpg"
               alt="Atelier Archilles fotóstúdió bérlés Budapest - professzionális stúdió tér"
               width={1600}
               height={1200}

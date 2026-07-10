@@ -496,6 +496,43 @@ END:VCALENDAR`;
     }
   }
 
+  /**
+   * Forward a contact form submission to the studio inbox
+   */
+  async sendContactMessage(data: {
+    name: string;
+    email: string;
+    subject: string;
+    message: string;
+  }): Promise<void> {
+    const escapeHtml = (text: string) =>
+      text
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+
+    const html = `
+      <h2>Új üzenet érkezett a weboldal kapcsolati űrlapjáról</h2>
+      <p><strong>Név:</strong> ${escapeHtml(data.name)}</p>
+      <p><strong>E-mail:</strong> ${escapeHtml(data.email)}</p>
+      <p><strong>Tárgy:</strong> ${escapeHtml(data.subject)}</p>
+      <p><strong>Üzenet:</strong></p>
+      <p style="white-space: pre-wrap;">${escapeHtml(data.message)}</p>
+    `;
+
+    await this.transporter.sendMail({
+      from: `${config.email.fromName} <${config.email.from}>`,
+      to: config.email.contactRecipient,
+      replyTo: `${data.name} <${data.email}>`,
+      subject: `Kapcsolatfelvétel: ${data.subject}`,
+      html,
+    });
+
+    console.log(`Contact form message forwarded to ${config.email.contactRecipient}`);
+  }
+
   async testConnection(): Promise<boolean> {
     try {
       await this.transporter.verify();

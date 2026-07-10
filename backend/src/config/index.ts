@@ -28,6 +28,7 @@ export const config = {
     pass: process.env.SMTP_PASS || '',
     from: process.env.FROM_EMAIL || 'noreply@yourstudio.com',
     fromName: process.env.FROM_NAME || 'Photo Studio',
+    contactRecipient: process.env.CONTACT_EMAIL || 'studio@archilles.hu',
   },
   
   // Szamlazz.hu Invoice System

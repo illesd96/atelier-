@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 import './ContactPage.css';
 
 export const ContactPage: React.FC = () => {
@@ -23,12 +24,15 @@ export const ContactPage: React.FC = () => {
     e.preventDefault();
     setFormStatus('sending');
 
-    // Form submission handler - sends contact request
-    setTimeout(() => {
+    try {
+      await axios.post('/api/contact', formData);
       setFormStatus('success');
       setFormData({ name: '', email: '', subject: '', message: '' });
       setTimeout(() => setFormStatus('idle'), 5000);
-    }, 1000);
+    } catch (error) {
+      console.error('Error sending contact message:', error);
+      setFormStatus('error');
+    }
   };
 
   return (

@@ -43,6 +43,7 @@ import {
   deleteCoupon
 } from '../controllers/coupons';
 import { trackCheckoutFailure, getCheckoutFailureStats } from '../controllers/analytics';
+import { submitContactForm } from '../controllers/contact';
 import { authenticateToken, optionalAuth } from '../middleware/auth';
 import { adminAuth } from '../middleware/adminAuth';
 import pool from '../database/connection';
@@ -82,6 +83,9 @@ router.get('/availability', getAvailability);
 
 // Cart endpoints
 router.post('/cart/validate', validateCart);
+
+// Contact form
+router.post('/contact', submitContactForm);
 
 // Checkout endpoints (with optional auth)
 router.post('/checkout', optionalAuth, createCheckout);

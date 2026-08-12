@@ -54,6 +54,8 @@ export const AdminSchedulePage: React.FC = () => {
     { label: 'Atelier', value: 'studio-a' },
     { label: 'Frigyes', value: 'studio-b' },
     { label: 'Karinthy', value: 'studio-c' },
+    { label: 'Terasz', value: 'studio-d' },
+    { label: 'Vitrin', value: 'studio-e' },
   ];
 
   // Check if user is admin
@@ -288,12 +290,19 @@ export const AdminSchedulePage: React.FC = () => {
 
       <div className="flex justify-content-between align-items-center mb-4">
         <h1 className="text-4xl font-bold m-0">Schedule & Attendance</h1>
-        <Button
-          label="View Orders"
-          icon="pi pi-list"
-          onClick={() => navigate('/admin/bookings')}
-          outlined
-        />
+        <div className="flex gap-2">
+          <Button
+            label="New Booking"
+            icon="pi pi-plus"
+            onClick={() => navigate('/admin/manual-booking')}
+          />
+          <Button
+            label="View Orders"
+            icon="pi pi-list"
+            onClick={() => navigate('/admin/bookings')}
+            outlined
+          />
+        </div>
       </div>
 
       {/* Filters */}

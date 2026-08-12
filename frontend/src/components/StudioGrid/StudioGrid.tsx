@@ -17,10 +17,12 @@ import { Studio, StudioGridProps } from './types';
 import { getHungarianToday } from '../../utils/timezone';
 import './StudioGrid.css';
 
-const STUDIOS: Studio[] = [
-  { id: 'studio-a', name: 'Atelier' },
-  { id: 'studio-b', name: 'Frigyes' },
-  { id: 'studio-c', name: 'Karinthy' },
+const FALLBACK_STUDIOS: Studio[] = [
+  { id: 'studio-a', name: 'Atelier', price: 13000 },
+  { id: 'studio-b', name: 'Frigyes', price: 13000 },
+  { id: 'studio-c', name: 'Karinthy', price: 13000 },
+  { id: 'studio-d', name: 'Terasz', price: 13000 },
+  { id: 'studio-e', name: 'Vitrin', price: 16000 },
 ];
 
 export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
@@ -28,6 +30,12 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
   const { addItem, removeItem, isInCart } = useCart();
   const { config } = useConfig();
   const toast = useRef<Toast>(null);
+
+  const studios: Studio[] =
+    config?.studios && config.studios.length > 0 ? config.studios : FALLBACK_STUDIOS;
+
+  const getStudioPrice = (studio: Studio) =>
+    studio.price ?? config?.hourlyRate ?? 13000;
   
   // Always start with today's date in Hungarian timezone
   const [selectedDate, setSelectedDate] = useState<Date>(getHungarianToday());
@@ -96,7 +104,7 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
         date: dateStr,
         start_time: slot.time,
         end_time: endTime,
-        price: config?.hourlyRate || 13000,
+        price: getStudioPrice(studio),
       };
       
       addItem(cartItem);
@@ -139,10 +147,10 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
       {availability && (
         <Card>
           <div className="studio-booking-grid">
-            <GridHeader studios={STUDIOS} hourlyRate={config?.hourlyRate || 13000} />
+            <GridHeader studios={studios} hourlyRate={config?.hourlyRate || 13000} />
             <GridBody
               availability={availability}
-              studios={STUDIOS}
+              studios={studios}
               isInCart={isInCart}
               onSlotClick={handleSlotClick}
             />

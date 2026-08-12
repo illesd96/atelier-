@@ -405,6 +405,11 @@ export const AdminBookingsPage: React.FC = () => {
           <h1 className="m-0">Admin - Bookings Management</h1>
           <div className="flex gap-2">
             <Button
+              label="New Booking"
+              icon="pi pi-plus"
+              onClick={() => navigate('/admin/manual-booking')}
+            />
+            <Button
               label="Schedule View"
               icon="pi pi-calendar"
               onClick={() => navigate('/admin/schedule')}
@@ -596,6 +601,8 @@ export const AdminBookingsPage: React.FC = () => {
                     { label: 'Atelier', value: 'studio-a' },
                     { label: 'Frigyes', value: 'studio-b' },
                     { label: 'Karinthy', value: 'studio-c' },
+                    { label: 'Terasz', value: 'studio-d' },
+                    { label: 'Vitrin', value: 'studio-e' },
                   ]}
                   onChange={(e) => setModifyData({ ...modifyData, room_id: e.value })}
                   placeholder="Select a room"

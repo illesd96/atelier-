@@ -93,13 +93,31 @@ export const createCheckout = async (req: Request, res: Response) => {
           );
         }
       } else {
-        // Normal booking validation
+        // Normal booking validation - room must exist and price must match server-side config
+        const studio = config.studios.find(
+          (s: { id: string; name: string; price?: number }) => s.id === item.room_id
+        );
+        if (!studio) {
+          return res.status(400).json({
+            error: 'Invalid room',
+            message: `Unknown room: ${item.room_id}`,
+          });
+        }
+
+        const expectedPrice = studio.price ?? config.business.hourlyRate;
+        if (item.price !== expectedPrice) {
+          return res.status(400).json({
+            error: 'Invalid price',
+            message: `Price mismatch for ${studio.name}`,
+          });
+        }
+
         const isAvailable = await bookingService.isSlotAvailable(
-          item.room_id, 
-          item.date, 
+          item.room_id,
+          item.date,
           item.start_time
         );
-        
+
         if (!isAvailable) {
           unavailableItems.push(
             `${item.room_name} on ${item.date} at ${item.start_time}`

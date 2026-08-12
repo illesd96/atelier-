@@ -1,5 +1,8 @@
 import { Request, Response } from 'express';
 import pool from '../database/connection';
+import config from '../config';
+import bookingService from '../services/booking';
+import emailService from '../services/email';
 
 /**
  * Get all bookings for admin view
@@ -381,3 +384,185 @@ export async function modifyBookingItem(req: Request, res: Response) {
   }
 }
 
+
+/**
+ * Create a manual booking on behalf of a customer (admin only).
+ * Used for clients who book by phone/email instead of online (e.g. big clients).
+ * Skips payment entirely: the order is confirmed immediately.
+ */
+export async function createManualBooking(req: Request, res: Response) {
+  const client = await pool.connect();
+
+  try {
+    const {
+      items,
+      customer,
+      note,
+      free_of_charge = false,
+      send_email = true,
+      language = 'hu',
+    } = req.body || {};
+
+    // Basic validation
+    if (!Array.isArray(items) || items.length === 0) {
+      return res.status(400).json({ success: false, error: 'At least one time slot is required' });
+    }
+    if (!customer || typeof customer.name !== 'string' || customer.name.trim().length < 2) {
+      return res.status(400).json({ success: false, error: 'Customer name is required' });
+    }
+    if (customer.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customer.email)) {
+      return res.status(400).json({ success: false, error: 'Invalid customer email' });
+    }
+    if (language !== 'hu' && language !== 'en') {
+      return res.status(400).json({ success: false, error: 'Invalid language' });
+    }
+
+    const dateRegex = /^\d{4}-\d{2}-\d{2}$/;
+    const timeRegex = /^\d{2}:\d{2}$/;
+
+    // Validate items and compute server-side prices
+    let totalAmount = 0;
+    const validatedItems: Array<{
+      room_id: string;
+      room_name: string;
+      date: string;
+      start_time: string;
+      end_time: string;
+      price: number;
+    }> = [];
+
+    for (const item of items) {
+      if (!item || !dateRegex.test(item.date) || !timeRegex.test(item.start_time) || !timeRegex.test(item.end_time)) {
+        return res.status(400).json({ success: false, error: 'Invalid slot format' });
+      }
+
+      const studio = config.studios.find(
+        (s: { id: string; name: string; price?: number }) => s.id === item.room_id
+      );
+      if (!studio) {
+        return res.status(400).json({ success: false, error: `Unknown room: ${item.room_id}` });
+      }
+
+      const available = await bookingService.isSlotAvailable(item.room_id, item.date, item.start_time);
+      if (!available) {
+        return res.status(409).json({
+          success: false,
+          error: `Slot not available: ${studio.name} ${item.date} ${item.start_time}`,
+        });
+      }
+
+      const price = free_of_charge ? 0 : (studio.price ?? config.business.hourlyRate);
+      totalAmount += price;
+      validatedItems.push({
+        room_id: item.room_id,
+        room_name: studio.name,
+        date: item.date,
+        start_time: item.start_time,
+        end_time: item.end_time,
+        price,
+      });
+    }
+
+    // Placeholder satisfies orders.email NOT NULL when the client has no email;
+    // confirmation emails are only sent to real, admin-entered addresses.
+    const customerEmail = customer.email?.trim() || 'no-email@manual.booking';
+
+    await client.query('BEGIN');
+
+    const orderResult = await client.query(
+      `INSERT INTO orders (
+        status, language, customer_name, email, phone,
+        total_amount, currency, invoice_required,
+        terms_accepted, privacy_accepted
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      RETURNING id`,
+      [
+        'pending',
+        language,
+        customer.name.trim(),
+        customerEmail,
+        customer.phone?.trim() || null,
+        totalAmount,
+        config.business.currency,
+        false,
+        true,
+        true,
+      ]
+    );
+    const orderId = orderResult.rows[0].id;
+
+    const adminNote = `Manual booking by admin${note ? `: ${String(note).trim()}` : ''}`;
+    for (const item of validatedItems) {
+      await client.query(
+        `INSERT INTO order_items (
+          order_id, room_id, booking_date, start_time, end_time, status, admin_notes
+        ) VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+        [orderId, item.room_id, item.date, item.start_time, item.end_time, 'pending', adminNote]
+      );
+    }
+
+    const bookingResult = await bookingService.createBookings(orderId);
+    if (!bookingResult.success) {
+      throw new Error('Failed to create bookings for manual order');
+    }
+
+    await client.query(
+      `UPDATE orders SET status = 'paid', updated_at = CURRENT_TIMESTAMP WHERE id = $1`,
+      [orderId]
+    );
+
+    await client.query('COMMIT');
+
+    // Send confirmation email only when the admin entered a real address
+    let emailSent = false;
+    if (send_email && customer.email?.trim()) {
+      try {
+        const orderForEmail = {
+          id: orderId,
+          status: 'paid' as const,
+          language,
+          customer_name: customer.name.trim(),
+          email: customer.email.trim(),
+          phone: customer.phone?.trim() || undefined,
+          total_amount: totalAmount,
+          currency: config.business.currency,
+          invoice_required: false,
+          terms_accepted: true,
+          privacy_accepted: true,
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+        const itemsForEmail = validatedItems.map(item => ({
+          room_name: item.room_name,
+          booking_date: item.date,
+          start_time: item.start_time,
+          end_time: item.end_time,
+          special_event_name: null,
+        })) as any[];
+
+        const calendarFile = Buffer.from(
+          emailService.generateCalendarFile(orderForEmail as any, itemsForEmail),
+          'utf-8'
+        );
+        await emailService.sendBookingConfirmation(orderForEmail as any, itemsForEmail, calendarFile);
+        emailSent = true;
+      } catch (emailError) {
+        console.error('Error sending manual booking confirmation email:', emailError);
+      }
+    }
+
+    res.json({
+      success: true,
+      orderId,
+      total: totalAmount,
+      currency: config.business.currency,
+      email_sent: emailSent,
+    });
+  } catch (error) {
+    try { await client.query('ROLLBACK'); } catch {}
+    console.error('Create manual booking error:', error);
+    res.status(500).json({ success: false, error: 'Internal server error' });
+  } finally {
+    client.release();
+  }
+}

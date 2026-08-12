@@ -102,5 +102,38 @@
     <priority>0.8</priority>
   </url>
 
+  <!-- Studio D - Terasz -->
+  <url>
+    <loc>https://www.atelier-archilles.hu/rooms/studio-d</loc>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://www.atelier-archilles.hu/rooms/studio-d" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.atelier-archilles.hu/rooms/studio-d" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.atelier-archilles.hu/rooms/studio-d" />
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Studio E - Vitrin -->
+  <url>
+    <loc>https://www.atelier-archilles.hu/rooms/studio-e</loc>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://www.atelier-archilles.hu/rooms/studio-e" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.atelier-archilles.hu/rooms/studio-e" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.atelier-archilles.hu/rooms/studio-e" />
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Christmas showcase -->
+  <url>
+    <loc>https://www.atelier-archilles.hu/christmas</loc>
+    <xhtml:link rel="alternate" hreflang="hu" href="https://www.atelier-archilles.hu/christmas" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.atelier-archilles.hu/christmas" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.atelier-archilles.hu/christmas" />
+    <lastmod>2026-07-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
 </urlset>
 

@@ -22,6 +22,7 @@ const Header: React.FC = () => {
   const menuItems = [
     { label: t('navigation.home'), href: '/' },
     { label: t('navigation.rooms'), href: '/#studios', scrollTo: 'studios' },
+    { label: t('navigation.christmas'), href: '/christmas' },
     // { label: t('navigation.blog'), href: '/blog' },
     { label: t('navigation.faq'), href: '/faq' },
     { label: t('navigation.contact'), href: '/contact' },

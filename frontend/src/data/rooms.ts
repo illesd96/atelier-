@@ -220,6 +220,86 @@ export const roomsData: RoomData[] = [
       '/images/karinthy/karinthy-15.jpg',
       '/images/karinthy/karinthy-16.jpg'
     ]
+  },
+  {
+    id: 'studio-d',
+    name: 'Terasz',
+    title: {
+      hu: 'Terasz',
+      en: 'Terasz'
+    },
+    subtitle: {
+      hu: 'Szabadtéri tér, természetes fénnyel',
+      en: 'Outdoor space in natural light'
+    },
+    description: {
+      hu: 'A Terasz a stúdió szabadtéri tere, ahol a természetes fény veszi át a főszerepet. Szabad ég alatt fotózhatsz, mégis a stúdió minden kényelmével a hátad mögött. Ideális lifestyle és portré fotózásokhoz, tavaszi-nyári kampányokhoz és minden olyan tartalomhoz, amihez igazi kültéri hangulat kell.',
+      en: 'The Terasz is the studio\'s outdoor space, where natural light takes the leading role. Shoot under the open sky with all the comforts of the studio behind you. Ideal for lifestyle and portrait photography, spring-summer campaigns, and any content that calls for a true outdoor atmosphere.'
+    },
+    features: {
+      hu: [
+        'Szabadtéri tér',
+        'Természetes fény egész nap',
+        'A stúdió kényelme karnyújtásnyira',
+        'Minden nap 8:00-tól, óránként foglalható'
+      ],
+      en: [
+        'Outdoor space',
+        'Natural light all day',
+        'Studio comforts within reach',
+        'Available daily from 8:00, hourly bookings'
+      ]
+    },
+    specs: {
+      size: '',
+      capacity: '',
+      availability: '8:00-20:00',
+      price: '13,000'
+    },
+    heroImage: '/images/christmas/christmas-terasz.jpg',
+    galleryImages: [
+      '/images/christmas/christmas-terasz.jpg'
+    ]
+  },
+  {
+    id: 'studio-e',
+    name: 'Vitrin',
+    title: {
+      hu: 'Vitrin',
+      en: 'Vitrin'
+    },
+    subtitle: {
+      hu: 'Kis üvegház, fényárban úszó, intim tér',
+      en: 'A small glass house flooded with light'
+    },
+    description: {
+      hu: 'A Vitrin egy kis üvegház, ahol az üvegfalakon át minden irányból árad be a természetes fény. Intim, mégis különleges tér, amely minden évszakban más arcát mutatja. Tökéletes portrékhoz, páros és családi fotózásokhoz, valamint hangulatos, meghitt tartalmakhoz.',
+      en: 'The Vitrin is a small glass house where natural light pours in from every direction through the glass walls. An intimate yet distinctive space that shows a different face in every season. Perfect for portraits, couple and family shoots, and cozy, atmospheric content.'
+    },
+    features: {
+      hu: [
+        'Üvegfalak, fény minden irányból',
+        'Intim, különleges hangulat',
+        'Minden évszakban más arcát mutatja',
+        'Minden nap 8:00-tól, óránként foglalható'
+      ],
+      en: [
+        'Glass walls, light from every direction',
+        'Intimate, distinctive atmosphere',
+        'A different face in every season',
+        'Available daily from 8:00, hourly bookings'
+      ]
+    },
+    specs: {
+      size: '',
+      capacity: '',
+      availability: '8:00-20:00',
+      price: '16,000'
+    },
+    heroImage: '/images/christmas/christmas-vitrin.jpg',
+    galleryImages: [
+      '/images/christmas/christmas-vitrin.jpg'
+    ]
   }
 ];
 

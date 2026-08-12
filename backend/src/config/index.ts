@@ -62,8 +62,14 @@ export const config = {
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
   backendUrl: process.env.BACKEND_URL || 'http://localhost:3001',
   
-  // Studios
-  studios: JSON.parse(process.env.STUDIOS || '[{"id":"studio-a","name":"Atelier"},{"id":"studio-b","name":"Frigyes"},{"id":"studio-c","name":"Karinthy"}]'),
+  // Studios (price in HUF per hour; falls back to business.hourlyRate when omitted)
+  studios: JSON.parse(process.env.STUDIOS || JSON.stringify([
+    { id: 'studio-a', name: 'Atelier', price: 13000 },
+    { id: 'studio-b', name: 'Frigyes', price: 13000 },
+    { id: 'studio-c', name: 'Karinthy', price: 13000 },
+    { id: 'studio-d', name: 'Terasz', price: 13000 },
+    { id: 'studio-e', name: 'Vitrin', price: 16000 },
+  ])),
   
   // Business settings
   business: {

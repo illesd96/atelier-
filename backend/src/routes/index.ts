@@ -18,7 +18,7 @@ import {
   verifyEmail,
   resendVerificationEmail,
 } from '../controllers/user';
-import { getAllBookings, getBookingStats, getScheduleView, updateAttendance, cancelBookingItem, modifyBookingItem } from '../controllers/admin';
+import { getAllBookings, getBookingStats, getScheduleView, updateAttendance, cancelBookingItem, modifyBookingItem, createManualBooking } from '../controllers/admin';
 import { 
   getOrderInvoice, 
   downloadInvoicePdf, 
@@ -108,6 +108,7 @@ router.post('/webhooks/barion', handleBarionWebhook);
 
 // Admin endpoints
 router.get('/admin/bookings', adminAuth, getAllBookings);
+router.post('/admin/bookings', adminAuth, createManualBooking);
 router.get('/admin/stats', adminAuth, getBookingStats);
 router.get('/admin/schedule', adminAuth, getScheduleView);
 router.put('/admin/bookings/:bookingItemId/attendance', adminAuth, updateAttendance);

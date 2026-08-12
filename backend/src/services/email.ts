@@ -243,6 +243,8 @@ class EmailService {
       'studio-a': 'Atelier',
       'studio-b': 'Frigyes',
       'studio-c': 'Karinthy',
+      'studio-d': 'Terasz',
+      'studio-e': 'Vitrin',
     };
     
     return roomNames[roomId as keyof typeof roomNames] || roomId;

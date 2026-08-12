@@ -5,7 +5,7 @@ interface BusinessConfig {
   hourlyRate: number;
   currency: string;
   openingHours: { start: number; end: number };
-  studios: Array<{ id: string; name: string }>;
+  studios: Array<{ id: string; name: string; price?: number }>;
 }
 
 interface ConfigContextType {
@@ -37,9 +37,11 @@ export const ConfigProvider: React.FC<{ children: ReactNode }> = ({ children }) 
           currency: 'HUF',
           openingHours: { start: 8, end: 20 },
           studios: [
-            { id: 'studio-a', name: 'Atelier' },
-            { id: 'studio-b', name: 'Frigyes' },
-            { id: 'studio-c', name: 'Karinthy' },
+            { id: 'studio-a', name: 'Atelier', price: 13000 },
+            { id: 'studio-b', name: 'Frigyes', price: 13000 },
+            { id: 'studio-c', name: 'Karinthy', price: 13000 },
+            { id: 'studio-d', name: 'Terasz', price: 13000 },
+            { id: 'studio-e', name: 'Vitrin', price: 16000 },
           ],
         });
       } finally {

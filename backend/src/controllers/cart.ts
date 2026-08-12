@@ -124,7 +124,7 @@ export const validateCart = async (req: Request, res: Response) => {
       }
     } else {
       // Normal booking validation
-      const studio = config.studios.find((s: { id: string; name: string }) => s.id === item.room_id);
+      const studio = config.studios.find((s: { id: string; name: string; price?: number }) => s.id === item.room_id);
       if (!studio) {
         validationResults.push({
           item,
@@ -151,8 +151,9 @@ export const validateCart = async (req: Request, res: Response) => {
           continue;
         }
         
-        // Validate price
-        if (item.price !== config.business.hourlyRate) {
+        // Validate price (per-room price, falling back to the global hourly rate)
+        const expectedPrice = studio.price ?? config.business.hourlyRate;
+        if (item.price !== expectedPrice) {
           validationResults.push({
             item,
             valid: false,

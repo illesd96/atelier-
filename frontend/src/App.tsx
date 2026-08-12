@@ -27,6 +27,8 @@ import { EmailVerificationPage } from './pages/EmailVerificationPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { AdminBookingsPage } from './pages/AdminBookingsPage';
 import { AdminSchedulePage } from './pages/AdminSchedulePage';
+import { AdminManualBookingPage } from './pages/AdminManualBookingPage';
+import { ChristmasPage } from './pages/ChristmasPage';
 import { SpecialEventsPage } from './pages/Admin/SpecialEventsPage';
 import { CouponsPage } from './pages/Admin/CouponsPage';
 import { SpecialEventBookingPage } from './pages/SpecialEventBookingPage';
@@ -53,6 +55,7 @@ function App() {
                     <Route index element={<HomePage />} />
                     <Route path="rooms/:roomId" element={<RoomDetailPage />} />
                     <Route path="booking" element={<BookingPage />} />
+                    <Route path="christmas" element={<ChristmasPage />} />
                     <Route path="special-events/nyiltnap" element={<NyiltNapPage />} />
                     <Route path="special-events/:eventId" element={<SpecialEventBookingPage />} />
                     <Route path="checkout" element={<CheckoutPage />} />
@@ -62,6 +65,7 @@ function App() {
                     <Route path="verify-email" element={<EmailVerificationPage />} />
                     <Route path="profile" element={<ProfilePage />} />
                     <Route path="admin/bookings" element={<AdminBookingsPage />} />
+                    <Route path="admin/manual-booking" element={<AdminManualBookingPage />} />
                     <Route path="admin/schedule" element={<AdminSchedulePage />} />
                     <Route path="admin/special-events" element={<SpecialEventsPage />} />
                     <Route path="admin/coupons" element={<CouponsPage />} />

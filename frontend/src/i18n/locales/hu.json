@@ -42,7 +42,8 @@
     "impressum": "Impresszum",
     "faq": "GYIK",
     "language": "Nyelv",
-    "studios": "Stúdiók"
+    "studios": "Stúdiók",
+    "christmas": "Karácsony 🎄"
   },
   "notFound": {
     "title": "Oldal nem található",
@@ -106,6 +107,12 @@
     "otherRooms": "Többi Terem",
     "people": "fő"
   },
+  "christmas": {
+    "title": "Karácsony az Atelier Archillesben",
+    "subtitle": "Így öltöznek ünnepi díszbe tereink",
+    "intro": "November 15-től stúdióink ünnepi díszletté alakulnak. Az alábbi hangulatképeken bepillantást nyerhetsz, hogyan festenek majd tereink a karácsonyi szezonban - foglald le időben az ünnepi fotózásod, a legjobb időpontok hamar elfogynak!",
+    "cta": "Karácsonyi fotózás foglalása"
+  },
   "studios": {
     "bookStudio": "Stúdió Foglalása",
     "studioA": {
@@ -121,6 +128,14 @@
       "cardDescription": "A Frigyes egy meleg, barátságos és játékos világ, ahol természetes anyagok és modern formák találkoznak. Rusztikus textúrák, lágy tónusok és organikus részletek hozzák létre azt a hangulatot, ami egyszerre otthonos és inspiráló.",
       "description1": "A karácsonyi időszakban a Frigyes egy klasszikus, mégis friss ünnepi enteriőrré alakul. A tér középpontjában egy piros bársony masnikkal és olivazöld, bézs, barna díszekkel ékesített karácsonyfa áll, mellette egy kerek étkezőasztal ünnepi terítékkel és felette lebegő koszorú dísz. A háttérben lágyan hullámzó függönyök és rusztikus falak keretezik a teret, egy modern bézs íves kanapé felett pedig csillagok lebegnek. A Frigyeshez tartozik egy kisebb szoba is - egy igazi gyerekvilág, ahol most egy sátor várja a kicsiket, hogy bekuckózhassanak, miközben piros-fehér csíkos cukorka lufik lebegnek körülöttük. Egy apró, édes univerzum, ahol minden részlet mosolyt hív elő.",
       "description2": "A Frigyes tér ideális lifestyle fotózásokhoz, családi képekhez és hangulatos videós tartalmakhoz - egy hely, ahol a melegség, a játékosság és a meghittség tökéletes harmóniába kerül."
+    },
+    "studioD": {
+      "cardTitle": "Terasz",
+      "cardDescription": "A Terasz a stúdió szabadtéri tere, ahol a természetes fény veszi át a főszerepet. Ideális lifestyle és portré fotózásokhoz a szabad ég alatt."
+    },
+    "studioE": {
+      "cardTitle": "Vitrin",
+      "cardDescription": "A Vitrin egy kis üvegház, ahol minden irányból árad be a természetes fény. Intim, mégis különleges tér portrékhoz és meghitt tartalmakhoz."
     },
     "studioC": {
       "title": "C Stúdió - Divat Előretör",
@@ -156,7 +171,9 @@
     "studios": {
       "studio-a": "Atelier",
       "studio-b": "Frigyes",
-      "studio-c": "Karinthy"
+      "studio-c": "Karinthy",
+      "studio-d": "Terasz",
+      "studio-e": "Vitrin"
     },
     "rentalDetails": {
       "title": "Stúdió Bérlés Részletei",

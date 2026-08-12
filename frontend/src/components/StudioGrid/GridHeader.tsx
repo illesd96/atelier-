@@ -16,7 +16,7 @@ export const GridHeader: React.FC<GridHeaderProps> = ({ studios, hourlyRate }) =
       {studios.map(studio => (
         <div key={studio.id} className="studio-header">
           <h4>{t(`booking.studios.${studio.id}`, studio.name)}</h4>
-          <small>{hourlyRate.toLocaleString()} {t('common.currency')}/h</small>
+          <small>{(studio.price ?? hourlyRate).toLocaleString()} {t('common.currency')}/h</small>
         </div>
       ))}
     </div>

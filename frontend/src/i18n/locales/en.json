@@ -42,7 +42,8 @@
     "impressum": "Impressum",
     "faq": "FAQ",
     "language": "Language",
-    "studios": "Studios"
+    "studios": "Studios",
+    "christmas": "Christmas 🎄"
   },
   "notFound": {
     "title": "Page Not Found",
@@ -106,6 +107,12 @@
     "otherRooms": "Other Rooms",
     "people": "people"
   },
+  "christmas": {
+    "title": "Christmas at Atelier Archilles",
+    "subtitle": "This is how our spaces dress up for the holidays",
+    "intro": "From November 15 our studios transform into festive sets. Browse the moodboards below for a glimpse of how each space will look this Christmas season - and book your holiday shoot early, the best slots go fast!",
+    "cta": "Book your Christmas session"
+  },
   "studios": {
     "bookStudio": "Book This Studio",
     "studioA": {
@@ -121,6 +128,14 @@
       "cardDescription": "Frigyes is a warm, friendly, and playful world where natural materials and modern forms meet. Rustic textures, soft tones, and organic details create an atmosphere that is both homely and inspiring.",
       "description1": "During the Christmas season, Frigyes transforms into a classic yet fresh festive interior. At the center of the space stands a Christmas tree decorated with a red velvet bow and olive green, beige, and brown ornaments, beside it a round dining table with festive settings and a floating wreath decoration above. In the background, softly flowing curtains and rustic walls frame the space, while stars float above a modern beige curved sofa. Frigyes also includes a smaller room - a true children's world, where a tent now awaits the little ones to cuddle up, while red-and-white striped candy balloons float around them. A tiny, sweet universe where every detail brings a smile.",
       "description2": "The Frigyes space is ideal for lifestyle photography, family portraits, and cozy video content - a place where warmth, playfulness, and intimacy come into perfect harmony."
+    },
+    "studioD": {
+      "cardTitle": "Terasz",
+      "cardDescription": "The Terasz is the studio's outdoor space, where natural light takes the leading role. Ideal for lifestyle and portrait photography under the open sky."
+    },
+    "studioE": {
+      "cardTitle": "Vitrin",
+      "cardDescription": "The Vitrin is a small glass house where natural light pours in from every direction. An intimate yet distinctive space for portraits and cozy content."
     },
     "studioC": {
       "title": "Studio C - Fashion Forward",
@@ -156,7 +171,9 @@
     "studios": {
       "studio-a": "Atelier",
       "studio-b": "Frigyes",
-      "studio-c": "Karinthy"
+      "studio-c": "Karinthy",
+      "studio-d": "Terasz",
+      "studio-e": "Vitrin"
     },
     "rentalDetails": {
       "title": "Studio Rental Details",

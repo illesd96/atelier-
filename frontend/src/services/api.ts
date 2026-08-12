@@ -350,6 +350,26 @@ export const adminAPI = {
     });
     return response.data;
   },
+
+  // Create a manual booking on behalf of a customer (skips payment)
+  async createManualBooking(token: string, data: {
+    items: Array<{
+      room_id: string;
+      date: string;
+      start_time: string;
+      end_time: string;
+    }>;
+    customer: { name: string; email?: string; phone?: string };
+    note?: string;
+    free_of_charge?: boolean;
+    send_email?: boolean;
+    language?: 'hu' | 'en';
+  }) {
+    const response = await apiClient.post('/admin/bookings', data, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
 };
 
 export default api;

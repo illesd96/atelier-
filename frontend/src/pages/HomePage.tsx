@@ -156,6 +156,58 @@ export const HomePage: React.FC = () => {
                 />
               </div>
             </div>
+
+            {/* Studio D - Terasz */}
+            <div className="studio-card" onClick={() => navigate('/rooms/studio-d')}>
+              <div className="studio-card-image">
+                <OptimizedImage
+                  src="/images/christmas/christmas-terasz.jpg"
+                  alt="Terasz - szabadtéri fotós tér bérlés Budapest"
+                  width={600}
+                  height={800}
+                  loading="lazy"
+                />
+              </div>
+              <div className="studio-card-content">
+                <h3 className="studio-card-title">{t('studios.studioD.cardTitle')}</h3>
+                <p className="studio-card-description">
+                  {t('studios.studioD.cardDescription')}
+                </p>
+                <Button
+                  label={t('common.viewDetails')}
+                  className="studio-card-button"
+                  text
+                  icon="pi pi-arrow-right"
+                  iconPos="right"
+                />
+              </div>
+            </div>
+
+            {/* Studio E - Vitrin */}
+            <div className="studio-card" onClick={() => navigate('/rooms/studio-e')}>
+              <div className="studio-card-image">
+                <OptimizedImage
+                  src="/images/christmas/christmas-vitrin.jpg"
+                  alt="Vitrin - üvegház fotós tér bérlés Budapest"
+                  width={600}
+                  height={800}
+                  loading="lazy"
+                />
+              </div>
+              <div className="studio-card-content">
+                <h3 className="studio-card-title">{t('studios.studioE.cardTitle')}</h3>
+                <p className="studio-card-description">
+                  {t('studios.studioE.cardDescription')}
+                </p>
+                <Button
+                  label={t('common.viewDetails')}
+                  className="studio-card-button"
+                  text
+                  icon="pi pi-arrow-right"
+                  iconPos="right"
+                />
+              </div>
+            </div>
           </div>
         </div>
       </section>

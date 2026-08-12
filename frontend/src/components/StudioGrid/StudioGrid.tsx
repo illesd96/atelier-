@@ -146,7 +146,10 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
 
       {availability && (
         <Card>
-          <div className="studio-booking-grid">
+          <div
+            className="studio-booking-grid"
+            style={{ '--studio-count': studios.length } as React.CSSProperties}
+          >
             <GridHeader studios={studios} hourlyRate={config?.hourlyRate || 13000} />
             <GridBody
               availability={availability}

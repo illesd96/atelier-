@@ -180,35 +180,54 @@
   outline-offset: 2px;
 }
 
-/* Mobile Responsive */
+/* Mobile Responsive - fit ALL studio columns on screen, no horizontal scroll */
 @media (max-width: 768px) {
   .studio-booking-grid {
-    font-size: 0.875rem;
+    font-size: 0.8rem;
+    overflow-x: hidden;
   }
-  
+
   .grid-header {
-    grid-template-columns: 80px repeat(var(--studio-count, 3), minmax(100px, 1fr));
+    grid-template-columns: 44px repeat(var(--studio-count, 3), 1fr);
   }
 
   .grid-row {
-    grid-template-columns: 80px repeat(var(--studio-count, 3), minmax(100px, 1fr));
+    grid-template-columns: 44px repeat(var(--studio-count, 3), 1fr);
   }
-  
+
   .slot-cell {
-    padding: 0.75rem 0.5rem;
-    min-height: 50px;
+    padding: 0.25rem 0.1rem;
+    min-height: 42px;
   }
-  
-  .time-cell, .time-column-header, .studio-header {
-    padding: 0.75rem 0.5rem;
+
+  .slot-cell {
+    border-width: 1px;
   }
-  
+
+  .slot-status {
+    font-size: 0.95rem;
+  }
+
+  .time-cell,
+  .time-column-header {
+    padding: 0.25rem 0.1rem;
+    font-size: 0.7rem;
+    min-height: 42px;
+  }
+
+  .studio-header {
+    padding: 0.4rem 0.1rem;
+  }
+
   .studio-header h4 {
-    font-size: 0.875rem;
+    font-size: 0.68rem;
+    letter-spacing: 0;
+    word-break: break-word;
   }
-  
+
   .studio-header small {
-    font-size: 0.625rem;
+    font-size: 0.55rem;
+    white-space: nowrap;
   }
 }
 

@@ -102,11 +102,11 @@ export function getMinSelectableDate(): Date {
 }
 
 /**
- * Get the maximum selectable date (90 days from today in Hungarian time)
+ * Get the maximum selectable date (6 months from today in Hungarian time)
  */
 export function getMaxSelectableDate(): Date {
   const maxDate = getHungarianToday();
-  maxDate.setDate(maxDate.getDate() + 90);
+  maxDate.setMonth(maxDate.getMonth() + 6);
   return maxDate;
 }
 

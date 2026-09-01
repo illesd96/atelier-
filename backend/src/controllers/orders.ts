@@ -69,15 +69,21 @@ export const getOrderStatus = async (req: Request, res: Response) => {
               console.error('❌ Error creating bookings in fallback:', bookingError);
               // Don't fail the whole request if booking creation fails
             }
-          } else if (barionStatus.Status === 'Failed' || barionStatus.Status === 'Canceled') {
-            const dbStatus = barionStatus.Status === 'Canceled' ? 'cancelled' : 'failed';
+          } else if (
+            barionStatus.Status === 'Failed' ||
+            barionStatus.Status === 'Canceled' ||
+            barionStatus.Status === 'Expired'
+          ) {
+            const dbStatus =
+              barionStatus.Status === 'Canceled' ? 'cancelled' :
+              barionStatus.Status === 'Expired' ? 'expired' : 'failed';
             await pool.query(`
               UPDATE orders
               SET status = $1, updated_at = CURRENT_TIMESTAMP
               WHERE id = $2
             `, [dbStatus, orderId]);
-            
-            order.status = barionStatus.Status.toLowerCase();
+
+            order.status = dbStatus;
           }
         }
       } catch (barionError) {

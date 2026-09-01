@@ -11,7 +11,8 @@ import { Dialog } from 'primereact/dialog';
 import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useAuth } from '../contexts/AuthContext';
-import { adminAPI } from '../services/api';
+import api, { adminAPI } from '../services/api';
+import { TimeSlot } from '../types';
 import './AdminBookingsPage.css';
 
 interface BookingItem {
@@ -87,6 +88,8 @@ export const AdminBookingsPage: React.FC = () => {
     start_time: '',
     end_time: '',
   });
+  const [modifySlots, setModifySlots] = useState<TimeSlot[] | null>(null);
+  const [modifySlotsLoading, setModifySlotsLoading] = useState(false);
 
   // Status options
   const statusOptions = [
@@ -260,6 +263,28 @@ export const AdminBookingsPage: React.FC = () => {
       }
     }
   };
+
+  // Load availability whenever the modify dialog's room or date changes
+  useEffect(() => {
+    const loadModifySlots = async () => {
+      if (!modifyDialogVisible || !modifyData.room_id || !modifyData.booking_date) {
+        setModifySlots(null);
+        return;
+      }
+      setModifySlotsLoading(true);
+      try {
+        const data = await api.getAvailability(formatDate(modifyData.booking_date));
+        const room = data.rooms.find((r: { id: string }) => r.id === modifyData.room_id);
+        setModifySlots(room ? room.slots : []);
+      } catch (error) {
+        console.error('Failed to load availability for modify dialog:', error);
+        setModifySlots(null);
+      } finally {
+        setModifySlotsLoading(false);
+      }
+    };
+    loadModifySlots();
+  }, [modifyDialogVisible, modifyData.room_id, modifyData.booking_date]);
 
   const statusBodyTemplate = (rowData: Booking) => {
     const statusMap: Record<string, { severity: "success" | "info" | "warning" | "danger", label: string }> = {
@@ -621,31 +646,52 @@ export const AdminBookingsPage: React.FC = () => {
               </div>
 
               <div className="field mb-3">
-                <label htmlFor="start-time">Start Time</label>
-                <Dropdown
-                  id="start-time"
-                  value={modifyData.start_time}
-                  options={Array.from({ length: 11 }, (_, i) => {
-                    const hour = 9 + i;
-                    return { label: `${hour.toString().padStart(2, '0')}:00`, value: `${hour.toString().padStart(2, '0')}:00` };
-                  })}
-                  onChange={(e) => setModifyData({ ...modifyData, start_time: e.value })}
-                  placeholder="Select start time"
-                />
-              </div>
-
-              <div className="field mb-3">
-                <label htmlFor="end-time">End Time</label>
-                <Dropdown
-                  id="end-time"
-                  value={modifyData.end_time}
-                  options={Array.from({ length: 12 }, (_, i) => {
-                    const hour = 9 + i;
-                    return { label: `${hour.toString().padStart(2, '0')}:00`, value: `${hour.toString().padStart(2, '0')}:00` };
-                  })}
-                  onChange={(e) => setModifyData({ ...modifyData, end_time: e.value })}
-                  placeholder="Select end time"
-                />
+                <label className="font-semibold">Time Slot</label>
+                {modifySlotsLoading && <p className="m-0 text-gray-600">Loading availability…</p>}
+                {!modifySlotsLoading && modifySlots === null && (
+                  <p className="m-0 text-gray-600">Select a room and date to see available slots.</p>
+                )}
+                {!modifySlotsLoading && modifySlots !== null && (
+                  <div className="modify-slot-grid">
+                    {modifySlots.map((slot) => {
+                      const isCurrent =
+                        selectedBookingItem.room_id === modifyData.room_id &&
+                        modifyData.booking_date !== null &&
+                        selectedBookingItem.booking_date.slice(0, 10) === formatDate(modifyData.booking_date) &&
+                        selectedBookingItem.start_time === slot.time;
+                      const isSelected = modifyData.start_time === slot.time;
+                      const selectable = slot.status === 'available' || isCurrent;
+                      const endTime = `${(parseInt(slot.time.split(':')[0]) + 1)
+                        .toString()
+                        .padStart(2, '0')}:00`;
+                      return (
+                        <button
+                          key={slot.time}
+                          type="button"
+                          disabled={!selectable}
+                          className={`modify-slot ${
+                            isSelected ? 'slot-picked' : selectable ? 'slot-free' : 'slot-taken'
+                          }`}
+                          title={isCurrent ? 'Current slot of this booking' : undefined}
+                          onClick={() =>
+                            setModifyData({ ...modifyData, start_time: slot.time, end_time: endTime })
+                          }
+                        >
+                          {slot.time}
+                          {isCurrent ? ' •' : ''}
+                        </button>
+                      );
+                    })}
+                    {modifySlots.length === 0 && (
+                      <p className="m-0 text-gray-600">No slots for this room on this date.</p>
+                    )}
+                  </div>
+                )}
+                {modifyData.start_time && (
+                  <p className="mt-2 mb-0">
+                    Selected: <strong>{modifyData.start_time} - {modifyData.end_time}</strong>
+                  </p>
+                )}
               </div>
             </div>
           )}

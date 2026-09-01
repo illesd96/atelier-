@@ -270,10 +270,12 @@ export const handleBarionWebhook = async (req: Request, res: Response) => {
           console.error('Error sending payment failed email:', emailError);
         }
       }
-    } else if (PaymentState === 'Failed' || PaymentState === 'Canceled') {
-      const dbStatus = PaymentState === 'Canceled' ? 'cancelled' : 'failed';
+    } else if (PaymentState === 'Failed' || PaymentState === 'Canceled' || PaymentState === 'Expired') {
+      const dbStatus =
+        PaymentState === 'Canceled' ? 'cancelled' :
+        PaymentState === 'Expired' ? 'expired' : 'failed';
       await client.query(`
-        UPDATE orders 
+        UPDATE orders
         SET status = $1, updated_at = CURRENT_TIMESTAMP
         WHERE id = $2
       `, [dbStatus, order.id]);

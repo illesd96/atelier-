@@ -23,23 +23,25 @@ class BookingService {
         
         if (tablesResult.rows.length === 2) {
           // Get all booked slots for this date
-          // Include: 
+          // Include:
           // 1. Items with 'booked' status and order 'paid' (confirmed bookings)
           // 2. Items with 'pending' status and order 'paid' (webhook hasn't run yet)
-          // 3. Items with 'pending' status and order 'pending' (payment in progress, temporarily reserved)
+          // 3. Items with 'pending' status and order 'pending' created within the last 30 minutes
+          //    (payment in progress; older pending orders are abandoned Barion payments and must not block slots)
           const bookedSlotsResult = await client.query(`
-            SELECT 
-              room_id, 
+            SELECT
+              room_id,
               to_char(start_time, 'HH24:MI') as start_time,
               to_char(end_time, 'HH24:MI') as end_time,
               oi.status
             FROM order_items oi
             JOIN orders o ON o.id = oi.order_id
-            WHERE oi.booking_date = $1 
+            WHERE oi.booking_date = $1
             AND (
               (oi.status = 'booked' AND o.status = 'paid')  -- Confirmed bookings
               OR (oi.status = 'pending' AND o.status = 'paid')  -- Paid but webhook didn't run
-              OR (oi.status = 'pending' AND o.status = 'pending')  -- Payment in progress
+              OR (oi.status = 'pending' AND o.status = 'pending'
+                  AND o.created_at > NOW() - INTERVAL '30 minutes')  -- Payment in progress
             )
           `, [date]);
           
@@ -334,16 +336,20 @@ class BookingService {
         `);
         
         if (tablesResult.rows.length === 2) {
-          // Check for existing bookings
+          // Check for existing bookings. Pending (unpaid) orders only block a slot for
+          // 30 minutes - after that they are abandoned Barion payments.
           const result = await client.query(`
             SELECT COUNT(*) as count
             FROM order_items oi
             JOIN orders o ON o.id = oi.order_id
-            WHERE oi.room_id = $1 
-            AND oi.booking_date = $2 
+            WHERE oi.room_id = $1
+            AND oi.booking_date = $2
             AND to_char(oi.start_time, 'HH24:MI') = $3
             AND oi.status IN ('booked', 'pending')
-            AND o.status IN ('paid', 'pending')
+            AND (
+              o.status = 'paid'
+              OR (o.status = 'pending' AND o.created_at > NOW() - INTERVAL '30 minutes')
+            )
           `, [studioId, date, startTime]);
           
           if (parseInt(result.rows[0].count) > 0) {

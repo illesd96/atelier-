@@ -171,3 +171,43 @@
   font-weight: 600;
 }
 
+
+/* Modify dialog slot picker */
+.modify-slot-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.modify-slot {
+  padding: 0.45rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.15s ease;
+}
+
+.modify-slot.slot-free {
+  background: #e8f5e9;
+  border-color: #22c55e;
+  color: #166534;
+}
+
+.modify-slot.slot-free:hover {
+  background: #c8e6c9;
+}
+
+.modify-slot.slot-picked {
+  background: #22c55e;
+  border-color: #22c55e;
+  color: white;
+}
+
+.modify-slot.slot-taken {
+  background: #f5f5f5;
+  border-color: #e0e0e0;
+  color: #bbb;
+  cursor: not-allowed;
+}

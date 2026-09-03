@@ -187,7 +187,7 @@ export const HomePage: React.FC = () => {
             <div className="studio-card" onClick={() => navigate('/rooms/studio-e')}>
               <div className="studio-card-image">
                 <OptimizedImage
-                  src="/images/christmas/christmas-vitrin.jpg"
+                  src="/images/vitrin/vitrin-01.jpg"
                   alt="Vitrin - üvegház fotós tér bérlés Budapest"
                   width={600}
                   height={800}

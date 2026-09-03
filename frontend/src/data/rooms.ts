@@ -296,9 +296,19 @@ export const roomsData: RoomData[] = [
       availability: '8:00-20:00',
       price: '16,000'
     },
-    heroImage: '/images/christmas/christmas-vitrin.jpg',
+    heroImage: '/images/vitrin/vitrin-01.jpg',
     galleryImages: [
-      '/images/christmas/christmas-vitrin.jpg'
+      '/images/vitrin/vitrin-01.jpg',
+      '/images/vitrin/vitrin-02.jpg',
+      '/images/vitrin/vitrin-03.jpg',
+      '/images/vitrin/vitrin-04.jpg',
+      '/images/vitrin/vitrin-05.jpg',
+      '/images/vitrin/vitrin-06.jpg',
+      '/images/vitrin/vitrin-07.jpg',
+      '/images/vitrin/vitrin-08.jpg',
+      '/images/vitrin/vitrin-09.jpg',
+      '/images/vitrin/vitrin-10.jpg',
+      '/images/vitrin/vitrin-11.jpg'
     ]
   }
 ];

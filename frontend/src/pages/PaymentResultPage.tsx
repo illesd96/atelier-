@@ -11,15 +11,24 @@ import { format } from 'date-fns';
 import { metaPixel } from '../utils/metaPixel';
 import { trackPurchase } from '../utils/gtm';
 
+// How long to keep asking the backend before showing the "still processing"
+// screen. Confirming a payment involves Barion, invoicing and email, so it can
+// take considerably longer than a couple of seconds.
+const POLL_INTERVAL_MS = 2000;
+const POLL_TIMEOUT_MS = 90000;
+
+type PaymentOutcome = 'success' | 'failed' | 'cancelled' | 'processing';
+
 export const PaymentResultPage: React.FC = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { clearCart } = useCart();
   const [loading, setLoading] = useState(true);
-  const [result, setResult] = useState<'success' | 'failed' | 'cancelled' | null>(null);
+  const [result, setResult] = useState<PaymentOutcome | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [orderItems, setOrderItems] = useState<OrderItem[]>([]);
+  const [recheckCount, setRecheckCount] = useState(0);
 
   const orderId = searchParams.get('orderId');
 
@@ -33,100 +42,114 @@ export const PaymentResultPage: React.FC = () => {
   };
 
   useEffect(() => {
-    const checkPaymentStatus = async () => {
-      if (!orderId) {
-        setError('Missing order ID');
-        setLoading(false);
-        return;
-      }
+    if (!orderId) {
+      setError('Missing order ID');
+      setLoading(false);
+      return;
+    }
 
-      try {
-        // Poll for payment status (check up to 10 times with 2 second intervals)
-        let attempts = 0;
-        const maxAttempts = 10;
-        
-        const pollStatus = async (): Promise<void> => {
-          attempts++;
-          
-          try {
-            const response = await api.getOrderStatus(orderId);
-            
-            if (response.success && response.order) {
-              const status = response.order.status;
-              
-              // Store order items
-              setOrderItems(response.items || []);
-              
-              if (status === 'paid') {
-                setResult('success');
-                clearCart();
-                
-                // Track purchase with Meta Pixel and GTM
-                if (response.items && response.items.length > 0 && orderId) {
-                  const trackingItems = response.items.map((item: OrderItem) => ({
-                    id: item.room_id?.toString() || item.id,
-                    name: item.room_name || 'Studio Booking',
-                    quantity: 1,
-                    price: item.price || 0,
-                  }));
-                  const total = response.items.reduce((sum: number, item: OrderItem) => sum + (item.price || 0), 0);
-                  
-                  // Meta Pixel tracking
-                  metaPixel.trackPurchase(orderId, trackingItems, total);
-                  
-                  // Google Tag Manager tracking
-                  trackPurchase(orderId, total, trackingItems.map(item => ({
-                    item_id: item.id,
-                    item_name: item.name,
-                    price: item.price,
-                    quantity: item.quantity
-                  })));
-                }
-                
-                setLoading(false);
-              } else if (status === 'failed') {
-                setResult('failed');
-                setLoading(false);
-              } else if (status === 'cancelled' || status === 'expired') {
-                setResult('cancelled');
-                setLoading(false);
-              } else if (status === 'pending' && attempts < maxAttempts) {
-                // Still pending, poll again after 2 seconds
-                setTimeout(pollStatus, 2000);
-              } else {
-                // Max attempts reached or unknown status
-                setResult('failed');
-                setLoading(false);
-              }
-            } else {
-              throw new Error('Failed to get order status');
-            }
-          } catch (err) {
-            console.error('Error checking payment status:', err);
-            if (attempts < maxAttempts) {
-              // Retry on error
-              setTimeout(pollStatus, 2000);
-            } else {
-              setError('Unable to verify payment status');
-              setResult('failed');
-              setLoading(false);
-            }
-          }
-        };
-        
-        // Start polling
-        pollStatus();
-        
-      } catch (err) {
-        console.error('Error in payment status check:', err);
-        setError('Unable to verify payment status');
-        setResult('failed');
-        setLoading(false);
+    let abandoned = false;
+    let timer: ReturnType<typeof setTimeout> | undefined;
+    const deadline = Date.now() + POLL_TIMEOUT_MS;
+
+    const finish = (outcome: PaymentOutcome) => {
+      if (abandoned) return;
+      setResult(outcome);
+      setLoading(false);
+    };
+
+    const scheduleRetry = (poll: () => void) => {
+      if (abandoned) return;
+      if (Date.now() < deadline) {
+        timer = setTimeout(poll, POLL_INTERVAL_MS);
+      } else {
+        // Time is up and the payment was never reported as failed. It may well
+        // have succeeded and still be finishing, so never claim it failed.
+        finish('processing');
       }
     };
 
-    checkPaymentStatus();
-  }, [orderId, clearCart]);
+    const pollStatus = async (): Promise<void> => {
+      if (abandoned) return;
+
+      try {
+        const response = await api.getOrderStatus(orderId);
+        if (abandoned) return;
+
+        if (!response.success || !response.order) {
+          throw new Error('Failed to get order status');
+        }
+
+        const status = response.order.status;
+        setOrderItems(response.items || []);
+
+        if (status === 'paid') {
+          finish('success');
+          clearCart();
+
+          // Track purchase with Meta Pixel and GTM
+          if (response.items && response.items.length > 0) {
+            const trackingItems = response.items.map((item: OrderItem) => ({
+              id: item.room_id?.toString() || item.id,
+              name: item.room_name || 'Studio Booking',
+              quantity: 1,
+              price: item.price || 0,
+            }));
+            const total = response.items.reduce(
+              (sum: number, item: OrderItem) => sum + (item.price || 0),
+              0
+            );
+
+            // Meta Pixel tracking
+            metaPixel.trackPurchase(orderId, trackingItems, total);
+
+            // Google Tag Manager tracking
+            trackPurchase(
+              orderId,
+              total,
+              trackingItems.map(item => ({
+                item_id: item.id,
+                item_name: item.name,
+                price: item.price,
+                quantity: item.quantity,
+              }))
+            );
+          }
+          return;
+        }
+
+        // Only the payment provider's own verdict counts as a failure
+        if (status === 'failed') {
+          finish('failed');
+          return;
+        }
+
+        if (status === 'cancelled' || status === 'expired') {
+          finish('cancelled');
+          return;
+        }
+
+        // Still pending: the webhook has not confirmed the payment yet
+        scheduleRetry(pollStatus);
+
+      } catch (err) {
+        if (abandoned) return;
+        console.error('Error checking payment status:', err);
+        // A network error tells us nothing about the payment, so keep trying
+        scheduleRetry(pollStatus);
+      }
+    };
+
+    setLoading(true);
+    setResult(null);
+    setError(null);
+    pollStatus();
+
+    return () => {
+      abandoned = true;
+      if (timer) clearTimeout(timer);
+    };
+  }, [orderId, clearCart, recheckCount]);
 
   const handleReturnHome = () => {
     navigate('/');
@@ -134,6 +157,10 @@ export const PaymentResultPage: React.FC = () => {
 
   const handleTryAgain = () => {
     navigate('/checkout');
+  };
+
+  const handleCheckAgain = () => {
+    setRecheckCount(count => count + 1);
   };
 
   if (loading) {
@@ -167,7 +194,33 @@ export const PaymentResultPage: React.FC = () => {
             />
           ),
         };
-      
+
+      case 'processing':
+        return {
+          icon: 'pi pi-clock',
+          iconColor: 'text-blue-500',
+          title: t('payment.stillProcessing'),
+          message: t('payment.stillProcessingMessage'),
+          actions: (
+            <div className="flex gap-2 justify-content-center">
+              <Button
+                label={t('payment.checkAgain')}
+                onClick={handleCheckAgain}
+                size="large"
+                icon="pi pi-refresh"
+              />
+              <Button
+                label={t('payment.returnToHome')}
+                onClick={handleReturnHome}
+                size="large"
+                severity="secondary"
+                outlined
+                icon="pi pi-home"
+              />
+            </div>
+          ),
+        };
+
       case 'failed':
         return {
           icon: 'pi pi-times-circle',
@@ -193,7 +246,7 @@ export const PaymentResultPage: React.FC = () => {
             </div>
           ),
         };
-      
+
       case 'cancelled':
         return {
           icon: 'pi pi-exclamation-triangle',
@@ -219,7 +272,7 @@ export const PaymentResultPage: React.FC = () => {
             </div>
           ),
         };
-      
+
       default:
         return null;
     }
@@ -250,8 +303,8 @@ export const PaymentResultPage: React.FC = () => {
         <i className={`${content.icon} text-8xl ${content.iconColor} mb-4`}></i>
         <h1 className="text-3xl font-bold mb-3">{content.title}</h1>
         <p className="text-gray-600 mb-6 line-height-3">{content.message}</p>
-        
-        {orderId && orderItems.length > 0 && (
+
+        {orderId && orderItems.length > 0 && result === 'success' && (
           <div className="mb-4">
             {orderItems.map((item) => (
               <div key={item.id} className="mb-3 p-4 bg-gray-50 border-round">
@@ -260,7 +313,7 @@ export const PaymentResultPage: React.FC = () => {
                   <br />
                   📅 {formatDate(item.booking_date)} &nbsp; 🕒 {item.start_time}
                 </div>
-                
+
                 <div className="p-4" style={{
                   background: 'linear-gradient(135deg, #22c55e 0%, #16a34a 100%)',
                   borderRadius: '12px',
@@ -281,11 +334,18 @@ export const PaymentResultPage: React.FC = () => {
             ))}
           </div>
         )}
-        
+
+        {orderId && result === 'processing' && (
+          <div className="mb-4 p-3 bg-gray-50 border-round text-sm text-gray-700">
+            <div style={{fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '6px'}}>
+              {t('payment.orderId')}
+            </div>
+            <div style={{fontFamily: 'monospace', wordBreak: 'break-all'}}>{orderId}</div>
+          </div>
+        )}
+
         {content.actions}
       </Card>
     </div>
   );
 };
-
-

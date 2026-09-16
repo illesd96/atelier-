@@ -270,7 +270,10 @@
     "reference": "Reference",
     "bookingPending": "Pending confirmation",
     "returnToHome": "Return to Home",
-    "tryAgain": "Try Again"
+    "tryAgain": "Try Again",
+    "stillProcessing": "Payment Is Being Processed",
+    "stillProcessingMessage": "Your payment is still being processed. If it went through, your confirmation email with the booking details will arrive shortly. Please do not pay again. If no email arrives within 10 minutes, contact us at studio@archilles.hu.",
+    "checkAgain": "Check Status Again"
   },
   "booking-management": {
     "title": "My Booking",
@@ -699,5 +702,3 @@
     "invoiceDownloadFailed": "Failed to download invoice. Please try again."
   }
 }
-
-

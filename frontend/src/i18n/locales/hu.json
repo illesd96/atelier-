@@ -270,7 +270,10 @@
     "reference": "Hivatkozás",
     "bookingPending": "Megerősítés folyamatban",
     "returnToHome": "Vissza a Főoldalra",
-    "tryAgain": "Újra Próbálkozás"
+    "tryAgain": "Újra Próbálkozás",
+    "stillProcessing": "Fizetés Feldolgozás Alatt",
+    "stillProcessingMessage": "A fizetésed feldolgozása még folyamatban van. Ha a fizetés sikeres volt, hamarosan megérkezik a visszaigazoló email a foglalás részleteivel. Kérjük, ne fizess újra! Ha 10 percen belül nem kapsz emailt, írj nekünk a studio@archilles.hu címre.",
+    "checkAgain": "Állapot Frissítése"
   },
   "booking-management": {
     "title": "Foglalásaim",
@@ -698,5 +701,3 @@
     "invoiceDownloadFailed": "Nem sikerült letölteni a számlát. Kérjük, próbálja újra."
   }
 }
-
-

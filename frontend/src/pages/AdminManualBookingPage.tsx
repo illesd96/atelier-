@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Card } from 'primereact/card';
 import { Button } from 'primereact/button';
@@ -14,6 +14,7 @@ import { useConfig } from '../contexts/ConfigContext';
 import api, { adminAPI } from '../services/api';
 import { AvailabilityResponse } from '../types';
 import { getHungarianToday } from '../utils/timezone';
+import { buildGridLayout, fromMinutes, toMinutes } from '../components/StudioGrid/slotUtils';
 import './AdminManualBookingPage.css';
 
 interface SelectedSlot {
@@ -80,10 +81,19 @@ export const AdminManualBookingPage: React.FC = () => {
     }
   };
 
+  // Rooms can sell different slot lengths, so rows run at the shortest one
+  const gridLayout = useMemo(
+    () => (availability ? buildGridLayout(availability) : { times: [], coverage: new Map() }),
+    [availability]
+  );
+
   const getStudioPrice = (roomId: string): number => {
     const studio = config?.studios?.find(s => s.id === roomId);
     return studio?.price ?? config?.hourlyRate ?? 13000;
   };
+
+  const getStudioSlotMinutes = (roomId: string): number =>
+    config?.studios?.find(s => s.id === roomId)?.slotMinutes ?? 60;
 
   const isSelected = (roomId: string, date: string, time: string) =>
     selectedSlots.some(
@@ -93,7 +103,7 @@ export const AdminManualBookingPage: React.FC = () => {
   const toggleSlot = (roomId: string, roomName: string, time: string, status: string) => {
     if (status !== 'available') return;
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
-    const endTime = `${(parseInt(time.split(':')[0]) + 1).toString().padStart(2, '0')}:00`;
+    const endTime = fromMinutes(toMinutes(time) + getStudioSlotMinutes(roomId));
 
     if (isSelected(roomId, dateStr, time)) {
       setSelectedSlots(prev =>
@@ -226,40 +236,48 @@ export const AdminManualBookingPage: React.FC = () => {
                     {availability.rooms.map(room => (
                       <th key={room.id}>
                         {room.name}
-                        <small>{getStudioPrice(room.id).toLocaleString()} Ft/h</small>
+                        <small>
+                          {getStudioPrice(room.id).toLocaleString()} Ft/
+                          {getStudioSlotMinutes(room.id) < 60 ? '30p' : 'h'}
+                        </small>
                       </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
-                  {availability.rooms[0]?.slots.map((_, timeIndex) => {
-                    const time = availability.rooms[0].slots[timeIndex].time;
-                    return (
-                      <tr key={time}>
-                        <td className="time-cell">{time}</td>
-                        {availability.rooms.map(room => {
-                          const slot = room.slots[timeIndex];
-                          const dateStr = format(selectedDate, 'yyyy-MM-dd');
-                          const selected = isSelected(room.id, dateStr, slot?.time || time);
-                          const status = slot?.status || 'unavailable';
-                          const cellClass = selected
-                            ? 'slot selected'
-                            : status === 'available'
-                            ? 'slot available'
-                            : 'slot blocked';
-                          return (
-                            <td
-                              key={room.id}
-                              className={cellClass}
-                              onClick={() => slot && toggleSlot(room.id, room.name, slot.time, status)}
-                            >
-                              {selected ? '✓' : status === 'available' ? '' : '×'}
-                            </td>
-                          );
-                        })}
-                      </tr>
-                    );
-                  })}
+                  {gridLayout.times.map(time => (
+                    <tr key={time}>
+                      <td className={`time-cell ${time.endsWith(':00') ? '' : 'time-cell-half'}`}>
+                        {time}
+                      </td>
+                      {availability.rooms.map(room => {
+                        const entry = gridLayout.coverage.get(room.id)?.get(time);
+
+                        if (!entry) {
+                          return <td key={room.id} className="slot blocked">×</td>;
+                        }
+
+                        const dateStr = format(selectedDate, 'yyyy-MM-dd');
+                        const selected = isSelected(room.id, dateStr, entry.slot.time);
+                        const status = entry.slot.status;
+                        const cellClass = [
+                          'slot',
+                          selected ? 'selected' : status === 'available' ? 'available' : 'blocked',
+                          entry.spansRows ? (entry.isStart ? 'span-start' : 'continuation') : '',
+                        ].filter(Boolean).join(' ');
+
+                        return (
+                          <td
+                            key={room.id}
+                            className={cellClass}
+                            onClick={() => toggleSlot(room.id, room.name, entry.slot.time, status)}
+                          >
+                            {entry.isStart && (selected ? '✓' : status === 'available' ? '' : '×')}
+                          </td>
+                        );
+                      })}
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>

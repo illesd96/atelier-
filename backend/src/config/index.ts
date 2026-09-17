@@ -62,13 +62,17 @@ export const config = {
   frontendUrl: process.env.FRONTEND_URL || 'http://localhost:3000',
   backendUrl: process.env.BACKEND_URL || 'http://localhost:3001',
   
-  // Studios (price in HUF per hour; falls back to business.hourlyRate when omitted)
+  // Studios. `price` is the price of one bookable slot in HUF and falls back to
+  // business.hourlyRate when omitted. `slotMinutes` is the slot length and
+  // defaults to 60, so the makeup rooms sell half-hour slots.
   studios: JSON.parse(process.env.STUDIOS || JSON.stringify([
     { id: 'studio-a', name: 'Atelier', price: 13000 },
     { id: 'studio-b', name: 'Frigyes', price: 13000 },
     { id: 'studio-c', name: 'Karinthy', price: 13000 },
     { id: 'studio-d', name: 'Terasz', price: 13000 },
     { id: 'studio-e', name: 'Vitrin', price: 16000 },
+    { id: 'makeup-1', name: 'Smink 1', price: 2000, slotMinutes: 30 },
+    { id: 'makeup-2', name: 'Smink 2', price: 2000, slotMinutes: 30 },
   ])),
   
   // Business settings

@@ -15,6 +15,7 @@ import { LoadingState } from './LoadingState';
 import { ErrorState } from './ErrorState';
 import { Studio, StudioGridProps } from './types';
 import { getHungarianToday } from '../../utils/timezone';
+import { fromMinutes, toMinutes } from './slotUtils';
 import './StudioGrid.css';
 
 const FALLBACK_STUDIOS: Studio[] = [
@@ -23,6 +24,8 @@ const FALLBACK_STUDIOS: Studio[] = [
   { id: 'studio-c', name: 'Karinthy', price: 13000 },
   { id: 'studio-d', name: 'Terasz', price: 13000 },
   { id: 'studio-e', name: 'Vitrin', price: 16000 },
+  { id: 'makeup-1', name: 'Smink 1', price: 2000, slotMinutes: 30 },
+  { id: 'makeup-2', name: 'Smink 2', price: 2000, slotMinutes: 30 },
 ];
 
 export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
@@ -85,8 +88,10 @@ export const StudioGrid: React.FC<StudioGridProps> = ({ onCartUpdate }) => {
     if (slot.status !== 'available') return;
 
     const dateStr = format(selectedDate, 'yyyy-MM-dd');
-    const endTime = `${(parseInt(slot.time.split(':')[0]) + 1).toString().padStart(2, '0')}:00`;
-    
+    // Studios sell whole hours, the makeup rooms half hours
+    const endTime = fromMinutes(toMinutes(slot.time) + (studio.slotMinutes ?? 60));
+
+
     if (isInCart(studio.id, dateStr, slot.time)) {
       // Remove from cart
       removeItem(studio.id, dateStr, slot.time);

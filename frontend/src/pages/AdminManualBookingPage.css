@@ -154,3 +154,18 @@
     padding: 5rem 1rem 2rem;
   }
 }
+
+/* An hour-long slot covers two half-hour rows; merge the halves visually */
+.manual-slot-grid .slot.span-start {
+  border-bottom-color: transparent;
+}
+
+.manual-slot-grid .slot.continuation {
+  border-top-color: transparent;
+}
+
+.manual-slot-grid .time-cell-half {
+  color: #9ca3af;
+  font-weight: 400;
+  font-size: 0.8rem;
+}

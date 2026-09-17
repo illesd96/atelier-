@@ -173,7 +173,9 @@
       "studio-b": "Frigyes",
       "studio-c": "Karinthy",
       "studio-d": "Terasz",
-      "studio-e": "Vitrin"
+      "studio-e": "Vitrin",
+      "makeup-1": "Smink 1",
+      "makeup-2": "Smink 2"
     },
     "rentalDetails": {
       "title": "Stúdió Bérlés Részletei",
@@ -194,7 +196,9 @@
         "confirmation": "Kérjük, a foglalásod véglegesítése előtt alaposan <strong>olvasd el a FOGLALÁSI FELTÉTELEINKET</strong>.",
         "questions": "A stúdió használatával kapcsolatban hasznos információkat találsz a <strong>gyakran ismételt kérdések</strong> oldalon."
       }
-    }
+    },
+    "slotUnitHour": "óra",
+    "slotUnitHalfHour": "30 perc"
   },
   "checkout": {
     "title": "Fizetés",

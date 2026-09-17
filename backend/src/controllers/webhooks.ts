@@ -83,11 +83,20 @@ async function finalizePaidOrder(orderId: string): Promise<void> {
           day: 'numeric'
         });
 
+        // Bill in the unit the slot was actually sold in: the makeup rooms are
+        // sold in half hours, the studios in whole hours.
+        const toMinutes = (t: string) => {
+          const [h, m] = String(t).split(':').map(Number);
+          return h * 60 + (m || 0);
+        };
+        const slotMinutes = toMinutes(item.end_time) - toMinutes(item.start_time);
+        const bookingUnit = slotMinutes > 0 && slotMinutes < 60 ? 'fél óra' : 'óra';
+
         const eventName = item.special_event_name ? ` - ${item.special_event_name}` : '';
         return {
           name: `${item.room_name || 'Studio'}${eventName} foglalás - ${formattedDate} ${item.start_time}-${item.end_time}${item.booking_id ? ` (${item.booking_id})` : ''}`,
           quantity: 1,
-          unit: item.special_event_id ? 'alkalom' : 'óra',
+          unit: item.special_event_id ? 'alkalom' : bookingUnit,
           netUnitPrice: Math.round(itemPrice),
           vatRate: 0, // TAM - Tárgyi adó mentes
           netPrice: Math.round(itemPrice),

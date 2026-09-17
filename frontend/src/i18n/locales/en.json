@@ -173,7 +173,9 @@
       "studio-b": "Frigyes",
       "studio-c": "Karinthy",
       "studio-d": "Terasz",
-      "studio-e": "Vitrin"
+      "studio-e": "Vitrin",
+      "makeup-1": "Makeup 1",
+      "makeup-2": "Makeup 2"
     },
     "rentalDetails": {
       "title": "Studio Rental Details",
@@ -194,7 +196,9 @@
         "confirmation": "Please note that before completing the booking, please <strong>CAREFULLY READ THE TERMS AND CONDITIONS</strong>.",
         "questions": "You can find useful information related to using the studio in the <strong>frequently asked questions</strong> section."
       }
-    }
+    },
+    "slotUnitHour": "h",
+    "slotUnitHalfHour": "30 min"
   },
   "checkout": {
     "title": "Checkout",

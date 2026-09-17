@@ -68,17 +68,25 @@ class BookingService {
               AND $1 BETWEEN start_date AND end_date
             `, [date]);
             
-            // For each special event, block all hourly slots in that range
+            // For each special event, block every slot start in that range.
+            // Stepped by 30 minutes so half-hour rooms are covered as well;
+            // the extra :30 entries simply never match an hourly room's slots.
             for (const event of specialEventsResult.rows) {
-              const startHour = parseInt(event.start_time.split(':')[0]);
-              const endHour = parseInt(event.end_time.split(':')[0]);
-              
-              for (let hour = startHour; hour < endHour; hour++) {
-                const timeStr = `${hour.toString().padStart(2, '0')}:00`;
+              const [startHour, startMinute] = event.start_time.split(':').map(Number);
+              const [endHour, endMinute] = event.end_time.split(':').map(Number);
+              const eventStart = startHour * 60 + (startMinute || 0);
+              const eventEnd = endHour * 60 + (endMinute || 0);
+
+              for (let startsAt = eventStart; startsAt < eventEnd; startsAt += 30) {
+                const hour = Math.floor(startsAt / 60);
+                const minute = startsAt % 60;
+                const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+                const endsAt = startsAt + 30;
+                const endTimeStr = `${Math.floor(endsAt / 60).toString().padStart(2, '0')}:${(endsAt % 60).toString().padStart(2, '0')}`;
                 bookedSlots.push({
                   room_id: event.room_id,
                   start_time: timeStr,
-                  end_time: `${(hour + 1).toString().padStart(2, '0')}:00`,
+                  end_time: endTimeStr,
                   status: 'special_event'
                 });
               }
@@ -96,8 +104,8 @@ class BookingService {
       const roomAvailabilities: RoomAvailability[] = [];
       
       for (const studio of config.studios) {
-        const slots = this.generateHourlySlots(date, studio.id, bookedSlots);
-        
+        const slots = this.generateSlots(date, studio.id, bookedSlots, studio.slotMinutes || 60);
+
         roomAvailabilities.push({
           id: studio.id,
           name: studio.name,
@@ -116,61 +124,67 @@ class BookingService {
   }
 
   /**
-   * Generate hourly slots for a studio, marking booked ones
-   * Always uses Hungarian timezone (Europe/Budapest)
+   * Generate the bookable slots for a studio, marking booked ones.
+   * slotMinutes is the studio's slot length: 60 for the studios, 30 for the
+   * makeup rooms. Always uses Hungarian timezone (Europe/Budapest).
    */
-  private generateHourlySlots(
-    date: string, 
-    studioId: string, 
-    bookedSlots: any[]
+  private generateSlots(
+    date: string,
+    studioId: string,
+    bookedSlots: any[],
+    slotMinutes: number = 60
   ): TimeSlot[] {
     const slots: TimeSlot[] = [];
     const { openingHours } = config.business;
-    
+
     // Get current date/time in Hungarian timezone
     const hungarianNow = new Date();
-    const hungarianTimeString = hungarianNow.toLocaleString('en-US', { 
-      timeZone: 'Europe/Budapest' 
+    const hungarianTimeString = hungarianNow.toLocaleString('en-US', {
+      timeZone: 'Europe/Budapest'
     });
     const now = new Date(hungarianTimeString);
-    
+
     const today = new Date(now);
     today.setHours(0, 0, 0, 0);
-    
+
     const selectedDate = new Date(date);
     selectedDate.setHours(0, 0, 0, 0);
-    
+
     const isPastDate = selectedDate < today;
     const isToday = selectedDate.toDateString() === today.toDateString();
-    const currentHour = now.getHours();
-    
-    // Generate hourly slots
-    for (let hour = openingHours.start; hour < openingHours.end; hour++) {
-      const timeStr = `${hour.toString().padStart(2, '0')}:00`;
-      
+    const nowInMinutes = now.getHours() * 60 + now.getMinutes();
+
+    const openFrom = openingHours.start * 60;
+    const openUntil = openingHours.end * 60;
+
+    for (let startsAt = openFrom; startsAt < openUntil; startsAt += slotMinutes) {
+      const hour = Math.floor(startsAt / 60);
+      const minute = startsAt % 60;
+      const timeStr = `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+
       // Check if this slot is booked
-      const isBooked = bookedSlots.some(slot => 
-        slot.room_id === studioId && 
+      const isBooked = bookedSlots.some(slot =>
+        slot.room_id === studioId &&
         slot.start_time === timeStr
       );
-      
-      // Check if this slot is in the past (for today only, using Hungarian time)
-      const isInPast = isToday && hour <= currentHour;
-      
+
+      // A slot that has already started can no longer be booked (Hungarian time)
+      const isInPast = isToday && startsAt <= nowInMinutes;
+
       let status: 'available' | 'booked' | 'unavailable' = 'available';
-      
+
       if (isPastDate || isInPast) {
         status = 'unavailable';
       } else if (isBooked) {
         status = 'booked';
       }
-      
+
       slots.push({
         time: timeStr,
         status,
       });
     }
-    
+
     return slots;
   }
 

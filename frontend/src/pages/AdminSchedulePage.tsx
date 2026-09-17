@@ -56,6 +56,8 @@ export const AdminSchedulePage: React.FC = () => {
     { label: 'Karinthy', value: 'studio-c' },
     { label: 'Terasz', value: 'studio-d' },
     { label: 'Vitrin', value: 'studio-e' },
+    { label: 'Smink 1', value: 'makeup-1' },
+    { label: 'Smink 2', value: 'makeup-2' },
   ];
 
   // Check if user is admin

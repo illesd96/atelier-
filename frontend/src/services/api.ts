@@ -66,7 +66,7 @@ export const api = {
     hourlyRate: number;
     currency: string;
     openingHours: { start: number; end: number };
-    studios: Array<{ id: string; name: string }>;
+    studios: Array<{ id: string; name: string; price?: number; slotMinutes?: number }>;
   }> {
     const response = await apiClient.get('/config');
     return response.data;

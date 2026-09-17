@@ -6,6 +6,10 @@ interface TimeSlotCellProps {
   studio: Studio;
   slot: TimeSlot;
   isInCart: boolean;
+  /** This row is the lower half of a slot that is taller than one row */
+  isContinuation?: boolean;
+  /** This slot covers more than one grid row */
+  spansRows?: boolean;
   onClick: (studio: Studio, slot: TimeSlot) => void;
 }
 
@@ -13,21 +17,32 @@ export const TimeSlotCell: React.FC<TimeSlotCellProps> = ({
   studio,
   slot,
   isInCart,
+  isContinuation = false,
+  spansRows = false,
   onClick,
 }) => {
   const getSlotClassName = () => {
-    const baseClass = 'slot-cell';
-    
+    const classes = ['slot-cell'];
+
     switch (slot.status) {
       case 'available':
-        return `${baseClass} slot-available ${isInCart ? 'slot-selected' : ''}`;
+        classes.push('slot-available');
+        if (isInCart) classes.push('slot-selected');
+        break;
       case 'booked':
-        return `${baseClass} slot-booked`;
+        classes.push('slot-booked');
+        break;
       case 'unavailable':
-        return `${baseClass} slot-unavailable`;
-      default:
-        return baseClass;
+        classes.push('slot-unavailable');
+        break;
     }
+
+    // Join the halves of a multi-row slot into one visual block
+    if (spansRows) {
+      classes.push(isContinuation ? 'slot-continuation' : 'slot-span-start');
+    }
+
+    return classes.join(' ');
   };
 
   const handleClick = () => {
@@ -42,6 +57,9 @@ export const TimeSlotCell: React.FC<TimeSlotCellProps> = ({
   };
 
   const getStatusIcon = () => {
+    // Only the top half of a multi-row slot carries the icon
+    if (isContinuation) return null;
+
     switch (slot.status) {
       case 'available':
         if (isInCart) {
@@ -62,8 +80,9 @@ export const TimeSlotCell: React.FC<TimeSlotCellProps> = ({
       className={getSlotClassName()}
       onClick={handleClick}
       role="button"
-      tabIndex={slot.status === 'available' ? 0 : -1}
+      tabIndex={slot.status === 'available' && !isContinuation ? 0 : -1}
       onKeyDown={handleKeyDown}
+      aria-hidden={isContinuation ? true : undefined}
     >
       <span className="slot-status">
         {getStatusIcon()}

@@ -12,7 +12,9 @@ import { Toast } from 'primereact/toast';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { useAuth } from '../contexts/AuthContext';
 import api, { adminAPI } from '../services/api';
+import { useConfig } from '../contexts/ConfigContext';
 import { TimeSlot } from '../types';
+import { fromMinutes, toMinutes } from '../components/StudioGrid/slotUtils';
 import './AdminBookingsPage.css';
 
 interface BookingItem {
@@ -61,8 +63,12 @@ interface BookingStats {
 
 export const AdminBookingsPage: React.FC = () => {
   const { user, token, isAuthenticated } = useAuth();
+  const { config } = useConfig();
   const navigate = useNavigate();
   const toast = useRef<Toast>(null);
+
+  const getRoomSlotMinutes = (roomId: string): number =>
+    config?.studios?.find(s => s.id === roomId)?.slotMinutes ?? 60;
   
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [stats, setStats] = useState<BookingStats | null>(null);
@@ -628,6 +634,8 @@ export const AdminBookingsPage: React.FC = () => {
                     { label: 'Karinthy', value: 'studio-c' },
                     { label: 'Terasz', value: 'studio-d' },
                     { label: 'Vitrin', value: 'studio-e' },
+                    { label: 'Smink 1', value: 'makeup-1' },
+                    { label: 'Smink 2', value: 'makeup-2' },
                   ]}
                   onChange={(e) => setModifyData({ ...modifyData, room_id: e.value })}
                   placeholder="Select a room"
@@ -661,9 +669,10 @@ export const AdminBookingsPage: React.FC = () => {
                         selectedBookingItem.start_time === slot.time;
                       const isSelected = modifyData.start_time === slot.time;
                       const selectable = slot.status === 'available' || isCurrent;
-                      const endTime = `${(parseInt(slot.time.split(':')[0]) + 1)
-                        .toString()
-                        .padStart(2, '0')}:00`;
+                      // Makeup rooms run in half-hour slots, studios in whole hours
+                      const endTime = fromMinutes(
+                        toMinutes(slot.time) + getRoomSlotMinutes(modifyData.room_id)
+                      );
                       return (
                         <button
                           key={slot.time}

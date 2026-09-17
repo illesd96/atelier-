@@ -21,32 +21,34 @@ export const roomSlotMinutes = (slots: TimeSlot[]): number => {
   return step > 0 ? step : 60;
 };
 
-export interface SlotCoverage {
+export interface SlotPlacement {
   slot: TimeSlot;
-  /** False on the second half of an hour-long slot shown on a half-hour grid */
-  isStart: boolean;
-  /** True when the slot is taller than one grid row */
-  spansRows: boolean;
+  /** Zero-based index of the grid row the slot begins on */
+  rowIndex: number;
+  /** Number of grid rows the slot occupies: 2 for an hour on a half-hour grid */
+  rowSpan: number;
 }
 
 export interface GridLayout {
-  /** Row labels, at the finest slot length any room uses */
+  /** Row labels, at the shortest slot length any room uses */
   times: string[];
-  /** room id -> row label -> the slot occupying that row */
-  coverage: Map<string, Map<string, SlotCoverage>>;
+  /** Minutes per grid row */
+  step: number;
+  /** room id -> row label -> the slot that begins on that row */
+  startingAt: Map<string, Map<string, SlotPlacement>>;
 }
 
 /**
  * Lay the rooms out on a single grid even when they sell different slot
- * lengths. Rows use the shortest slot length in play, and a longer slot simply
- * covers several rows, which lets an hourly studio sit next to a half-hourly
- * makeup room in the same table.
+ * lengths. Rows run at the shortest slot length in play and a longer slot
+ * spans several rows, so one hour in a studio stays a single cell sitting
+ * beside two half-hour cells in a makeup room.
  */
 export const buildGridLayout = (availability: AvailabilityResponse): GridLayout => {
   const rooms = availability.rooms.filter(room => room.slots.length > 0);
 
   if (rooms.length === 0) {
-    return { times: [], coverage: new Map() };
+    return { times: [], step: 60, startingAt: new Map() };
   }
 
   const step = Math.min(...rooms.map(room => roomSlotMinutes(room.slots)));
@@ -54,28 +56,13 @@ export const buildGridLayout = (availability: AvailabilityResponse): GridLayout 
   let earliest = Number.POSITIVE_INFINITY;
   let latest = Number.NEGATIVE_INFINITY;
 
-  const coverage = new Map<string, Map<string, SlotCoverage>>();
-
   for (const room of rooms) {
     const duration = roomSlotMinutes(room.slots);
-    const spansRows = duration > step;
-    const roomCoverage = new Map<string, SlotCoverage>();
-
     for (const slot of room.slots) {
       const start = toMinutes(slot.time);
       earliest = Math.min(earliest, start);
       latest = Math.max(latest, start + duration);
-
-      for (let offset = 0; offset < duration; offset += step) {
-        roomCoverage.set(fromMinutes(start + offset), {
-          slot,
-          isStart: offset === 0,
-          spansRows,
-        });
-      }
     }
-
-    coverage.set(room.id, roomCoverage);
   }
 
   const times: string[] = [];
@@ -83,5 +70,21 @@ export const buildGridLayout = (availability: AvailabilityResponse): GridLayout 
     times.push(fromMinutes(minute));
   }
 
-  return { times, coverage };
+  const startingAt = new Map<string, Map<string, SlotPlacement>>();
+
+  for (const room of rooms) {
+    const duration = roomSlotMinutes(room.slots);
+    const rowSpan = Math.max(1, Math.round(duration / step));
+    const roomStarts = new Map<string, SlotPlacement>();
+
+    for (const slot of room.slots) {
+      const rowIndex = Math.round((toMinutes(slot.time) - earliest) / step);
+      if (rowIndex < 0 || rowIndex >= times.length) continue;
+      roomStarts.set(times[rowIndex], { slot, rowIndex, rowSpan });
+    }
+
+    startingAt.set(room.id, roomStarts);
+  }
+
+  return { times, step, startingAt };
 };

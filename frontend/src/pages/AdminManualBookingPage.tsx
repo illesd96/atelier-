@@ -15,6 +15,7 @@ import api, { adminAPI } from '../services/api';
 import { AvailabilityResponse } from '../types';
 import { getHungarianToday } from '../utils/timezone';
 import { buildGridLayout, fromMinutes, toMinutes } from '../components/StudioGrid/slotUtils';
+import type { GridLayout } from '../components/StudioGrid/slotUtils';
 import './AdminManualBookingPage.css';
 
 interface SelectedSlot {
@@ -82,8 +83,11 @@ export const AdminManualBookingPage: React.FC = () => {
   };
 
   // Rooms can sell different slot lengths, so rows run at the shortest one
-  const gridLayout = useMemo(
-    () => (availability ? buildGridLayout(availability) : { times: [], coverage: new Map() }),
+  const gridLayout: GridLayout = useMemo(
+    () =>
+      availability
+        ? buildGridLayout(availability)
+        : { times: [], step: 60, startingAt: new Map() },
     [availability]
   );
 
@@ -251,28 +255,26 @@ export const AdminManualBookingPage: React.FC = () => {
                         {time}
                       </td>
                       {availability.rooms.map(room => {
-                        const entry = gridLayout.coverage.get(room.id)?.get(time);
+                        const placement = gridLayout.startingAt.get(room.id)?.get(time);
 
-                        if (!entry) {
-                          return <td key={room.id} className="slot blocked">×</td>;
-                        }
+                        // A slot starting further up already covers this row
+                        if (!placement) return null;
 
                         const dateStr = format(selectedDate, 'yyyy-MM-dd');
-                        const selected = isSelected(room.id, dateStr, entry.slot.time);
-                        const status = entry.slot.status;
-                        const cellClass = [
-                          'slot',
-                          selected ? 'selected' : status === 'available' ? 'available' : 'blocked',
-                          entry.spansRows ? (entry.isStart ? 'span-start' : 'continuation') : '',
-                        ].filter(Boolean).join(' ');
+                        const selected = isSelected(room.id, dateStr, placement.slot.time);
+                        const status = placement.slot.status;
+                        const cellClass = `slot ${
+                          selected ? 'selected' : status === 'available' ? 'available' : 'blocked'
+                        }`;
 
                         return (
                           <td
                             key={room.id}
                             className={cellClass}
-                            onClick={() => toggleSlot(room.id, room.name, entry.slot.time, status)}
+                            rowSpan={placement.rowSpan}
+                            onClick={() => toggleSlot(room.id, room.name, placement.slot.time, status)}
                           >
-                            {entry.isStart && (selected ? '✓' : status === 'available' ? '' : '×')}
+                            {selected ? '✓' : status === 'available' ? '' : '×'}
                           </td>
                         );
                       })}

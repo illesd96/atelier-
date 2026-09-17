@@ -17,47 +17,61 @@ export const GridBody: React.FC<GridBodyProps> = ({
   isInCart,
   onSlotClick,
 }) => {
-  // Rooms may sell different slot lengths, so rows run at the shortest one and
-  // a longer slot covers several rows
-  const { times, coverage } = useMemo(() => buildGridLayout(availability), [availability]);
+  // One grid for the whole body, so a slot longer than a row can span rows and
+  // stay a single cell: an hour in a studio next to two half hours in a makeup room
+  const { times, startingAt } = useMemo(() => buildGridLayout(availability), [availability]);
 
   return (
     <div className="grid-body">
-      {times.map(time => (
-        <div key={time} className="grid-row">
-          <div className={`time-cell ${time.endsWith(':00') ? '' : 'time-cell-half'}`}>
-            {time}
-          </div>
-          {studios.map(studio => {
-            const entry = coverage.get(studio.id)?.get(time);
-
-            // The room is not open at this row at all
-            if (!entry) {
-              return (
-                <div key={studio.id} className="slot-cell slot-unavailable">
-                  <span className="slot-status">
-                    <i className="pi pi-minus text-gray-400"></i>
-                  </span>
-                </div>
-              );
-            }
-
-            const inCart = isInCart(studio.id, availability.date, entry.slot.time);
-
-            return (
-              <TimeSlotCell
-                key={studio.id}
-                studio={studio}
-                slot={entry.slot}
-                isInCart={inCart}
-                isContinuation={!entry.isStart}
-                spansRows={entry.spansRows}
-                onClick={onSlotClick}
-              />
-            );
-          })}
+      {times.map((time, rowIndex) => (
+        <div
+          key={`time-${time}`}
+          className={`time-cell ${time.endsWith(':00') ? '' : 'time-cell-half'}`}
+          style={{ gridColumn: 1, gridRow: rowIndex + 1 }}
+        >
+          {time}
         </div>
       ))}
+
+      {studios.map((studio, studioIndex) => {
+        const column = studioIndex + 2;
+        const roomStarts = startingAt.get(studio.id);
+
+        // The room is not offered on this day at all
+        if (!roomStarts) {
+          return times.map((time, rowIndex) => (
+            <div
+              key={`${studio.id}-${time}`}
+              className="slot-cell slot-unavailable"
+              style={{ gridColumn: column, gridRow: rowIndex + 1 }}
+            >
+              <span className="slot-status">
+                <i className="pi pi-minus text-gray-400"></i>
+              </span>
+            </div>
+          ));
+        }
+
+        return times.map((time, rowIndex) => {
+          const placement = roomStarts.get(time);
+
+          // No cell here: a slot starting further up already covers this row
+          if (!placement) return null;
+
+          return (
+            <TimeSlotCell
+              key={`${studio.id}-${time}`}
+              studio={studio}
+              slot={placement.slot}
+              isInCart={isInCart(studio.id, availability.date, placement.slot.time)}
+              column={column}
+              row={rowIndex + 1}
+              rowSpan={placement.rowSpan}
+              onClick={onSlotClick}
+            />
+          );
+        });
+      })}
     </div>
   );
 };

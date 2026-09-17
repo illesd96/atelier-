@@ -70,18 +70,16 @@
   font-size: 0.7rem;
 }
 
+/* One grid for the whole body so a slot can span several rows and still be a
+   single cell (one hour beside two half hours) */
 .grid-body {
+  display: grid;
+  grid-template-columns: 100px repeat(var(--studio-count, 3), 1fr);
+  grid-auto-rows: minmax(40px, auto);
+  gap: 1px;
   background-color: #f8f9fa;
   padding: 1px;
   border-radius: 0 0 8px 8px;
-  width: 100%;
-}
-
-.grid-row {
-  display: grid;
-  grid-template-columns: 100px repeat(var(--studio-count, 3), 1fr);
-  gap: 1px;
-  margin-bottom: 1px;
   width: 100%;
 }
 
@@ -144,23 +142,6 @@
   opacity: 0.5;
 }
 
-/* A slot longer than one grid row is drawn as two cells; drop the borders
-   between them so an hourly studio reads as one block next to the
-   half-hourly makeup rooms. */
-.slot-span-start {
-  border-bottom-width: 0 !important;
-}
-
-.slot-continuation {
-  border-top-width: 0 !important;
-  cursor: inherit;
-}
-
-.slot-available.slot-span-start,
-.slot-available.slot-continuation {
-  cursor: pointer;
-}
-
 /* Half-hour row labels sit quieter than the whole hours */
 .time-cell-half {
   color: #9ca3af;
@@ -211,12 +192,13 @@
     overflow-x: hidden;
   }
 
-  .grid-header {
+  .grid-header,
+  .grid-body {
     grid-template-columns: 38px repeat(var(--studio-count, 3), 1fr);
   }
 
-  .grid-row {
-    grid-template-columns: 38px repeat(var(--studio-count, 3), 1fr);
+  .grid-body {
+    grid-auto-rows: minmax(34px, auto);
   }
 
   .slot-cell {

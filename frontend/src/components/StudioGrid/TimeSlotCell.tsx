@@ -6,10 +6,12 @@ interface TimeSlotCellProps {
   studio: Studio;
   slot: TimeSlot;
   isInCart: boolean;
-  /** This row is the lower half of a slot that is taller than one row */
-  isContinuation?: boolean;
-  /** This slot covers more than one grid row */
-  spansRows?: boolean;
+  /** Grid column this cell sits in (1 is the time column) */
+  column: number;
+  /** Grid row this cell starts on, 1-based */
+  row: number;
+  /** How many grid rows the cell covers */
+  rowSpan: number;
   onClick: (studio: Studio, slot: TimeSlot) => void;
 }
 
@@ -17,32 +19,24 @@ export const TimeSlotCell: React.FC<TimeSlotCellProps> = ({
   studio,
   slot,
   isInCart,
-  isContinuation = false,
-  spansRows = false,
+  column,
+  row,
+  rowSpan,
   onClick,
 }) => {
   const getSlotClassName = () => {
-    const classes = ['slot-cell'];
+    const baseClass = 'slot-cell';
 
     switch (slot.status) {
       case 'available':
-        classes.push('slot-available');
-        if (isInCart) classes.push('slot-selected');
-        break;
+        return `${baseClass} slot-available ${isInCart ? 'slot-selected' : ''}`;
       case 'booked':
-        classes.push('slot-booked');
-        break;
+        return `${baseClass} slot-booked`;
       case 'unavailable':
-        classes.push('slot-unavailable');
-        break;
+        return `${baseClass} slot-unavailable`;
+      default:
+        return baseClass;
     }
-
-    // Join the halves of a multi-row slot into one visual block
-    if (spansRows) {
-      classes.push(isContinuation ? 'slot-continuation' : 'slot-span-start');
-    }
-
-    return classes.join(' ');
   };
 
   const handleClick = () => {
@@ -57,9 +51,6 @@ export const TimeSlotCell: React.FC<TimeSlotCellProps> = ({
   };
 
   const getStatusIcon = () => {
-    // Only the top half of a multi-row slot carries the icon
-    if (isContinuation) return null;
-
     switch (slot.status) {
       case 'available':
         if (isInCart) {
@@ -78,11 +69,12 @@ export const TimeSlotCell: React.FC<TimeSlotCellProps> = ({
   return (
     <div
       className={getSlotClassName()}
+      style={{ gridColumn: column, gridRow: `${row} / span ${rowSpan}` }}
       onClick={handleClick}
       role="button"
-      tabIndex={slot.status === 'available' && !isContinuation ? 0 : -1}
+      tabIndex={slot.status === 'available' ? 0 : -1}
       onKeyDown={handleKeyDown}
-      aria-hidden={isContinuation ? true : undefined}
+      title={`${studio.name} ${slot.time}`}
     >
       <span className="slot-status">
         {getStatusIcon()}

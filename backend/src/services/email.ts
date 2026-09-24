@@ -73,6 +73,61 @@ class EmailService {
     }
   }
 
+  /**
+   * Write one row to email_logs. Never throws: a logging problem must not turn
+   * a delivered email into a failed one.
+   */
+  private async recordEmail(entry: {
+    emailType: string;
+    recipient: string;
+    status: 'sent' | 'failed';
+    orderId?: string | null;
+    bookingDate?: string | Date | null;
+    error?: string | null;
+  }): Promise<void> {
+    try {
+      await pool.query(`
+        INSERT INTO email_logs (order_id, email_type, booking_date, recipient, status, error, sent_at)
+        VALUES ($1, $2, $3, $4, $5, $6, CURRENT_TIMESTAMP)
+      `, [
+        entry.orderId || null,
+        entry.emailType,
+        entry.bookingDate || null,
+        entry.recipient?.slice(0, 320) || null,
+        entry.status,
+        entry.error ? entry.error.slice(0, 2000) : null,
+      ]);
+    } catch (logError) {
+      console.error('Could not write to email_logs:', logError);
+    }
+  }
+
+  /**
+   * Send one email and record the outcome, success or failure, so the log
+   * reflects what actually happened rather than only the happy path.
+   * Re-throws on failure so callers keep their existing behaviour.
+   */
+  private async deliver(
+    meta: { emailType: string; orderId?: string | null; bookingDate?: string | Date | null },
+    mailOptions: Parameters<typeof this.transporter.sendMail>[0]
+  ): Promise<void> {
+    const recipient = String((mailOptions as any).to || '');
+
+    try {
+      await this.transporter.sendMail(mailOptions);
+    } catch (error) {
+      await this.recordEmail({
+        ...meta,
+        recipient,
+        status: 'failed',
+        error: error instanceof Error ? error.message : String(error),
+      });
+      throw error;
+    }
+
+    await this.recordEmail({ ...meta, recipient, status: 'sent' });
+  }
+
   async sendBookingConfirmation(
     order: Order,
     items: OrderItem[],
@@ -128,10 +183,14 @@ class EmailService {
         });
       }
 
-      await this.transporter.sendMail({
+      await this.deliver({
+        emailType: 'confirmation',
+        orderId: order.id,
+        bookingDate: items[0]?.booking_date,
+      }, {
         from: `${config.email.fromName} <${config.email.from}>`,
         to: order.email,
-        subject: isHungarian 
+        subject: isHungarian
           ? `Foglalás megerősítve - ${order.id.slice(-8).toUpperCase()}`
           : `Booking Confirmed - ${order.id.slice(-8).toUpperCase()}`,
         html,
@@ -175,7 +234,11 @@ class EmailService {
         isHungarian,
       });
 
-      await this.transporter.sendMail({
+      await this.deliver({
+        emailType: 'cancellation',
+        orderId: order.id,
+        bookingDate: items[0]?.booking_date,
+      }, {
         from: `${config.email.fromName} <${config.email.from}>`,
         to: order.email,
         subject: isHungarian
@@ -221,10 +284,14 @@ class EmailService {
         isHungarian,
       });
 
-      await this.transporter.sendMail({
+      await this.deliver({
+        emailType: 'payment-failed',
+        orderId: order.id,
+        bookingDate: items[0]?.booking_date,
+      }, {
         from: `${config.email.fromName} <${config.email.from}>`,
         to: order.email,
-        subject: isHungarian 
+        subject: isHungarian
           ? `Fizetési probléma - ${order.id.slice(-8).toUpperCase()}`
           : `Payment Issue - ${order.id.slice(-8).toUpperCase()}`,
         html,
@@ -408,10 +475,14 @@ END:VCALENDAR`;
         isHungarian,
       });
 
-      await this.transporter.sendMail({
+      await this.deliver({
+        emailType: 'reminder',
+        orderId: order.id,
+        bookingDate: items[0]?.booking_date,
+      }, {
         from: `${config.email.fromName} <${config.email.from}>`,
         to: order.email,
-        subject: isHungarian 
+        subject: isHungarian
           ? `⏰ Emlékeztető: Holnap esedékes a foglalása - ${order.id.slice(-8).toUpperCase()}`
           : `⏰ Reminder: Your booking is tomorrow - ${order.id.slice(-8).toUpperCase()}`,
         html,
@@ -468,6 +539,7 @@ END:VCALENDAR`;
           WHERE el.order_id = o.id
           AND el.email_type = 'reminder'
           AND el.booking_date = oi.booking_date
+          AND el.status = 'sent'
         )
         GROUP BY o.id
       `, [tomorrowDate]);
@@ -532,7 +604,7 @@ END:VCALENDAR`;
       <p style="white-space: pre-wrap;">${escapeHtml(data.message)}</p>
     `;
 
-    await this.transporter.sendMail({
+    await this.deliver({ emailType: 'contact' }, {
       from: `${config.email.fromName} <${config.email.from}>`,
       to: config.email.contactRecipient,
       replyTo: `${data.name} <${data.email}>`,
@@ -582,7 +654,7 @@ END:VCALENDAR`;
         hasCoupon: !!couponCode,
       });
 
-      await this.transporter.sendMail({
+      await this.deliver({ emailType: 'verification' }, {
         from: `${config.email.fromName} <${config.email.from}>`,
         to: email,
         subject: '📧 Email cím megerősítése / Verify Your Email Address',

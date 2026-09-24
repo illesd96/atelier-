@@ -576,12 +576,6 @@ export async function createManualBooking(req: Request, res: Response) {
         );
         await emailService.sendBookingConfirmation(orderForEmail as any, itemsForEmail, calendarFile);
         emailSent = true;
-
-        // Record it, so a manual booking does not look unsent in the email log
-        const firstBookingDate = validatedItems[0]?.date;
-        if (firstBookingDate) {
-          await emailService.logEmail(orderId, 'confirmation', firstBookingDate);
-        }
       } catch (emailError) {
         console.error('Error sending manual booking confirmation email:', emailError);
       }
@@ -658,11 +652,6 @@ export async function resendConfirmationEmail(req: Request, res: Response) {
     );
 
     await emailService.sendBookingConfirmation(order, orderItems, calendarFile);
-
-    const bookingDate = orderItems[0]?.booking_date;
-    if (bookingDate) {
-      await emailService.logEmail(orderId, 'confirmation', bookingDate);
-    }
 
     console.log(`Confirmation email re-sent for order ${orderId} to ${order.email}`);
 

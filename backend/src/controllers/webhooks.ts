@@ -163,7 +163,8 @@ async function finalizePaidOrder(orderId: string): Promise<void> {
   let confirmationAlreadySent = false;
   try {
     const alreadySent = await pool.query(
-      `SELECT id FROM email_logs WHERE order_id = $1 AND email_type = 'confirmation' LIMIT 1`,
+      `SELECT id FROM email_logs
+       WHERE order_id = $1 AND email_type = 'confirmation' AND status = 'sent' LIMIT 1`,
       [orderId]
     );
     confirmationAlreadySent = alreadySent.rows.length > 0;
@@ -189,12 +190,6 @@ async function finalizePaidOrder(orderId: string): Promise<void> {
       calendarFile,
       invoicePdf // Attach invoice PDF if available
     );
-
-    // Log the confirmation email
-    const bookingDate = orderItems[0]?.booking_date;
-    if (bookingDate) {
-      await emailService.logEmail(order.id, 'confirmation', bookingDate);
-    }
 
   } catch (emailError) {
     console.error('Error sending confirmation email:', emailError);

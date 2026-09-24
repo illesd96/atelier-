@@ -34,12 +34,6 @@ async function sendReminders() {
         
         await emailService.sendBookingReminder(order, items);
         
-        // Log the sent email
-        const bookingDate = items[0]?.booking_date;
-        if (bookingDate) {
-          await emailService.logEmail(order.id, 'reminder', bookingDate);
-        }
-        
         successCount++;
         console.log(`✅ Reminder sent successfully to ${order.email}`);
         

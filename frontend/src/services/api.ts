@@ -351,6 +351,14 @@ export const adminAPI = {
     return response.data;
   },
 
+  // Re-send the confirmation email for an order
+  async resendConfirmationEmail(token: string, orderId: string) {
+    const response = await apiClient.post(`/admin/orders/${orderId}/resend-confirmation`, {}, {
+      headers: getAuthHeader(token),
+    });
+    return response.data;
+  },
+
   // Create a manual booking on behalf of a customer (skips payment)
   async createManualBooking(token: string, data: {
     items: Array<{

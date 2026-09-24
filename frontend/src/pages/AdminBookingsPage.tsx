@@ -98,6 +98,9 @@ export const AdminBookingsPage: React.FC = () => {
   const [modifySlots, setModifySlots] = useState<TimeSlot[] | null>(null);
   const [modifySlotsLoading, setModifySlotsLoading] = useState(false);
 
+  // Which order is currently having its confirmation re-sent
+  const [resendingOrderId, setResendingOrderId] = useState<string | null>(null);
+
   // Cancel dialog state
   const [cancelDialogVisible, setCancelDialogVisible] = useState(false);
   const [itemToCancel, setItemToCancel] = useState<BookingItem | null>(null);
@@ -188,6 +191,31 @@ export const AdminBookingsPage: React.FC = () => {
       style: 'currency',
       currency: currency || 'HUF',
     }).format(amount);
+  };
+
+  // Handler for re-sending a confirmation email
+  const handleResendConfirmation = async (booking: Booking) => {
+    if (!token) return;
+
+    setResendingOrderId(booking.id);
+    try {
+      const result = await adminAPI.resendConfirmationEmail(token, booking.id);
+      toast.current?.show({
+        severity: 'success',
+        summary: 'Email sent',
+        detail: `Confirmation sent to ${result?.sent_to || booking.email}`,
+        life: 5000,
+      });
+    } catch (error: any) {
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Could not send',
+        detail: error?.response?.data?.error || 'Failed to send the confirmation email',
+        life: 6000,
+      });
+    } finally {
+      setResendingOrderId(null);
+    }
   };
 
   // Handler for opening the cancel dialog
@@ -373,6 +401,18 @@ export const AdminBookingsPage: React.FC = () => {
             <p><strong>Payment Status:</strong> {data.payment_status || 'N/A'}</p>
             <p><strong>Created:</strong> {formatDateTime(data.created_at)}</p>
             <p><strong>Updated:</strong> {formatDateTime(data.updated_at)}</p>
+            {data.status === 'paid' && !data.email?.endsWith('@manual.booking') && (
+              <p>
+                <Button
+                  label={resendingOrderId === data.id ? 'Sending…' : 'Resend confirmation email'}
+                  icon="pi pi-envelope"
+                  size="small"
+                  outlined
+                  disabled={resendingOrderId === data.id}
+                  onClick={() => handleResendConfirmation(data)}
+                />
+              </p>
+            )}
             {data.invoice_number && (
               <p className="flex align-items-center gap-2">
                 <strong>Invoice:</strong> 

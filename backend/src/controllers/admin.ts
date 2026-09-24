@@ -576,6 +576,12 @@ export async function createManualBooking(req: Request, res: Response) {
         );
         await emailService.sendBookingConfirmation(orderForEmail as any, itemsForEmail, calendarFile);
         emailSent = true;
+
+        // Record it, so a manual booking does not look unsent in the email log
+        const firstBookingDate = validatedItems[0]?.date;
+        if (firstBookingDate) {
+          await emailService.logEmail(orderId, 'confirmation', firstBookingDate);
+        }
       } catch (emailError) {
         console.error('Error sending manual booking confirmation email:', emailError);
       }
@@ -594,5 +600,82 @@ export async function createManualBooking(req: Request, res: Response) {
     res.status(500).json({ success: false, error: 'Internal server error' });
   } finally {
     client.release();
+  }
+}
+
+/**
+ * Re-send the booking confirmation email for an order (admin only).
+ *
+ * Needed when a confirmation never reached the customer: a manual booking made
+ * without ticking the email box, or a send that failed at the time. Always
+ * sends, even if a confirmation was logged before, because the admin is asking
+ * for it deliberately.
+ */
+export async function resendConfirmationEmail(req: Request, res: Response) {
+  try {
+    const { orderId } = req.params;
+
+    const orderResult = await pool.query('SELECT * FROM orders WHERE id = $1', [orderId]);
+    if (orderResult.rows.length === 0) {
+      return res.status(404).json({ success: false, error: 'Order not found' });
+    }
+
+    const order = orderResult.rows[0];
+
+    if (order.status !== 'paid') {
+      return res.status(400).json({
+        success: false,
+        error: `Only paid orders can be confirmed (this one is ${order.status})`,
+      });
+    }
+
+    // Manual bookings taken without an address carry a placeholder
+    if (!order.email || order.email.endsWith('@manual.booking')) {
+      return res.status(400).json({
+        success: false,
+        error: 'This order has no customer email address',
+      });
+    }
+
+    const itemsResult = await pool.query(`
+      SELECT oi.*, r.name as room_name, se.name as special_event_name, se.id as special_event_id
+      FROM order_items oi
+      LEFT JOIN rooms r ON r.id = oi.room_id
+      LEFT JOIN special_event_bookings seb ON seb.order_item_id = oi.id
+      LEFT JOIN special_events se ON se.id = seb.special_event_id
+      WHERE oi.order_id = $1
+      ORDER BY oi.booking_date, oi.start_time
+    `, [orderId]);
+
+    const orderItems = itemsResult.rows;
+    if (orderItems.length === 0) {
+      return res.status(400).json({ success: false, error: 'Order has no booking items' });
+    }
+
+    const calendarFile = Buffer.from(
+      emailService.generateCalendarFile(order, orderItems),
+      'utf-8'
+    );
+
+    await emailService.sendBookingConfirmation(order, orderItems, calendarFile);
+
+    const bookingDate = orderItems[0]?.booking_date;
+    if (bookingDate) {
+      await emailService.logEmail(orderId, 'confirmation', bookingDate);
+    }
+
+    console.log(`Confirmation email re-sent for order ${orderId} to ${order.email}`);
+
+    res.json({
+      success: true,
+      sent_to: order.email,
+      message: 'Confirmation email sent',
+    });
+  } catch (error) {
+    console.error('Resend confirmation email error:', error);
+    res.status(500).json({
+      success: false,
+      error: error instanceof Error ? error.message : 'Failed to send confirmation email',
+    });
   }
 }

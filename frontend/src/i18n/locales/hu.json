@@ -174,8 +174,8 @@
       "studio-c": "Karinthy",
       "studio-d": "Terasz",
       "studio-e": "Vitrin",
-      "makeup-1": "Smink 1",
-      "makeup-2": "Smink 2"
+      "makeup-1": "Smink hely 1",
+      "makeup-2": "Smink hely 2"
     },
     "rentalDetails": {
       "title": "Stúdió Bérlés Részletei",
@@ -467,7 +467,7 @@
       },
       "modify": {
         "question": "Hogyan módosíthatom vagy mondhatom le a foglalásomat?",
-        "answer": "Foglalásodat a foglaláskor megkapott visszaigazoló e-mailben található azonosítóra hivatkozva, írásban tudod módosítani vagy lemondani, az studio@archilles.hu címre küldött e-mailen keresztül. A részletekért olvasd el foglalási- és lemondási szabályzatunkat az ÁSZF-ben."
+        "answer": "Foglalásodat a visszaigazoló e-mailben található érkezési kódra hivatkozva tudod módosítani vagy lemondani: hívj minket a +36 30 974 7362 számon, vagy írj a studio@archilles.hu címre. A részletekért olvasd el foglalási- és lemondási szabályzatunkat az ÁSZF-ben."
       },
       "refund": {
         "question": "Kapok visszatérítést a lemondott foglalás esetén?",
@@ -567,7 +567,7 @@
       "cancellation": {
         "title": "Lemondási Feltételek",
         "content1": "Ingyenes lemondás elérhető a foglalt időpont előtt 24 órával. A 24 órán belüli lemondások nem téríthetők vissza.",
-        "content2": "Foglalás lemondásához használja a megerősítő emailben található lemondási linket, vagy adja meg foglalási kódját weboldalunkon."
+        "content2": "Foglalás módosításához vagy lemondásához hívjon minket a +36 30 974 7362 számon, vagy írjon a studio@archilles.hu címre, és hivatkozzon a visszaigazoló e-mailben található érkezési kódra."
       },
       "studio": {
         "title": "Stúdió Használat",

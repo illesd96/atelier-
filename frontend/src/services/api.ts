@@ -330,9 +330,9 @@ export const adminAPI = {
     return response.data;
   },
 
-  // Cancel booking item
-  async cancelBookingItem(token: string, bookingItemId: string) {
-    const response = await apiClient.put(`/admin/bookings/${bookingItemId}/cancel`, {}, {
+  // Cancel booking item (emails the customer unless send_email is false)
+  async cancelBookingItem(token: string, bookingItemId: string, options?: { send_email?: boolean }) {
+    const response = await apiClient.put(`/admin/bookings/${bookingItemId}/cancel`, options || {}, {
       headers: getAuthHeader(token),
     });
     return response.data;

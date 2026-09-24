@@ -105,11 +105,10 @@ class EmailService {
         }),
         total: order.total_amount.toLocaleString(),
         currency: isHungarian ? 'Ft' : 'HUF',
-        cancelUrl: `${config.frontendUrl}/booking/cancel?code=${order.id}`,
-        rescheduleUrl: `${config.frontendUrl}/booking/reschedule?code=${order.id}`,
         language: order.language,
         isHungarian,
         hasInvoice: !!invoicePdf,
+        hasCalendar: !!calendarFile,
       });
 
       const attachments: any[] = [];
@@ -165,6 +164,7 @@ class EmailService {
         bookingCode: order.id.slice(-8).toUpperCase(),
         items: items.map(item => ({
           ...item,
+          checkin_code: item.checkin_code,
           room_name: this.getRoomName(item.room_id, isHungarian),
           formatted_date: this.formatDate(item.booking_date, isHungarian),
           formatted_time: `${item.start_time} - ${item.end_time}`,
@@ -178,7 +178,7 @@ class EmailService {
       await this.transporter.sendMail({
         from: `${config.email.fromName} <${config.email.from}>`,
         to: order.email,
-        subject: isHungarian 
+        subject: isHungarian
           ? `Foglalás lemondva - ${order.id.slice(-8).toUpperCase()}`
           : `Booking Cancelled - ${order.id.slice(-8).toUpperCase()}`,
         html,
@@ -245,8 +245,8 @@ class EmailService {
       'studio-c': 'Karinthy',
       'studio-d': 'Terasz',
       'studio-e': 'Vitrin',
-      'makeup-1': 'Smink 1',
-      'makeup-2': 'Smink 2',
+      'makeup-1': 'Smink hely 1',
+      'makeup-2': 'Smink hely 2',
     };
     
     return roomNames[roomId as keyof typeof roomNames] || roomId;
@@ -395,12 +395,15 @@ END:VCALENDAR`;
         bookingCode: order.id.slice(-8).toUpperCase(),
         items: items.map(item => ({
           ...item,
+          checkin_code: item.checkin_code,
           room_name: this.getRoomName(item.room_id, isHungarian),
           formatted_date: this.formatDate(item.booking_date, isHungarian),
           formatted_time: `${item.start_time} - ${item.end_time}`,
         })),
         viewBookingUrl: `${config.frontendUrl}/profile`,
         contactUrl: `${config.frontendUrl}/contact`,
+        // The booking overview lives behind a login, so guests never see that button
+        hasAccount: !!(order as any).user_id,
         language: order.language,
         isHungarian,
       });
@@ -440,6 +443,7 @@ END:VCALENDAR`;
           o.language,
           o.total_amount,
           o.status as order_status,
+          o.user_id,
           o.created_at,
           json_agg(
             json_build_object(
@@ -449,7 +453,8 @@ END:VCALENDAR`;
               'booking_date', oi.booking_date,
               'start_time', to_char(oi.start_time, 'HH24:MI'),
               'end_time', to_char(oi.end_time, 'HH24:MI'),
-              'status', oi.status
+              'status', oi.status,
+              'checkin_code', oi.checkin_code
             )
           ) as items
         FROM orders o
@@ -475,6 +480,7 @@ END:VCALENDAR`;
           language: row.language,
           total_amount: row.total_amount,
           status: row.order_status,
+          user_id: row.user_id,
           created_at: row.created_at,
         } as Order,
         items: row.items,

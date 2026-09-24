@@ -16,6 +16,7 @@ import './AdminSchedulePage.css';
 interface ScheduleBooking {
   id: string;
   booking_id: string;
+  checkin_code?: string;
   booking_date: string;
   start_time: string;
   end_time: string;
@@ -56,8 +57,8 @@ export const AdminSchedulePage: React.FC = () => {
     { label: 'Karinthy', value: 'studio-c' },
     { label: 'Terasz', value: 'studio-d' },
     { label: 'Vitrin', value: 'studio-e' },
-    { label: 'Smink 1', value: 'makeup-1' },
-    { label: 'Smink 2', value: 'makeup-2' },
+    { label: 'Smink hely 1', value: 'makeup-1' },
+    { label: 'Smink hely 2', value: 'makeup-2' },
   ];
 
   // Check if user is admin
@@ -206,6 +207,11 @@ export const AdminSchedulePage: React.FC = () => {
     return (
       <div>
         <div>{rowData.room_name}</div>
+        {rowData.checkin_code && (
+          <div className="text-sm font-bold font-mono" style={{ letterSpacing: '0.08em' }}>
+            {rowData.checkin_code}
+          </div>
+        )}
         {rowData.booking_id && (
           <div className="text-xs text-gray-500 font-mono">{rowData.booking_id}</div>
         )}

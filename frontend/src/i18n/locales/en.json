@@ -174,8 +174,8 @@
       "studio-c": "Karinthy",
       "studio-d": "Terasz",
       "studio-e": "Vitrin",
-      "makeup-1": "Makeup 1",
-      "makeup-2": "Makeup 2"
+      "makeup-1": "Makeup Station 1",
+      "makeup-2": "Makeup Station 2"
     },
     "rentalDetails": {
       "title": "Studio Rental Details",
@@ -467,7 +467,7 @@
       },
       "modify": {
         "question": "How can I modify or cancel my booking?",
-        "answer": "You can modify or cancel your booking by referencing the booking code from your confirmation email. Send a written request to studio@archilles.hu. Please refer to our cancellation policy in the Terms and Conditions for details."
+        "answer": "You can modify or cancel your booking by quoting the check-in code from your confirmation email: call us on +36 30 974 7362 or write to studio@archilles.hu. For details, see our booking and cancellation policy in the Terms and Conditions."
       },
       "refund": {
         "question": "Will I get a refund if I cancel my booking?",
@@ -568,7 +568,7 @@
       "cancellation": {
         "title": "Cancellation Policy",
         "content1": "Free cancellation is available up to 24 hours before your scheduled session. Cancellations made less than 24 hours before the booking will not be refunded.",
-        "content2": "To cancel your booking, use the cancellation link provided in your confirmation email or enter your booking code on our website."
+        "content2": "To modify or cancel a booking, call us on +36 30 974 7362 or write to studio@archilles.hu, quoting the check-in code from your confirmation email."
       },
       "studio": {
         "title": "Studio Usage",

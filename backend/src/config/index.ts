@@ -71,8 +71,8 @@ export const config = {
     { id: 'studio-c', name: 'Karinthy', price: 13000 },
     { id: 'studio-d', name: 'Terasz', price: 13000 },
     { id: 'studio-e', name: 'Vitrin', price: 16000 },
-    { id: 'makeup-1', name: 'Smink 1', price: 2000, slotMinutes: 30 },
-    { id: 'makeup-2', name: 'Smink 2', price: 2000, slotMinutes: 30 },
+    { id: 'makeup-1', name: 'Smink hely 1', price: 2000, slotMinutes: 30 },
+    { id: 'makeup-2', name: 'Smink hely 2', price: 2000, slotMinutes: 30 },
   ])),
   
   // Business settings

@@ -8,8 +8,9 @@ import { Button } from 'primereact/button';
 import { Calendar } from 'primereact/calendar';
 import { Dropdown } from 'primereact/dropdown';
 import { Dialog } from 'primereact/dialog';
+import { Checkbox } from 'primereact/checkbox';
 import { Toast } from 'primereact/toast';
-import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
+import { ConfirmDialog } from 'primereact/confirmdialog';
 import { useAuth } from '../contexts/AuthContext';
 import api, { adminAPI } from '../services/api';
 import { useConfig } from '../contexts/ConfigContext';
@@ -96,6 +97,11 @@ export const AdminBookingsPage: React.FC = () => {
   });
   const [modifySlots, setModifySlots] = useState<TimeSlot[] | null>(null);
   const [modifySlotsLoading, setModifySlotsLoading] = useState(false);
+
+  // Cancel dialog state
+  const [cancelDialogVisible, setCancelDialogVisible] = useState(false);
+  const [itemToCancel, setItemToCancel] = useState<BookingItem | null>(null);
+  const [notifyOnCancel, setNotifyOnCancel] = useState(true);
 
   // Status options
   const statusOptions = [
@@ -184,42 +190,43 @@ export const AdminBookingsPage: React.FC = () => {
     }).format(amount);
   };
 
-  // Handler for canceling a booking item
+  // Handler for opening the cancel dialog
   const handleCancelBookingItem = (item: BookingItem) => {
-    confirmDialog({
-      message: `Are you sure you want to cancel this booking?\n${item.room_name} - ${item.booking_date} ${item.start_time}-${item.end_time}`,
-      header: 'Cancel Booking Confirmation',
-      icon: 'pi pi-exclamation-triangle',
-      accept: async () => {
-        if (!token) return;
-        
-        try {
-          await adminAPI.cancelBookingItem(token, item.id);
-          
-          if (toast.current) {
-            toast.current.show({
-              severity: 'success',
-              summary: 'Success',
-              detail: 'Booking item cancelled successfully',
-              life: 3000,
-            });
-          }
-          
-          // Reload bookings
-          loadBookings();
-        } catch (error) {
-          console.error('Failed to cancel booking item:', error);
-          if (toast.current) {
-            toast.current.show({
-              severity: 'error',
-              summary: 'Error',
-              detail: 'Failed to cancel booking item',
-              life: 3000,
-            });
-          }
-        }
-      },
-    });
+    setItemToCancel(item);
+    setNotifyOnCancel(true);
+    setCancelDialogVisible(true);
+  };
+
+  // Handler for confirming a cancellation
+  const handleConfirmCancel = async () => {
+    if (!token || !itemToCancel) return;
+
+    try {
+      const result = await adminAPI.cancelBookingItem(token, itemToCancel.id, {
+        send_email: notifyOnCancel,
+      });
+
+      toast.current?.show({
+        severity: 'success',
+        summary: 'Success',
+        detail: result?.email_sent
+          ? 'Booking cancelled and the customer has been emailed'
+          : 'Booking cancelled (no email sent)',
+        life: 4000,
+      });
+
+      setCancelDialogVisible(false);
+      setItemToCancel(null);
+      loadBookings();
+    } catch (error) {
+      console.error('Failed to cancel booking item:', error);
+      toast.current?.show({
+        severity: 'error',
+        summary: 'Error',
+        detail: 'Failed to cancel booking item',
+        life: 3000,
+      });
+    }
   };
 
   // Handler for opening modify dialog
@@ -634,8 +641,8 @@ export const AdminBookingsPage: React.FC = () => {
                     { label: 'Karinthy', value: 'studio-c' },
                     { label: 'Terasz', value: 'studio-d' },
                     { label: 'Vitrin', value: 'studio-e' },
-                    { label: 'Smink 1', value: 'makeup-1' },
-                    { label: 'Smink 2', value: 'makeup-2' },
+                    { label: 'Smink hely 1', value: 'makeup-1' },
+                    { label: 'Smink hely 2', value: 'makeup-2' },
                   ]}
                   onChange={(e) => setModifyData({ ...modifyData, room_id: e.value })}
                   placeholder="Select a room"
@@ -701,6 +708,48 @@ export const AdminBookingsPage: React.FC = () => {
                     Selected: <strong>{modifyData.start_time} - {modifyData.end_time}</strong>
                   </p>
                 )}
+              </div>
+            </div>
+          )}
+        </Dialog>
+
+        {/* Cancel Dialog */}
+        <Dialog
+          header="Cancel Booking"
+          visible={cancelDialogVisible}
+          style={{ width: '460px' }}
+          onHide={() => setCancelDialogVisible(false)}
+          footer={
+            <div>
+              <Button
+                label="Keep Booking"
+                icon="pi pi-times"
+                onClick={() => setCancelDialogVisible(false)}
+                className="p-button-text"
+              />
+              <Button
+                label="Cancel Booking"
+                icon="pi pi-check"
+                severity="danger"
+                onClick={handleConfirmCancel}
+              />
+            </div>
+          }
+        >
+          {itemToCancel && (
+            <div>
+              <p className="mt-0">
+                This will cancel <strong>{itemToCancel.room_name}</strong> on{' '}
+                <strong>{itemToCancel.booking_date?.slice(0, 10)}</strong> at{' '}
+                <strong>{itemToCancel.start_time}-{itemToCancel.end_time}</strong> and free the slot.
+              </p>
+              <div className="flex align-items-center gap-2 mt-3">
+                <Checkbox
+                  inputId="notify-cancel"
+                  checked={notifyOnCancel}
+                  onChange={(e) => setNotifyOnCancel(!!e.checked)}
+                />
+                <label htmlFor="notify-cancel">Email the customer about the cancellation</label>
               </div>
             </div>
           )}

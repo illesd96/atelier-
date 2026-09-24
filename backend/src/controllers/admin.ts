@@ -191,6 +191,7 @@ export async function getScheduleView(req: Request, res: Response) {
         oi.room_id,
         r.name as room_name,
         oi.status,
+        oi.checkin_code,
         oi.attendance_status,
         oi.admin_notes,
         o.id as order_id,
@@ -289,25 +290,54 @@ export async function updateAttendance(req: Request, res: Response) {
 export async function cancelBookingItem(req: Request, res: Response) {
   try {
     const { bookingItemId } = req.params;
-    
+    // Admins can suppress the email, e.g. when the customer was already told
+    const sendEmail = req.body?.send_email !== false;
+
     const result = await pool.query(
-      `UPDATE order_items 
+      `UPDATE order_items
        SET status = 'cancelled', updated_at = CURRENT_TIMESTAMP
        WHERE id = $1
-       RETURNING id, status, booking_date, start_time, end_time, room_id`,
+       RETURNING id, order_id, status, booking_date,
+                 to_char(start_time, 'HH24:MI') as start_time,
+                 to_char(end_time, 'HH24:MI') as end_time,
+                 room_id, checkin_code`,
       [bookingItemId]
     );
-    
+
     if (result.rows.length === 0) {
       return res.status(404).json({
         success: false,
         error: 'Booking item not found',
       });
     }
-    
+
+    const cancelledItem = result.rows[0];
+
+    // Tell the customer their booking is off. Never let a mail failure make the
+    // cancellation itself look like it failed - the slot is already released.
+    let emailSent = false;
+    if (sendEmail) {
+      try {
+        const orderResult = await pool.query(
+          'SELECT * FROM orders WHERE id = $1',
+          [cancelledItem.order_id]
+        );
+
+        const order = orderResult.rows[0];
+        // A placeholder address is used for manual bookings without an email
+        if (order && order.email && !order.email.endsWith('@manual.booking')) {
+          await emailService.sendCancellationConfirmation(order, [cancelledItem]);
+          emailSent = true;
+        }
+      } catch (emailError) {
+        console.error('Error sending cancellation email:', emailError);
+      }
+    }
+
     res.json({
       success: true,
-      booking: result.rows[0],
+      booking: cancelledItem,
+      email_sent: emailSent,
       message: 'Booking item cancelled successfully',
     });
   } catch (error) {

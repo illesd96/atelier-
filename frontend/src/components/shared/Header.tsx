@@ -23,6 +23,7 @@ const Header: React.FC = () => {
     { label: t('navigation.home'), href: '/' },
     { label: t('navigation.rooms'), href: '/#studios', scrollTo: 'studios' },
     { label: t('navigation.christmas'), href: '/christmas' },
+    { label: t('navigation.contentDay'), href: '/special-events/christmas-content-day' },
     // { label: t('navigation.blog'), href: '/blog' },
     { label: t('navigation.faq'), href: '/faq' },
     { label: t('navigation.contact'), href: '/contact' },

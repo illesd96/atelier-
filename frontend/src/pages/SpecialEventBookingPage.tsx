@@ -39,6 +39,33 @@ interface TimeSlot {
   price?: number;
 }
 
+const DEFAULT_GALLERY = [
+  '/images/special/main/01.jpg',
+  '/images/special/main/02.jpg',
+  '/images/special/main/03.jpg',
+  '/images/special/main/04.jpg',
+  '/images/special/main/05.jpg',
+  '/images/special/main/06.jpg',
+  '/images/special/main/07.jpg',
+  '/images/special/main/08.jpg',
+  '/images/special/main/10.jpg',
+  '/images/special/main/11.jpg',
+  '/images/special/main/12.jpg',
+  '/images/special/main/13.jpg',
+  '/images/special/main/14.jpg',
+];
+
+/** Photos shown on a given event's page, keyed by its URL slug */
+const EVENT_GALLERIES: Record<string, string[]> = {
+  'christmas-content-day': [
+    '/images/christmas/christmas-atelier.jpg',
+    '/images/christmas/christmas-frigyes.jpg',
+    '/images/christmas/christmas-karinthy.jpg',
+    '/images/christmas/christmas-terasz.jpg',
+    '/images/christmas/christmas-vitrin.jpg',
+  ],
+};
+
 export const SpecialEventBookingPage: React.FC = () => {
   const { eventId } = useParams<{ eventId: string }>();
   const navigate = useNavigate();
@@ -69,21 +96,9 @@ export const SpecialEventBookingPage: React.FC = () => {
     '/images/special/model/08.png'
   ];
 
-  const galleryImages = [
-    '/images/special/main/01.jpg',
-    '/images/special/main/02.jpg',
-    '/images/special/main/03.jpg',
-    '/images/special/main/04.jpg',
-    '/images/special/main/05.jpg',
-    '/images/special/main/06.jpg',
-    '/images/special/main/07.jpg',
-    '/images/special/main/08.jpg',
-    '/images/special/main/10.jpg',
-    '/images/special/main/11.jpg',
-    '/images/special/main/12.jpg',
-    '/images/special/main/13.jpg',
-    '/images/special/main/14.jpg',
-  ];
+  // Every special event used to share one gallery. Pick the set by URL slug so
+  // each event can show its own photos, falling back to the general set.
+  const galleryImages = EVENT_GALLERIES[eventId || ''] || DEFAULT_GALLERY;
 
   useEffect(() => {
     if (eventId) {
